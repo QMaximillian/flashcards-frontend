@@ -15,8 +15,8 @@ export default function SignUpOrLogin(props){
     }
        return (
          <div className="flex justify-center w-full h-full items-center">
-           <div className="w-full max-w-md self-center flex-col justify-between border border-black rounded shadow-md">
-             <form action="" className="bg-white px-8">
+           <div className="px-8 py-4 w-full max-w-md self-center flex-col justify-between border border-black rounded shadow-md">
+             <form action="" className="bg-white">
                <div
                  style={{ height: "24rem" }}
                  className="flex flex-col justify-center"

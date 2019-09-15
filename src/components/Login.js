@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import TextBox from '../components/TextBox'
+import Flatted from 'flatted';
 
 export default function Login(props){
-    const [email, setEmail] = useState({name: '', value: ''})
-    const [password, setPassword] = useState({name: '', value: ''})
+    const [email, setEmail] = useState({name: '', value: '', isValid: false})
+    const [password, setPassword] = useState({name: '', value: '', isValid: false})
     // const [firstName, setFirstName] = useState({name: '', value: ''})
     // const [lastName, setLastName] = useState({name: '', value: ''})
 
@@ -21,12 +22,15 @@ export default function Login(props){
                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue-300 "
                    placeholder="Johnbull@example.com"
                  /> */}
-               <TextBox
-                 placeholder={"Email"}
-                 name="email"
-                 value={email.value}
-                 onChange={setEmail}
-               />
+               <div className="h-8">
+                 <TextBox
+                   placeholder={"Email"}
+                   name="email"
+                   value={email.value}
+                   onChange={setEmail}
+                   type="email"
+                 />
+               </div>
              </div>
              <div className="px-4 pb-4">
                <label
@@ -47,15 +51,8 @@ export default function Login(props){
                  name="password"
                  value={password.value}
                  onChange={setPassword}
+                 type="password"
                />
-             </div>
-             <div className="flex justify-center">
-               <button
-                 className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                 type="button"
-               >
-                 Submit
-               </button>
              </div>
            </div>
          </div>

@@ -57,14 +57,6 @@ export default function SignUp(props) {
               onChange={setPassword}
             />
           </div>
-          <div className="flex justify-center">
-            <button
-              className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
-            >
-              Submit
-            </button>
-          </div>
         </div>
       </div>
     </div>

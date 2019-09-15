@@ -2,12 +2,7 @@ import React, { useState } from 'react'
 import TextBox from './TextBox'
 
 export default function SignUp(props) {
-
-  const [email, setEmail] = useState({ name: "", value: "" });
-  const [password, setPassword] = useState({ name: "", value: "" });
-  const [firstName, setFirstName] = useState({name: '', value: ''})
-  const [lastName, setLastName] = useState({name: '', value: ''})
-
+    const {email, password, firstName, lastName, setEmail, setPassword, setFirstName, setLastName} = props
 
   return (
     <div>

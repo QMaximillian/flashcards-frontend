@@ -3,8 +3,14 @@ import TextBox from '../components/TextBox'
 import Flatted from 'flatted';
 
 export default function Login(props){
-    const [email, setEmail] = useState({name: '', value: '', isValid: false})
-    const [password, setPassword] = useState({name: '', value: '', isValid: false})
+    const {
+      email,
+      password,
+      setEmail,
+      setPassword,
+    } = props;
+    // const [email, setEmail] = useState({name: '', value: '', isValid: false})
+    // const [password, setPassword] = useState({name: '', value: '', isValid: false})
     // const [firstName, setFirstName] = useState({name: '', value: ''})
     // const [lastName, setLastName] = useState({name: '', value: ''})
 
@@ -15,13 +21,6 @@ export default function Login(props){
                <label htmlFor="email" className="text-sm block font-bold  pb-2">
                  EMAIL ADDRESS
                </label>
-               {/* <input
-                   type="email"
-                   name="email"
-                   id=""
-                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue-300 "
-                   placeholder="Johnbull@example.com"
-                 /> */}
                <div className="h-8">
                  <TextBox
                    placeholder={"Email"}
@@ -39,13 +38,6 @@ export default function Login(props){
                >
                  PASSWORD
                </label>
-               {/* <input
-                   type="password"
-                   name="email"
-                   id=""
-                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-blue-300"
-                   placeholder="Enter your password"
-                 /> */}
                <TextBox
                  placeholder={"Password"}
                  name="password"

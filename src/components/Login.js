@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TextBox from '../components/TextBox'
-import Flatted from 'flatted';
 
 export default function Login(props){
     const {

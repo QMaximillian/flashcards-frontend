@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TextBox from './TextBox'
 
 export default function SignUp(props) {

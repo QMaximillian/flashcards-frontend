@@ -42,7 +42,7 @@ export default function Login(props){
                  name="password"
                  value={password.value}
                  onChange={setPassword}
-                 type="password"
+                 type="text"
                />
              </div>
            </div>

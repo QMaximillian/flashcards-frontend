@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import Login from '../components/Login'
 import SignUp from '../components/SignUp'
 
 export default function SignUpOrLogin(props){
 
+  useEffect(() => {
+    console.log(document.cookie);
+  })
   const [authEnum, setAuthEnum] = useState('LOGIN')
 
    const [email, setEmail] = useState({ name: "", value: "" });
    const [password, setPassword] = useState({ name: "", value: "" });
    const [firstName, setFirstName] = useState({ name: "", value: "" });
    const [lastName, setLastName] = useState({ name: "", value: "" });
+   const [redirect, setRedirect] = useState(false);
 
     function renderView() {
       if (authEnum === 'LOGIN') {
@@ -30,35 +35,66 @@ export default function SignUpOrLogin(props){
       }
     }
 
-    function handleSignUpFetch(){
-      return fetch("http://localhost:8000/sign-up", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({first_name: firstName, last_name: lastName, email, password})
-      })
-    }
-
-    function handleLoginFetch(){
-      return fetch("http://localhost:8000/login", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({email, password})
-      })
-    }
-
-    function handleSubmit(){
+    function handleRedirect(){
       switch(authEnum){
         case 'LOGIN':
-          handleLoginFetch()
+          return <Redirect to="home"/>
+        case 'SIGN UP':
+          return <Redirect to="home"/>
+          default:
+            return;
+      }
+    }
+
+    function handleSignUpFetch(e){
+      e.preventDefault()
+      return fetch("http://localhost:8000/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+
+        credentials: "include",
+        body: JSON.stringify({
+          first_name: firstName.value,
+          last_name: lastName.value,
+          email: email.value,
+          password: password.value
+        })
+      }).then(r => {
+          setRedirect(true);
+      });
+    }
+
+
+function handleLoginFetch(e){
+  console.log('email', email.value)
+  console.log('password', password.value)
+      e.preventDefault()
+      return fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({ email: email.value, password: password.value })
+      }).then(r => {
+        console.log(r)
+        if(document.cookie) {
+          setRedirect(true);
+        }
+      });
+    }
+
+    function handleSubmit(e){
+      switch(authEnum){
+        case 'LOGIN':
+          handleLoginFetch(e)
           break;
         case 'SIGN UP':
-          handleSignUpFetch()
+          handleSignUpFetch(e)
           break;
         default:
           return
@@ -101,6 +137,7 @@ export default function SignUpOrLogin(props){
                </button>
              </div>
            </div>
+           {redirect && handleRedirect()}
          </div>
        );
 }

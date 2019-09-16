@@ -17,6 +17,7 @@ export default function SignUp(props) {
               name="firstName"
               value={firstName.value}
               onChange={setFirstName}
+              type="text"
             />
           </div>
           <div className="px-4 pb-4">
@@ -28,6 +29,7 @@ export default function SignUp(props) {
               name="lastName"
               value={lastName.value}
               onChange={setLastName}
+              type="text"
             />
           </div>
           <div className="px-4 pb-4">
@@ -39,6 +41,7 @@ export default function SignUp(props) {
               name="email"
               value={email.value}
               onChange={setEmail}
+              type="email"
             />
           </div>
           <div className="px-4 pb-4">
@@ -50,6 +53,7 @@ export default function SignUp(props) {
               name="password"
               value={password.value}
               onChange={setPassword}
+              type="text"
             />
           </div>
         </div>

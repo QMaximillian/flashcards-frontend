@@ -8,8 +8,9 @@ function App(props) {
   return (
     <div className="h-screen w-screen">
       <Router>
-        <Route path="/sign-up-or-login" component={SignUpOrLogin} />
-        <Route path="/home" component={Home} />
+        <Route exact path="/sign-up-or-login" component={SignUpOrLogin} />
+        <Route exact path="/home" component={Home} />
+        <Route exact path="/" component={Landing} />
       </Router>
     </div>
   );

@@ -5,9 +5,7 @@ import SignUp from '../components/SignUp'
 
 export default function SignUpOrLogin(props){
 
-  useEffect(() => {
-    console.log(document.cookie);
-  })
+
   const [authEnum, setAuthEnum] = useState('LOGIN')
 
    const [email, setEmail] = useState({ name: "", value: "" });
@@ -47,7 +45,8 @@ export default function SignUpOrLogin(props){
     }
 
     function handleSignUpFetch(e){
-      e.preventDefault()
+
+      // e.preventDefault()
       return fetch("http://localhost:8000/sign-up", {
         method: "POST",
         headers: {
@@ -63,15 +62,16 @@ export default function SignUpOrLogin(props){
           password: password.value
         })
       }).then(r => {
-          setRedirect(true);
-      });
+          if (document.cookie) {
+            setRedirect(true);
+          }
+        })
     }
 
 
 function handleLoginFetch(e){
-  console.log('email', email.value)
-  console.log('password', password.value)
-      e.preventDefault()
+
+      // e.preventDefault()
       return fetch("http://localhost:8000/login", {
         method: "POST",
         headers: {
@@ -81,7 +81,6 @@ function handleLoginFetch(e){
         credentials: "include",
         body: JSON.stringify({ email: email.value, password: password.value })
       }).then(r => {
-        console.log(r)
         if(document.cookie) {
           setRedirect(true);
         }
@@ -104,7 +103,7 @@ function handleLoginFetch(e){
        return (
          <div className="flex justify-center w-full h-full items-center">
            <div className="px-8 py-4 w-full max-w-md self-center flex-col justify-between border border-black rounded shadow-md">
-             <form action="" className="bg-white">
+             <div className="bg-white">
                <div
                  style={{ height: "24rem" }}
                  className="flex flex-col justify-center"
@@ -119,7 +118,7 @@ function handleLoginFetch(e){
                    Submit
                  </button>
                </div>
-             </form>
+             </div>
              <div className="justify-around flex">
                <button
                  className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

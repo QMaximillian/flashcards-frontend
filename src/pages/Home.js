@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import {fetchUser} from '../fetchRequests/user'
 
 export default function Home(props){
-  const [response, setResponse] = useState({});
+  const [response, setResponse] = useState();
 
-  useEffect(() => {
-    if (document.cookie) {
-      fetchUser().then(r => setResponse(r))
-    }
-  }, [])
-  console.log(response);
+  // useEffect(() => {
+  //   if (document.cookie) {
+  //     fetchUser().then(r => setResponse(r))
+  //   }
+  // }, [])
+  // console.log(response);
        return <div>Home</div>;
 }
 

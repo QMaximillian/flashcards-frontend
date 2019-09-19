@@ -1,8 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TextBox from './TextBox'
+import { Redirect } from "react-router-dom";
+
 
 export default function SignUp(props) {
-    const {email, password, firstName, lastName, setEmail, setPassword, setFirstName, setLastName} = props
+   const [email, setEmail] = useState({ name: "", value: "" });
+   const [password, setPassword] = useState({ name: "", value: "" });
+   const [firstName, setFirstName] = useState({ name: "", value: "" });
+   const [lastName, setLastName] = useState({ name: "", value: "" });
+   const [redirect, setRedirect] = useState(false);
+
+
+   function handleSubmit(e){
+    handleSignUpFetch(e) 
+    setRedirect(true)
+   }
+
+       function handleSignUpFetch(e){
+
+      // e.preventDefault()
+      return fetch("http://localhost:8000/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+
+        credentials: "include",
+        body: JSON.stringify({
+          first_name: firstName.value,
+          last_name: lastName.value,
+          email: email.value,
+          password: password.value
+        })
+      }).then(r => {
+            setRedirect(true);
+        })
+    }
 
   return (
     <div>
@@ -56,7 +90,16 @@ export default function SignUp(props) {
               type="text"
             />
           </div>
-        </div>
+           <div onClick={handleSubmit} className="flex justify-center">
+                  <button
+                   className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                   type="button"
+                 >
+                   Submit
+                 </button>
+          </div>
+          {redirect && <Redirect to="home"/>}
+          </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import { useCookies } from 'react-cookie'
 import { Link } from 'react-router-dom'
+import { fetchRemoveCookie, fetchUser } from "../fetchRequests/user";
+
 
 
 
@@ -8,33 +9,35 @@ import { Link } from 'react-router-dom'
 
 export default function Navigation(props){
 
-    const { user, removeCookie } = props
+    const [ user, setUser ] = React.useState(props.user)
 
-    console.log('user', user)
-    
     function renderUser(){
-        if (user) {
+
+        if (props.user) {
           console.log('user')
             return (
               <>
                 <div className="w-full h-full">
-                  <div>{user.first_name}</div>
+                  <div>{props.user.first_name}</div>
                 </div>
-                <div onClick={() => removeCookie("token")}>LOGOUT</div>
+                <div onClick={() => fetchRemoveCookie(r => {
+                  if (r.cookieDeleted) {
+                    setUser(null)
+                  }
+                })}>LOGOUT</div>
               </>
             );
         } else {
-                    console.log("no user");
 
             return (
               <>
                 <div className="w-1/4 h-full"></div>
                 <div className="w-1/5 h-full">
+                  <div className="whitespace-no-wrap">SIGN UP</div>
                   <Link
                     className="flex justify-between w-full h-full"
-                    to="/sign-up-or-login"
+                    to="/login"
                   >
-                    <div className="whitespace-no-wrap">SIGN UP</div>
                     <div>LOGIN</div>
                   </Link>
                 </div>

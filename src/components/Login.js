@@ -1,17 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TextBox from '../components/TextBox'
+import { Redirect } from 'react-router-dom'
+
 
 export default function Login(props){
-    const {
-      email,
-      password,
-      setEmail,
-      setPassword,
-    } = props;
-    // const [email, setEmail] = useState({name: '', value: '', isValid: false})
-    // const [password, setPassword] = useState({name: '', value: '', isValid: false})
-    // const [firstName, setFirstName] = useState({name: '', value: ''})
-    // const [lastName, setLastName] = useState({name: '', value: ''})
+    const [email, setEmail] = useState({ name: "", value: "" });
+    const [password, setPassword] = useState({ name: "", value: "" });
+    const [redirect, setRedirect] = useState(false);
+
+    function handleSubmit(e){
+      handleLoginFetch(e)
+    }
+
+    function handleLoginFetch(e){
+
+      e.preventDefault()
+      return fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({ email: email.value, password: password.value })
+      }).then(r => {
+          setRedirect(true);
+      });
+    }
 
        return (
          <div className="flex justify-center w-full h-full items-center">
@@ -45,6 +60,15 @@ export default function Login(props){
                  type="text"
                />
              </div>
+             <div onClick={handleSubmit} className="flex justify-center">
+               <button
+                 className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                 type="button"
+               >
+                 Submit
+               </button>
+             </div>
+             {redirect && <Redirect to="home" />}
            </div>
          </div>
        );

@@ -22,8 +22,8 @@ export default function Landing(props){
 // console.log(response);
 
        return (
-        <div>
-            Landing
+        <div className="h-full w-full">
+              
         </div>
        )
 }

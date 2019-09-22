@@ -1,21 +1,22 @@
+import { BASE_URL, BASE_HEADERS } from './baseFetchOptions' 
+
 export function fetchUser(){
-      return fetch("http://localhost:8000/user", {
+      return fetch(`${BASE_URL}/user`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
+        headers: BASE_HEADERS,
         credentials: "include"
       }).then(r => r.json());
 }
 
 export function fetchRemoveCookie(){
-      return fetch("http://localhost:8000/delete-cookie", {
+      return fetch(`${BASE_URL}/delete-cookie`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
+        headers: BASE_HEADERS,
         credentials: "include"
       }).then(r => r.json());
 }
+
+
+
+
+

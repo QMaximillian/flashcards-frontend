@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {fetchUser} from '../fetchRequests/user'
-
+import {Link} from 'react-router-dom'
 
 
 export default function Home(props){
@@ -12,9 +12,9 @@ export default function Home(props){
 
   // console.log(response);
        return (
-         <div>
+         <Link to="/card-sets/new">
            CREATE SET
-         </div>
+         </Link>
        );
 }
 

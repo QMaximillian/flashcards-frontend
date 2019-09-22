@@ -36,7 +36,7 @@ export default function CreateCardSetForm(props){
 	async function handleSave(){
 		try {
 			const cardSet = await fetchPostCardSet({ name: cardSetName.value })
-			console.log(cardSet.id)
+
 			await fetchPostFlashCards({ fields, card_set_id: cardSet.id })
 
 			alert('Saved!')

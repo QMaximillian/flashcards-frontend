@@ -9,7 +9,7 @@ import { fetchRemoveCookie } from "../fetchRequests/user";
 
 export default function Navigation(props){
 
-    const [ user, setUser ] = React.useState(props.user)
+    // const [ user, setUser ] = React.useState(props.user)
 
     function renderUser(){
 
@@ -22,7 +22,7 @@ export default function Navigation(props){
                 </div>
                 <div onClick={() => fetchRemoveCookie(r => {
                   if (r.cookieDeleted) {
-                    setUser(null)
+                    // setUser(null)
                   }
                 })}>LOGOUT</div>
               </>

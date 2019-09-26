@@ -21,11 +21,11 @@ export default function CreateCardSetForm(props){
     setFields(values);
   }
 
-  function handleAdd() {
-    const values = [...fields];
-    values.push({ value: '' });
-    setFields(values);
-  }
+  // function handleAdd() {
+  //   const values = [...fields];
+  //   values.push({ value: '' });
+  //   setFields(values);
+  // }
 
   function handleRemove(i) {
     const values = [...fields];
@@ -51,11 +51,11 @@ export default function CreateCardSetForm(props){
   return (
     <div className="flex w-full flex-col p-4">
       <div className="w-1/6">
-        <TextBox value={cardSetName.value} onChange={setCardSetName} placeholder={'Title'} />
+        <TextBox name="card-set-name" value={cardSetName.value} onChange={setCardSetName} placeholder={'Title'} />
       </div>
       {fields.map((field, idx) => {
         return (
-          <div className="flex w-full">
+          <div key={idx} className="flex w-full">
 						<div className='self-center pr-2 text-lg'>{idx + 1}</div>
             <div className="w-1/2 mr-6" key={`${field}-definition-${idx}`}>
               <TextBox

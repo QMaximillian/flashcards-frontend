@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import Navigation from '../components/Navigation'
-import { fetchUser } from '../fetchRequests/user'
-import { useCookies } from 'react-cookie'
+import React from 'react'
+// import React, { useEffect, useState } from 'react'
+// import { Link } from 'react-router-dom'
+// import Navigation from '../components/Navigation'
+// import { fetchUser } from '../fetchRequests/user'
+// import { useCookies } from 'react-cookie'
 
 export default function Landing(props){
     

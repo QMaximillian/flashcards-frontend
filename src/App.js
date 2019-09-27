@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 // import SignUpOrLogin from './pages/SignUpOrLogin'
 import Landing from './pages/Landing'
 import Home from './pages/Home'
@@ -9,6 +9,7 @@ import SignUp from './components/SignUp'
 import CreateCardSetForm from './components/CreateCardSetForm'
 import UserCardSets from './pages/UserCardSets'
 import CardSetShow from './pages/CardSetShow'
+import { fetchUser } from './fetchRequests/user'
 
 // import { fetchUser } from "./fetchRequests/user";
 
@@ -18,16 +19,7 @@ function App(props) {
     const [navBar, setNavBar] = useState(null);
     
     useEffect(() => {
-            async function fetchUser(){
-              const result = await fetch('http://localhost:8000/user', {
-                credentials: 'include'
-              })
-
-              return result
-            }
-
-            fetchUser().then(r => r.json()).then(r => setResponse(r))
-
+            fetchUser().then(r => setResponse(r))
     }, [])
     
 
@@ -35,13 +27,15 @@ function App(props) {
   return (
     <div className="h-screen w-screen">
       <Router>
-        <Navigation user={response && response.user}/>
+        <Navigation user={response && response.user} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/card-sets" component={UserCardSets} />
-        <Route exact path="/card-sets/new" component={CreateCardSetForm} />
-        <Route exact path="/card-sets/:id" component={CardSetShow} />
+        <Switch>
+          <Route exact path="/card-sets/new" component={CreateCardSetForm} />
+          <Route exact path="/card-sets/:id" component={CardSetShow} />
+        </Switch>
         <Route exact path="/sign-up" component={SignUp} />
-        <Route exact path="/home" component={() => <Home setNavBar={setNavBar}/>} />
+        <Route exact path="/home" component={() => <Home setNavBar={setNavBar} />} />
         <Route exact path="/" component={Landing} />
       </Router>
     </div>

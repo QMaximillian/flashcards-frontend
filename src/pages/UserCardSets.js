@@ -7,6 +7,7 @@ export default function UserCardSets(props){
     const [cardSets, setCardSets] = useState([])
     const [editMode, setEditMode] = useState(false)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
+    const [initialCardState, setInitialCardState] = useState([])
     // const memoizedCallback = React.useCallback(() => {
     //   if (editMode === false) {
     //     const updatedCardSets = [...cardSets].map(mappedCardSet => {
@@ -15,17 +16,32 @@ export default function UserCardSets(props){
     //     setCardSets(updatedCardSets);
     //   }
     // }, [editMode, cardSets])
+ 
+
+    useEffect(() => {
+      if (editMode === false) {
+       setCardSets(initialCardState)
+      }
+    }, [editMode, initialCardState])
     
     
     useEffect(() => {
-        fetchGetCardSetIndex().then(r => {
-          const sanitizeResults = r.map(e => ({checked: false, ...e}))
-          return sanitizeResults
-        }).then(r => setCardSets(r))
+        fetchGetCardSetIndex()
+        .then(r => addCheckedProperty(r))
+        .then(r => {
+          setCardSets(r)
+          setInitialCardState(r)
+        })
     }, [])
 
+    useEffect(() => {
+      console.log(cardSets)
+    }, [cardSets])
 
 
+    function addCheckedProperty(array){
+      return array.map(obj => ({ checked: false, ...obj }))
+    }
 
     function handleChecked(cardSet){
         const updatedCardSets = cardSets.map(mappedCardSet => {

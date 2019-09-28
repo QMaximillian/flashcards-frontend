@@ -18,10 +18,17 @@ export function fetchGetCardSetIndex() {
 }
 
 export function fetchGetCardSetShow(id) {
-  console.log(`${BASE_URL}/card-sets/${id}`);
   return fetch(`${BASE_URL}/card-sets/${id}`, {
     method: "GET",
     headers: BASE_HEADERS,
     credentials: "include"
   }).then(r => r.json())
+}
+
+export function fetchDeleteCardSets(id){
+  return fetch(`${BASE_URL}/card-sets/${id}`, {
+    method: "DELETE",
+    headers: BASE_HEADERS,
+    credentials: "include"
+  }).then(r => r.json());
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
-import { fetchGetCardSetIndex } from '../fetchRequests/cardSets'
+import { fetchGetCardSetIndex, fetchDeleteCardSets } from '../fetchRequests/cardSets'
 import TextBox from '../components/TextBox'
 
 export default function UserCardSets(props){
@@ -8,14 +8,6 @@ export default function UserCardSets(props){
     const [editMode, setEditMode] = useState(false)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
     const [initialCardState, setInitialCardState] = useState([])
-    // const memoizedCallback = React.useCallback(() => {
-    //   if (editMode === false) {
-    //     const updatedCardSets = [...cardSets].map(mappedCardSet => {
-    //       return { ...mappedCardSet, checked: false };
-    //     });
-    //     setCardSets(updatedCardSets);
-    //   }
-    // }, [editMode, cardSets])
  
 
     useEffect(() => {
@@ -42,6 +34,15 @@ export default function UserCardSets(props){
     function addCheckedProperty(array){
       return array.map(obj => ({ checked: false, ...obj }))
     }
+    
+    function handleDelete(){
+      cardSets.forEach(cardSet => {
+        if (cardSet.checked) {
+          return fetchDeleteCardSets(cardSet.id).then(r => console.log(r))
+        }
+      })
+
+    }
 
     function handleChecked(cardSet){
         const updatedCardSets = cardSets.map(mappedCardSet => {
@@ -55,27 +56,36 @@ export default function UserCardSets(props){
     }
 
        return (
-         <div className="w-full border-yellow-500 border">
-           <div onClick={() => setEditMode(!editMode)}>EDIT MODE: {editMode ? 'On' : "Off"}</div>
+         <div className="w-full border-orange-500 border">
+           <div onClick={() => setEditMode(!editMode)}>
+             EDIT MODE: {editMode ? "On" : "Off"}
+           </div>
            <TextBox
              name="search-bar"
              type="text"
              value={search.value}
              onChange={setSearch}
-             placeholder={"Title"}
+             placeholder={"Filter Search"}
            />
-           <div className="flex flex-wrap border-orange-500 border overflow-hidden justify-center">
-             {cardSets.map((cardSet, idx) => {
-               console.log(cardSet.checked)
+           <div>
+             <div onClick={handleDelete}>Delete Selected</div>
+           </div>
+           <div className="flex flex-col border-black border overflow-hidden justify-center">
+             {cardSets.filter(cardSet => cardSet.name.match(search.value)).map((cardSet, idx) => {
+               console.log(cardSet.checked);
                return (
-                 <div
-                   key={idx}
-                   className={`w-1/2 max-w-lg my-4 px-4 ${
-                     cardSet.checked ? "border-4 border-green-500" : ""
-                   }`}
-                 >
-                   <div className="h-40 w-full rounded overflow-hidden border-teal-500 border shadow-lg">
-                     <div onClick={() => handleChecked(cardSet)} className="flex w-full h-full items-center border-red-500 border">
+                 <div key={idx} className={`w-full max-w-lg my-4 px-4`}>
+                   <div
+                     className={`h-20 w-full rounded-sm overflow-hidden ${
+                       cardSet.checked
+                         ? "shadow-inner border-2 border-blue-700"
+                         : ""
+                     }`}
+                   >
+                     <div
+                       onClick={() => handleChecked(cardSet)}
+                       className="flex w-full h-full items-center border-black border"
+                     >
                        {/* <input
                          onChange={() => handleChecked(cardSet)}
                          className="ml-4 self-center"
@@ -83,16 +93,16 @@ export default function UserCardSets(props){
                          checked={cardSet.checked}
                        /> */}
                        {editMode ? (
-                         <div className="h-full text-2xl ml-20 " key={idx}>
-                           {cardSet.name}
+                         <div className="h-full w-64 text-2xl ml-24" key={idx}>
+                           <div>{cardSet.name}</div>
                          </div>
                        ) : (
                          <Link
-                           className="h-full w-full"
+                           className="h-full w-64"
                            to={`/card-sets/${cardSet.id}`}
                          >
-                           <div className="h-full text-2xl ml-20 " key={idx}>
-                             {cardSet.name}
+                           <div className="h-full text-2xl ml-24" key={idx}>
+                             <div>{cardSet.name}</div>
                            </div>
                          </Link>
                        )}
@@ -104,4 +114,5 @@ export default function UserCardSets(props){
            </div>
          </div>
        );
+       
             }

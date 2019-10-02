@@ -11,7 +11,7 @@ export default function UserCardSets(props){
  
 
     useEffect(() => {
-      if (editMode === false) {
+      if (!editMode) {
        setCardSets(initialCardState)
       }
     }, [editMode, initialCardState])
@@ -71,46 +71,48 @@ export default function UserCardSets(props){
              <div onClick={handleDelete}>Delete Selected</div>
            </div>
            <div className="flex flex-col border-black border overflow-hidden justify-center">
-             {cardSets.filter(cardSet => cardSet.name.match(search.value)).map((cardSet, idx) => {
-               console.log(cardSet.checked);
-               return (
-                 <div key={idx} className={`w-full max-w-lg my-4 px-4`}>
-                   <div
-                     className={`h-20 w-full rounded-sm overflow-hidden ${
-                       cardSet.checked
-                         ? "shadow-inner border-2 border-blue-700"
-                         : ""
-                     }`}
-                   >
-                     <div
-                       onClick={() => handleChecked(cardSet)}
-                       className="flex w-full h-full items-center border-black border"
-                     >
-                       {/* <input
-                         onChange={() => handleChecked(cardSet)}
-                         className="ml-4 self-center"
-                         type="checkbox"
-                         checked={cardSet.checked}
-                       /> */}
-                       {editMode ? (
-                         <div className="h-full w-64 text-2xl ml-24" key={idx}>
-                           <div>{cardSet.name}</div>
-                         </div>
-                       ) : (
-                         <Link
-                           className="h-full w-64"
-                           to={`/card-sets/${cardSet.id}`}
-                         >
-                           <div className="h-full text-2xl ml-24" key={idx}>
-                             <div>{cardSet.name}</div>
-                           </div>
-                         </Link>
-                       )}
-                     </div>
-                   </div>
-                 </div>
-               );
-             })}
+             {cardSets
+                .filter(cardSet => cardSet.name.match(search.value))
+                .map((cardSet, idx) => {
+                  return (
+                    <div key={idx} className={`w-full max-w-lg my-2 px-4`}>
+                      <div
+                        className={`h-20 w-full rounded-sm overflow-hidden ${
+                          cardSet.checked
+                            ? "shadow-inner border-2 border-blue-700"
+                            : ""
+                        }`}
+                      >
+                        <div
+                          onClick={() => handleChecked(cardSet)}
+                          className="flex w-full h-full items-center border-black border"
+                        >
+                          {/* <input
+                            onChange={() => handleChecked(cardSet)}
+                            className="ml-4 self-center"
+                            type="checkbox"
+                            checked={cardSet.checked}
+                          /> */}
+                          {editMode ? (
+                            <div className="h-full w-64 text-2xl ml-24" key={idx}>
+                              <div>{cardSet.name}</div>
+                            </div>
+                          ) : (
+                            <Link
+                              className="h-full w-64"
+                              to={`/card-sets/${cardSet.id}`}
+                            >
+                              <div className="h-full text-2xl ml-24" key={idx}>
+                                <div>{cardSet.name}</div>
+                              </div>
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              }
            </div>
          </div>
        );

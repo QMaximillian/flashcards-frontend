@@ -23,22 +23,34 @@ export default function CardSetShow(props){
   }
 
 
-  useEffect(() => {
-    console.log('idx', idx)
-  }, [idx])
+  // useEffect(() => {
+  //   console.log('idx', idx)
+  // }, [idx])
 
       return !isLoading ? (
         <div>
-          <div className="text-4xl">{flashcards[idx].name}</div>
-          <div className="flex flex-col items-center">
+          <div className="text-4xl font-bold text-gray-700 opacity-50">{flashcards[idx].name}</div>
+          <div className="flex flex-col items-center justify-between">
             <div className="h-64 w-3/4 flex justify-center items-center">
               <Card
                 flashcardFront={flashcards[idx].term}
                 flashcardBack={flashcards[idx].definition}
               />
             </div>
-            <div onClick={nextBoundingCheck}>Next</div>
-            <div onClick={previousBoundingCheck}>Previous</div>
+            <div className="flex justify-center w-3/4 h-12 flex justify-center items-center">
+              <div
+                onClick={previousBoundingCheck}
+                className="mx-10 hover:text-orange-500"
+              >
+                <i className="fas fa-arrow-left"></i>
+              </div>
+              <div
+                onClick={nextBoundingCheck}
+                className="mx-10 hover:text-orange-500"
+              >
+                <i className="fas fa-arrow-right"></i>
+              </div>
+            </div>
           </div>
         </div>
       ) : (
@@ -61,30 +73,27 @@ function Card(props) {
       onClick={() => set(state => !state)}
       className="relative w-full h-full justify-center items-center flex"
     >
-      {flipped ? null : (
-        <animated.div
-          className="border-2 shadow-lg border-green-400 h-full w-full flex justify-center items-center"
-          style={{
-            opacity: opacity.interpolate(o => 1 - o),
-            transform
-            // position: "absolute"
-          }}
-        >
-          <div className="text-2xl">{flipped ? null : props.flashcardFront}</div>
-        </animated.div>
-      )}
       {flipped ? (
         <animated.div
-          className="border-2 shadow-lg border-green-400 h-full w-full flex justify-center items-center"
+          className="shadow-xl h-full w-full flex justify-center items-center"
           style={{
             opacity,
             transform: transform.interpolate(t => `${t} rotateX(180deg)`)
-            // position: "absolute"
           }}
         >
           <div className="text-2xl">{props.flashcardBack}</div>
         </animated.div>
-      ) : null}
+      ) : (
+        <animated.div
+          className="shadow-xl h-full w-full flex justify-center items-center"
+          style={{
+            opacity: opacity.interpolate(o => 1 - o),
+            transform
+          }}
+        >
+          <div className="text-2xl">{props.flashcardFront}</div>
+        </animated.div>
+      )}
     </div>
   );
 }

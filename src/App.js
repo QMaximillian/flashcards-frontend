@@ -11,6 +11,7 @@ import CreateCardSetForm from './components/CreateCardSetForm'
 import UserCardSets from './pages/UserCardSets'
 import CardSetShow from './pages/CardSetShow'
 import { fetchUser } from './fetchRequests/user'
+import FlashcardsNavDrawer from './components/FlashcardNavDrawer';
 
 // import { fetchUser } from "./fetchRequests/user";
 
@@ -23,7 +24,9 @@ function App(props) {
             fetchUser().then(r => setResponse(r))
     }, [])
     
-
+    useEffect(() => {
+      console.log(props)
+    }, [props])
 
   return (
     <div className="h-screen w-screen">
@@ -31,7 +34,7 @@ function App(props) {
         <Navigation user={response && response.user} />
         <div className="flex w-full h-full">
           <div className="w-1/4 h-full">
-            <NavDrawer />
+              <Route path="/" component={NavDrawer} />
           </div>
           <div className="w-3/4 h-screen overflow-auto">
             <Route exact path="/login" component={Login} />

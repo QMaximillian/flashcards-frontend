@@ -26,9 +26,9 @@ export default function UserCardSets(props){
         })
     }, [])
 
-    useEffect(() => {
-      console.log(cardSets)
-    }, [cardSets])
+    // useEffect(() => {
+    //   console.log(cardSets)
+    // }, [cardSets])
 
 
     function addCheckedProperty(array){
@@ -56,7 +56,7 @@ export default function UserCardSets(props){
     }
 
        return (
-         <div className="w-full border-orange-500 border">
+         <div className="w-full border-orange-500 border h-full">
            <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}
            </div>
@@ -75,39 +75,53 @@ export default function UserCardSets(props){
                 .filter(cardSet => cardSet.name.match(search.value))
                 .map((cardSet, idx) => {
                   return (
-                    <div key={idx} className={`w-full max-w-lg my-2 px-4`}>
-                      <div
-                        className={`h-20 w-full rounded-sm overflow-hidden ${
-                          cardSet.checked
-                            ? "shadow-inner border-2 border-blue-700"
-                            : ""
-                        }`}
-                      >
+                    <div className="flex">
+                      <div key={idx} className={`w-full max-w-lg my-2 px-4`}>
                         <div
-                          onClick={() => handleChecked(cardSet)}
-                          className="flex w-full h-full items-center border-black border"
+                          className={`h-20 w-full rounded-sm overflow-hidden ${
+                            cardSet.checked
+                              ? "shadow-inner border-2 border-blue-700"
+                              : ""
+                          }`}
                         >
-                          {/* <input
+                          <div
+                            onClick={() => handleChecked(cardSet)}
+                            className="flex w-full h-full items-center border-black border"
+                          >
+                            {/* <input
                             onChange={() => handleChecked(cardSet)}
                             className="ml-4 self-center"
                             type="checkbox"
                             checked={cardSet.checked}
                           /> */}
-                          {editMode ? (
-                            <div className="h-full w-64 text-2xl ml-24" key={idx}>
-                              <div>{cardSet.name}</div>
-                            </div>
-                          ) : (
-                            <Link
-                              className="h-full w-64"
-                              to={`/card-sets/${cardSet.id}`}
-                            >
-                              <div className="h-full text-2xl ml-24" key={idx}>
+                            {editMode ? (
+                              <div
+                                className="h-full w-64 text-2xl ml-24"
+                                key={idx}
+                              >
                                 <div>{cardSet.name}</div>
                               </div>
-                            </Link>
-                          )}
+                            ) : (
+                              <Link
+                                className="h-full w-64"
+                                to={`/card-sets/${cardSet.id}`}
+                              >
+                                <div
+                                  className="h-full text-2xl ml-24 flex justify-start"
+                                  key={idx}
+                                >
+                                  <div>{cardSet.name}</div>
+                                </div>
+                              </Link>
+                            )}
+                          </div>
                         </div>
+                      </div>
+                      <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
+                        <i
+                          className="fas fa-times hover:border-black opacity-50 hover:opacity-100"
+                          style={{ WebkitTextStroke: "2px grey" }}
+                        ></i>
                       </div>
                     </div>
                   );

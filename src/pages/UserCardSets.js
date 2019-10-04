@@ -123,14 +123,14 @@ export default function UserCardSets(props){
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
+                      {editMode && <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
                         <i
                           data-id={cardSet.id}
                           onClick={handleDelete}
                           className="fas fa-times hover:border-black opacity-50 hover:opacity-100"
                           style={{ WebkitTextStroke: "2px grey" }}
                         ></i>
-                      </div>
+                      </div>}
                     </div>
                   );
                 })

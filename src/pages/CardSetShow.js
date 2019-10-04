@@ -33,7 +33,7 @@ export default function CardSetShow(props){
             {flashcards[idx].name}
           </div>
           <div className="flex flex-col items-center justify-between">
-            <div className="h-64 w-3/4 flex justify-center items-center">
+            <div className="relative h-64 w-1/2 mx-auto">
               <Card
                 flashcardFront={flashcards[idx].term}
                 flashcardBack={flashcards[idx].definition}
@@ -68,9 +68,6 @@ export default function CardSetShow(props){
       );
 }
 
-
-
-
 function Card(props) {
   const [flipped, set] = useState(false);
   const { transform, opacity } = useSpring({
@@ -79,31 +76,29 @@ function Card(props) {
     config: { mass: 5, tension: 500, friction: 80 }
   });
   return (
-    <div
-      onClick={() => set(state => !state)}
-      className="relative w-full h-full justify-center items-center flex"
-    >
-      {flipped ? (
-        <animated.div
-          className="shadow-xl h-full w-full flex justify-center items-center border border-gray-500"
-          style={{
-            opacity: opacity.interpolate(o => o),
-            transform: transform.interpolate(t => `${t} rotateX(180deg)`)
-          }}
-        >
-          <div className="text-2xl">{props.flashcardBack}</div>
-        </animated.div>
-      ) : (
-        <animated.div
-          className="shadow-xl h-full w-full flex justify-center items-center border border-gray-500"
-          style={{
-            opacity: opacity.interpolate(o => 1 - o),
-            transform
-          }}
-        >
-          <div className="text-2xl">{props.flashcardFront}</div>
-        </animated.div>
-      )}
+    <div className="h-full w-full" onClick={() => set(state => !state)}>
+      <animated.div
+        className="flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full"
+        style={{
+          opacity: opacity.interpolate(o => 1 - o),
+          transform
+        }}
+      >
+        <div>{props.flashcardFront}</div>
+      </animated.div>
+      <animated.div
+        className="flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full"
+        style={{
+          opacity,
+          transform: transform.interpolate(t => `${t} rotateX(180deg)`)
+        }}
+      >
+        {props.flashcardBack}
+      </animated.div>
     </div>
   );
 }
+
+
+
+

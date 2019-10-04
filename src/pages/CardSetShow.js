@@ -29,7 +29,9 @@ export default function CardSetShow(props){
 
       return !isLoading ? (
         <div>
-          <div className="text-4xl font-bold text-gray-700 opacity-50">{flashcards[idx].name}</div>
+          <div className="text-4xl font-bold text-gray-700 opacity-50">
+            {flashcards[idx].name}
+          </div>
           <div className="flex flex-col items-center justify-between">
             <div className="h-64 w-3/4 flex justify-center items-center">
               <Card
@@ -40,13 +42,21 @@ export default function CardSetShow(props){
             <div className="flex justify-center w-3/4 h-12 flex justify-center items-center">
               <div
                 onClick={previousBoundingCheck}
-                className="mx-10 hover:text-orange-500"
+                className={`mx-10 ${
+                  idx === 0
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:text-orange-500"
+                }`}
               >
                 <i className="fas fa-arrow-left"></i>
               </div>
               <div
                 onClick={nextBoundingCheck}
-                className="mx-10 hover:text-orange-500"
+                className={`mx-10 ${
+                  idx === flashcards.length - 1  
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:text-orange-500"
+                }`}
               >
                 <i className="fas fa-arrow-right"></i>
               </div>
@@ -75,9 +85,9 @@ function Card(props) {
     >
       {flipped ? (
         <animated.div
-          className="shadow-xl h-full w-full flex justify-center items-center"
+          className="shadow-xl h-full w-full flex justify-center items-center border border-gray-500"
           style={{
-            opacity,
+            opacity: opacity.interpolate(o => o),
             transform: transform.interpolate(t => `${t} rotateX(180deg)`)
           }}
         >
@@ -85,7 +95,7 @@ function Card(props) {
         </animated.div>
       ) : (
         <animated.div
-          className="shadow-xl h-full w-full flex justify-center items-center"
+          className="shadow-xl h-full w-full flex justify-center items-center border border-gray-500"
           style={{
             opacity: opacity.interpolate(o => 1 - o),
             transform

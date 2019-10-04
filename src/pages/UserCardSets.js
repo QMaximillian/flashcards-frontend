@@ -14,6 +14,9 @@ export default function UserCardSets(props){
       if (!editMode) {
        setCardSets(initialCardState)
       }
+      // if (editMode) {
+      //   setSearch({ name: "", value: "", isValid: true });
+      // }
     }, [editMode, initialCardState])
     
     
@@ -35,13 +38,16 @@ export default function UserCardSets(props){
       return array.map(obj => ({ checked: false, ...obj }))
     }
     
-    function handleDelete(){
+    function handleBatchDelete(){
       cardSets.forEach(cardSet => {
         if (cardSet.checked) {
           return fetchDeleteCardSets(cardSet.id).then(r => console.log(r))
         }
       })
+    }
 
+    function handleDelete(event){
+      return fetchDeleteCardSets(event.target.dataset.id).then(r => console.log(r));
     }
 
     function handleChecked(cardSet){
@@ -68,7 +74,7 @@ export default function UserCardSets(props){
              placeholder={"Filter Search"}
            />
            <div>
-             <div onClick={handleDelete}>Delete Selected</div>
+             <div onClick={handleBatchDelete}>Delete Selected</div>
            </div>
            <div className="flex flex-col border-black border overflow-hidden justify-center">
              {cardSets
@@ -119,6 +125,8 @@ export default function UserCardSets(props){
                       </div>
                       <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
                         <i
+                          data-id={cardSet.id}
+                          onClick={handleDelete}
                           className="fas fa-times hover:border-black opacity-50 hover:opacity-100"
                           style={{ WebkitTextStroke: "2px grey" }}
                         ></i>

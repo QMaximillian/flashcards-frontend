@@ -29,14 +29,14 @@ function App(props) {
     }, [props])
 
   return (
-    <div className="h-screen w-screen">
+    <div className="">
       <Router>
         <Navigation user={response && response.user} />
         <div className="flex w-full h-full">
           <div className="w-1/4 h-full">
               <Route path="/" component={NavDrawer} />
           </div>
-          <div className="w-3/4 h-screen overflow-auto">
+          <div className="w-3/4 h-full overflow-auto">
             <Route exact path="/login" component={Login} />
             <Route exact path="/card-sets" component={UserCardSets} />
             <Switch>

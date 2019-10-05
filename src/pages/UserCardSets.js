@@ -76,7 +76,7 @@ export default function UserCardSets(props){
            <div>
              <div onClick={handleBatchDelete}>Delete Selected</div>
            </div>
-           <div className="flex flex-col border-black border overflow-hidden justify-center">
+           <div className="flex flex-col h-64 border-black border overflow-auto justify-center">
              {cardSets
                 .filter(cardSet => cardSet.name.match(search.value))
                 .map((cardSet, idx) => {

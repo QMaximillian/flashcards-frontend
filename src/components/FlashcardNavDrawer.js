@@ -10,8 +10,24 @@ export default function FlashcardsNavDrawer(props){
                <div>Home</div>
              </div>
            </Link>
-           <div className="text-sm opacity-25">Study</div>
-           <Link to="#">Flashcards</Link>
+           <div className="flex flex-col">
+             <div className="pl-2 text-sm opacity-25 ">STUDY</div>
+             <Link className="pt-2 pl-4 text-lg" to="#">
+               Flashcards
+             </Link>
+             <Link className="pl-4 text-lg opacity-25 cursor-not-allowed" to="#">
+               Learn
+             </Link>
+             <Link className="pl-4 text-lg opacity-25 cursor-not-allowed" to="#">
+               Write
+             </Link>
+             <Link className="pl-4 text-lg opacity-25 cursor-not-allowed" to="#">
+               Spell
+             </Link>
+             <Link className="pl-4 text-lg opacity-25 cursor-not-allowed" to="#">
+               Test
+             </Link>
+           </div>
          </div>
        );
 }

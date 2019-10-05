@@ -78,22 +78,22 @@ function Card(props) {
   return (
     <div className="h-full w-full" onClick={() => set(state => !state)}>
       <animated.div
-        className="flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full"
+        className={`bg-cover flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
         style={{
-          opacity: opacity.interpolate(o => 1 - o),
+          opacity: opacity.interpolate(o => .75 - o),
           transform
         }}
       >
         <div>{props.flashcardFront}</div>
       </animated.div>
       <animated.div
-        className="flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full"
+        className={`bg-cover text-gray-800 flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
         style={{
           opacity,
           transform: transform.interpolate(t => `${t} rotateX(180deg)`)
         }}
       >
-        {props.flashcardBack}
+        <div>{props.flashcardBack}</div>
       </animated.div>
     </div>
   );

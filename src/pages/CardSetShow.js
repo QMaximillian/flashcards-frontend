@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
+import { useTransition, useSpring, animated } from 'react-spring'
 import {fetchGetCardSetShow} from '../fetchRequests/cardSets'
-import { useSpring, animated } from "react-spring";
 
 export default function CardSetShow(props){
   const [isLoading, setIsLoading] = useState(true)
   const [flashcards, setFlashcards] = useState([])
-  const [idx, setIdx] = useState(0)
+  const [count, setCount] = useState(0)
+  const [reverse, setReverse] = useState(false)
+  
 
   useEffect(() => {
     fetchGetCardSetShow(props.match.params.id)
@@ -13,37 +15,69 @@ export default function CardSetShow(props){
     .then(r => setIsLoading(false))
   }, [props.match.params.id])
 
-  function nextBoundingCheck() {
-    if (idx >= flashcards.length - 1) return;
-    setIdx(idx + 1);
-  }
-  function previousBoundingCheck(cb) {
-    if (idx <= 0) return;
-    setIdx(idx - 1)
-  }
+  const transitions = useTransition([count], item => item, {
+    from: {
+      opacity: 0,
+      position: 'absolute',
+      width: '50%',
+      transform: reverse
+        ? "translate3d(200%, 0, 0)"
+        : "translate3d(-100%, 0, 0)"
+    },
+    enter: {
+      opacity: 1,
+      width: '50%',
+      transform: "translate3d(50%, 0, 0)"
+    },
+    leave: {
+      opacity: 0,
+      width: '50%',
+      transform: reverse
+        ? "translate3d(-100%, 0, 0)"
+        : "translate3d(200%, 0, 0)"
+    }
+  });
 
+  const prevSlide = () => {
+    let prevSlide = count - 1 < 0 ? flashcards.length - 1 : count - 1;
+    setCount(prevSlide);
+    setReverse(true);
+  };
 
-  // useEffect(() => {
-  //   console.log('idx', idx)
-  // }, [idx])
+  const nextSlide = () => {
+    let nextSlide = count + 1 < flashcards.length ? count + 1 : 0;
+    setCount(nextSlide);
+    setReverse(false);
+  };
+  
 
       return !isLoading ? (
         <div>
           <div className="text-4xl font-bold text-gray-700 opacity-50">
-            {flashcards[idx].name}
+            {flashcards[count].name}
           </div>
-          <div className="flex flex-col items-center justify-between">
-            <div className="relative h-64 w-1/2 mx-auto">
-              <Card
-                flashcardFront={flashcards[idx].term}
-                flashcardBack={flashcards[idx].definition}
-              />
+          <div className="flex-col flex items-center justify-between w-3/4">
+            <div className="border border-black w-full py-4 overflow-hidden">
+              <div className="flex relative h-64">
+                {transitions.map(({ item, props, key }) => {
+                  return (
+                    <animated.div key={key} style={props}>
+                      <Card
+                        key={key}
+                        style={props}
+                        flashcardFront={flashcards[item].term}
+                        flashcardBack={flashcards[item].definition}
+                      />
+                    </animated.div>
+                  );
+                })}
+              </div>
             </div>
             <div className="flex justify-center w-3/4 h-12 flex justify-center items-center">
               <div
-                onClick={previousBoundingCheck}
+                onClick={prevSlide}
                 className={`mx-10 ${
-                  idx === 0
+                  count === 0
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:text-orange-500"
                 }`}
@@ -51,11 +85,11 @@ export default function CardSetShow(props){
                 <i className="fas fa-arrow-left"></i>
               </div>
               <div
-                onClick={nextBoundingCheck}
+                onClick={nextSlide}
                 className={`mx-10 ${
-                  idx === flashcards.length - 1  
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:text-orange-500"
+                  count === flashcards.length - 1
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:text-orange-500"
                 }`}
               >
                 <i className="fas fa-arrow-right"></i>
@@ -76,7 +110,7 @@ function Card(props) {
     config: { mass: 5, tension: 500, friction: 80 }
   });
   return (
-    <div className="h-full w-full" onClick={() => set(state => !state)}>
+    <div className="h-64 w-full" onClick={() => set(state => !state)}>
       <animated.div
         className={`bg-cover flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
         style={{
@@ -98,6 +132,8 @@ function Card(props) {
     </div>
   );
 }
+
+
 
 
 

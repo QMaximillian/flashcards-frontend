@@ -25,6 +25,13 @@ if (regex.test(props.location.pathname)) {
             <div>Card Sets</div>
           </div>
         </Link>
+        <Link to="#">
+          <div className="h-10 w-full border border-black items-center flex justify-center">
+            <div className="pl-4 text-lg opacity-25 cursor-not-allowed">
+              Folders
+            </div>
+          </div>
+        </Link>
       </div>
     );
   }

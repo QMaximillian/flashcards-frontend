@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useTransition, useSpring, animated } from 'react-spring'
 import {fetchGetCardSetShow} from '../fetchRequests/cardSets'
+import FinalFlashCard from '../components/FinalFlashCard'
+import PropTypes from "prop-types";
 
 export default function CardSetShow(props){
   const [isLoading, setIsLoading] = useState(true)
@@ -11,65 +13,78 @@ export default function CardSetShow(props){
 
   useEffect(() => {
     fetchGetCardSetShow(props.match.params.id)
-    .then(r => setFlashcards(r))
+    .then(r => setFlashcards([...r, {}]))
     .then(r => setIsLoading(false))
   }, [props.match.params.id])
 
   const transitions = useTransition([count], item => item, {
     from: {
       opacity: 0,
-      position: 'absolute',
-      width: '50%',
-      transform: reverse
-        ? "translate3d(200%, 0, 0)"
-        : "translate3d(-100%, 0, 0)"
-    },
-    enter: {
-      opacity: 1,
-      width: '50%',
-      transform: "translate3d(50%, 0, 0)"
-    },
-    leave: {
-      opacity: 0,
-      width: '50%',
+      position: "absolute",
+      width: "100%",
       transform: reverse
         ? "translate3d(-100%, 0, 0)"
         : "translate3d(200%, 0, 0)"
+    },
+    enter: {
+      opacity: 1,
+      width: "100%",
+      transform: "translate3d(0, 0, 0)"
+    },
+    leave: {
+      opacity: 0,
+      width: "100%",
+      transform: reverse
+        ? "translate3d(200%, 0, 0)"
+        : "translate3d(-100%, 0, 0)"
     }
   });
 
-  const prevSlide = () => {
-    let prevSlide = count - 1 < 0 ? flashcards.length - 1 : count - 1;
-    setCount(prevSlide);
-    setReverse(true);
-  };
+  function nextSlide() {
+    if (count >= flashcards.length - 1) return;
+    setCount(count + 1);
+    setReverse(false)
+  }
+  function prevSlide() {
+    if (count <= 0) return;
+    setCount(count - 1);
+    setReverse(true)
+  }
 
-  const nextSlide = () => {
-    let nextSlide = count + 1 < flashcards.length ? count + 1 : 0;
-    setCount(nextSlide);
-    setReverse(false);
-  };
+  function renderCurrentCardFraction(){
+    if (flashcards.length - 1 !== count) {
+      return `${count + 1}/${flashcards.length - 1}`
+    } else {
+      return `${flashcards.length - 1}/${flashcards.length - 1}`
+    }
+  }
   
 
       return !isLoading ? (
-        <div>
+        <div className="w-full">
           <div className="text-4xl font-bold text-gray-700 opacity-50">
-            {flashcards[count].name}
+            {flashcards[0].name}
           </div>
-          <div className="flex-col flex items-center justify-between w-3/4">
-            <div className="border border-black w-full py-4 overflow-hidden">
-              <div className="flex relative h-64">
+          <div className="flex-col flex items-center justify-between">
+            <div className="border border-black w-full py-4 overflow-hidden flex justify-center">
+              <div className="flex relative h-64 w-3/4">
                 {transitions.map(({ item, props, key }) => {
-                  return (
-                    <animated.div key={key} style={props}>
-                      <Card
-                        key={key}
-                        style={props}
-                        flashcardFront={flashcards[item].term}
-                        flashcardBack={flashcards[item].definition}
-                      />
-                    </animated.div>
-                  );
+                      
+                      if (count !== flashcards.length - 1) {
+                       return <animated.div key={key} style={props}>
+                          <Card
+                          key={key}
+                          style={props}
+                          flashcardFront={flashcards[item].term}
+                          flashcardBack={flashcards[item].definition}/>
+                        </animated.div>
+                      } else {
+                        return (
+                          <animated.div key={key} style={props}>
+                            <FinalFlashCard cardSetLength={flashcards.length-2} handleReset={() => setCount(0)}/>
+                          </animated.div>
+                        );
+                      }
                 })}
               </div>
             </div>
@@ -83,6 +98,9 @@ export default function CardSetShow(props){
                 }`}
               >
                 <i className="fas fa-arrow-left"></i>
+              </div>
+              <div>
+                {renderCurrentCardFraction()}
               </div>
               <div
                 onClick={nextSlide}
@@ -102,6 +120,7 @@ export default function CardSetShow(props){
       );
 }
 
+
 function Card(props) {
   const [flipped, set] = useState(false);
   const { transform, opacity } = useSpring({
@@ -109,30 +128,46 @@ function Card(props) {
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 }
   });
-  return (
-    <div className="h-64 w-full" onClick={() => set(state => !state)}>
+
+    return (
+    <div className="h-64 w-3/4" onClick={() => set(state => !state)}>
       <animated.div
-        className={`bg-cover flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
+        className={`shadow-lg bg-cover flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
         style={{
-          opacity: opacity.interpolate(o => .75 - o),
-          transform
+          opacity: opacity.interpolate(o => 0.75 - o),
+          transform,
+          backgroundImage:
+            'url("http://www.allwhitebackground.com/images/2/2279.jpg")'
         }}
       >
-        <div>{props.flashcardFront}</div>
+        <div className="text-3xl font-light">{props.flashcardFront}</div>
       </animated.div>
       <animated.div
-        className={`bg-cover text-gray-800 flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
+        className={`shadow-lg bg-cover text-gray-800 flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
         style={{
           opacity,
-          transform: transform.interpolate(t => `${t} rotateX(180deg)`)
+          transform: transform.interpolate(t => `${t} rotateX(180deg)`),
+          backgroundImage:
+            'url("http://www.allwhitebackground.com/images/2/2279.jpg")'
         }}
       >
-        <div>{props.flashcardBack}</div>
+        <div className="text-3xl font-light">{props.flashcardBack}</div>
       </animated.div>
     </div>
-  );
+    )
+      }
+
+
+
+FinalFlashCard.propTypes = {
+    cardSetLength: PropTypes.number,
+    handleReset: PropTypes.func
 }
 
+FinalFlashCard.defaultProps = {
+    cardSetLength: 0,
+    handleReset: () => {}
+}
 
 
 

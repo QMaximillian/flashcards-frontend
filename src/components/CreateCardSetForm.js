@@ -1,12 +1,28 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import TextBox from './TextBox'
 import { fetchPostCardSet } from '../fetchRequests/cardSets'
-import { fetchPostFlashCards } from '../fetchRequests/flashcards'
+import {
+  fetchPostFlashCards,
+  fetchPatchEditFlashcard
+} from "../fetchRequests/flashcards";
  
  
 export default function CreateCardSetForm(props){
 		const [fields, setFields] = useState([{ term: '', definition: '' }]);
 		const [cardSetName, setCardSetName] = useState('')
+
+
+  useEffect(() => {
+    if (props.editMode && props.cardSet) {
+
+      const editCardSet = props.cardSet.map(flashcard => {
+        return {id: flashcard.id, term: flashcard.term, definition: flashcard.definition}
+      })
+
+      setFields(editCardSet)
+      setCardSetName(props.cardSet[0] ? ({name: 'card-set-name', value: props.cardSet[0].name, isValid: true}) : {})
+    }
+  }, [props.cardSet, props.editMode])
 
   function handleChange(i, event) {
 		const values = [...fields];
@@ -34,20 +50,34 @@ export default function CreateCardSetForm(props){
 	}
 	
 	async function handleSave(){
-		try {
-			const cardSet = await fetchPostCardSet({ name: cardSetName.value })
 
-			await fetchPostFlashCards({ fields, card_set_id: cardSet.id })
+    if (props.editMode) {
+      try {
 
-			alert('Saved!')
+        fields.forEach(async field => {
+          await fetchPatchEditFlashcard(field);
+        })
+        
+        alert('Updated!')
+      } catch(e) {
+        console.log(e)
+      }
+    } else {
+        try {
+          const cardSet = await fetchPostCardSet({ name: cardSetName.value });
 
-			// Redirect here
-		} catch(error) {
-			console.log(error)
-		}		
-		
-	}
+          await fetchPostFlashCards({ fields, card_set_id: cardSet.id });
 
+          alert("Saved!");
+
+          // Redirect here
+        } catch (error) {
+          console.log(error);
+        }	
+    }
+
+  }
+  
   return (
     <div className="flex w-full flex-col p-4">
       <div className="w-1/6">

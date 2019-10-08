@@ -10,8 +10,9 @@ import SignUp from './components/SignUp'
 import CreateCardSetForm from './components/CreateCardSetForm'
 import UserCardSets from './pages/UserCardSets'
 import CardSetShow from './pages/CardSetShow'
+import EditCardSet from "./pages/EditCardSet";
 import { fetchUser } from './fetchRequests/user'
-import FlashcardsNavDrawer from './components/FlashcardNavDrawer';
+
 
 // import { fetchUser } from "./fetchRequests/user";
 
@@ -54,6 +55,7 @@ function App(props) {
               component={() => <Home setNavBar={setNavBar} />}
             />
             <Route exact path="/" component={Landing} />
+            <Route exact path="/card-sets/:id/edit" component={EditCardSet}/>
           </div>
         </div>
       </Router>

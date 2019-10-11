@@ -84,9 +84,9 @@ export default function TextBox(props){
 
 
     return (
-      <div>
+      <>
         <input
-          className={`outline-none bg-dark-200 mb-1 text-black h-full p-2 w-full placeholder border-b-2 border-black border-solid ${
+          className={` bg-transparent focus:outline-none placeholder-white mb-1 text-white h-full p-2 w-full placeholder border-black border-solid ${
             handleShowError() ? "border-red-500" : "focus:border-green-500"
           }`}
           placeholder={props.placeholder}
@@ -102,7 +102,7 @@ export default function TextBox(props){
         {handleShowError() && (
           <p className="h-0 text-red-500 text-xs">{getErrorMessage()}</p>
         )}
-      </div>
+      </>
     );
 }
 

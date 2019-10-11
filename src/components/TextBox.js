@@ -86,7 +86,7 @@ export default function TextBox(props){
     return (
       <>
         <input
-          className={` bg-transparent focus:outline-none placeholder-white mb-1 text-white h-full p-2 w-full placeholder border-black border-solid ${
+          className={`group-hover:text-gray-500 bg-transparent  placeholder-white mb-1 text-white h-full p-2 w-full placeholder border-black border-solid ${
             handleShowError() ? "border-red-500" : "focus:border-green-500"
           }`}
           placeholder={props.placeholder}

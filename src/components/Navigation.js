@@ -12,8 +12,34 @@ export default function Navigation(props){
 
     // const [ user, setUser ] = React.useState(props.user)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
+    const [expandSearchBar, setExpandSearchBar] =  useState(false)
+    
+    function renderSearch(){
+      if (expandSearchBar) {
+        return (
+          // Expanded search bar
+          // When not focused, setExpandSearchBar(false)
+          <div className="w-full">
+            <TextBox
+              placeholder="Search"
+              type="text"
+              name="search-box-nav"
+              value={search.value}
+              onChange={setSearch}
+            />
+            </div>
+        );
+      } else {
+        return (
+         // Button 
+         <div onClick={() => setExpandSearchBar(true)}>
+           Search
+         </div>
+        )
+      }
+      
+    }
     function renderUser(){
-
         if (props.user) {
           console.log('user')
             return (
@@ -21,17 +47,9 @@ export default function Navigation(props){
                 <div className="flex w-full">
                   <div className="mx-4">{props.user.first_name}</div>
                   {/* <div className="mx-4">Search</div> */}
-                  <div className="border border-orange-500 group flex justify-start items-center">
-                    <i className="group-hover:text-orange-500 text-white self-center fas fa-search"></i>
-                    <div className="group-hover:text-gray-500">
-                      <TextBox
-                        placeholder="Search"
-                        type="text"
-                        name="search-box-nav"
-                        value={search.value}
-                        onChange={setSearch}
-                      />
-                    </div>
+                  <div className="group border w-3/4 border-orange-500  flex justify-start items-center">
+                    <i className="group-hover:text-gray-500 text-white self-center fas fa-search"></i>
+                    {renderSearch()}
                   </div>
                 </div>
                 <div className="flex justify-end w-full">

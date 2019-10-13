@@ -19,8 +19,10 @@ export default function Navigation(props){
         return (
           // Expanded search bar
           // When not focused, setExpandSearchBar(false)
+
           <div className="w-full">
             <TextBox
+            className={`group-hover:text-gray-500 bg-transparent  placeholder-white mb-1 text-white h-full p-2 w-full placeholder border-black border-solid`}
               placeholder="Search"
               type="text"
               name="search-box-nav"

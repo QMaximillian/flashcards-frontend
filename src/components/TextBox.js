@@ -81,12 +81,19 @@ export default function TextBox(props){
 //   function valid() {
 //     return isValid(inputRef.current.value);
 //   }
-
+  function renderClasses(){
+    if (props.className) {
+      return props.className
+    } else {
+      return `outline-none bg-dark-200 mb-1 text-black h-full p-2 w-full placeholder border-b-2 border-black border-solid`;
+    }
+  }
 
     return (
-      <>
+      <div>
         <input
-          className={`group-hover:text-gray-500 bg-transparent  placeholder-white mb-1 text-white h-full p-2 w-full placeholder border-black border-solid ${
+          
+          className={`${renderClasses()} ${
             handleShowError() ? "border-red-500" : "focus:border-green-500"
           }`}
           placeholder={props.placeholder}
@@ -102,7 +109,7 @@ export default function TextBox(props){
         {handleShowError() && (
           <p className="h-0 text-red-500 text-xs">{getErrorMessage()}</p>
         )}
-      </>
+      </div>
     );
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchRemoveCookie } from "../fetchRequests/user";
 import TextBox from '../components/TextBox'
@@ -9,11 +9,11 @@ import TextBox from '../components/TextBox'
 
 
 export default function Navigation(props){
-
+    const navRef = useRef(null)
     // const [ user, setUser ] = React.useState(props.user)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
     const [expandSearchBar, setExpandSearchBar] =  useState(false)
-    
+
     function renderSearch(){
       if (expandSearchBar) {
         return (
@@ -22,24 +22,37 @@ export default function Navigation(props){
 
           <div className="w-full">
             <TextBox
-            className={`group-hover:text-gray-500 bg-transparent  placeholder-white mb-1 text-white h-full p-2 w-full placeholder border-black border-solid`}
+              className={`group-hover:text-gray-500 bg-transparent  placeholder-white mb-1 text-white h-full p-2 w-full placeholder border-black border-solid`}
               placeholder="Search"
               type="text"
               name="search-box-nav"
               value={search.value}
               onChange={setSearch}
+              onFocus={() => console.log('focus')}
+              onBlur={() => setExpandSearchBar(false)}
+              ref={navRef}
             />
-            </div>
+          </div>
         );
       } else {
         return (
          // Button 
-         <div onClick={() => setExpandSearchBar(true)}>
+         <div onClick={() => {
+           setExpandSearchBar(true)
+           setTimeout(function() {
+             navRef.current.focus();
+           }, 10)
+          //  console.log(navRef.current)
+         }}>
            Search
          </div>
         )
       }
       
+    }
+
+    const onButtonClick = () => {
+      navRef.current.focus()
     }
     function renderUser(){
         if (props.user) {

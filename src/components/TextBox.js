@@ -1,13 +1,15 @@
 import { isEmail, isEmpty, isMobilePhone } from "validator";
 import PropTypes from "prop-types";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-export default function TextBox(props){
+const TextBox = React.forwardRef((props, ref) => {
+
     const [showError, setShowError] = useState(false)
     const [valueModified, setValueModified] = useState(false)
 
     const inputRef = useRef(null)
     
+
     function getErrorMessage(){
     const { error, value, type, required } = props;
 
@@ -58,7 +60,7 @@ export default function TextBox(props){
 
   function handleBlur(e){
     const { name, value } = e.target;
-
+    
     props.onBlur({ name, value, isValid: isValid(value) });
 
     if (valueModified && !showError) {
@@ -66,21 +68,22 @@ export default function TextBox(props){
     }
   };
 
-//   function focus(){
-//     return inputRef.current.focus();
-//   };
+  function focus(){
+    return ref.current.focus();
+  };
 
-//    function value() {
-//     return inputRef.current.value;
-//   }
+   function value() {
+    return ref.current.value;
+  }
 
-//   /**
-//    * valid returns the current .
-//    * @return {string} input element value.
-//    */
-//   function valid() {
-//     return isValid(inputRef.current.value);
-//   }
+  /**
+   * valid returns the current .
+   * @return {string} input element value.
+   */
+  function valid() {
+    return isValid(ref.current.value);
+  }
+
   function renderClasses(){
     if (props.className) {
       return props.className
@@ -92,7 +95,6 @@ export default function TextBox(props){
     return (
       <div>
         <input
-          
           className={`${renderClasses()} ${
             handleShowError() ? "border-red-500" : "focus:border-green-500"
           }`}
@@ -104,14 +106,15 @@ export default function TextBox(props){
           autoComplete={props.autoComplete}
           value={props.value}
           onBlur={handleBlur}
-          ref={inputRef}
+          ref={ref}
+          onFocus={props.onFocus}
         />
         {handleShowError() && (
           <p className="h-0 text-red-500 text-xs">{getErrorMessage()}</p>
         )}
       </div>
     );
-}
+})
 
 
 // A simple text input to take user input.
@@ -266,7 +269,8 @@ TextBox.defaultProps = {
   required: false,
   type: "text",
   value: "",
-  forceError: false
+  forceError: false,
+  onFocus: () => {}
 };
 
 TextBox.propTypes = {
@@ -282,5 +286,9 @@ TextBox.propTypes = {
   required: PropTypes.bool,
   type: PropTypes.oneOf(["text", "email", "password", "phone"]),
   value: PropTypes.string.isRequired,
-  forceError: PropTypes.bool
+  forceError: PropTypes.bool,
+  onFocus: PropTypes.func
 };
+
+export default TextBox
+

@@ -34,13 +34,18 @@ export default function Navigation(props){
         );
       } else {
         return (
-          <div
-            className="flex group text-white search-box"
-            onClick={handleocus}
-          >
-            <i className="search-box search text-white group-hover:text-gray-500 self-center fas fa-search"></i>
-            <div className="search-box mag-glass ml-3 text-white group-hover:text-gray-500">
-              Search
+          <div className="flex">
+            <div className="text-center flex justify-center h-full border border-blue-700">
+              <div className="h-full w-24 text-white flex justify-center search-box">
+                <i className="h-full self-center h-full search-box mag-glass text-white fas fa-search"></i>
+                <div className="mx-2 search-box search">Search</div>
+              </div>
+            </div>
+            <div className="w-24 border border-blue-700">
+              <div className="text-center">|</div>
+            </div>
+            <div className="text-center w-24 border border-blue-700">
+              Create
             </div>
           </div>
         );
@@ -48,46 +53,32 @@ export default function Navigation(props){
       
     }
 
-    const handleocus = () => {
+    const handleFocusSearchBar = () => {
       setExpandSearchBar(true)
       setTimeout(function() {
                 navRef.current.focus();
               }, 10);
     }
 
-    function renderUser(){
+    function renderUserOrOptions(){
         if (props.user) {
-          console.log('user')
-            return (
-              <div className="flex w-full">
-                <div className="flex w-full">
-                  <div className="mx-4">Flashy</div>
-                  {/* <div className="mx-4">Search</div> */}
-                  <div className="hover:text-gray-500 group border w-3/4 border-orange-500  flex justify-start items-center">
-                    {renderSearch()}
-                  </div>
-                </div>
-                {expandSearchBar ? null : <div className="flex justify-end w-full">
-                  <div
-                    onClick={() => {}
-                      // () =>
-                      // fetchRemoveCookie(r => {
-                      //   // if (r.cookieDeleted) {
-                      //   //    setUser(null)
-                      //   // }
-                      // })
-                    }
-                  >
-                    {props.user.first_name}
-                  </div>
-                </div>}
-              </div>
-            );
+          return (
+              <div
+                onClick={() => {}
+              // () =>
+              // fetchRemoveCookie(r => {
+              //   // if (r.cookieDeleted) {
+              //   //    setUser(null)
+              //   // }
+              // })
+                }
+              >
+            {props.user.first_name}
+            </div>
+          )
         } else {
             return (
-              <>
-                <div className="w-1/4 h-full"></div>
-                <div className="w-1/5 h-full">
+                <div className="flex">
                   <div className="whitespace-no-wrap">SIGN UP</div>
                   <Link
                     className="flex justify-between w-full h-full"
@@ -95,15 +86,40 @@ export default function Navigation(props){
                   >
                     <div>LOGIN</div>
                   </Link>
+                  <Link
+                    className="flex justify-between w-full h-full"
+                    to="sign-up"
+                  >
+                    <div>SIGN UP</div>
+                  </Link>
                 </div>
-              </>
             );  
         }
     }
+
+    
+
+    function renderLogo(){
+      return (
+        <div>Flashy</div>
+      )
+    }
        return (
-           <div className="w-full h-12 flex justify-between bg-teal-500 shadow">
-             {renderUser()}
+         <div className="w-full h-16 flex justify-between bg-teal-500 shadow px-6 items-center">
+           {/* LOGO * */}
+           <div className="flex justify-start h-full items-center border border-orange-500 w-3/4">
+             <div>{renderLogo()}</div>
+             <div
+               className="ml-20 flex text-white items-center justify-between border border-red-500 h-full"
+               onClick={handleFocusSearchBar}
+             >
+               {renderSearch()}
+             </div>
            </div>
-       )
+           <div className="h-full flex items-center justify-center border border-orange-500 w-1/4">
+             {renderUserOrOptions()}
+           </div>
+         </div>
+       );
 }
 

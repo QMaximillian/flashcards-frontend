@@ -19,7 +19,7 @@ import { fetchUser } from './fetchRequests/user'
 function App(props) {
 
     const [response, setResponse] = useState(null);
-    const [navBar, setNavBar] = useState(null);
+    // const [navBar, setNavBar] = useState(null);
     
     useEffect(() => {
             fetchUser().then(r => setResponse(r))
@@ -52,8 +52,13 @@ function App(props) {
             <Route
               exact
               path="/home"
-              component={() => <Home setNavBar={setNavBar} />}
+              component={() => <Home />}
             />
+            {/* <Route
+              exact
+              path="/home"
+              component={() => <Home setNavBar={setNavBar} />}
+            /> */}
             <Route exact path="/" component={Landing} />
             <Route exact path="/card-sets/:id/edit" component={EditCardSet}/>
           </div>

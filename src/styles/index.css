@@ -10,3 +10,7 @@
 .search-box:hover .mag-glass {
   color: #a0aec0
 }
+
+.h-128 {
+  height: 32rem;
+}

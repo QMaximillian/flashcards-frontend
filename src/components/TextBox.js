@@ -1,13 +1,15 @@
 import { isEmail, isEmpty, isMobilePhone } from "validator";
 import PropTypes from "prop-types";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, 
+  // useRef
+ } from "react";
 
 const TextBox = React.forwardRef((props, ref) => {
 
     const [showError, setShowError] = useState(false)
     const [valueModified, setValueModified] = useState(false)
 
-    const inputRef = useRef(null)
+    // const inputRef = useRef(null)
     
 
     function getErrorMessage(){
@@ -68,21 +70,21 @@ const TextBox = React.forwardRef((props, ref) => {
     }
   };
 
-  function focus(){
-    return ref.current.focus();
-  };
+  // function focus(){
+  //   return ref.current.focus();
+  // };
 
-   function value() {
-    return ref.current.value;
-  }
+  //  function value() {
+  //   return ref.current.value;
+  // }
 
-  /**
-   * valid returns the current .
-   * @return {string} input element value.
-   */
-  function valid() {
-    return isValid(ref.current.value);
-  }
+  // /**
+  //  * valid returns the current .
+  //  * @return {string} input element value.
+  //  */
+  // function valid() {
+  //   return isValid(ref.current.value);
+  // }
 
   function renderClasses(){
     if (props.className) {

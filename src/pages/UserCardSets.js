@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import { fetchGetCardSetIndex, fetchDeleteCardSets } from '../fetchRequests/cardSets'
 import TextBox from '../components/TextBox'
+import '../styles/index.css'
 
 export default function UserCardSets(props){
     const [cardSets, setCardSets] = useState([])
@@ -76,13 +77,13 @@ export default function UserCardSets(props){
            <div>
              <div onClick={handleBatchDelete}>Delete Selected</div>
            </div>
-           <div className="flex flex-col h-64 border-black border overflow-auto justify-center">
+           <div className="h-128 border-black border overflow-y-auto justify-center">
              {cardSets
                 .filter(cardSet => cardSet.name.match(search.value))
                 .map((cardSet, idx) => {
                   return (
-                    <div className="flex">
-                      <div key={idx} className={`w-full max-w-lg my-2 px-4`}>
+                    <div className="flex justify-center border border-pink-800">
+                      <div key={idx} className={`w-full my-2 px-4`}>
                         <div
                           className={`h-20 w-full rounded-sm overflow-hidden ${
                             cardSet.checked
@@ -102,14 +103,14 @@ export default function UserCardSets(props){
                           /> */}
                             {editMode ? (
                               <div
-                                className="h-full w-64 text-2xl ml-24"
+                                className="h-full w-full text-2xl ml-24"
                                 key={idx}
                               >
                                 <div>{cardSet.name}</div>
                               </div>
                             ) : (
                               <Link
-                                className="h-full w-64"
+                                className="h-full w-full"
                                 to={`/card-sets/${cardSet.id}`}
                               >
                                 <div

@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
+// useCallback
 import { useTransition, useSpring, animated } from 'react-spring'
 import {fetchGetCardSetShow} from '../fetchRequests/cardSets'
 import FinalFlashCard from '../components/FinalFlashCard'

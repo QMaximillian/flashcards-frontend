@@ -19,7 +19,3 @@ code {
 @tailwind components;
 
 @tailwind utilities;
-
-.h-128 {
-  height: 32rem;
-}

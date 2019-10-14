@@ -3,3 +3,10 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.search-box:hover .search {
+  color: #a0aec0
+}
+.search-box:hover .mag-glass {
+  color: #a0aec0
+}

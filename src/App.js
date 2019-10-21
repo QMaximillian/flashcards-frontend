@@ -9,7 +9,7 @@ import Login from './components/Login'
 import SignUp from './components/SignUp'
 import CreateCardSetForm from './components/CreateCardSetForm'
 import UserCardSets from './pages/UserCardSets'
-import CardSetShow from './pages/CardSetShow'
+import ShowCardSet from './pages/ShowCardSet'
 import EditCardSet from "./pages/EditCardSet";
 import { fetchUser } from './fetchRequests/user'
 
@@ -25,19 +25,19 @@ function App(props) {
             fetchUser().then(r => setResponse(r))
     }, [])
     
-    useEffect(() => {
-      console.log(props)
-    }, [props])
+    // useEffect(() => {
+    //   console.log(props)
+    // }, [props])
 
   return (
     <div className="">
       <Router>
         <Navigation user={response && response.user} />
         <div className="flex w-full h-full">
-          <div className="w-1/4 h-full">
+          <div className="w-2/5 h-full">
               <Route path="/" component={NavDrawer} />
           </div>
-          <div className="w-3/4 h-full overflow-auto mx-10">
+          <div className="w-full h-full overflow-auto">
             <Route exact path="/login" component={Login} />
             <Route exact path="/card-sets" component={UserCardSets} />
             <Switch>
@@ -46,20 +46,20 @@ function App(props) {
                 path="/card-sets/new"
                 component={CreateCardSetForm}
               />
-              <Route exact path="/card-sets/:id" component={CardSetShow} />
+              <Route exact path="/card-sets/:id" component={ShowCardSet} />
             </Switch>
             <Route exact path="/sign-up" component={SignUp} />
             <Route
               exact
               path="/home"
-              component={() => <Home />}
+              component={Home}
             />
             {/* <Route
               exact
               path="/home"
               component={() => <Home setNavBar={setNavBar} />}
             /> */}
-            <Route exact path="/" component={Landing} />
+            {/* <Route exact path="/" component={Landing} /> */}
             <Route exact path="/card-sets/:id/edit" component={EditCardSet}/>
           </div>
         </div>

@@ -63,7 +63,7 @@ export default function UserCardSets(props){
     }
 
        return (
-         <div className="w-full border-orange-500 border h-full">
+         <div className="w-full h-full bg-gray-200">
            <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}
            </div>
@@ -77,13 +77,13 @@ export default function UserCardSets(props){
            <div>
              <div onClick={handleBatchDelete}>Delete Selected</div>
            </div>
-           <div className="h-128 border-black border overflow-y-auto justify-center">
+           <div className="overflow-y-auto justify-center">
              {cardSets
                 .filter(cardSet => cardSet.name.match(search.value))
                 .map((cardSet, idx) => {
                   return (
-                    <div className="flex justify-center border border-pink-800">
-                      <div key={idx} className={`w-full my-2 px-4`}>
+                    <div key={idx} className="flex justify-center">
+                      <div className={`w-full my-2 px-4`}>
                         <div
                           className={`h-20 w-full rounded-sm overflow-hidden ${
                             cardSet.checked
@@ -93,7 +93,7 @@ export default function UserCardSets(props){
                         >
                           <div
                             onClick={() => handleChecked(cardSet)}
-                            className="flex w-full h-full items-center border-black border"
+                            className="flex w-full h-full bg-white items-center shadow-xl"
                           >
                             {/* <input
                             onChange={() => handleChecked(cardSet)}
@@ -124,14 +124,16 @@ export default function UserCardSets(props){
                           </div>
                         </div>
                       </div>
-                      {editMode && <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
-                        <i
-                          data-id={cardSet.id}
-                          onClick={handleDelete}
-                          className="fas fa-times hover:border-black opacity-50 hover:opacity-100"
-                          style={{ WebkitTextStroke: "2px grey" }}
-                        ></i>
-                      </div>}
+                      {editMode && (
+                        <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
+                          <i
+                            data-id={cardSet.id}
+                            onClick={handleDelete}
+                            className="fas fa-times hover:border-black opacity-50 hover:opacity-100"
+                            style={{ WebkitTextStroke: "2px grey" }}
+                          ></i>
+                        </div>
+                      )}
                     </div>
                   );
                 })

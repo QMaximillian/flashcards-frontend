@@ -5,7 +5,7 @@ import {fetchGetCardSetShow} from '../fetchRequests/cardSets'
 import FinalFlashCard from '../components/FinalFlashCard'
 import PropTypes from "prop-types";
 
-export default function CardSetShow(props){
+export default function ShowCardSet(props){
   const [isLoading, setIsLoading] = useState(true)
   const [flashcards, setFlashcards] = useState([])
   const [count, setCount] = useState(0)

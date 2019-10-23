@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-// import SignUpOrLogin from './pages/SignUpOrLogin'
-import Landing from './pages/Landing'
 import Home from './pages/Home'
 import Navigation from './components/Navigation'
 import NavDrawer from './components/NavDrawer'
@@ -35,9 +33,9 @@ function App(props) {
         <Navigation user={response && response.user} />
         <div className="flex w-full h-full">
           <div className="w-2/5 h-full">
-              <Route path="/" component={NavDrawer} />
+            <Route path="/" component={NavDrawer} />
           </div>
-          <div className="w-full h-full overflow-auto">
+          <div className="w-full h-full bg-gray-200">
             <Route exact path="/login" component={Login} />
             <Route exact path="/card-sets" component={UserCardSets} />
             <Switch>
@@ -49,18 +47,14 @@ function App(props) {
               <Route exact path="/card-sets/:id" component={ShowCardSet} />
             </Switch>
             <Route exact path="/sign-up" component={SignUp} />
-            <Route
-              exact
-              path="/home"
-              component={Home}
-            />
+            <Route exact path="/home" component={Home} />
             {/* <Route
               exact
               path="/home"
               component={() => <Home setNavBar={setNavBar} />}
             /> */}
             {/* <Route exact path="/" component={Landing} /> */}
-            <Route exact path="/card-sets/:id/edit" component={EditCardSet}/>
+            <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
           </div>
         </div>
       </Router>

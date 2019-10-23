@@ -13,9 +13,9 @@ export default function Home(props){
 
   // console.log(response);
        return (
-         <>
-           <Link to="/card-sets/new">CREATE SET</Link>
-         </>
+         <div className="w-full h-full">
+           <Link className="h-full w-full" to="/card-sets/new">CREATE SET</Link>
+         </div>
        );
 }
 

@@ -82,8 +82,8 @@ export default function UserCardSets(props){
                 .filter(cardSet => cardSet.name.match(search.value))
                 .map((cardSet, idx) => {
                   return (
-                    <div key={idx} className="flex justify-center">
-                      <div className={`w-full my-2 px-4`}>
+                    <div key={idx} className="flex justify-start">
+                      <div className={`w-3/4 my-2 px-4`}>
                         <div
                           className={`h-20 w-full rounded-sm overflow-hidden ${
                             cardSet.checked

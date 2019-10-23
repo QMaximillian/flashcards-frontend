@@ -9,7 +9,11 @@ import {
  
 export default function CreateCardSetForm(props){
 		const [fields, setFields] = useState([{ term: '', definition: '' }]);
-		const [cardSetName, setCardSetName] = useState('')
+		const [cardSetName, setCardSetName] = useState({
+      name: "card-set-name",
+      value: "",
+      isValid: true
+    });
 
 
   useEffect(() => {
@@ -20,9 +24,9 @@ export default function CreateCardSetForm(props){
       })
 
       setFields(editCardSet)
-      setCardSetName(props.cardSet[0] ? ({name: 'card-set-name', value: props.cardSet[0].name, isValid: true}) : {})
+      setCardSetName(props.cardSet[0] ? ({name: cardSetName.name, value: props.cardSet[0].name, isValid: true}) : {})
     }
-  }, [props.cardSet, props.editMode])
+  }, [cardSetName.name, props.cardSet, props.editMode])
 
   function handleChange(i, event) {
 		const values = [...fields];
@@ -48,12 +52,39 @@ export default function CreateCardSetForm(props){
     values.splice(i, 1);
     setFields(values);
 	}
-	
+  
+  // function errorCheck(){
+    
+  // }
+
 	async function handleSave(){
+     if (cardSetName.value === "") {
+       alert("Must enter a card name");
+       return;
+     }
+
+     const trigger = fields.every((field) => {
+       return (field.definition && !field.term) ||
+            (!field.definition && field.term)
+     })
+
+     if (trigger) {
+       alert(`Please complete flashcard term or definition in all rows`);
+       return
+     }
+
+     console.log(trigger)
+    //  fields.forEach((field, idx) => {
+    //    if ((field.definition && !field.term) ||
+    //         (!field.definition && field.term)) {
+    //           alert(`Please complete flashcard term or definition for row ${idx+1}`)
+    //           return;
+    //         }    
+    //  })
+     
 
     if (props.editMode) {
       try {
-
         fields.forEach(async field => {
           await fetchPatchEditFlashcard(field);
         })
@@ -81,14 +112,16 @@ export default function CreateCardSetForm(props){
   return (
     <div className="flex w-full flex-col p-4">
       <div className="w-1/6">
-        <TextBox name="card-set-name" value={cardSetName.value} onChange={setCardSetName} placeholder={'Title'} />
+        <TextBox required={true} error={{required: "Must have a name for the card set"}} name="card-set-name" value={cardSetName.value} onChange={setCardSetName} placeholder={'Title'} />
       </div>
       {fields.map((field, idx) => {
         return (
           <div key={idx} className="flex w-full">
-						<div className='self-center pr-2 text-lg'>{idx + 1}</div>
-            <div className="w-1/2 mr-6" key={`${field}-definition-${idx}`}>
+            <div className="self-center pr-2 text-lg">{idx + 1}</div>
+            <div className="w-1/2 my-6 mr-6" key={`${field}-definition-${idx}`}>
               <TextBox
+                // required={true}
+                // error={{required: "Please enter corresponding answer"}}
                 placeholder="Definition"
                 onChange={e => handleChange(idx, e)}
                 value={field.term}
@@ -96,8 +129,10 @@ export default function CreateCardSetForm(props){
                 name={`term-${idx}`}
               />
             </div>
-            <div className="w-1/2 ml-6" key={`${field}-answer-${idx}`}>
+            <div className="w-1/2 my-6 ml-6" key={`${field}-answer-${idx}`}>
               <TextBox
+                // required={true}
+                // error={{required: "Please enter corresponding definition"}}
                 placeholder="Answer"
                 onChange={e => handleChange(idx, e)}
                 value={field.definition}
@@ -105,7 +140,12 @@ export default function CreateCardSetForm(props){
                 name={`definition-${idx}`}
               />
             </div>
-            <div onClick={() => handleRemove(idx)}>X</div>
+            <div
+              className="ml-2 self-center my-6"
+              onClick={() => handleRemove(idx)}
+            >
+              X
+            </div>
           </div>
         );
       })}

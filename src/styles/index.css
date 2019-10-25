@@ -14,3 +14,8 @@
 .h-128 {
   height: 32rem;
 }
+
+.home-latest:hover {
+  border-bottom-color: orange;
+  border-bottom-width: 6px;
+}

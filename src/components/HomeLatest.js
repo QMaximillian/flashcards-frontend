@@ -1,28 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import HomeLatestCard from './HomeLatestCard'
+import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 
 export default function HomeLatest(props){
+    const [recentCardSets, setRecentCardSets] = useState([])
 
-    // useEffect(() => {
-        
-    // })
-
-    const fakeData = [
-      { owner: "Quinn", termCount: 5, cardSetName: "Booo" },
-      { owner: "Man", termCount: 2, cardSetName: "Skim" },
-      { owner: "Saa", termCount: 3, cardSetName: "Whole" }
-    ];
+    useEffect(() => {
+        fetchGetRecentCardSets()
+          .then(r => setRecentCardSets(r))
+    }, [])
 
        return (
            <div>
-             {fakeData.map(obj => {
-                return (
                   <div className="py-2">
-                      <HomeLatestCard owner={obj.owner} termCount={obj.termCount} cardSetName={obj.cardSetName}/>
+                      {recentCardSets.map((cardSet, i) => {
+                        return <HomeLatestCard key={i} cardSet={cardSet}/>
+                      })}
                   </div>
-                )
-             }
-             )}
             </div>
        )
 }

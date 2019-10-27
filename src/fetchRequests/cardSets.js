@@ -40,3 +40,24 @@ export function fetchGetEditCardSets(id){
     credentials: "include"
   }).then(r => r.json());
 }
+
+export function fetchGetRecentCardSets(limit = 6){
+  return fetch(`${BASE_URL}/recent-card-sets`, {
+    method: "POST",
+    headers: BASE_HEADERS,
+    credentials: "include",
+    body: JSON.stringify({ limit }),
+    // "X-HTTP-Method-Override" : "GET"
+  }).then(r => r.json());
+}
+
+export function fetchPostUpdateCardSetFlashcardCount(body) {
+         return fetch(`${BASE_URL}/update-flashcard-count`, {
+           method: "POST",
+           headers: BASE_HEADERS,
+           credentials: "include",
+           body: JSON.stringify(body)
+         }).then(r => r.json());
+       }
+
+

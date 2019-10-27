@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import TextBox from './TextBox'
-import { fetchPostCardSet } from '../fetchRequests/cardSets'
+import { fetchPostCardSet, fetchPostUpdateCardSetFlashcardCount } from '../fetchRequests/cardSets'
 import {
   fetchPostFlashCards,
   fetchPatchEditFlashcard
@@ -26,7 +26,7 @@ export default function CreateCardSetForm(props){
       setFields(editCardSet)
       setCardSetName(props.cardSet[0] ? ({name: cardSetName.name, value: props.cardSet[0].name, isValid: true}) : {})
     }
-  }, [cardSetName.name, props.cardSet, props.editMode])
+  }, [props.editMode, props.cardSet, cardSetName.name])
 
   function handleChange(i, event) {
 		const values = [...fields];
@@ -88,6 +88,8 @@ export default function CreateCardSetForm(props){
         fields.forEach(async field => {
           await fetchPatchEditFlashcard(field);
         })
+          console.log(props)
+        await fetchPostUpdateCardSetFlashcardCount({id: props.cardSetId, flashcards_count: fields.length})
         
         alert('Updated!')
       } catch(e) {
@@ -95,7 +97,7 @@ export default function CreateCardSetForm(props){
       }
     } else {
         try {
-          const cardSet = await fetchPostCardSet({ name: cardSetName.value });
+          const cardSet = await fetchPostCardSet({ name: cardSetName.value, flashcards_count: fields.length });
 
           await fetchPostFlashCards({ fields, card_set_id: cardSet.id });
 

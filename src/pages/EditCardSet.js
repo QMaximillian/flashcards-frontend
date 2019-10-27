@@ -5,7 +5,7 @@ import CreateCardSetForm from '../components/CreateCardSetForm'
 export default function EditCardSet(props){
 
     const [cardSet, setCardSet] = useState([])
-    console.log('edit', props)
+
     useEffect(() => {
         fetchGetEditCardSets(props.match.params.id)
             .then(r => setCardSet(r))

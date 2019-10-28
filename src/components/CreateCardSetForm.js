@@ -73,7 +73,7 @@ export default function CreateCardSetForm(props){
        return
      }
 
-     console.log(trigger)
+    //  console.log(trigger)
     //  fields.forEach((field, idx) => {
     //    if ((field.definition && !field.term) ||
     //         (!field.definition && field.term)) {

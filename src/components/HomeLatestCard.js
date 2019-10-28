@@ -6,7 +6,7 @@ export default function HomeLatestCard(props){
   const { name, flashcards_count, owner } = props.cardSet
   console.log(props.cardSet)
        return (
-         <div className="h-40 w-64 border border-gray-500 shadow-lg rounded">
+         <div className="h-full w-full border border-gray-500 shadow-lg rounded">
            <div className="h-full w-full home-latest">
              <div className="text-base font-semibold">{name}</div>
              <div className="opacity-50 text-sm">{flashcards_count} terms</div>

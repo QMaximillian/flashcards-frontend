@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import HomeLatestCard from './HomeLatestCard'
 import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 
@@ -11,12 +12,25 @@ export default function HomeLatest(props){
     }, [])
 
        return (
-           <div>
-                  <div className="py-2">
-                      {recentCardSets.map((cardSet, i) => {
-                        return <HomeLatestCard key={i} cardSet={cardSet}/>
-                      })}
-                  </div>
-            </div>
-       )
+         <div>
+           <div className="py-2 mx-2">
+             <div className="flex mb-4 h-64">
+               <div>Hello</div>
+             </div>
+             <div className="flex flex-col mb-4 w-full border border-orange-500">
+               <Link to="/card-sets" className="justify-between flex">
+                 <div className="mb-4">RECENT</div>
+                 <div className="mb-4">View All ></div>
+               </Link>
+               {recentCardSets.map((cardSet, i) => {
+                 return (
+                   <div className="w-full h-40">
+                     <HomeLatestCard key={i} cardSet={cardSet} />
+                   </div>
+                 );
+               })}
+             </div>
+           </div>
+         </div>
+       );
 }

@@ -35,7 +35,7 @@ function App(props) {
           <div className="w-2/5 h-full">
             <Route path="/" component={NavDrawer} />
           </div>
-          <div className="w-full h-full bg-gray-200">
+          <div className="w-full h-full">
             <Route exact path="/login" component={Login} />
             <Route exact path="/card-sets" component={UserCardSets} />
             <Switch>

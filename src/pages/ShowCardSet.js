@@ -67,7 +67,7 @@ export default function ShowCardSet(props){
             {flashcards[0].name}
           </div>
           <div className="flex-col flex items-center justify-between">
-            <div className="border border-black w-full py-4 overflow-hidden flex justify-center">
+            <div className="w-full py-4 overflow-hidden flex justify-center">
               <div className="flex relative h-64 w-3/4">
                 {transitions.map(({ item, props, key }) => {
                       
@@ -131,31 +131,29 @@ function Card(props) {
   });
 
     return (
-    <div className="h-64 w-3/4" onClick={() => set(state => !state)}>
-      <animated.div
-        className={`shadow-lg bg-cover flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
-        style={{
-          opacity: opacity.interpolate(o => 0.75 - o),
-          transform,
-          backgroundImage:
-            'url("http://www.allwhitebackground.com/images/2/2279.jpg")'
-        }}
-      >
-        <div className="text-3xl font-light">{props.flashcardFront}</div>
-      </animated.div>
-      <animated.div
-        className={`shadow-lg bg-cover text-gray-800 flex items-center justify-center h-full w-full border-2 border-black absolute cursor-pointer mx-h-full`}
-        style={{
-          opacity,
-          transform: transform.interpolate(t => `${t} rotateX(180deg)`),
-          backgroundImage:
-            'url("http://www.allwhitebackground.com/images/2/2279.jpg")'
-        }}
-      >
-        <div className="text-3xl font-light">{props.flashcardBack}</div>
-      </animated.div>
-    </div>
-    )
+      <div className="h-64 w-3/4" onClick={() => set(state => !state)}>
+        <animated.div
+          className={` bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
+          style={{
+            boxShadow: "0 0 15px rgba(0, 0, 0, 0.4)",
+            opacity: opacity.interpolate(o => 0.75 - o),
+            transform,
+          }}
+        >
+          <div className="text-3xl font-light">{props.flashcardFront}</div>
+        </animated.div>
+        <animated.div
+          className={` bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
+          style={{
+            boxShadow: "0 0 15px rgba(0, 0, 0, 0.4)",
+            opacity,
+            transform: transform.interpolate(t => `${t} rotateX(180deg)`),
+          }}
+        >
+          <div className="text-3xl font-light">{props.flashcardBack}</div>
+        </animated.div>
+      </div>
+    );
       }
 
 

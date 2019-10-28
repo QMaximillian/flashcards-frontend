@@ -22,7 +22,6 @@ export default function ShowCardSet(props){
   useEffect(() => {
     fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), 'yyyy-LL-dd HH-mm-ssX')})
   }, [props.match.params.id]);
-  // 2019-10-26 12:22:09.534207-04
 
   const transitions = useTransition([count], item => item, {
     from: {

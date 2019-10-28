@@ -1,10 +1,12 @@
 import React, { useState, useEffect} from 'react'
 import TextBox from './TextBox'
 import { fetchPostCardSet, fetchPostUpdateCardSetFlashcardCount } from '../fetchRequests/cardSets'
+import { fetchPostUsersCardSet } from '../fetchRequests/usersCardSets'
 import {
   fetchPostFlashCards,
   fetchPatchEditFlashcard
 } from "../fetchRequests/flashcards";
+
  
  
 export default function CreateCardSetForm(props){
@@ -27,6 +29,7 @@ export default function CreateCardSetForm(props){
       setCardSetName(props.cardSet[0] ? ({name: cardSetName.name, value: props.cardSet[0].name, isValid: true}) : {})
     }
   }, [props.editMode, props.cardSet, cardSetName.name])
+
 
   function handleChange(i, event) {
 		const values = [...fields];
@@ -90,6 +93,7 @@ export default function CreateCardSetForm(props){
         try {
           const cardSet = await fetchPostCardSet({ name: cardSetName.value, flashcards_count: fields.length });
 
+          await fetchPostUsersCardSet({ card_set_id: cardSet.id })
           await fetchPostFlashCards({ fields, card_set_id: cardSet.id });
 
           alert("Saved!");

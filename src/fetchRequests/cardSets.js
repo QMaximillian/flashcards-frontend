@@ -60,12 +60,5 @@ export function fetchPostUpdateCardSetFlashcardCount(body) {
          }).then(r => r.json());
        }
 
-export function fetchPostLastSeen(body) {
-         return fetch(`${BASE_URL}/users-card-set-last-seen`, {
-           method: "POST",
-           headers: BASE_HEADERS,
-           credentials: "include",
-           body: JSON.stringify(body)
-         })
-       }
+
 

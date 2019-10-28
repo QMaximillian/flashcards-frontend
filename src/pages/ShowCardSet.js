@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 // useCallback
 import { useTransition, useSpring, animated } from 'react-spring'
-import {fetchGetCardSetShow, fetchPostLastSeen} from '../fetchRequests/cardSets'
+import {fetchGetCardSetShow } from '../fetchRequests/cardSets'
+import { fetchPostLastSeen } from "../fetchRequests/usersCardSets";
 import FinalFlashCard from '../components/FinalFlashCard'
 import PropTypes from "prop-types";
 import { format } from 'date-fns'

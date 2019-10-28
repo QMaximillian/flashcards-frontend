@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 // useCallback
 import { useTransition, useSpring, animated } from 'react-spring'
-import {fetchGetCardSetShow} from '../fetchRequests/cardSets'
+import {fetchGetCardSetShow, fetchPostLastSeen} from '../fetchRequests/cardSets'
 import FinalFlashCard from '../components/FinalFlashCard'
 import PropTypes from "prop-types";
+import { format } from 'date-fns'
 
 export default function ShowCardSet(props){
   const [isLoading, setIsLoading] = useState(true)
@@ -17,6 +18,11 @@ export default function ShowCardSet(props){
     .then(r => setFlashcards([...r, {}]))
     .then(r => setIsLoading(false))
   }, [props.match.params.id])
+
+  useEffect(() => {
+    fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), 'yyyy-LL-dd HH-mm-ssX')})
+  }, [props.match.params.id]);
+  // 2019-10-26 12:22:09.534207-04
 
   const transitions = useTransition([count], item => item, {
     from: {

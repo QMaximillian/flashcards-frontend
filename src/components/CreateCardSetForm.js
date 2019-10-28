@@ -72,15 +72,6 @@ export default function CreateCardSetForm(props){
        alert(`Please complete flashcard term or definition in all rows`);
        return
      }
-
-    //  console.log(trigger)
-    //  fields.forEach((field, idx) => {
-    //    if ((field.definition && !field.term) ||
-    //         (!field.definition && field.term)) {
-    //           alert(`Please complete flashcard term or definition for row ${idx+1}`)
-    //           return;
-    //         }    
-    //  })
      
 
     if (props.editMode) {

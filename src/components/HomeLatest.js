@@ -10,7 +10,7 @@ export default function HomeLatest(props){
         fetchGetRecentCardSets()
           .then(r => setRecentCardSets(r))
     }, [])
-
+    console.log(recentCardSets)
        return (
          <div>
            <div className="py-2 mx-2">
@@ -23,10 +23,11 @@ export default function HomeLatest(props){
                  <div className="mb-4">View All ></div>
                </Link>
                {recentCardSets.map((cardSet, i) => {
+                 console.log(cardSet)
                  return (
-                   <div className="w-full h-40 my-2">
+                   <Link to={`/card-sets/${cardSet.id}`} key={i} className="w-full h-40 my-2">
                      <HomeLatestCard key={i} cardSet={cardSet} />
-                   </div>
+                   </Link>
                  );
                })}
              </div>

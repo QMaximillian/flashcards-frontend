@@ -90,7 +90,7 @@ const TextBox = React.forwardRef((props, ref) => {
     if (props.className) {
       return props.className
     } else {
-      return `outline-none bg-dark-200 mb-1 text-black h-full p-2 w-full placeholder border-b-2 border-black border-solid`;
+      return `outline-none bg-dark-200 mb-1 text-black h-full p-2 w-full placeholder placeholder-gray-400 border-b-2 border-black border-solid`;
     }
   }
 
@@ -98,7 +98,7 @@ const TextBox = React.forwardRef((props, ref) => {
       <div>
         <input
           className={`${renderClasses()} ${
-            handleShowError() ? "border-red-500" : "focus:border-green-500"
+            handleShowError() ? "border-red-500" : "focus:border-yellow-500 focus:border-b-4"
           }`}
           placeholder={props.placeholder}
           type={props.type}

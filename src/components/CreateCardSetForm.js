@@ -110,8 +110,10 @@ export default function CreateCardSetForm(props){
   
   return (
     <div className="flex w-full flex-col p-4">
-      <div className="w-1/6">
-        <TextBox required={true} error={{required: "Must have a name for the card set"}} name="card-set-name" value={cardSetName.value} onChange={setCardSetName} placeholder={'Title'} />
+      {!props.editMode ? <div className="mt-6 text-3xl opacity-75 font-bold">Create a new study set</div> : null}
+      <div className="w-full mt-12">
+        <TextBox required={true} error={{required: "Must have a name for the card set"}} name="card-set-name" value={cardSetName.value} onChange={setCardSetName} placeholder={'Subject, chapter, unit'} />
+        <div className="text-xs opacity-50 mt-1">TITLE</div>
       </div>
       {fields.map((field, idx) => {
         return (
@@ -121,23 +123,25 @@ export default function CreateCardSetForm(props){
               <TextBox
                 // required={true}
                 // error={{required: "Please enter corresponding answer"}}
-                placeholder="Definition"
+                placeholder="Enter term"
                 onChange={e => handleChange(idx, e)}
                 value={field.term}
                 type="text"
                 name={`term-${idx}`}
               />
+              <div className="text-xs opacity-50 mt-1">TERM</div>
             </div>
             <div className="w-1/2 my-6 ml-6" key={`${field}-answer-${idx}`}>
               <TextBox
                 // required={true}
                 // error={{required: "Please enter corresponding definition"}}
-                placeholder="Answer"
+                placeholder="Enter definition"
                 onChange={e => handleChange(idx, e)}
                 value={field.definition}
                 type="text"
                 name={`definition-${idx}`}
               />
+              <div className="text-xs opacity-50 mt-1">DEFINITION</div>
             </div>
             <div
               className="ml-2 self-center my-6"

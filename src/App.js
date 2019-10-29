@@ -32,9 +32,8 @@ function App(props) {
       <Router>
         <Navigation user={response && response.user} />
         <div className="flex w-full h-full">
-          <div className="w-2/5 h-full">
-            <Route path="/" component={NavDrawer} />
-          </div>
+              <Route path="/" component={NavDrawer} />
+
           <div className="w-full h-full">
             <Route exact path="/login" component={Login} />
             <Route exact path="/card-sets" component={UserCardSets} />

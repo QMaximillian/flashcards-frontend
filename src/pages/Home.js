@@ -15,7 +15,7 @@ export default function Home(props){
   // console.log(response);
        return (
          <div className="w-full h-full">
-           <Link className="h-full w-full" to="/card-sets/new">CREATE SET</Link>
+           {/* <Link className="h-full w-full" to="/card-sets/new">CREATE SET</Link> */}
            <HomeLatest />
          </div>
        );

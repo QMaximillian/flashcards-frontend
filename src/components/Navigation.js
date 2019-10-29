@@ -38,7 +38,7 @@ export default function Navigation(props){
           <div className="flex">
             <div className="text-center flex justify-center h-full">
               <div className="h-full w-24 text-white flex justify-center search-box">
-                <i className="h-full self-center h-full search-box mag-glass text-white fas fa-search"></i>
+                <i className="h-full self-center h-full search-box mag-glass fas fa-search"></i>
                 <div
                   onClick={handleExpandAndFocusSearchBar}
                   className="mx-2 search-box search"
@@ -50,8 +50,14 @@ export default function Navigation(props){
             <div className="w-24">
               <div className="text-center">|</div>
             </div>
-            <Link to="/card-sets/new">
-              <div className="text-center w-24">Create</div>
+            <Link
+              className="create-box flex justify-center w-24"
+              to="/card-sets/new"
+            >
+              <i className="plus self-center fas fa-plus-square"></i>
+              <div className="create text-center ml-3">
+                Create
+              </div>
             </Link>
           </div>
         );

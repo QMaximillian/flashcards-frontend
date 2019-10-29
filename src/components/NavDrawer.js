@@ -8,12 +8,22 @@ useEffect(() => {
 }, [props])
 
 const regex = new RegExp(/card-sets\/[\s\S]*/)
+const newCardSetRegex = new RegExp(/card-sets\/new/)
 
-
-if (regex.test(props.location.pathname)) {
-    return <FlashcardsNavDrawer />
+if (newCardSetRegex.test(props.location.pathname)) {
+    return null
+  } else if (regex.test(props.location.pathname)) {
+    return (
+      <div className="w-2/5 h-full">
+        <FlashcardsNavDrawer />
+      </div>
+    );
   } else {
-    return <MainNavDrawer />
+    return (
+      <div className="w-2/5 h-full">
+        <MainNavDrawer />
+      </div>
+    )
   }
 }
 

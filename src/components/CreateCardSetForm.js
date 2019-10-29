@@ -8,9 +8,11 @@ import {
 } from "../fetchRequests/flashcards";
 
  
- 
+
 export default function CreateCardSetForm(props){
-		const [fields, setFields] = useState([{ term: '', definition: '' }]);
+		const [fields, setFields] = useState(
+      Array.from({ length: 5 }, () => ({ term: "", definition: "" }))
+    );
 		const [cardSetName, setCardSetName] = useState({
       name: "card-set-name",
       value: "",

@@ -2,7 +2,6 @@ import React from 'react'
 import HomeLatest from '../components/HomeLatest'
 // import React, { useEffect, useState } from 'react'
 // import {fetchUser} from '../fetchRequests/user'
-import {Link} from 'react-router-dom'
 
 
 export default function Home(props){

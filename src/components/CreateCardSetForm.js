@@ -109,60 +109,92 @@ export default function CreateCardSetForm(props){
   }
   
   return (
-    <div className="flex w-full flex-col p-4">
-      {!props.editMode ? <div className="mt-6 text-3xl opacity-75 font-bold">Create a new study set</div> : null}
-      <div className="w-full mt-12">
-        <TextBox required={true} error={{required: "Must have a name for the card set"}} name="card-set-name" value={cardSetName.value} onChange={setCardSetName} placeholder={'Subject, chapter, unit'} />
-        <div className="text-xs opacity-50 mt-1">TITLE</div>
-      </div>
-      {fields.map((field, idx) => {
-        return (
-          <div key={idx} className="flex w-full">
-            <div className="self-center pr-2 text-lg">{idx + 1}</div>
-            <div className="w-1/2 my-6 mr-6" key={`${field}-definition-${idx}`}>
-              <TextBox
-                // required={true}
-                // error={{required: "Please enter corresponding answer"}}
-                placeholder="Enter term"
-                onChange={e => handleChange(idx, e)}
-                value={field.term}
-                type="text"
-                name={`term-${idx}`}
-              />
-              <div className="text-xs opacity-50 mt-1">TERM</div>
-            </div>
-            <div className="w-1/2 my-6 ml-6" key={`${field}-answer-${idx}`}>
-              <TextBox
-                // required={true}
-                // error={{required: "Please enter corresponding definition"}}
-                placeholder="Enter definition"
-                onChange={e => handleChange(idx, e)}
-                value={field.definition}
-                type="text"
-                name={`definition-${idx}`}
-              />
-              <div className="text-xs opacity-50 mt-1">DEFINITION</div>
-            </div>
-            <div
-              className="ml-2 self-center my-6"
-              onClick={() => handleRemove(idx)}
-            >
-              X
-            </div>
+    <div className="flex w-full flex-col bg-gray-300">
+      <div className="bg-white p-4">
+        {!props.editMode ? (
+          <div className="mt-6 text-3xl opacity-75 font-bold bg-white">
+            Create a new study set
           </div>
-        );
-      })}
+        ) : null}
+        <div className="w-full mt-12">
+          <TextBox
+            required={true}
+            error={{ required: "Must have a name for the card set" }}
+            name="card-set-name"
+            value={cardSetName.value}
+            onChange={setCardSetName}
+            placeholder={"Subject, chapter, unit"}
+          />
+          <div className="text-xs opacity-50 mt-1">TITLE</div>
+        </div>
+      </div>
+      <div className="bg-gray-300 m-4">
+        {fields.map((field, idx) => {
+          return (
+            <div
+              key={idx}
+              className="w-full border border-gray-500 my-2 bg-white"
+            >
+              <div className="border-b border-gray-500 h-16 flex justify-between item-center">
+                <div className="self-center pr-2 text-lg h-164 pl-6 text-gray-500">
+                  {idx + 1}
+                </div>
+                <div
+                  className="ml-2 self-center my-6 pr-4"
+                  onClick={() => handleRemove(idx)}
+                >
+                  X
+                </div>
+              </div>
+              <div className="flex w-full">
+                <div
+                  className="w-1/2 my-6 mr-6 pl-4"
+                  key={`${field}-definition-${idx}`}
+                >
+                  <TextBox
+                    // required={true}
+                    // error={{required: "Please enter corresponding answer"}}
+                    placeholder="Enter term"
+                    onChange={e => handleChange(idx, e)}
+                    value={field.term}
+                    type="text"
+                    name={`term-${idx}`}
+                  />
+                  <div className="text-xs opacity-50 mt-1">TERM</div>
+                </div>
+                <div
+                  className="w-1/2 my-6 ml-6 pr-4"
+                  key={`${field}-answer-${idx}`}
+                >
+                  <TextBox
+                    // required={true}
+                    // error={{required: "Please enter corresponding definition"}}
+                    placeholder="Enter definition"
+                    onChange={e => handleChange(idx, e)}
+                    value={field.definition}
+                    type="text"
+                    name={`definition-${idx}`}
+                  />
+                  <div className="text-xs opacity-50 mt-1">DEFINITION</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
       <div>
-        <div onClick={() => setFields([...fields, { term: "", definition: "" }])}>
+        <div
+          onClick={() => setFields([...fields, { term: "", definition: "" }])}
+        >
           CREATE NEW FLASHCARD
         </div>
-        <div onClick={() => setFields([{ term: '', definition: ''}])}>
+        <div onClick={() => setFields([{ term: "", definition: "" }])}>
           DELETE ALL
         </div>
       </div>
-			<div 
-				className={'mt-24'}
-				onClick={handleSave}>SAVE SET</div>
+      <div className={"mt-24"} onClick={handleSave}>
+        SAVE SET
+      </div>
     </div>
   );
 

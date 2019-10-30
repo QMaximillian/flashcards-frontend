@@ -128,15 +128,15 @@ export default function CreateCardSetForm(props){
           <div className="text-xs opacity-50 mt-1">TITLE</div>
         </div>
       </div>
-      <div className="bg-gray-300 m-4">
+      <div className="bg-gray-300 my-4 mx-8">
         {fields.map((field, idx) => {
           return (
             <div
               key={idx}
-              className="w-full border border-gray-500 my-2 bg-white"
+              className="w-full shadow-xl my-2 bg-white"
             >
               <div className="border-b border-gray-500 h-16 flex justify-between item-center">
-                <div className="self-center pr-2 text-lg h-164 pl-6 text-gray-500">
+                <div className="font-semibold self-center pr-2 text-lg h-164 pl-6 text-gray-500">
                   {idx + 1}
                 </div>
                 <div
@@ -146,7 +146,7 @@ export default function CreateCardSetForm(props){
                   X
                 </div>
               </div>
-              <div className="flex w-full">
+              <div className="flex w-full pt-2 pb-8">
                 <div
                   className="w-1/2 my-6 mr-6 pl-4"
                   key={`${field}-definition-${idx}`}

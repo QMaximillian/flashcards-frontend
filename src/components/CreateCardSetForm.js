@@ -184,18 +184,27 @@ export default function CreateCardSetForm(props){
           );
         })}
       </div>
-      <div>
-        <div
-          onClick={() => setFields([...fields, { term: "", definition: "" }])}
-        >
-          CREATE NEW FLASHCARD
-        </div>
-        <div onClick={() => setFields([{ term: "", definition: "" }])}>
-          DELETE ALL
+      <div className="shadow-lg bg-white mx-8 justify-center items-center flex h-24">
+        <div className=" flex justify-center items-center mb-1 add-card-div border-b-4 border-teal-500 p-2 h-10">
+          <i className="fas fa-plus text-xs add-card-plus"></i>
+          <div
+            className="ml-2 text-base add-card-text"
+            onClick={() => setFields([...fields, { term: "", definition: "" }])}
+          >
+            ADD CARD
+          </div>
         </div>
       </div>
-      <div className={"mt-24"} onClick={handleSave}>
-        SAVE SET
+      <div className="flex justify-end">
+        <div
+          className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
+          onClick={handleSave}
+        >
+          <div className="create-text text-lg">Create Set</div>
+        </div>
+      </div>
+      <div onClick={() => setFields([{ term: "", definition: "" }])}>
+        DELETE ALL
       </div>
     </div>
   );

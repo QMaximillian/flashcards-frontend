@@ -36,8 +36,8 @@ export default function CreateCardSetForm(props){
 
 
   function handleChange(i, event) {
-		const values = [...fields];
-		console.log(event.name)
+    const values = [...fields];
+    
 		if (event.name === `term-${i}`) {
 			values[i].term = event.value;
 		}
@@ -86,7 +86,7 @@ export default function CreateCardSetForm(props){
         fields.forEach(async field => {
           await fetchPatchEditFlashcard(field);
         })
-          console.log(props)
+
         await fetchPostUpdateCardSetFlashcardCount({id: props.cardSetId, flashcards_count: fields.length})
         
         alert('Updated!')
@@ -95,7 +95,7 @@ export default function CreateCardSetForm(props){
       }
     } else {
         try {
-          const cardSet = await fetchPostCardSet({ name: cardSetName.value, flashcards_count: fields.length, private: isPrivate });
+          const cardSet = await fetchPostCardSet({ name: cardSetName.value, flashcards_count: fields.length, isPrivate: isPrivate });
 
           await fetchPostUsersCardSet({ card_set_id: cardSet.id })
           await fetchPostFlashCards({ fields, card_set_id: cardSet.id });

@@ -28,3 +28,23 @@
   border-bottom-color: #ebc034;
   border-bottom-width: 6px;
 }
+
+
+
+.add-card-div  { 
+  
+  
+  border-bottom-width: 6px;
+}
+
+.add-card-div:hover {
+  color: #ebc034;
+  border-bottom-color: #ebc034;
+}
+
+.create-card-set-button:hover .create-text {
+  color: black;
+}
+.create-card-set-button:hover  {
+  background-color: #ebc034;
+}

@@ -7,6 +7,7 @@ import {
   fetchPatchEditFlashcard
 } from "../fetchRequests/flashcards";
 
+
  
 
 export default function CreateCardSetForm(props){
@@ -18,6 +19,7 @@ export default function CreateCardSetForm(props){
       value: "",
       isValid: true
     });
+    const [isPrivate, setPrivacy] = useState(true)
 
 
   useEffect(() => {
@@ -93,7 +95,7 @@ export default function CreateCardSetForm(props){
       }
     } else {
         try {
-          const cardSet = await fetchPostCardSet({ name: cardSetName.value, flashcards_count: fields.length });
+          const cardSet = await fetchPostCardSet({ name: cardSetName.value, flashcards_count: fields.length, private: isPrivate });
 
           await fetchPostUsersCardSet({ card_set_id: cardSet.id })
           await fetchPostFlashCards({ fields, card_set_id: cardSet.id });
@@ -127,14 +129,14 @@ export default function CreateCardSetForm(props){
           />
           <div className="text-xs opacity-50 mt-1">TITLE</div>
         </div>
+        <div className="flex justify-between">
+          <div onClick={() => setPrivacy(!isPrivate)} className="">{isPrivate ?  'Accessible to only you' : 'Accessible to all'}</div>
+        </div>
       </div>
       <div className="bg-gray-300 my-4 mx-8">
         {fields.map((field, idx) => {
           return (
-            <div
-              key={idx}
-              className="w-full shadow-xl my-2 bg-white"
-            >
+            <div key={idx} className="w-full shadow-xl my-2 bg-white">
               <div className="border-b border-gray-500 h-16 flex justify-between item-center">
                 <div className="font-semibold self-center pr-2 text-lg h-164 pl-6 text-gray-500">
                   {idx + 1}

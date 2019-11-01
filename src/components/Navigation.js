@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import { Link, Redirect } from 'react-router-dom'
 // import { fetchRemoveCookie } from "../fetchRequests/user";
 import TextBox from '../components/TextBox'
 import "../styles/index.css"
@@ -9,11 +9,32 @@ import "../styles/index.css"
 
 
 export default function Navigation(props){
+
     const navRef = useRef(null)
     // const [ user, setUser ] = React.useState(props.user)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
     const [expandSearchBar, setExpandSearchBar] =  useState(false)
     const [dropdownToggle, setDropdownToggle] =  useState(false)
+    const [focused, setFocused] = useState(false)
+    const [redirect, setRedirect] = useState(false)
+
+
+    useEffect(() => {
+      document.addEventListener('keydown', enterOnKeyPress)
+
+      return function() {
+        document.removeEventListener('keydown', enterOnKeyPress)
+      }
+    })
+
+    function enterOnKeyPress(event) {
+        if (focused &&  event.keyCode === 13) {
+          setRedirect(true)
+        } else {
+          setRedirect(false)
+        }
+      }
+
 
     function renderSearch(){
       if (expandSearchBar) {
@@ -26,11 +47,17 @@ export default function Navigation(props){
               type="text"
               name="search-box-nav"
               value={search.value}
+              onFocus={() => setFocused(true)}
               onChange={setSearch}
-              onFocus={() => console.log("focus")}
-              onBlur={() => setExpandSearchBar(false)}
+              onBlur={() => {
+                setExpandSearchBar(false);
+                setFocused(false);
+                setSearch({ name: "", value: "", isValid: true });
+                setRedirect(false)
+              }}
               ref={navRef}
             />
+            {redirect ? <Redirect push to={`/search/${search.value}`} /> : null }
           </div>
         );
       } else {

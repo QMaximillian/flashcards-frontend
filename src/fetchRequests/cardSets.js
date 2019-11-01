@@ -9,6 +9,15 @@ export function fetchPostCardSet(body) {
   }).then(r => r.json());
 }
 
+export function fetchPostCardSetSearch(body) {
+  return fetch(`${BASE_URL}/search/`, {
+    method: "POST",
+    headers: BASE_HEADERS,
+    credentials: "include",
+    body: JSON.stringify(body)
+  }).then(r => r.json());
+}
+
 export function fetchGetCardSetIndex() {
   return fetch(`${BASE_URL}/card-sets`, {
     method: "GET",

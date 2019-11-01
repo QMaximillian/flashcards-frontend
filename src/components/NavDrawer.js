@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { 
+  // useEffect 
+} from 'react'
 import FlashcardsNavDrawer from '../components/FlashcardNavDrawer'
 import MainNavDrawer from '../components/MainNavDrawer'
 
 export default function NavDrawer(props){
-useEffect(() => {
-  console.log(props)
-}, [props])
 
 const regex = new RegExp(/card-sets\/[\s\S]*/)
 const newCardSetRegex = new RegExp(/card-sets\/new/)

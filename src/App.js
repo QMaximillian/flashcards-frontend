@@ -37,7 +37,7 @@ function App(props) {
 
           <div className="w-full h-full">
             <Route exact path="/login" component={Login} />
-            <Route exact path="/card-sets" component={UserCardSets} />
+            <Route exact path="/card-sets" component={() => <UserCardSets user={response && response.user}/>} />
             <Switch>
               <Route
                 exact

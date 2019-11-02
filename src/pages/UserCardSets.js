@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import { fetchGetCardSetIndex, fetchDeleteCardSets } from '../fetchRequests/cardSets'
 import TextBox from '../components/TextBox'
+import UserCardInfo from '../components/UserInfoCard'
 import '../styles/index.css'
 
 export default function UserCardSets(props){
+  console.log(props)
     const [cardSets, setCardSets] = useState([])
     const [editMode, setEditMode] = useState(false)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
@@ -62,23 +64,8 @@ export default function UserCardSets(props){
         setCardSets(updatedCardSets);
     }
 
-       return (
-         <div className="w-full h-full bg-gray-200">
-           <div onClick={() => setEditMode(!editMode)}>
-             EDIT MODE: {editMode ? "On" : "Off"}
-           </div>
-           <TextBox
-             name="search-bar"
-             type="text"
-             value={search.value}
-             onChange={setSearch}
-             placeholder={"Filter Search"}
-           />
-           <div>
-             <div onClick={handleBatchDelete}>Delete Selected</div>
-           </div>
-           <div className="overflow-y-auto justify-center">
-             {cardSets
+    function renderCardSets() {
+      return cardSets
                 .filter(cardSet => cardSet.name.match(search.value))
                 .map((cardSet, idx) => {
                   return (
@@ -137,7 +124,29 @@ export default function UserCardSets(props){
                     </div>
                   );
                 })
-              }
+              
+    }
+
+       return (
+         <div className="w-full h-full bg-gray-200">
+           <div>
+             <UserCardInfo />
+           </div>
+           <div onClick={() => setEditMode(!editMode)}>
+             EDIT MODE: {editMode ? "On" : "Off"}
+           </div>
+           <TextBox
+             name="search-bar"
+             type="text"
+             value={search.value}
+             onChange={setSearch}
+             placeholder={"Filter Search"}
+           />
+           <div>
+             <div onClick={handleBatchDelete}>Delete Selected</div>
+           </div>
+           <div className="overflow-y-auto justify-center">
+             {renderCardSets()}
            </div>
          </div>
        );

@@ -48,3 +48,11 @@
 .create-card-set-button:hover  {
   background-color: #ebc034;
 }
+
+.w-128 {
+  width: 32rem;
+}
+
+.w-96 {
+  width: 24rem;
+}

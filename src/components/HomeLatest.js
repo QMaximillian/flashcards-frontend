@@ -12,25 +12,29 @@ export default function HomeLatest(props){
     }, [])
 
        return (
-         <div>
-           <div className="py-2 mx-2">
-             <div className="flex mb-4 h-64">
+           <div className="py-10 px-8">
+             {/* <div className="flex mb-4 h-48">
                <div>Hello</div>
-             </div>
-             <div className="flex flex-col mb-4 w-full bg-gray-100">
+             </div> */}
+             <div className="flex flex-col mb-4 w-full ">
                <Link to="/card-sets" className="justify-between flex">
                  <div className="mb-4">RECENT</div>
                  <div className="mb-4">View All ></div>
                </Link>
-               {recentCardSets.map((cardSet, i) => {
-                 return (
-                   <Link to={`/card-sets/${cardSet.id}`} key={i} className="w-full h-40 my-2">
-                     <HomeLatestCard key={i} cardSet={cardSet} />
-                   </Link>
-                 );
-               })}
+               <div className="flex flex-wrap">
+                 {recentCardSets.map((cardSet, i) => {
+                   return (
+                     <Link
+                       to={`/card-sets/${cardSet.id}`}
+                       key={i}
+                       className="w-1/2 h-40 p-2"
+                     >
+                       <HomeLatestCard key={i} cardSet={cardSet} />
+                     </Link>
+                   );
+                 })}
+               </div>
              </div>
            </div>
-         </div>
        );
 }

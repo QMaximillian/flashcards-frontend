@@ -114,10 +114,27 @@ export default function CreateCardSetForm(props){
     <div className="flex w-full flex-col bg-gray-300">
       <div className="bg-white p-4">
         {!props.editMode ? (
-          <div className="mt-6 text-3xl opacity-75 font-bold bg-white">
-            Create a new study set
+          <div className="mt-6 flex justify-between">
+            <div className="text-3xl opacity-75 font-bold bg-white">
+              Create a new study set
+            </div>
+            <div className="flex justify-end">
+              <div
+                className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"
+                onClick={() => setFields([{ term: "", definition: "" }])}
+              >
+                ERASE ALL ENTRIES
+              </div>
+              <div className="p-2 ml-2 bg-teal-500 text-white h-18  text-2xl self-center">
+                CREATE SET
+              </div>
+            </div>
           </div>
-        ) : null}
+        ) : (
+          <div onClick={() => setFields([{ term: "", definition: "" }])}>
+            DELETE ALL
+          </div>
+        )}
         <div className="w-full mt-12">
           <TextBox
             required={true}
@@ -130,7 +147,9 @@ export default function CreateCardSetForm(props){
           <div className="text-xs opacity-50 mt-1">TITLE</div>
         </div>
         <div className="flex justify-between">
-          <div onClick={() => setPrivacy(!isPrivate)} className="">{isPrivate ?  'Accessible to only you' : 'Accessible to all'}</div>
+          <div onClick={() => setPrivacy(!isPrivate)} className="">
+            {isPrivate ? "Accessible to only you" : "Accessible to all"}
+          </div>
         </div>
       </div>
       <div className="bg-gray-300 my-4 mx-8">
@@ -195,16 +214,13 @@ export default function CreateCardSetForm(props){
           </div>
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end mb-2">
         <div
           className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
           onClick={handleSave}
         >
           <div className="create-text text-lg">Create Set</div>
         </div>
-      </div>
-      <div onClick={() => setFields([{ term: "", definition: "" }])}>
-        DELETE ALL
       </div>
     </div>
   );

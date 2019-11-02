@@ -8,7 +8,7 @@ export default function FinalFlashCard(props){
        return (
          <div className="flex flex-col items-center justify-between">
            <div className="text-3xl">Nice Work</div>
-           <div>You just studied {cardSetLength} terms</div>
+           <div>You just studied {cardSetLength + 1} terms</div>
            <div className='text-green-500' onClick={handleReset}>Study with Flashcards again</div>
          </div>
        );

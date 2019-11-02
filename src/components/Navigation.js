@@ -41,23 +41,26 @@ export default function Navigation(props){
         return (
           <div className="flex w-full">
             <i className="text-2xl text-white self-center fas fa-search"></i>
-            <TextBox
-              className={`text-2xl border-black border-b-2 outline-none w-full ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
-              placeholder="Search"
-              type="text"
-              name="search-box-nav"
-              value={search.value}
-              onFocus={() => setFocused(true)}
-              onChange={setSearch}
-              onBlur={() => {
-                setExpandSearchBar(false);
-                setFocused(false);
-                setSearch({ name: "", value: "", isValid: true });
-                setRedirect(false)
-              }}
-              ref={navRef}
-            />
-            {redirect ? <Redirect push to={`/search/${search.value}`} /> : null }
+            <div className="w-full">
+              <TextBox
+                className={`text-2xl outline-none w-full ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
+                placeholder="Search"
+                type="text"
+                name="search-box-nav"
+                value={search.value}
+                onFocus={() => setFocused(true)}
+                onChange={setSearch}
+                onBlur={() => {
+                  setExpandSearchBar(false);
+                  setFocused(false);
+                  setSearch({ name: "", value: "", isValid: true });
+                  setRedirect(false);
+                }}
+                ref={navRef}
+              />
+            </div>
+            <i className=" self-center fas fa-times text-2xl text-white"></i>
+            {redirect ? <Redirect push to={`/search/${search.value}`} /> : null}
           </div>
         );
       } else {
@@ -166,19 +169,22 @@ export default function Navigation(props){
         </Link>
       );
     }
+
+
        return (
          <div className="w-full h-16 flex justify-between bg-teal-500 shadow px-6 items-center">
            {/* LOGO * */}
-           <div className="flex justify-start h-full items-center w-3/4">
+           <div className={`flex justify-start h-full items-center ${expandSearchBar ? 'w-full' : 'w-3/4'}`}>
              <div>{renderLogo()}</div>
-             <div className="ml-20 flex text-white items-center justify-between h-full">
+             <div className="ml-20 flex text-white items-center h-full w-full">
                {renderSearch()}
              </div>
            </div>
-           <div className="relative h-full flex items-center justify-center w-1/4">
+           {!expandSearchBar && <div className={`relative h-full flex items-center justify-center ${expandSearchBar ? 'w-full' : 
+           'w-1/4' }`}>
              {renderUserOrOptions()}
              {renderDropdown()}
-           </div>
+           </div>}
          </div>
        );
 }

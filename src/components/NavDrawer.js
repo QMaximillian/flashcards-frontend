@@ -19,7 +19,7 @@ if (newCardSetRegex.test(props.location.pathname)) {
     );
   } else {
     return (
-      <div className="w-2/5 h-full">
+      <div className="pl-10 w-1/4 h-full">
         <MainNavDrawer />
       </div>
     )

@@ -3,16 +3,23 @@ import { Link } from "react-router-dom";
 
 export default function MainNavDrawer(props) {
     return (
-      <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-xl h-auto overflow-y-auto w-full justify-start">
-        <div className="h-64 border border-gray-200 border-r-0 border-l-0 flex flex-col">
+      <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-auto overflow-y-auto w-full justify-start">
+        <div className="h-64 border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
           <Link
             className="hover:bg-orange-500 w-full items-center flex flex-1 justify-start"
             to="/home"
           >
             <div className="pl-4">Home</div>
           </Link>
+          <div
+            className="flex flex-1 "
+          />
+          <div
+            className="flex flex-1 "
+          />
+
         </div>
-        <div className="h-64 border border-gray-200 border-r-0 border-l-0 flex flex-col justify-center">
+        <div className="h-64 border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center">
           <Link
             className="hover:bg-orange-500 w-full items-center flex-1 justify-start flex"
             to="/card-sets"

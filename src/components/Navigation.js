@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 // import { fetchRemoveCookie } from "../fetchRequests/user";
 import TextBox from '../components/TextBox'
+import UserContext from '../context/UserContext'
 import "../styles/index.css"
 
 
@@ -9,7 +10,8 @@ import "../styles/index.css"
 
 
 export default function Navigation(props){
-
+  const user = useContext(UserContext)
+  console.log(user)
     const navRef = useRef(null)
     // const [ user, setUser ] = React.useState(props.user)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
@@ -118,7 +120,7 @@ export default function Navigation(props){
     }
 
     function renderUserOrOptions(){
-        if (props.user) {
+        if (user) {
           return (
             <div
               className="flex search-box"
@@ -132,7 +134,7 @@ export default function Navigation(props){
                 // })
               }
             >
-              <div className={`${dropdownToggle ? 'text-gray-500' : 'text-white'} search-box search`}>{props.user.first_name}</div>
+              <div className={`${dropdownToggle ? 'text-gray-500' : 'text-white'} search-box search`}>{user.first_name}</div>
               <i
                 onClick={() => setDropdownToggle(prev => !prev)}
                 className={`${dropdownToggle ? 'text-gray-500' : 'text-white'} search-box search pl-4 self-center fas fa-chevron-down`}

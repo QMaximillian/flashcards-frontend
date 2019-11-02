@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
 import { fetchGetCardSetIndex, fetchDeleteCardSets } from '../fetchRequests/cardSets'
 import TextBox from '../components/TextBox'
-import UserCardInfo from '../components/UserInfoCard'
+
 import '../styles/index.css'
+import UserInfoCard from '../components/UserInfoCard'
 
 export default function UserCardSets(props){
   console.log(props)
+  
     const [cardSets, setCardSets] = useState([])
     const [editMode, setEditMode] = useState(false)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
@@ -129,8 +131,8 @@ export default function UserCardSets(props){
 
        return (
          <div className="w-full h-full bg-gray-200">
-           <div>
-             <UserCardInfo />
+           <div className="w-full">
+             <UserInfoCard />
            </div>
            <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}

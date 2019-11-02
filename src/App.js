@@ -11,6 +11,7 @@ import ShowCardSet from './pages/ShowCardSet'
 import EditCardSet from "./pages/EditCardSet";
 import CardSetSearchResults from "./pages/CardSetSearchResults.js";
 import { fetchUser } from './fetchRequests/user'
+import {UserProvider} from './context/UserContext'
 
 
 // import { fetchUser } from "./fetchRequests/user";
@@ -29,15 +30,16 @@ function App(props) {
     // }, [props])
 
   return (
-    <div className="">
+    <UserProvider value={response && response.user}>
+      <div className="">
       <Router>
-        <Navigation user={response && response.user} />
+        <Navigation />
         <div className="flex w-full h-full">
           <Route path="/" component={NavDrawer} />
 
           <div className="w-full h-full">
             <Route exact path="/login" component={Login} />
-            <Route exact path="/card-sets" component={() => <UserCardSets user={response && response.user}/>} />
+            <Route exact path="/card-sets" component={UserCardSets} />
             <Switch>
               <Route
                 exact
@@ -60,6 +62,7 @@ function App(props) {
         </div>
       </Router>
     </div>
+    </UserProvider>
   );
 }
 

@@ -18,8 +18,8 @@ export function fetchPostCardSetSearch(body) {
   }).then(r => r.json());
 }
 
-export function fetchGetCardSetIndex() {
-  return fetch(`${BASE_URL}/card-sets`, {
+export function fetchGetUserCardSetsIndex() {
+  return fetch(`${BASE_URL}/users-card-sets`, {
     method: "GET",
     headers: BASE_HEADERS,
     credentials: 'include'

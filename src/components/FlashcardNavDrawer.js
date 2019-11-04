@@ -5,7 +5,7 @@ export default function FlashcardsNavDrawer(props){
 
        return (
          <div>
-           <Link to="/home">
+           <Link to="/">
              <div className="h-10 w-full flex text-2xl">
                <div>Home</div>
              </div>

@@ -11,7 +11,7 @@ export default function MainNavDrawer(props) {
         <div className="h-64 border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
           <Link
             className="hover:bg-orange-500 w-full items-center flex flex-1 justify-start"
-            to="/home"
+            to="/"
           >
             <div className="pl-4">Home</div>
           </Link>

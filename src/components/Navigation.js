@@ -166,7 +166,7 @@ export default function Navigation(props){
 
     function renderLogo(){
       return (
-        <Link to="/home">
+        <Link to="/">
           <div className="text-white text-4xl">Flashy</div>
         </Link>
       );

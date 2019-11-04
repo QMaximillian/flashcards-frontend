@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import Home from './pages/Home'
 import Navigation from './components/Navigation'
 import NavDrawer from './components/NavDrawer'
@@ -45,24 +45,22 @@ function App(props) {
                   path="/card-sets/new"
                   component={CreateCardSetForm}
                 />
-                {/* <Route
-                  exact
-                  path="/card-sets/recent"
-                  component={() => <div>Hello</div>}
-                /> */}
                 <Route exact path="/card-sets/:id" component={ShowCardSet} />
+
+                <Route exact path="/sign-up" component={SignUp} />
+                <Route exact path="/" component={Home} />
+                <Redirect exact path="/home" component={Home} />
+                <Route
+                  exact
+                  path="/card-sets/:id/edit"
+                  component={EditCardSet}
+                />
+                <Route
+                  path="/search/:search"
+                  component={CardSetSearchResults}
+                />
+                <Route path="/:user/" component={UserCardSetsPage} />
               </Switch>
-              <Route exact path="/sign-up" component={SignUp} />
-              <Route exact path="/home" component={Home} />
-              {/* <Route
-              exact
-              path="/home"
-              component={() => <Home setNavBar={setNavBar} />}
-            /> */}
-              {/* <Route exact path="/" component={Landing} /> */}
-              <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
-              <Route path="/search/:search" component={CardSetSearchResults} />
-              <Route path="/:user/" component={UserCardSetsPage} />
             </div>
           </div>
         </Router>

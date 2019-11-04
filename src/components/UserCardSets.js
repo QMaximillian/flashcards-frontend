@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import {Link} from 'react-router-dom'
-import { fetchGetCardSetIndex, fetchDeleteCardSets } from '../fetchRequests/cardSets'
+import {
+  fetchGetUserCardSetsIndex,
+  fetchDeleteCardSets
+} from "../fetchRequests/cardSets";
 import TextBox from '../components/TextBox'
 
 import '../styles/index.css'
@@ -10,6 +13,7 @@ export default function UserCardSets(props){
 
     const [cardSets, setCardSets] = useState([])
     const [editMode, setEditMode] = useState(false)
+    const [filter, setFilter] = useState('Latest')
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
     const [initialCardState, setInitialCardState] = useState([])
 
@@ -23,12 +27,12 @@ export default function UserCardSets(props){
     }, [editMode, initialCardState])
 
     useEffect(() => {
-        fetchGetCardSetIndex()
-        .then(r => addCheckedProperty(r))
-        .then(r => {
-          setCardSets(r)
-          setInitialCardState(r)
-        })
+        fetchGetUserCardSetsIndex()
+          .then(r => addCheckedProperty(r))
+          .then(r => {
+            setCardSets(r);
+            setInitialCardState(r);
+          });
     }, [])
 
     // useEffect(() => {
@@ -62,9 +66,34 @@ export default function UserCardSets(props){
         setCardSets(updatedCardSets);
     }
 
+    // function filterType(){
+    //   switch(filter){
+
+    //   }
+    // }
+
+    function selectFilter(a, b){
+        if (filter === "Latest") {
+          if (a.last_seen_at > b.last_seen_at) {
+            return -1;
+          } else if (a.last_seen_at < b.last_seen_at) {
+            return 1;
+          }
+        }
+
+        if (filter === "Alphabetical") {
+          if (a.name < b.name) {
+            return -1;
+          } else if (a.name > b.name) {
+            return 1;
+          }
+        }
+        return 0;
+    }
     function renderCardSets() {
       return cardSets
                 .filter(cardSet => cardSet.name.match(search.value))
+                .sort((a, b) => selectFilter(a, b))
                 .map((cardSet, idx) => {
                   console.log('cardSet', cardSet)
                   return (
@@ -92,7 +121,7 @@ export default function UserCardSets(props){
                                 className="h-full w-full text-2xl ml-24"
                                 key={idx}
                               >
-                                <div>{cardSet.name}</div>
+                                <div>{cardSet.name} {cardSet.last_seen_at}</div>
                               </div>
                             ) : (
                               <Link
@@ -134,7 +163,7 @@ export default function UserCardSets(props){
            <div className="flex w-full border border-black justify-between mb-4">
              <div className="w-full flex text-sm justify-start ml-2">
                <div className="self-center text-sm">SORT</div>
-               <select className="ml-4">
+               <select className="ml-4" onChange={(e) => setFilter(e.target.value)} value={filter}>
                  <option value="Latest">Latest</option>
                  <option value="Alphabetical">Alphabetical</option>
                </select>

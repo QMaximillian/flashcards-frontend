@@ -49,7 +49,7 @@ function App(props) {
 
                 <Route exact path="/sign-up" component={SignUp} />
                 <Route exact path="/" component={Home} />
-                <Redirect exact path="/home" component={Home} />
+                <Redirect to="/" from="/home" component={Home} />
                 <Route
                   exact
                   path="/card-sets/:id/edit"

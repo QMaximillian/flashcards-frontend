@@ -66,11 +66,6 @@ export default function UserCardSets(props){
         setCardSets(updatedCardSets);
     }
 
-    // function filterType(){
-    //   switch(filter){
-
-    //   }
-    // }
 
     function selectFilter(a, b){
         if (filter === "Latest") {

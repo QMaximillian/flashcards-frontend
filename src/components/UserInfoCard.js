@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
 import UserContext from "../context/UserContext";
+import { Link, useParams } from 'react-router-dom'
 // import PropTypes from "prop-types";
 
 export default function UserInfoCard(props){
+  const { user: userParam } = useParams()
     const user = useContext(UserContext);
-    console.log(user)
+
        return (
            <div className="flex">
              {renderUser()}
@@ -15,7 +17,7 @@ export default function UserInfoCard(props){
 
     if (user) {
         return (
-          <div className="flex">
+          <div className="flex p-6">
             <div>
               <img className="w-32 h-32 rounded-full mr-4 bg-gray-500" alt="" />
             </div>
@@ -27,9 +29,21 @@ export default function UserInfoCard(props){
                 <div className="self-center ml-8">{`${user.first_name} ${user.last_name}`}</div>
               </div>
               <div className="flex">
-                <div className="border border-gray-500 py-2 px-4 text-teal-300 hover:text-yellow-500">Recent</div>
-                <div className="border border-gray-500 py-2 px-4 text-teal-300 hover:text-yellow-500">Created</div>
-                <div className="border border-gray-500 py-2 px-4 text-teal-300 hover:text-yellow-500">Studied</div>
+                <Link to={`/${userParam}/recent`}>
+                  <div className="border border-gray-500 py-2 px-4 text-teal-300 hover:text-yellow-500">
+                    Recent
+                  </div>
+                </Link>
+                <Link to={`/${userParam}`}>
+                  <div className="border border-gray-500 py-2 px-4 text-teal-300 hover:text-yellow-500">
+                    Created
+                  </div>
+                </Link>
+                <Link to={`/${userParam}/studied`}>
+                  <div className="border border-gray-500 py-2 px-4 text-teal-300 hover:text-yellow-500">
+                    Studied
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

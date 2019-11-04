@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import UserContext from '../context/UserContext'
 
 export default function MainNavDrawer(props) {
+
+  const user = useContext(UserContext)
+
     return (
       <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-auto overflow-y-auto w-full justify-start">
         <div className="h-64 border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
@@ -22,7 +26,7 @@ export default function MainNavDrawer(props) {
         <div className="h-64 border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center">
           <Link
             className="hover:bg-orange-500 w-full items-center flex-1 justify-start flex"
-            to="/card-sets"
+            to={`/${user && user.first_name}`}
           >
             <div className="pl-4"> Card Sets</div>
           </Link>

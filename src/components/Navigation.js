@@ -10,8 +10,8 @@ import "../styles/index.css"
 
 
 export default function Navigation(props){
-  const user = useContext(UserContext)
-  console.log(user)
+    const user = useContext(UserContext)
+
     const navRef = useRef(null)
     // const [ user, setUser ] = React.useState(props.user)
     const [search, setSearch] = useState({name: '', value: '', isValid: true})

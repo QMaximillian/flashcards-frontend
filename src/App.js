@@ -6,7 +6,7 @@ import NavDrawer from './components/NavDrawer'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
 import CreateCardSetForm from './components/CreateCardSetForm'
-import UserCardSets from './pages/UserCardSets'
+import UserCardSetsPage from './pages/UserCardSetsPage'
 import ShowCardSet from './pages/ShowCardSet'
 import EditCardSet from "./pages/EditCardSet";
 import CardSetSearchResults from "./pages/CardSetSearchResults.js";
@@ -17,7 +17,6 @@ import {UserProvider} from './context/UserContext'
 // import { fetchUser } from "./fetchRequests/user";
 
 function App(props) {
-
     const [response, setResponse] = useState(null);
     // const [navBar, setNavBar] = useState(null);
     
@@ -32,36 +31,42 @@ function App(props) {
   return (
     <UserProvider value={response && response.user}>
       <div className="">
-      <Router>
-        <Navigation />
-        <div className="flex w-full h-full">
-          <Route path="/" component={NavDrawer} />
+        <Router>
+          <Navigation />
+          <div className="flex w-full h-full">
+            <Route path="/" component={NavDrawer} />
 
-          <div className="w-full h-full">
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/card-sets" component={UserCardSets} />
-            <Switch>
-              <Route
-                exact
-                path="/card-sets/new"
-                component={CreateCardSetForm}
-              />
-              <Route exact path="/card-sets/:id" component={ShowCardSet} />
-            </Switch>
-            <Route exact path="/sign-up" component={SignUp} />
-            <Route exact path="/home" component={Home} />
-            {/* <Route
+            <div className="w-full h-full">
+              <Route exact path="/login" component={Login} />
+              {/* <Route exact path="/card-sets/" component={UserCardSetsPage} /> */}
+              <Switch>
+                <Route
+                  exact
+                  path="/card-sets/new"
+                  component={CreateCardSetForm}
+                />
+                {/* <Route
+                  exact
+                  path="/card-sets/recent"
+                  component={() => <div>Hello</div>}
+                /> */}
+                <Route exact path="/card-sets/:id" component={ShowCardSet} />
+              </Switch>
+              <Route exact path="/sign-up" component={SignUp} />
+              <Route exact path="/home" component={Home} />
+              {/* <Route
               exact
               path="/home"
               component={() => <Home setNavBar={setNavBar} />}
             /> */}
-            {/* <Route exact path="/" component={Landing} /> */}
-            <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
-            <Route path="/search/:search" component={CardSetSearchResults} />
+              {/* <Route exact path="/" component={Landing} /> */}
+              <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
+              <Route path="/search/:search" component={CardSetSearchResults} />
+              <Route path="/:user/" component={UserCardSetsPage} />
+            </div>
           </div>
-        </div>
-      </Router>
-    </div>
+        </Router>
+      </div>
     </UserProvider>
   );
 }

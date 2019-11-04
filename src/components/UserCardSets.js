@@ -95,7 +95,6 @@ export default function UserCardSets(props){
                 .filter(cardSet => cardSet.name.match(search.value))
                 .sort((a, b) => selectFilter(a, b))
                 .map((cardSet, idx) => {
-                  console.log('cardSet', cardSet)
                   return (
                     <div key={idx} className="flex justify-center">
                       <div className={`w-full my-2 px-4`}>
@@ -121,12 +120,12 @@ export default function UserCardSets(props){
                                 className="h-full w-full text-2xl ml-24"
                                 key={idx}
                               >
-                                <div>{cardSet.name} {cardSet.last_seen_at}</div>
+                                <div>{cardSet.name}</div>
                               </div>
                             ) : (
                               <Link
                                 className="h-full w-full"
-                                to={`/card-sets/${cardSet.id}`}
+                                to={`/card-sets/${cardSet.card_set_id}`}
                               >
                                 <div
                                   className="h-full text-2xl ml-24 flex justify-start"

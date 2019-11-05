@@ -101,38 +101,46 @@ export default function UserCardSets(props){
                   // console.log('cardSet', cardSet)
                 if (filter === 'Latest') {
                   if (isThisWeek(parseISO(cardSet.created_at))) {
-                    console.log("test", cardSet.name);
-                    if (withinWeekFlag) {
-                     withinWeekFlag = false
-                     month = getMonth(parseISO(cardSet.created_at))
-                     cutOffMonth = month - 2
+                    console.log("isThisWeek", cardSet.created_at, cardSet.name);
+                      if (withinWeekFlag) {
+                      // console.log("test", cardSet.created_at, cardSet.name);
+                        month = getMonth(parseISO(cardSet.created_at))
+                        cutOffMonth = month - 2
+                        withinWeekFlag = false;
 
-                     return (
-                        <div className="w-full flex flex-col">
-                          <div className="flex w-full items-center px-4">
-                            <div className="text-xs w-32">THIS WEEK</div>
-                            <hr className="border border-black w-full" />
+                        return (
+                          <div className="w-full flex flex-col">
+                            <div className="flex w-full items-center px-4">
+                              <div className="text-xs w-32">THIS WEEK</div>
+                              <hr className="border border-black w-full" />
+                            </div>
+                            <UserCardSetCard
+                              idx={idx}
+                              cardSet={cardSet}
+                              handleChecked={handleChecked}
+                            />
                           </div>
+                        );
+                      }
+                    
+                      if (!withinWeekFlag) {
+                        return (
                           <UserCardSetCard
                             idx={idx}
                             cardSet={cardSet}
                             handleChecked={handleChecked}
                           />
-                        </div>
-                      );
-                    }
-                  } else if (!withinWeekFlag) {
-                      return <UserCardSetCard
-                        idx={idx}
-                        cardSet={cardSet}
-                        handleChecked={handleChecked}
-                      />;
-                    }
+                        );
+                      }
+                  }
 
-
+                  // console.log('here')
                   
-                  if (month === getMonth(parseISO(cardSet.created_at))) {
-                    month = getMonth(subMonths(parseISO(cardSet.created_at), 1))
+                  if (month !== getMonth(parseISO(cardSet.created_at))) {
+                                    // console.log("month", month);
+                                    // console.log("getMonth", getMonth(parseISO(cardSet.created_at)))
+                    month = month - 1
+
                     return (
                       <div className="w-full flex flex-col">
                         <div className="flex w-full items-center px-4">
@@ -147,19 +155,34 @@ export default function UserCardSets(props){
                       </div>
                     );
                   }
-                }
-                  console.log('aaa', cardSet.created_at)
-                    return (
+                  // } else if (month === getMonth(parseISO(cardSet.created_at))) {
+                  //   // month = getMonth(
+                  //   //   subMonths(parseISO(cardSet.created_at), 1)
+                  //   // );
+                  //   return (
+                  //     <UserCardSetCard
+                  //       idx={idx}
+                  //       cardSet={cardSet}
+                  //       handleChecked={handleChecked}
+                  //     />
+                  //   )
+                  // }
+                
+
+                    
+                // }
+                return (
                       <UserCardSetCard
                         idx={idx}
                         cardSet={cardSet}
                         handleChecked={handleChecked}
                       />
                     );
-                  
-                })
+                
+                }
+              })
+            }
 
-    }
 
        return (
          <div className="border border-black w-full">

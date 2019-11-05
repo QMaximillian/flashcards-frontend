@@ -13,9 +13,6 @@ export default function HomeLatest(props){
 
        return (
            <div className="py-10 px-8">
-             {/* <div className="flex mb-4 h-48">
-               <div>Hello</div>
-             </div> */}
              <div className="flex flex-col mb-4 w-full ">
                <Link to="/card-sets" className="justify-between flex">
                  <div className="mb-4">RECENT</div>

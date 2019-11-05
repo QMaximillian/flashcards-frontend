@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import {Link} from 'react-router-dom'
 import {
   fetchGetUserCardSetsIndex,
   fetchDeleteCardSets
 } from "../fetchRequests/cardSets";
 import TextBox from '../components/TextBox'
-
+import UserCardSetCard from '../components/UserCardSetCard'
+import { 
+  isThisWeek, 
+  parseISO 
+  // getMonth, 
+  // subMonths 
+} from 'date-fns'
 import '../styles/index.css'
-// import UserInfoCard from '../components/UserInfoCard'
 
 export default function UserCardSets(props){
 
@@ -21,9 +25,6 @@ export default function UserCardSets(props){
       if (!editMode) {
        setCardSets(initialCardState)
       }
-      // if (editMode) {
-      //   setSearch({ name: "", value: "", isValid: true });
-      // }
     }, [editMode, initialCardState])
 
     useEffect(() => {
@@ -69,9 +70,9 @@ export default function UserCardSets(props){
 
     function selectFilter(a, b){
         if (filter === "Latest") {
-          if (a.last_seen_at > b.last_seen_at) {
+          if (new Date(a.last_seen_at) > new Date(b.last_seen_at)) {
             return -1;
-          } else if (a.last_seen_at < b.last_seen_at) {
+          } else if (new Date(a.last_seen_at) < new Date(b.last_seen_at)) {
             return 1;
           }
         }
@@ -85,81 +86,65 @@ export default function UserCardSets(props){
         }
         return 0;
     }
+    
     function renderCardSets() {
+      let withinWeekFlag = true;
+      // let month;
+      
       return cardSets
                 .filter(cardSet => cardSet.name.match(search.value))
                 .sort((a, b) => selectFilter(a, b))
                 .map((cardSet, idx) => {
-                  return (
-                    <div key={idx} className="flex justify-center">
-                      <div className={`w-full my-2 px-4`}>
-                        <div
-                          className={`h-20 w-full rounded-sm overflow-hidden ${
-                            cardSet.checked
-                              ? "shadow-inner border-2 border-blue-700"
-                              : ""
-                          }`}
-                        >
-                          <div
-                            onClick={() => handleChecked(cardSet)}
-                            className="flex w-full h-full bg-white items-center shadow-xl"
-                          >
-                            {/* <input
-                            onChange={() => handleChecked(cardSet)}
-                            className="ml-4 self-center"
-                            type="checkbox"
-                            checked={cardSet.checked}
-                          /> */}
-                            {editMode ? (
-                              <div
-                                className="h-full w-full text-2xl ml-24"
-                                key={idx}
-                              >
-                                <div>{cardSet.name}</div>
-                              </div>
-                            ) : (
-                              <Link
-                                className="h-full w-full"
-                                to={`/card-sets/${cardSet.card_set_id}`}
-                              >
-                                <div
-                                  className="h-full text-2xl ml-24 flex justify-start"
-                                  key={idx}
-                                >
-                                  <div>{cardSet.name}</div>
-                                </div>
-                              </Link>
-                            )}
+
+                  console.log('cardSet', cardSet)
+
+                  if (isThisWeek(parseISO(cardSet.last_seen_at)) && withinWeekFlag) {
+                    // console.log("test", cardSet.created_at);
+                    if (withinWeekFlag) {
+                     withinWeekFlag = false
+                    }
+                    // month = getMonth(parseISO(cardSet.created_at))
+                      return (
+                        <div className="w-full flex flex-col">
+                          <div className="flex w-full items-center px-4">
+                            <div className="text-sm w-1/5">THIS WEEK</div>
+                            <hr className="border border-black w-4/5" />
                           </div>
+                          <UserCardSetCard
+                            idx={idx}
+                            cardSet={cardSet}
+                            handleChecked={handleChecked}
+                          />
                         </div>
-                      </div>
-                      {editMode && (
-                        <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
-                          <i
-                            data-id={cardSet.id}
-                            onClick={handleDelete}
-                            className="fas fa-times hover:border-black opacity-50 hover:opacity-100"
-                            style={{ WebkitTextStroke: "2px grey" }}
-                          ></i>
-                        </div>
-                      )}
-                    </div>
-                  );
+                      );
+                  }
+
+                  // month = subMonths(parseISO(cardSet.created_at), 1)
+                  
+
+                    return (
+                      <UserCardSetCard
+                        idx={idx}
+                        cardSet={cardSet}
+                        handleChecked={handleChecked}
+                      />
+                    );
+                  
                 })
 
     }
 
        return (
          <div className="border border-black w-full">
-           <div onClick={() => setEditMode(!editMode)}>
+           {/* <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}
-           </div>
+           </div> */}
            <div className="flex w-full border border-black justify-between mb-4">
              <div className="w-full flex text-sm justify-start ml-2">
-               <div className="self-center text-sm">SORT</div>
-               <select className="ml-4" onChange={(e) => setFilter(e.target.value)} value={filter}>
-                 <option value="Latest">Latest</option>
-                 <option value="Alphabetical">Alphabetical</option>
+               <div className="self-center text-xs">SORT</div>
+               <select className="ml-4 h-12 w-32 border-gray-500 border rounded-none" style={{textAlignLast: 'center'}} onChange={(e) => setFilter(e.target.value)} value={filter}>
+                 <option className="h-12 w-32" value="Latest">Latest</option>
+                 <option className="h-12 w-32" value="Alphabetical">Alphabetical</option>
                </select>
              </div>
              <TextBox
@@ -171,7 +156,7 @@ export default function UserCardSets(props){
              />
            </div>
            <div>
-             <div onClick={handleBatchDelete}>Delete Selected</div>
+             {/* <div onClick={handleBatchDelete}>Delete Selected</div> */}
            </div>
            <div className="overflow-y-auto justify-center">
              {renderCardSets()}

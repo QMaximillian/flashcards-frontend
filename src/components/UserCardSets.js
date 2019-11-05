@@ -7,9 +7,10 @@ import TextBox from '../components/TextBox'
 import UserCardSetCard from '../components/UserCardSetCard'
 import { 
   isThisWeek, 
-  parseISO 
-  // getMonth, 
-  // subMonths 
+  parseISO, 
+  getMonth, 
+  subMonths,
+  format 
 } from 'date-fns'
 import '../styles/index.css'
 
@@ -70,9 +71,9 @@ export default function UserCardSets(props){
 
     function selectFilter(a, b){
         if (filter === "Latest") {
-          if (new Date(a.last_seen_at) > new Date(b.last_seen_at)) {
+          if (new Date(a.created_at) > new Date(b.created_at)) {
             return -1;
-          } else if (new Date(a.last_seen_at) < new Date(b.last_seen_at)) {
+          } else if (new Date(a.created_at) < new Date(b.created_at)) {
             return 1;
           }
         }
@@ -89,26 +90,28 @@ export default function UserCardSets(props){
     
     function renderCardSets() {
       let withinWeekFlag = true;
-      // let month;
+      let month;
+      let cutOffMonth;
       
       return cardSets
                 .filter(cardSet => cardSet.name.match(search.value))
                 .sort((a, b) => selectFilter(a, b))
                 .map((cardSet, idx) => {
 
-                  console.log('cardSet', cardSet)
-
-                  if (isThisWeek(parseISO(cardSet.last_seen_at)) && withinWeekFlag) {
-                    // console.log("test", cardSet.created_at);
+                  // console.log('cardSet', cardSet)
+                if (filter === 'Latest') {
+                  if (isThisWeek(parseISO(cardSet.created_at))) {
+                    console.log("test", cardSet.name);
                     if (withinWeekFlag) {
                      withinWeekFlag = false
-                    }
-                    // month = getMonth(parseISO(cardSet.created_at))
-                      return (
+                     month = getMonth(parseISO(cardSet.created_at))
+                     cutOffMonth = month - 2
+
+                     return (
                         <div className="w-full flex flex-col">
                           <div className="flex w-full items-center px-4">
-                            <div className="text-sm w-1/5">THIS WEEK</div>
-                            <hr className="border border-black w-4/5" />
+                            <div className="text-xs w-32">THIS WEEK</div>
+                            <hr className="border border-black w-full" />
                           </div>
                           <UserCardSetCard
                             idx={idx}
@@ -117,11 +120,35 @@ export default function UserCardSets(props){
                           />
                         </div>
                       );
-                  }
+                    }
+                  } else if (!withinWeekFlag) {
+                      return <UserCardSetCard
+                        idx={idx}
+                        cardSet={cardSet}
+                        handleChecked={handleChecked}
+                      />;
+                    }
 
-                  // month = subMonths(parseISO(cardSet.created_at), 1)
+
                   
-
+                  if (month === getMonth(parseISO(cardSet.created_at))) {
+                    month = getMonth(subMonths(parseISO(cardSet.created_at), 1))
+                    return (
+                      <div className="w-full flex flex-col">
+                        <div className="flex w-full items-center px-4">
+                          <div className="text-xs w-32 text-center">{getMonth(parseISO(cardSet.created_at)) < cutOffMonth ? 'Prior' : format(parseISO(cardSet.created_at), 'MMMM yyyy')}</div>
+                          <hr className="border border-black w-full" />
+                        </div>
+                        <UserCardSetCard
+                          idx={idx}
+                          cardSet={cardSet}
+                          handleChecked={handleChecked}
+                        />
+                      </div>
+                    );
+                  }
+                }
+                  console.log('aaa', cardSet.created_at)
                     return (
                       <UserCardSetCard
                         idx={idx}

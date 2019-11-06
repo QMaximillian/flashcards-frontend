@@ -81,7 +81,7 @@ export default function UserCardSetsPage(props){
                      <Route
                        path="/:user/recent"
                        render={() => (
-                         <HomeLatest pageType="RECENT" search={search} />
+                         <HomeLatest limit={10} pageType="RECENT" search={search} />
                        )}
                      />
                      <Route

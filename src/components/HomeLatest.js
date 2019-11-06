@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import HomeLatestCard from './HomeLatestCard'
 import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 import UserCardSetCard from './UserCardSetCard'
+import { addTimeIntervals } from '../lib/helpers'
 
 export default function HomeLatest(props){
     const [recentCardSets, setRecentCardSets] = useState([])
@@ -37,12 +38,14 @@ export default function HomeLatest(props){
            </div>
        );
     } else if (props.pageType === 'RECENT') {
-      return recentCardSets
+      const filteredCardSets = recentCardSets
         .filter(cardSet => cardSet.name.toLowerCase().match(props.search.value.toLowerCase()))
-        .map((cardSet, i) => {
-          return (
-            <UserCardSetCard key={i} cardSet={cardSet} pageType="RECENT" />
-          );
-        });
+        // .map((cardSet, i) => {
+        //   return (
+        //     <UserCardSetCard key={i} cardSet={cardSet} pageType="RECENT" />
+        //   );
+        // });
+
+        return addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
     }
 }

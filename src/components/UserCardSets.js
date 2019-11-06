@@ -4,12 +4,7 @@ import {
   // fetchDeleteCardSets
 } from "../fetchRequests/cardSets";
 import UserCardSetCard from '../components/UserCardSetCard'
-import { 
-  isThisWeek, 
-  parseISO, 
-  getMonth, 
-  format 
-} from 'date-fns'
+import { addTimeIntervals } from '../lib/helpers'
 import '../styles/index.css'
 
 export default function UserCardSets(props){
@@ -59,85 +54,24 @@ export default function UserCardSets(props){
         }
         return 0;
     }
-    
-    function addTimeIntervals(array, Component) {
-      let withinWeekFlag = true;
-      let month;
-      let cutOffMonth;
-
-      return array 
-        .filter(cardSet => cardSet.name.toLowerCase().match(search.value.toLowerCase()))
-        .sort((a, b) => selectFilter(a, b))
-        .map((cardSet, idx) => {
-          if (isThisWeek(parseISO(cardSet.created_at))) {
-            if (withinWeekFlag) {
-              month = getMonth(parseISO(cardSet.created_at));
-              cutOffMonth = month - 2;
-              withinWeekFlag = false;
-
-              return (
-                <div key={idx} className="w-full flex flex-col">
-                  <div className="flex w-full items-center px-4">
-                    <div className="text-xs w-32">THIS WEEK</div>
-                    <hr className="border border-black w-full" />
-                  </div>
-                  <Component
-                    idx={idx}
-                    cardSet={cardSet}
-                    // handleChecked={handleChecked}
-                  />
-                </div>
-              );
-            }
-
-            if (!withinWeekFlag) {
-              return (
-                <Component
-                  key={idx}
-                  cardSet={cardSet}
-                  // handleChecked={handleChecked}
-                />
-              );
-            }
-          }
-
-          if (month !== getMonth(parseISO(cardSet.created_at))) {
-            month = month - 1;
-
-            return (
-              <div key={idx} className="w-full flex flex-col">
-                <div className="flex w-full items-center px-4">
-                  <div className="text-xs w-32 text-center">
-                    {getMonth(parseISO(cardSet.created_at)) < cutOffMonth
-                      ? "Prior"
-                      : format(parseISO(cardSet.created_at), "MMMM yyyy")}
-                  </div>
-                  <hr className="border border-black w-full" />
-                </div>
-                <Component
-                  cardSet={cardSet}
-                  // handleChecked={handleChecked}
-                />
-              </div>
-            );
-          }
-
-          return (
-            <UserCardSetCard
-              key={idx}
-              cardSet={cardSet}
-              // handleChecked={handleChecked}
-            />
-          );
-        })
-
-    }
 
 
     function renderCardSets() {
                 switch (filter) {
-                  case 'Latest': 
-                    return addTimeIntervals(cardSets, UserCardSetCard)
+                  case 'Latest':
+                    const filteredAndSortedCardSets = cardSets
+                          .filter(cardSet =>
+                            cardSet.name
+                              .toLowerCase()
+                              .match(search.value.toLowerCase())
+                          )
+                          .sort((a, b) => selectFilter(a, b))
+
+                      return addTimeIntervals(
+                        filteredAndSortedCardSets,
+                        UserCardSetCard,
+                        'created_at'
+                      );
                   case 'Alphabetical': 
                     return cardSets
                       .filter(cardSet => cardSet.name.toLowerCase().match(search.value.toLowerCase()))

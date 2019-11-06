@@ -15,7 +15,7 @@ export default function Home(props){
        return (
          <div className="w-full h-full mx-4">
            {/* <Link className="h-full w-full" to="/card-sets/new">CREATE SET</Link> */}
-           <HomeLatest />
+           <HomeLatest pageType="HOME"/>
          </div>
        );
 }

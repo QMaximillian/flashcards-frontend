@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 
 export default function UserCardSetCard(props){
-        const { idx, cardSet, handleChecked } = props
+        const { idx, cardSet } = props
        return (
          <div key={idx} className="flex justify-center">
            <div className={`w-full my-2 px-4`}>
@@ -12,7 +12,7 @@ export default function UserCardSetCard(props){
                }`}
              >
                <div
-                 onClick={() => handleChecked(cardSet)}
+                //  onClick={() => handleChecked(cardSet)}
                  className="flex w-full h-full bg-white items-center shadow-xl"
                >
                  {/* <input
@@ -29,18 +29,17 @@ export default function UserCardSetCard(props){
                                 <div>{cardSet.name}</div>
                               </div>
                             ) : ( */}
-                 <Link
-                   className="h-full w-full"
-                   to={`/card-sets/${cardSet.card_set_id}`}
+                 <div
+                   className="h-full text-2xl ml-24 flex justify-start"
+                   key={idx}
                  >
-                   <div
-                     className="h-full text-2xl ml-24 flex justify-start"
-                     key={idx}
+                   <Link
+                     className="h-full w-full"
+                     to={`/card-sets/${cardSet.card_set_id}`}
                    >
                      <div>{cardSet.name}</div>
-                   </div>
-                 </Link>
-                 {/* )} */}
+                   </Link>
+                 </div>
                </div>
              </div>
            </div>

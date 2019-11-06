@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 export default function HomeLatestCard(props){
 
-  const { name, flashcards_count, owner } = props.cardSet
+  const { name, flashcards_count, owner, } = props.cardSet
+  
        return (
          <div className="h-full w-full border border-gray-500 shadow-lg rounded">
            <div className="h-full w-full home-latest pl-4 pt-6">

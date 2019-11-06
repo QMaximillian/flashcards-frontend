@@ -20,7 +20,7 @@ export default function ShowCardSet(props){
     .then(r => setIsLoading(false))
   }, [props.match.params.id])
 
-  console.log("flashcards", flashcards);
+
   useEffect(() => {
     fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), 'yyyy-LL-dd HH-mm-ssX')})
   }, [props.match.params.id]);

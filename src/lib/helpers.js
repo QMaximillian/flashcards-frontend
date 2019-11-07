@@ -19,7 +19,7 @@ export function addTimeIntervals(array, Component, dynamicKey) {
             <div key={idx} className="w-full flex flex-col">
               <div className="flex w-full items-center px-4">
                 <div className="text-xs w-32">THIS WEEK</div>
-                <hr className="border border-black w-full" />
+                <hr className="border border-solid border-b-2 border-gray-400 w-full" />
               </div>
               <Component
                 idx={idx}
@@ -52,7 +52,7 @@ export function addTimeIntervals(array, Component, dynamicKey) {
                   ? "Prior"
                   : format(parseISO(cardSet[`${dynamicKey}`]), "MMMM yyyy")}
               </div>
-              <hr className="border border-black w-full" />
+              <hr className="border border-solid border-b-2 border-gray-400 w-full" />
             </div>
             <Component
               cardSet={cardSet}

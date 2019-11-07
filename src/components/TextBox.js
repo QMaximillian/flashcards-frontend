@@ -95,7 +95,7 @@ const TextBox = React.forwardRef((props, ref) => {
   }
 
     return (
-      <div>
+      <div className="w-full">
         <input
           className={`${renderClasses()} ${
             handleShowError() ? "border-red-500" : "focus:border-yellow-500 focus:border-b-4"

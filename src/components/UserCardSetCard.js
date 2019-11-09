@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function UserCardSetCard(props){
         const { idx, cardSet } = props
-
+console.log(cardSet)
        return (
          <div key={idx} className="flex justify-center">
            <div className={`w-full my-2 px-4`}>
@@ -40,7 +40,7 @@ export default function UserCardSetCard(props){
                          {cardSet.flashcards_count} Terms
                        </div>
                        <div className="pl-2 border-yellow-500 border-l-2 text-sm text-teal-500">
-                         {cardSet.first_name}
+                         {cardSet.creator_name}
                        </div>
                      </div>
                      <div className="mt-1 pl-2 text-xl font-medium">{cardSet.name}</div>

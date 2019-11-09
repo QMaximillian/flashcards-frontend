@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function UserCardSetCard(props){
         const { idx, cardSet } = props
+
        return (
          <div key={idx} className="flex justify-center">
            <div className={`w-full my-2 px-4`}>
@@ -12,7 +13,7 @@ export default function UserCardSetCard(props){
                }`}
              >
                <div
-                //  onClick={() => handleChecked(cardSet)}
+                 //  onClick={() => handleChecked(cardSet)}
                  className="flex w-full h-full bg-white items-center shadow-xl"
                >
                  {/* <input
@@ -29,15 +30,20 @@ export default function UserCardSetCard(props){
                                 <div>{cardSet.name}</div>
                               </div>
                             ) : ( */}
-                 <div
-                   className="h-full text-2xl ml-24 flex justify-start"
-                   key={idx}
-                 >
+                 <div className="py-2 h-full ml-5 flex justify-start" key={idx}>
                    <Link
                      className="h-full w-full"
                      to={`/card-sets/${cardSet.card_set_id}`}
                    >
-                     <div>{cardSet.name}</div>
+                     <div className="flex px-2 items-center">
+                       <div className="pr-2 text-sm text-gray-700">
+                         {cardSet.flashcards_count} Terms
+                       </div>
+                       <div className="pl-2 border-yellow-500 border-l-2 text-sm text-teal-500">
+                         {cardSet.first_name}
+                       </div>
+                     </div>
+                     <div className="mt-1 pl-2 text-xl font-medium">{cardSet.name}</div>
                    </Link>
                  </div>
                </div>

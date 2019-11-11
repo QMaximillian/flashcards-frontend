@@ -68,8 +68,8 @@ export default function UserCardSetsPage(props){
            <div className="w-full"></div>
            <div id="tabs">
              <Route path={`/:user`} component={UserInfoCard} />
-             <div className="w-3/4 p-6">
-               <div className="border border-black w-full">
+             <div className="w-full p-6">
+               <div className=" w-full">
                  {/* <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}
            </div> */}

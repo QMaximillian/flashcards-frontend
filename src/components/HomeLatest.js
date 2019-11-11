@@ -47,7 +47,7 @@ export default function HomeLatest(props){
     } else if (props.pageType === 'RECENT') {
       const filteredCardSets = recentCardSets
         .filter(cardSet => cardSet.name.toLowerCase().match(props.search.value.toLowerCase()))
-
+        
         return addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
     }
 }

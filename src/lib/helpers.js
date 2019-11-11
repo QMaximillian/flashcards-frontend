@@ -9,8 +9,10 @@ export function addTimeIntervals(array, Component, dynamicKey, props) {
 
   return array
     .map((cardSet, idx) => {
+
       if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]))) {
         if (withinWeekFlag) {
+          
           month = getMonth(parseISO(cardSet[`${dynamicKey}`]));
           cutOffMonth = month - 2;
           withinWeekFlag = false;
@@ -31,19 +33,20 @@ export function addTimeIntervals(array, Component, dynamicKey, props) {
           );
         }
 
-        if (!withinWeekFlag) {
-          return (
-            <Component
-              key={idx}
-              cardSet={cardSet}
-              {...props}
-              // handleChecked={handleChecked}
-            />
-          );
-        }
+        // if (!withinWeekFlag) {
+        //   return (
+        //     <Component
+        //       key={idx}
+        //       cardSet={cardSet}
+        //       {...props}
+        //       // handleChecked={handleChecked}
+        //     />
+        //   );
+        // }
       }
 
       if (month !== getMonth(parseISO(cardSet[`${dynamicKey}`]))) {
+        console.log('here3')
         month = month - 1;
 
         return (

@@ -23,10 +23,9 @@ export default function ShowCardSet(props){
 
   useEffect(() => {
     if (!isLoading && count === flashcards.length - 1) {
-      console.log('happened')
       fetchPostLastStudied({
         card_set_id: props.match.params.id,
-        last_studied_at: format(Date.now(), "yyyy-LL-dd HH-mm-ssX")
+        last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'")
       });
     }
     
@@ -36,8 +35,7 @@ export default function ShowCardSet(props){
   }, [count, flashcards.length, isLoading, props.match.params.id])
 
   useEffect(() => {
-    fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), 'yyyy-LL-dd HH-mm-ssX')})
-    console.log('running')
+    fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'")})
   }, [props.match.params.id]);
 
   const transitions = useTransition([count], item => item, {

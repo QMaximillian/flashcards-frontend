@@ -20,7 +20,6 @@ export default function StudiedCardSetsContainer(props){
         //     </div>
         //   );
         // })
-
         return addTimeIntervals(cardSets, UserCardSetCard, 'last_studied_at', {studied: true});
     }
        return (

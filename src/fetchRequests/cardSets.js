@@ -26,6 +26,14 @@ export function fetchGetUserCardSetsIndex() {
   }).then(r => r.json());
 }
 
+export function fetchStudiedCardSets() {
+  return fetch(`${BASE_URL}/studied`, {
+    method: "GET",
+    headers: BASE_HEADERS,
+    credentials: 'include'
+  }).then(r => r.json());
+}
+
 export function fetchGetCardSetShow(id) {
   return fetch(`${BASE_URL}/card-sets/${id}`, {
     method: "GET",
@@ -68,6 +76,17 @@ export function fetchPostUpdateCardSetFlashcardCount(body) {
            body: JSON.stringify(body)
          }).then(r => r.json());
        }
+       
+export function fetchGetStudiedCardSets(body) {
+         return fetch(`${BASE_URL}/studied`, {
+           method: "GET",
+           headers: BASE_HEADERS,
+           credentials: "include",
+           body: JSON.stringify(body)
+         }).then(r => r.json());
+       }
+
+       
 
 
 

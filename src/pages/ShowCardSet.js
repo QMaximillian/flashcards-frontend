@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 // useCallback
 import { useTransition, useSpring, animated } from 'react-spring'
 import {fetchGetCardSetShow } from '../fetchRequests/cardSets'
-import { fetchPostLastSeen } from "../fetchRequests/usersCardSets";
+import { fetchPostLastSeen, fetchPostLastStudied } from "../fetchRequests/usersCardSets";
 import FinalFlashCard from '../components/FinalFlashCard'
 import PropTypes from "prop-types";
 import { format } from 'date-fns'
@@ -22,7 +22,22 @@ export default function ShowCardSet(props){
 
 
   useEffect(() => {
+    if (!isLoading && count === flashcards.length - 1) {
+      console.log('happened')
+      fetchPostLastStudied({
+        card_set_id: props.match.params.id,
+        last_studied_at: format(Date.now(), "yyyy-LL-dd HH-mm-ssX")
+      });
+    }
+    
+
+    // console.log('count', count)
+    // console.log('flashcards.length', flashcards.length)
+  }, [count, flashcards.length, isLoading, props.match.params.id])
+
+  useEffect(() => {
     fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), 'yyyy-LL-dd HH-mm-ssX')})
+    console.log('running')
   }, [props.match.params.id]);
 
   const transitions = useTransition([count], item => item, {

@@ -2,8 +2,23 @@ import React from 'react'
 import { Link } from "react-router-dom";
 
 export default function UserCardSetCard(props){
-        const { idx, cardSet } = props
-console.log(cardSet)
+        const { idx, cardSet, studied = false } = props
+
+      function renderStudiedCard(){
+        return (
+          <div className="search border-0 border-black h-16 bg-white border-t-2 border-pink-100">
+            <div className="flex h-full justify-around items-center">
+              <div>Learn</div>
+              <div>Flashcards</div>
+              <div>Write</div>
+              <div>Spell</div>
+              <div>Test</div>
+              <div>Match</div>
+              <div>Gravity</div>
+            </div>
+          </div>
+        );
+      }
        return (
          <div key={idx} className="flex justify-center">
            <div className={`w-full my-2 px-4`}>
@@ -43,11 +58,14 @@ console.log(cardSet)
                          {cardSet.creator_name}
                        </div>
                      </div>
-                     <div className="mt-1 pl-2 text-xl font-medium">{cardSet.name}</div>
+                     <div className="mt-1 pl-2 text-xl font-medium">
+                       {cardSet.name}
+                     </div>
                    </Link>
                  </div>
                </div>
              </div>
+             {studied ? renderStudiedCard() : null}
            </div>
            {/* {editMode && (
                         <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">

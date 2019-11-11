@@ -6,10 +6,12 @@ export default function UserCardSetCard(props){
 
       function renderStudiedCard(){
         return (
-          <div className="search border-0 border-black h-16 bg-white border-t-2 border-pink-100">
+          <div className="px-4 search border-0 border-black h-16 bg-white w-full border-t-2 border-pink-100">
             <div className="flex h-full justify-around items-center">
               <div>Learn</div>
-              <div>Flashcards</div>
+              <Link to={`/card-sets/${cardSet.card_set_id}`}>
+                <div>Flashcards</div>
+              </Link>
               <div>Write</div>
               <div>Spell</div>
               <div>Test</div>
@@ -23,13 +25,15 @@ export default function UserCardSetCard(props){
          <div key={idx} className="flex justify-center">
            <div className={`w-full my-2 px-4`}>
              <div
-               className={`h-20 w-full rounded-sm overflow-hidden home-latest ${
+               className={`w-full rounded-sm overflow-hidden home-latest ${
                  cardSet.checked ? "shadow-inner border-2 border-blue-700" : ""
-               }`}
+               } 
+               ${studied ? "h-40" : "h-20 "}
+               `}
              >
                <div
                  //  onClick={() => handleChecked(cardSet)}
-                 className="flex w-full h-full bg-white items-center shadow-xl"
+                 className="flex flex-col w-full h-full bg-white items-center shadow-xl"
                >
                  {/* <input
                             onChange={() => handleChecked(cardSet)}
@@ -45,7 +49,7 @@ export default function UserCardSetCard(props){
                                 <div>{cardSet.name}</div>
                               </div>
                             ) : ( */}
-                 <div className="py-2 h-full ml-5 flex justify-start" key={idx}>
+                 <div className="py-2 h-20 ml-5 flex w-full justify-start" key={idx}>
                    <Link
                      className="h-full w-full"
                      to={`/card-sets/${cardSet.card_set_id}`}
@@ -63,9 +67,9 @@ export default function UserCardSetCard(props){
                      </div>
                    </Link>
                  </div>
+                 {studied ? renderStudiedCard() : null}
                </div>
              </div>
-             {studied ? renderStudiedCard() : null}
            </div>
            {/* {editMode && (
                         <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">

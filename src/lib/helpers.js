@@ -2,7 +2,7 @@ import React from 'react'
 import { isThisWeek, parseISO, getMonth, format } from "date-fns";
 import UserCardSetCard from '../components/UserCardSetCard'
 
-export function addTimeIntervals(array, Component, dynamicKey) {
+export function addTimeIntervals(array, Component, dynamicKey, props) {
   let withinWeekFlag = true;
   let month;
   let cutOffMonth;
@@ -24,6 +24,7 @@ export function addTimeIntervals(array, Component, dynamicKey) {
               <Component
                 idx={idx}
                 cardSet={cardSet}
+                {...props}
                 // handleChecked={handleChecked}
               />
             </div>
@@ -35,6 +36,7 @@ export function addTimeIntervals(array, Component, dynamicKey) {
             <Component
               key={idx}
               cardSet={cardSet}
+              {...props}
               // handleChecked={handleChecked}
             />
           );
@@ -56,6 +58,7 @@ export function addTimeIntervals(array, Component, dynamicKey) {
             </div>
             <Component
               cardSet={cardSet}
+              {...props}
               // handleChecked={handleChecked}
             />
           </div>
@@ -66,6 +69,7 @@ export function addTimeIntervals(array, Component, dynamicKey) {
         <UserCardSetCard
           key={idx}
           cardSet={cardSet}
+          {...props}
           // handleChecked={handleChecked}
         />
       );

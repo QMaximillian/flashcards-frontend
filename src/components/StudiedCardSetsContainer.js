@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import UserCardSetCard from '../components/UserCardSetCard'
 import { fetchGetStudiedCardSets } from "../fetchRequests/cardSets";
+import { addTimeIntervals } from "../lib/helpers";
+
 
 export default function StudiedCardSetsContainer(props){
 
@@ -11,13 +13,15 @@ export default function StudiedCardSetsContainer(props){
     }, [])
 
     function renderCardSets(){
-        return cardSets.map((cardSet, idx) => {
-          return (
-            <div key={idx}>
-                <UserCardSetCard studied={true} cardSet={cardSet} />
-            </div>
-          );
-        })
+        // return cardSets.map((cardSet, idx) => {
+        //   return (
+        //     <div key={idx}>
+        //         <UserCardSetCard studied={true} cardSet={cardSet} />
+        //     </div>
+        //   );
+        // })
+
+        return addTimeIntervals(cardSets, UserCardSetCard, 'last_studied_at', {studied: true});
     }
        return (
            <div>

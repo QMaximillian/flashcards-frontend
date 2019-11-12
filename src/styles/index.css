@@ -56,3 +56,8 @@
 .w-96 {
   width: 24rem;
 }
+
+
+.has-line:hover {
+    box-shadow: inset 0px -.5rem 0 0 #ebc034;
+}

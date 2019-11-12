@@ -24,29 +24,33 @@ export default function UserCardSetCard(props){
 
       function renderSearchCard(){
         return (
-          <div className="w-full border border-black h-24">
-            <div className="flex justify-between h-full">
-              {cardSet.flashcards.map((flashcard, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className="w-1/4 px-4 border border-black flex flex-col items-start justify-around"
-                  >
-                    <div className="text-xs">{flashcard.term}</div>
-                    <div className="text-xs">{flashcard.definition}</div>
-                  </div>
-                );
-              })}
+          <Link className="w-full" to={`/card-sets/${cardSet.card_set_id}`}>
+            <div className="w-full border border-gray-200 h-32">
+              <div className="flex justify-between h-full">
+                {cardSet.flashcards.map((flashcard, idx) => {
+                  return (
+                    <div
+                      key={idx}
+                      className="w-1/4 px-4 border border-gray-200 flex flex-col items-start justify-around h-full"
+                    >
+                      <div className="text-xs">{flashcard.term}</div>
+                      <div className="text-xs opacity-50">
+                        {flashcard.definition}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          </Link>
         );
       }
 
        return (
-         <div key={idx} className="flex justify-center">
-           <div className={`w-full my-2 px-4`}>
+         <div key={idx} className="flex justify-center ">
+           <div className={`w-full my-2 px-4 `}>
              <div
-               className={`w-full rounded-sm overflow-hidden home-latest ${
+               className={`relative z-0 w-full rounded-sm overflow-hidden  ${
                  cardSet.checked ? "shadow-inner border-2 border-blue-700" : ""
                } 
                ${studied ? "h-40" : "h-20"}
@@ -56,7 +60,7 @@ export default function UserCardSetCard(props){
              >
                <div
                  //  onClick={() => handleChecked(cardSet)}
-                 className="flex flex-col w-full h-full bg-white items-center shadow-xl"
+                 className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl"
                >
                  {/* <input
                             onChange={() => handleChecked(cardSet)}
@@ -72,7 +76,10 @@ export default function UserCardSetCard(props){
                                 <div>{cardSet.name}</div>
                               </div>
                             ) : ( */}
-                 <div className="py-2 h-20 ml-5 flex w-full justify-start" key={idx}>
+                 <div
+                   className="py-2 h-20 ml-5 flex w-full justify-start"
+                   key={idx}
+                 >
                    <Link
                      className="h-full w-full"
                      to={`/card-sets/${cardSet.card_set_id}`}

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from "react-router-dom";
 
 export default function UserCardSetCard(props){
-        const { idx, cardSet, studied = false } = props
+        const { idx, cardSet, studied = false, searchCard = false } = props
 
       function renderStudiedCard(){
         return (
@@ -21,6 +21,27 @@ export default function UserCardSetCard(props){
           </div>
         );
       }
+
+      function renderSearchCard(){
+        return (
+          <div className="w-full border border-black h-24">
+            <div className="flex justify-between h-full">
+              {cardSet.flashcards.map((flashcard, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="w-1/4 px-4 border border-black flex flex-col items-start justify-around"
+                  >
+                    <div className="text-xs">{flashcard.term}</div>
+                    <div className="text-xs">{flashcard.definition}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      }
+
        return (
          <div key={idx} className="flex justify-center">
            <div className={`w-full my-2 px-4`}>
@@ -28,7 +49,9 @@ export default function UserCardSetCard(props){
                className={`w-full rounded-sm overflow-hidden home-latest ${
                  cardSet.checked ? "shadow-inner border-2 border-blue-700" : ""
                } 
-               ${studied ? "h-40" : "h-20 "}
+               ${studied ? "h-40" : "h-20"}
+               ${searchCard ? "h-48" : "h-20"}
+
                `}
              >
                <div
@@ -68,6 +91,7 @@ export default function UserCardSetCard(props){
                    </Link>
                  </div>
                  {studied ? renderStudiedCard() : null}
+                 {searchCard ? renderSearchCard() : null}
                </div>
              </div>
            </div>

@@ -46,7 +46,6 @@ export function addTimeIntervals(array, Component, dynamicKey, props) {
       }
 
       if (month !== getMonth(parseISO(cardSet[`${dynamicKey}`]))) {
-        console.log('here3')
         month = month - 1;
 
         return (

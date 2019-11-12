@@ -10,44 +10,56 @@ export default function MainNavDrawer(props) {
   const recentRouteMatch = useRouteMatch('/:user/recent')
 
     return (
-      <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-auto overflow-y-auto w-full justify-start">
-        <div className="h-64 border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
+      <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-screen overflow-y-auto w-full justify-start">
+        <div className="border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
           <Link
-            className={`${
-              recentRouteMatch ? "bg-orange-500" : null
-            } hover:bg-orange-500 w-full items-center flex flex-1 justify-start`}
+            className={`w-full items-center flex flex-1 justify-start`}
             to="/"
           >
-            <div className="pl-4">Home</div>
+            <div
+              className={`${
+                recentRouteMatch ? "bg-orange-500" : null
+              } w-full py-4 hover:bg-orange-500 pl-4`}
+            >
+              Home
+            </div>
           </Link>
           <div className="flex flex-1 " />
           <div className="flex flex-1 " />
         </div>
         <div
-          className={`h-64 border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center`}
+          className={`border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center`}
         >
           <Link
-            className={`hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${
-              userRouteMatch && !recentRouteMatch ? "bg-orange-500" : null
-            }`}
+            className={`w-full items-center flex-1 justify-start flex`}
             to={`/${user && user.first_name}`}
           >
-            <div className="pl-4"> Card Sets</div>
+            <div
+              className={`${
+                userRouteMatch && !recentRouteMatch ? "bg-orange-500" : null
+              } w-full py-4 hover:bg-orange-500 pl-4`}
+            >
+              Card Sets
+            </div>
           </Link>
           <Link
-            className="hover:bg-orange-500 w-full items-center flex-1 justify-start flex"
+            className="w-full items-center flex-1 justify-start flex"
             to="#"
           >
-            <div className="pl-4 opacity-25 cursor-not-allowed">Folders</div>
+            <div className="w-full py-4 hover:bg-orange-500 pl-4 opacity-25 cursor-not-allowed">
+              Folders
+            </div>
           </Link>
           <Link
-            className="hover:bg-orange-500 w-full items-center flex-1 justify-start flex"
+            className="w-full items-center flex-1 justify-start flex"
             to="#"
           >
-            <div className="pl-4 opacity-25 cursor-not-allowed">Classes</div>
+            <div className="w-full py-4 hover:bg-orange-500 pl-4 opacity-25 cursor-not-allowed">
+              Classes
+            </div>
           </Link>
         </div>
-        <div className="hover:bg-orange-500 h-64 border border-gray-200 border-r-0 border-l-0 flex"></div>
+        <div className="border border-gray-200 border-r-0 border-l-0 flex flex-1"></div>
       </div>
     );
 }

@@ -77,12 +77,11 @@ export function fetchPostUpdateCardSetFlashcardCount(body) {
          }).then(r => r.json());
        }
        
-export function fetchGetStudiedCardSets(body) {
+export function fetchGetStudiedCardSets() {
          return fetch(`${BASE_URL}/studied`, {
            method: "GET",
            headers: BASE_HEADERS,
            credentials: "include",
-           body: JSON.stringify(body)
          }).then(r => r.json());
        }
 

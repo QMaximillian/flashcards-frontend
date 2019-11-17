@@ -14,6 +14,7 @@ export default function HomeLatest(props){
     }, [props.limit])
 
     if (props.pageType === 'HOME' || !props.pageType) {
+      console.log('cardSets', recentCardSets)
        return (
          <div className="py-10 px-8">
            <div className="flex flex-col mb-4 w-full ">

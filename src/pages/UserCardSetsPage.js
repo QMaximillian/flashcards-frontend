@@ -4,17 +4,17 @@ import UserCardSets from '../components/UserCardSets'
 import HomeLatest from '../components/HomeLatest'
 import StudiedCardSetsContainer from '../components/StudiedCardSetsContainer'
 import TextBox from '../components/TextBox'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom'
 
 export default function UserCardSetsPage(props){
 
   const [filter, setFilter] = useState("Latest");
   const [search, setSearch] = useState({ name: "", value: "", isValid: true });
 
-  
   const recentMatch = useRouteMatch('/:user/recent')
   const createdMatch = useRouteMatch('/:user/')
   const studiedMatch = useRouteMatch('/:user/studied')
+
 
   function renderSelect() {
     if (recentMatch) return 

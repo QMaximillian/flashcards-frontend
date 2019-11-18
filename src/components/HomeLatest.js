@@ -7,40 +7,39 @@ import { addTimeIntervals } from '../lib/helpers'
 
 export default function HomeLatest(props){
     const [recentCardSets, setRecentCardSets] = useState([])
-
+    
     useEffect(() => {
-        fetchGetRecentCardSets(props.limit)
-          .then(r => setRecentCardSets(r))
-    }, [props.limit])
+      console.log(props);
+      fetchGetRecentCardSets(props.limit).then(r => setRecentCardSets(r));
+    }, [props, props.limit]);
 
     if (props.pageType === 'HOME' || !props.pageType) {
+
+      console.log('cardSets', recentCardSets)
        return (
          <div className="py-10 px-8">
-           <div className="flex flex-col mb-4 w-full ">
-             <Link to="/card-sets" className="justify-between flex">
-               <div className="mb-4">RECENT</div>
+           <div className="flex  mb-4 w-full justify-between">
+             <div className="mb-4">RECENT</div>
+             <Link to={`/card-sets/`} className="flex">
                <div className="mb-4 flex hover:text-yellow-500 text-teal-500">
                  <div className="">View all</div>
                  <i className="ml-2 fas fa-chevron-right self-center text-sm"></i>
                </div>
              </Link>
-             <div className="flex flex-wrap">
-               {recentCardSets.map((cardSet, i) => {
-                 return (
-                   <Link
-                     to={`/card-sets/${cardSet.id}`}
-                     key={i}
-                     className="w-1/2 h-40 p-2"
-                   >
-                     <HomeLatestCard
-                       key={i}
-                       cardSet={cardSet}
-                       pageType="HOME"
-                     />
-                   </Link>
-                 );
-               })}
-             </div>
+           </div>
+
+           <div className="flex flex-wrap">
+             {recentCardSets.map((cardSet, i) => {
+               return (
+                 <Link
+                   to={`/card-sets/${cardSet.id}`}
+                   key={i}
+                   className="w-1/2 h-40 p-2"
+                 >
+                   <HomeLatestCard key={i} cardSet={cardSet} pageType="HOME" />
+                 </Link>
+               );
+             })}
            </div>
          </div>
        );

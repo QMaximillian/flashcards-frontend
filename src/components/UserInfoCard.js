@@ -1,17 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import UserContext from "../context/UserContext";
+import { fetchShowUser } from '../fetchRequests/user'
 import { Link, useParams, useRouteMatch } from 'react-router-dom'
 // import PropTypes from "prop-types";
 
 export default function UserInfoCard(props){
   const { user: userParam } = useParams()
-    const user = useContext(UserContext);
+  const [profile, setProfile] = React.useState({})
+    // const user = useContext(UserContext);
+    console.log(userParam)
+    useEffect(() => {
+      fetchShowUser(userParam)
+        .then(r => setProfile(r));
+    }, [userParam])
 
     const createdMatch = useRouteMatch('/:user')
     const recentMatch = useRouteMatch('/:user/recent')
     const studiedMatch = useRouteMatch('/:user/studied')
     
-        if (user) {
+        if (profile) {
           return (
             <div className="flex">
               <div className="flex p-6">
@@ -24,7 +31,7 @@ export default function UserInfoCard(props){
                 <div className="flex flex-col justify-around">
                   <div className="flex ml-4">
                     {renderUser()}
-                    <div className="self-center ml-8 text-gray-500 font-light tracking-wide">{`${user.first_name} ${user.last_name}`}</div>
+                    <div className="self-center ml-8 text-gray-500 font-light tracking-wide">{`${profile.first_name} ${profile.last_name}`}</div>
                   </div>
                   {renderMatch()}
                 </div>
@@ -78,7 +85,7 @@ export default function UserInfoCard(props){
        function renderUser(){
          return (
           <div className="text-4xl font-bold tracking-wide">
-            {user.username || user.first_name}
+            {profile.username || profile.first_name}
           </div>
          )
        }

@@ -12,6 +12,7 @@ import EditCardSet from "./pages/EditCardSet";
 import CardSetSearchResults from "./pages/CardSetSearchResults.js";
 import { fetchUser } from './fetchRequests/user'
 import {UserProvider} from './context/UserContext'
+// import FlashcardsNavDrawer from "./components/FlashcardNavDrawer";
 
 
 // import { fetchUser } from "./fetchRequests/user";
@@ -19,7 +20,7 @@ import {UserProvider} from './context/UserContext'
 function App(props) {
     const [response, setResponse] = useState(null);
     // const [navBar, setNavBar] = useState(null);
-    
+    console.log(response)
     useEffect(() => {
             fetchUser().then(r => setResponse(r))
     }, [])
@@ -45,10 +46,17 @@ function App(props) {
                   path="/card-sets/new"
                   component={CreateCardSetForm}
                 />
-                <Route exact path="/card-sets/:id" component={ShowCardSet} />
+                {/* <div className="w-full h-full flex-col-reverse"> */}
+                <Route
+                  exact
+                  path="/card-sets/:id"
+                  render={(props) => (
+                    <div className="w-full h-full flex-col-reverse">
+                      <ShowCardSet {...props} />
+                    </div>
+                  )}
+                />
 
-                <Route exact path="/sign-up" component={SignUp} />
-                <Route exact path="/" component={Home} />
                 <Redirect to="/" from="/home" component={Home} />
                 <Route
                   exact
@@ -59,7 +67,9 @@ function App(props) {
                   path="/search/:search"
                   component={CardSetSearchResults}
                 />
+                <Route exact path="/sign-up" component={SignUp} />
                 <Route path="/:user/" component={UserCardSetsPage} />
+                <Route exact path="/" component={Home} />
               </Switch>
             </div>
           </div>

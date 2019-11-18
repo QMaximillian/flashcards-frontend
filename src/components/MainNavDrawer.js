@@ -31,8 +31,15 @@ export default function MainNavDrawer(props) {
           className={`border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center`}
         >
           <Link
-            className={`w-full items-center flex-1 justify-start flex`}
-            to={`/${user && user.first_name}`}
+
+            // className={`w-full items-center flex-1 justify-start flex`}
+            // to={`/${user && user.first_name}`}
+
+            className={`hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${
+              userRouteMatch && !recentRouteMatch ? "bg-orange-500" : null
+            }`}
+            to={`/${user && user.username}`}
+
           >
             <div
               className={`${

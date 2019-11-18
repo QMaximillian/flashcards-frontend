@@ -24,13 +24,15 @@ export default function CreateCardSetForm(props){
 
   useEffect(() => {
     if (props.editMode && props.cardSet) {
+      let editCardSet;
+      if (props.cardSet.length !== 0) {
+        editCardSet = props.cardSet.flashcards.map(flashcard => {
+          return {id: flashcard.id, term: flashcard.term, definition: flashcard.definition}
+        })
+    }
 
-      const editCardSet = props.cardSet.map(flashcard => {
-        return {id: flashcard.id, term: flashcard.term, definition: flashcard.definition}
-      })
-
-      setFields(editCardSet)
-      setCardSetName(props.cardSet[0] ? ({name: cardSetName.name, value: props.cardSet[0].name, isValid: true}) : {})
+      setFields(editCardSet || [])
+      setCardSetName(props.cardSet.name ? ({name: 'card-set-name', value: props.cardSet.name, isValid: true}) : {})
     }
   }, [props.editMode, props.cardSet, cardSetName.name])
 

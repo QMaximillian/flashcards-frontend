@@ -8,6 +8,14 @@ export function fetchUser(){
       }).then(r => r.json());
 }
 
+export function fetchShowUser(username){
+  return fetch(`${BASE_URL}/user/${username}`, {
+    method: "GET",
+    headers: BASE_HEADERS,
+    credentials: "include"
+  }).then(r => r.json());
+}
+
 export function fetchRemoveCookie(){
       return fetch(`${BASE_URL}/delete-cookie`, {
         method: "POST",

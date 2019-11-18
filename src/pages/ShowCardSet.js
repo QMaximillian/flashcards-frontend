@@ -6,17 +6,31 @@ import { fetchPostLastSeen, fetchPostLastStudied } from "../fetchRequests/usersC
 import FinalFlashCard from '../components/FinalFlashCard'
 import PropTypes from "prop-types";
 import { format } from 'date-fns'
+import FlashcardsNavDrawer from "../components/FlashcardNavDrawer";
+import TermsInSet from '../components/TermsInSet'
+
 
 export default function ShowCardSet(props){
   const [isLoading, setIsLoading] = useState(true)
+  const [cardSet, setCardSet] = useState({})
   const [flashcards, setFlashcards] = useState([])
   const [count, setCount] = useState(0)
   const [reverse, setReverse] = useState(false)
   
+  useEffect(() => {
+    console.log(props.match)
+  }, [props.match])
 
   useEffect(() => {
     fetchGetCardSetShow(props.match.params.id)
-    .then(r => setFlashcards([...r, {}]))
+    .then(r => {
+      console.log('r', r)
+      const { flashcards, ...rest } = r
+      setCardSet(rest);
+      setFlashcards([...flashcards, {}])
+      
+    })
+        
     .then(r => setIsLoading(false))
   }, [props.match.params.id])
 
@@ -90,22 +104,27 @@ export default function ShowCardSet(props){
             <div className="w-full py-4 overflow-hidden flex justify-center">
               <div className="flex relative h-64 w-3/4">
                 {transitions.map(({ item, props, key }) => {
-                      
-                      if (count !== flashcards.length - 1) {
-                       return <animated.div key={key} style={props}>
-                          <Card
+                  if (count !== flashcards.length - 1) {
+                    return (
+                      <animated.div key={key} style={props}>
+                        <Card
                           key={key}
                           style={props}
                           flashcardFront={flashcards[item].term}
-                          flashcardBack={flashcards[item].definition}/>
-                        </animated.div>
-                      } else {
-                        return (
-                          <animated.div key={key} style={props}>
-                            <FinalFlashCard cardSetLength={flashcards.length-2} handleReset={() => setCount(0)}/>
-                          </animated.div>
-                        );
-                      }
+                          flashcardBack={flashcards[item].definition}
+                        />
+                      </animated.div>
+                    );
+                  } else {
+                    return (
+                      <animated.div key={key} style={props}>
+                        <FinalFlashCard
+                          cardSetLength={flashcards.length - 2}
+                          handleReset={() => setCount(0)}
+                        />
+                      </animated.div>
+                    );
+                  }
                 })}
               </div>
             </div>
@@ -120,9 +139,7 @@ export default function ShowCardSet(props){
               >
                 <i className="fas fa-arrow-left"></i>
               </div>
-              <div>
-                {renderCurrentCardFraction()}
-              </div>
+              <div>{renderCurrentCardFraction()}</div>
               <div
                 onClick={nextSlide}
                 className={`mx-10 ${
@@ -132,6 +149,34 @@ export default function ShowCardSet(props){
                 }`}
               >
                 <i className="fas fa-arrow-right"></i>
+              </div>
+            </div>
+          </div>
+          <FlashcardsNavDrawer />
+          <div className="md:flex flex-col ">
+            <div className="w-full">
+              <div className="text-xs text-gray-500">Created by </div>
+              <div className="text-sm">{cardSet.creator_username}</div>
+            </div>
+            <div className="flex justify-end border border-black">
+              <div className="w-2/5 flex justify-around">
+                <i className="fas fa-plus"></i>
+                <i className="far fa-edit"></i>
+                <i className="fas fa-share"></i>
+                <i className="fas fa-info"></i>
+                <i className="fas fa-ellipsis-h"></i>
+              </div>
+            </div>
+            <div className="mx-4 mt-4">
+              <TermsInSet
+                flashcards={flashcards.slice(0, flashcards.length - 1)}
+              />
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <div className="h-16 rounded bg-teal-500 w-64 flex items-center justify-center">
+              <div className="text-white tracking-wide">
+                Add or Remove Items
               </div>
             </div>
           </div>

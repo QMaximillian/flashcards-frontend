@@ -30,7 +30,7 @@ import React, {
   // useEffect 
 } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import FlashcardsNavDrawer from '../components/FlashcardNavDrawer'
+
 import MainNavDrawer from '../components/MainNavDrawer'
 
 export default function NavDrawer(props){
@@ -39,15 +39,7 @@ export default function NavDrawer(props){
   return (
     <Switch>
       <Route exact path="/card-sets/new" component={null}></Route>
-      <Route
-        exact
-        path="/card-sets/:id"
-        component={() => (
-          <div className="hidden lg:block pl-10 w-96 h-full">
-            <FlashcardsNavDrawer />
-          </div>
-        )}
-      ></Route>
+      <Route exact path="/card-sets/:id" component={null}></Route>
       <Route
         path="/"
         component={

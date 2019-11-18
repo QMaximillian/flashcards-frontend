@@ -98,7 +98,7 @@ export default function ShowCardSet(props){
 
       return !isLoading ? (
         <div className="w-full">
-          <div className="text-4xl font-bold text-gray-700 opacity-50 self-start">
+          <div className="text-4xl font-bold text-gray-700 opacity-50 ml-16 mt-8">
             {cardSet.name}
           </div>
           <div className="flex lg:flex-row flex-col-reverse lg:w-full pl-20">

@@ -20,7 +20,7 @@ import {UserProvider} from './context/UserContext'
 function App(props) {
     const [response, setResponse] = useState(null);
     // const [navBar, setNavBar] = useState(null);
-    
+    console.log(response)
     useEffect(() => {
             fetchUser().then(r => setResponse(r))
     }, [])

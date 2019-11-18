@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 // useCallback
 import { useTransition, useSpring, animated } from 'react-spring'
+import { Link } from 'react-router-dom'
 import {fetchGetCardSetShow } from '../fetchRequests/cardSets'
 import { fetchPostLastSeen, fetchPostLastStudied } from "../fetchRequests/usersCardSets";
 import FinalFlashCard from '../components/FinalFlashCard'
@@ -97,87 +98,108 @@ export default function ShowCardSet(props){
 
       return !isLoading ? (
         <div className="w-full">
-          <div className="text-4xl font-bold text-gray-700 opacity-50">
-            {flashcards[0].name}
+          <div className="text-4xl font-bold text-gray-700 opacity-50 self-start">
+            {cardSet.name}
           </div>
-          <div className="flex-col flex items-center justify-between">
-            <div className="w-full py-4 overflow-hidden flex justify-center">
-              <div className="flex relative h-64 w-3/4">
-                {transitions.map(({ item, props, key }) => {
-                  if (count !== flashcards.length - 1) {
-                    return (
-                      <animated.div key={key} style={props}>
-                        <Card
-                          key={key}
-                          style={props}
-                          flashcardFront={flashcards[item].term}
-                          flashcardBack={flashcards[item].definition}
-                        />
-                      </animated.div>
-                    );
-                  } else {
-                    return (
-                      <animated.div key={key} style={props}>
-                        <FinalFlashCard
-                          cardSetLength={flashcards.length - 2}
-                          handleReset={() => setCount(0)}
-                        />
-                      </animated.div>
-                    );
-                  }
-                })}
-              </div>
+          <div className="flex lg:flex-row flex-col-reverse lg:w-full pl-20">
+            <div className="lg:flex-col lg:flex lg:w-1/4">
+              <div className="pl-2 text-sm opacity-25">STUDY</div>
+
+              <FlashcardsNavDrawer />
             </div>
-            <div className="flex justify-center w-3/4 h-12 flex justify-center items-center">
-              <div
-                onClick={prevSlide}
-                className={`mx-10 ${
-                  count === 0
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:text-orange-500"
-                }`}
-              >
-                <i className="fas fa-arrow-left"></i>
+            <div className="flex-col flex items-center justify-between lg:w-3/4">
+              <div className="w-full py-4 overflow-hidden flex justify-center">
+                <div className="flex relative h-64 w-3/4">
+                  {transitions.map(({ item, props, key }) => {
+                    if (count !== flashcards.length - 1) {
+                      return (
+                        <animated.div key={key} style={props}>
+                          <Card
+                            key={key}
+                            style={props}
+                            flashcardFront={flashcards[item].term}
+                            flashcardBack={flashcards[item].definition}
+                          />
+                        </animated.div>
+                      );
+                    } else {
+                      return (
+                        <animated.div key={key} style={props}>
+                          <FinalFlashCard
+                            cardSetLength={flashcards.length - 2}
+                            handleReset={() => setCount(0)}
+                          />
+                        </animated.div>
+                      );
+                    }
+                  })}
+                </div>
               </div>
-              <div>{renderCurrentCardFraction()}</div>
-              <div
-                onClick={nextSlide}
-                className={`mx-10 ${
-                  count === flashcards.length - 1
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:text-orange-500"
-                }`}
-              >
-                <i className="fas fa-arrow-right"></i>
+              <div className="flex justify-center w-3/4 h-12 flex justify-center items-center">
+                <div
+                  onClick={prevSlide}
+                  className={`mx-10 ${
+                    count === 0
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:text-orange-500"
+                  }`}
+                >
+                  <i className="fas fa-arrow-left"></i>
+                </div>
+                <div>{renderCurrentCardFraction()}</div>
+                <div
+                  onClick={nextSlide}
+                  className={`mx-10 ${
+                    count === flashcards.length - 1
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:text-orange-500"
+                  }`}
+                >
+                  <i className="fas fa-arrow-right"></i>
+                </div>
               </div>
             </div>
           </div>
-          <FlashcardsNavDrawer />
-          <div className="md:flex flex-col ">
-            <div className="w-full">
-              <div className="text-xs text-gray-500">Created by </div>
-              <div className="text-sm">{cardSet.creator_username}</div>
+          {/* <div className="pl-2 text-sm opacity-25">STUDY</div> */}
+          {/* <div className="flex flex-col sm:flex-row lg:hidden">
+            <FlashcardsNavDrawer />
+          </div> */}
+          <hr className="mx-4" />
+          <div className="sm:flex px-4">
+            <div className="w-1/3 py-6 flex">
+              <div class="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center" />
+              <div className="ml-2 self-center">
+                <div className="text-xs text-gray-500">Created by </div>
+                <div className="text-sm">{cardSet.creator_username}</div>
+              </div>
             </div>
-            <div className="flex justify-end border border-black">
+            <div className="flex justify-end sm:items-center sm:w-full">
               <div className="w-2/5 flex justify-around">
-                <i className="fas fa-plus"></i>
-                <i className="far fa-edit"></i>
-                <i className="fas fa-share"></i>
-                <i className="fas fa-info"></i>
-                <i className="fas fa-ellipsis-h"></i>
+                <i className="fas fa-plus opacity-50 cursor-not-allowed"></i>
+                <Link
+                  to={`/card-sets/${props.match.params.id}/edit`}
+                  className="flex items-center justify-center"
+                >
+                  <i className="far fa-edit"></i>
+                </Link>
+                <i className="fas fa-share opacity-50 cursor-not-allowed"></i>
+                <i className="fas fa-info opacity-50 cursor-not-allowed"></i>
+                <i className="fas fa-ellipsis-h opacity-50 cursor-not-allowed"></i>
               </div>
             </div>
-            <div className="mx-4 mt-4">
-              <TermsInSet
-                flashcards={flashcards.slice(0, flashcards.length - 1)}
-              />
-            </div>
+          </div>
+          <div className="mx-4 mt-4">
+            <TermsInSet
+              flashcards={flashcards.slice(0, flashcards.length - 1)}
+            />
           </div>
           <div className="flex justify-center">
             <div className="h-16 rounded bg-teal-500 w-64 flex items-center justify-center">
-              <div className="text-white tracking-wide">
-                Add or Remove Items
-              </div>
+              <Link to={`/card-sets/${props.match.params.id}/edit`}>
+                <div className="text-white tracking-wide">
+                  Add or Remove Items
+                </div>
+              </Link>
             </div>
           </div>
         </div>

@@ -89,7 +89,7 @@ export default function UserCardSetsPage(props){
                      />
                      <Route
                        path="/:user/studied"
-                       render={() => <StudiedCardSetsContainer />}
+                       render={StudiedCardSetsContainer}
                      />
                      <Route
                        path={`/:user`}

@@ -9,7 +9,7 @@ export function addTimeIntervals(array, Component, dynamicKey, props) {
 
   return array
     .map((cardSet, idx) => {
-
+      
       if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]))) {
         if (withinWeekFlag) {
           

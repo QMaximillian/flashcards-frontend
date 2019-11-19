@@ -20,7 +20,7 @@ export default function HomeLatest(props){
          <div className="py-10 px-8">
            <div className="flex  mb-4 w-full justify-between">
              <div className="mb-4">RECENT</div>
-             <Link to={`/card-sets/`} className="flex">
+             <Link to={`/QuinnMax`} className="flex">
                <div className="mb-4 flex hover:text-yellow-500 text-teal-500">
                  <div className="">View all</div>
                  <i className="ml-2 fas fa-chevron-right self-center text-sm"></i>

@@ -24,7 +24,6 @@ export default function CardSetSearchResults(props){
        return (
            <div className='w-full p-6'>
             {cardSets.map((cardSet, idx) => {
-                console.log(cardSet)
                 return (
                   <div key={idx}>
                       <UserCardSetCard cardSet={cardSet} searchCard={true}/>

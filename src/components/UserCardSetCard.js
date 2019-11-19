@@ -8,26 +8,27 @@ export default function UserCardSetCard(props){
         return (
           <div className="px-4 search border-0 border-black h-16 bg-white w-full border-t-2 border-pink-100">
             <div className="flex h-full justify-around items-center">
-              <div>Learn</div>
+              <div className="cursor-not-allowed opacity-25">Learn</div>
               <Link to={`/card-sets/${cardSet.card_set_id}`}>
-                <div>Flashcards</div>
+                <div className="">Flashcards</div>
               </Link>
-              <div>Write</div>
-              <div>Spell</div>
-              <div>Test</div>
-              <div>Match</div>
-              <div>Gravity</div>
+              <div className="cursor-not-allowed opacity-25">Write</div>
+              <div className="cursor-not-allowed opacity-25">Spell</div>
+              <div className="cursor-not-allowed opacity-25">Test</div>
+              <div className="cursor-not-allowed opacity-25">Match</div>
+              <div className="cursor-not-allowed opacity-25">Gravity</div>
             </div>
           </div>
         );
       }
 
       function renderSearchCard(){
+        if (cardSet.flashcards === null) return;
         return (
           <Link className="w-full" to={`/card-sets/${cardSet.card_set_id}`}>
             <div className="w-full border border-gray-200 h-32">
               <div className="flex justify-between h-full">
-                {cardSet.flashcards.map((flashcard, idx) => {
+                {cardSet.flashcards.map((flashcard, idx) => {  
                   return (
                     <div
                       key={idx}
@@ -77,7 +78,7 @@ export default function UserCardSetCard(props){
                               </div>
                             ) : ( */}
                  <div
-                   className="py-2 h-20 ml-5 flex w-full justify-start"
+                   className={`py-2 h-20 pl-5 flex w-full justify-start ${searchCard ? 'border-b-0 border-2 border-gray-200' : ''}`}
                    key={idx}
                  >
                    <Link

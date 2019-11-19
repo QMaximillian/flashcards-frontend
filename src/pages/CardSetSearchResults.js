@@ -22,7 +22,7 @@ export default function CardSetSearchResults(props){
 
     console.log(cardSets);
        return (
-           <div className='w-full'>
+           <div className='w-full p-6'>
             {cardSets.map((cardSet, idx) => {
                 console.log(cardSet)
                 return (

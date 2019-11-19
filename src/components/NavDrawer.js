@@ -44,7 +44,7 @@ export default function NavDrawer(props){
         path="/"
         component={
           () => 
-          <div className="w-2/5 h-full">
+          <div className="w-2/5 h-screen top-0 left-0 sticky">
             <MainNavDrawer />
           </div>
         }

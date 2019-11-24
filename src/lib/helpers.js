@@ -1,51 +1,55 @@
 import React from 'react'
-import { isThisWeek, parseISO, getMonth, format } from "date-fns";
-import UserCardSetCard from '../components/UserCardSetCard'
+import { isDate, isThisWeek, parseISO, getMonth, format } from "date-fns";
+
 
 export function addTimeIntervals(array, Component, dynamicKey, props) {
+// Checking if array passed in is an array
+  if (!Array.isArray(array)) {
+    throw new Error('Not an array')
+  }
+
+
+
   let withinWeekFlag = true;
-  let month;
-  let cutOffMonth;
+  let month = getMonth(Date.now());
+
+  let cutOffMonth = month - 4;
 
   return array
     .map((cardSet, idx) => {
-      
-      if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]))) {
+
+      // Error checking dynamicKey can be converted into a date
+      if (isDate(parseISO(dynamicKey))) console.log('is date')
+
+
+      if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]), { weekStartsOn: 0 })) {
         if (withinWeekFlag) {
-          
-          month = getMonth(parseISO(cardSet[`${dynamicKey}`]));
-          cutOffMonth = month - 2;
+          // Check if the first value in our array is within the
+          // first week. 
           withinWeekFlag = false;
 
+          // We only want to show the 'THIS WEEK' header once, 
+          // so set withinWeekFlag to false to prevent showing it 
+          // for each entry that is within this week
+          
           return (
             <div key={idx} className="w-full flex flex-col">
               <div className="flex w-full items-center px-4">
                 <div className="text-xs w-32">THIS WEEK</div>
                 <hr className="border border-solid border-b-2 border-gray-400 w-full" />
               </div>
-              <Component
-                idx={idx}
-                cardSet={cardSet}
-                {...props}
-                // handleChecked={handleChecked}
-              />
+              <Component idx={idx} cardSet={cardSet} {...props} />
             </div>
           );
+        } else {
+          // return base component after the 'THIS WEEK' header is generated for the first and only time
+          return <Component key={idx} cardSet={cardSet} {...props} />;
         }
-
-        // if (!withinWeekFlag) {
-        //   return (
-        //     <Component
-        //       key={idx}
-        //       cardSet={cardSet}
-        //       {...props}
-        //       // handleChecked={handleChecked}
-        //     />
-        //   );
-        // }
       }
 
-      if (month !== getMonth(parseISO(cardSet[`${dynamicKey}`]))) {
+      if (month === getMonth(parseISO(cardSet[`${dynamicKey}`]))) {
+        // If the month matches the current cardSet keys month then create a new header with that specific month
+        // Subtract to generate previous months header when the conditional is fulfilled again
         month = month - 1;
 
         return (
@@ -61,18 +65,17 @@ export function addTimeIntervals(array, Component, dynamicKey, props) {
             <Component
               cardSet={cardSet}
               {...props}
-              // handleChecked={handleChecked}
             />
           </div>
         );
       }
-
+    
+      // If none of these conditions are met, return base component
       return (
-        <UserCardSetCard
+        <Component
           key={idx}
           cardSet={cardSet}
           {...props}
-          // handleChecked={handleChecked}
         />
       );
     });

@@ -28,6 +28,17 @@ export default function Login(props){
       });
     }
 
+    function handleGoogleLogin(){
+      return fetch("http://localhost:8000/auth/google", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "mode": "no-cors"
+        }
+      });
+    } 
+
        return (
          <div className="flex justify-center w-full h-full items-center">
            <div className="w-full max-w-md self-center">
@@ -66,6 +77,12 @@ export default function Login(props){
                  type="button"
                >
                  Submit
+               </button>
+               <button onClick={handleGoogleLogin}
+                 className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                 type="button"
+               >
+                 LOGIN WITH GOOGLE
                </button>
              </div>
              {redirect && <Redirect to="home" />}

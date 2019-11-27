@@ -38,7 +38,6 @@ function App(props) {
             <Route path="/" component={NavDrawer} />
 
             <div className="w-full h-full">
-              <Route exact path="/login" component={Login} />
               {/* <Route exact path="/card-sets/" component={UserCardSetsPage} /> */}
               <Switch>
                 <Route
@@ -50,7 +49,7 @@ function App(props) {
                 <Route
                   exact
                   path="/card-sets/:id"
-                  render={(props) => (
+                  render={props => (
                     <div className="w-full h-full flex-col-reverse">
                       <ShowCardSet {...props} />
                     </div>
@@ -68,6 +67,8 @@ function App(props) {
                   component={CardSetSearchResults}
                 />
                 <Route exact path="/sign-up" component={SignUp} />
+                <Route exact path="/login" component={Login} />
+
                 <Route path="/:user/" component={UserCardSetsPage} />
                 <Route exact path="/" component={Home} />
               </Switch>

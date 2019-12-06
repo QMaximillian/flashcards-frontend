@@ -28,16 +28,17 @@ export default function Login(props){
       });
     }
 
-    function handleGoogleLogin(){
-      return fetch("http://localhost:8000/auth/google", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "mode": "no-cors"
-        }
-      });
-    } 
+    // function handleGoogleLogin(){
+    //   return fetch("http://localhost:8000/auth/google", {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Accept: "application/json",
+    //       mode: 'no-cors'
+
+    //     }
+    //   });
+    // } 
 
        return (
          <div className="flex justify-center w-full h-full items-center">
@@ -71,18 +72,22 @@ export default function Login(props){
                  type="text"
                />
              </div>
-             <div onClick={handleSubmit} className="flex justify-center">
+             <div className="flex justify-center">
                <button
+                 onClick={handleSubmit}
                  className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                  type="button"
                >
                  Submit
                </button>
-               <button onClick={handleGoogleLogin}
+               <button
+                 // onClick={handleGoogleLogin}
                  className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                  type="button"
                >
-                 LOGIN WITH GOOGLE
+                 <a href="http://localhost:8000/auth/google">
+                   LOGIN WITH GOOGLE
+                 </a>
                </button>
              </div>
              {redirect && <Redirect to="home" />}

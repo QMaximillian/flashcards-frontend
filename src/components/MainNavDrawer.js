@@ -4,7 +4,7 @@ import UserContext from '../context/UserContext'
 
 export default function MainNavDrawer(props) {
 
-  const user = useContext(UserContext)
+  // const user = useContext(UserContext)
 
   const userRouteMatch = useRouteMatch(['/:user', '/:user/studied'])
   const recentRouteMatch = useRouteMatch('/:user/recent')
@@ -38,7 +38,8 @@ export default function MainNavDrawer(props) {
             className={`hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${
               userRouteMatch && !recentRouteMatch ? "bg-orange-500" : null
             }`}
-            to={`/${user && user.username}`}
+            // to={`/${user && user.username}`}
+            to={'QuinnMax'}
 
           >
             <div

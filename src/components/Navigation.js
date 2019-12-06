@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 // import { fetchRemoveCookie } from "../fetchRequests/user";
 import TextBox from '../components/TextBox'
-import UserContext from '../context/UserContext'
+// import UserContext from '../context/UserContext'
 import "../styles/index.css"
 
 
@@ -10,7 +10,6 @@ import "../styles/index.css"
 
 
 export default function Navigation(props){
-    const user = useContext(UserContext)
 
     const navRef = useRef(null)
     // const [ user, setUser ] = React.useState(props.user)
@@ -120,31 +119,29 @@ export default function Navigation(props){
     }
 
     function renderUserOrOptions(){
-        if (user) {
+        if (props.user) {
           return (
             <div
               className="flex search-box"
               onClick={
                 () => {}
-                // () =>
-                // fetchRemoveCookie(r => {
-                //   // if (r.cookieDeleted) {
-                //   //    setUser(null)
-                //   // }
-                // })
               }
             >
-              <div className={`${dropdownToggle ? 'text-gray-500' : 'text-white'} search-box search`}>{user.first_name}</div>
+              <div
+                className={`${
+                  dropdownToggle ? "text-gray-500" : "text-white"
+                } search-box search`}
+              >
+                {props.user && props.user.first_name}
+              </div>
               <i
                 onClick={() => setDropdownToggle(prev => !prev)}
-                className={`${dropdownToggle ? 'text-gray-500' : 'text-white'} search-box search pl-4 self-center fas fa-chevron-down`}
+                className={`${
+                  dropdownToggle ? "text-gray-500" : "text-white"
+                } search-box search pl-4 self-center fas fa-chevron-down`}
               ></i>
-            </div>
-          );
-        } else {
-            return (
-                <div className="flex">
-                  <div className="whitespace-no-wrap">SIGN UP</div>
+              <div className="flex">
+                {/* <div className="whitespace-no-wrap">SIGN UP</div>
                   <Link
                     className="flex justify-between w-full h-full"
                     to="/login"
@@ -155,11 +152,12 @@ export default function Navigation(props){
                     className="flex justify-between w-full h-full"
                     to="sign-up"
                   >
-                    <div>SIGN UP</div>
-                  </Link>
-                </div>
-            );  
-        }
+                    <div>SIGN UP</div> 
+                  </Link>*/}
+              </div>
+            </div>
+          );
+        } 
     }
 
     

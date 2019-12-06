@@ -9,18 +9,16 @@ export default function HomeLatest(props){
     const [recentCardSets, setRecentCardSets] = useState([])
     
     useEffect(() => {
-      console.log(props);
       fetchGetRecentCardSets(props.limit).then(r => setRecentCardSets(r));
-    }, [props, props.limit]);
+    }, [props.limit]);
 
     if (props.pageType === 'HOME' || !props.pageType) {
 
-      console.log('cardSets', recentCardSets)
        return (
          <div className="py-10 px-8">
            <div className="flex  mb-4 w-full justify-between">
              <div className="mb-4">RECENT</div>
-             <Link to={`/QuinnMax`} className="flex">
+             <Link to={`/${props.user.username}`} className="flex">
                <div className="mb-4 flex hover:text-yellow-500 text-teal-500">
                  <div className="">View all</div>
                  <i className="ml-2 fas fa-chevron-right self-center text-sm"></i>

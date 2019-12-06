@@ -7,8 +7,8 @@ import { Link, useParams, useRouteMatch } from 'react-router-dom'
 export default function UserInfoCard(props){
   const { user: userParam } = useParams()
   const [profile, setProfile] = React.useState({})
-    // const user = useContext(UserContext);
-    console.log(userParam)
+    const user = useContext(UserContext);
+
     useEffect(() => {
       fetchShowUser(userParam)
         .then(r => setProfile(r));
@@ -85,7 +85,7 @@ export default function UserInfoCard(props){
        function renderUser(){
          return (
           <div className="text-4xl font-bold tracking-wide">
-            {profile.username || profile.first_name}
+            {user.username || user.first_name}
           </div>
          )
        }

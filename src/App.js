@@ -30,8 +30,8 @@ function App(props) {
     console.log(response)
     
     const LoggedInRoutes = () => {
+
       return (
-        
               <div className="flex w-full h-full">
                 <Route path="/" component={NavDrawer} />
 
@@ -68,7 +68,7 @@ function App(props) {
                     
 
                     <Route path="/:user/" component={UserCardSetsPage} />
-                    <Route exact path="/" component={Home} />
+                    <Route exact path="/" render={() => <Home />} />
                   </Switch>
                 </div>
               </div>
@@ -104,8 +104,8 @@ function App(props) {
           </>
       );
     };
-    let user = React.useContext(UserContext)
-    console.log(user && user.user)
+    // let user = React.useContext(UserContext)
+
     // return response && response.user ? <LoggedInRoutes /> : <LoggedOutRoutes />
     return (
       <div className="">

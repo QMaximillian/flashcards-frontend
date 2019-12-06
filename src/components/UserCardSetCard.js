@@ -1,5 +1,6 @@
-import React from 'react'
+import React from "react";
 import { Link } from "react-router-dom";
+import UserContext from '../context/UserContext'
 
 export default function UserCardSetCard(props){
         const { idx, cardSet, studied = false, searchCard = false } = props

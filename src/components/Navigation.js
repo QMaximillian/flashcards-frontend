@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-// import { fetchRemoveCookie } from "../fetchRequests/user";
 import TextBox from '../components/TextBox'
-// import UserContext from '../context/UserContext'
 import "../styles/index.css"
 
 
@@ -107,11 +105,9 @@ export default function Navigation(props){
       if (dropdownToggle) {
         return (
           <div className="pl-4 py-2 w-48 absolute h-56 border border-orange-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg">
-            <div onClick={() => {
-              // logout background
-            }}>
+            <a href="http://localhost:8000/auth/logout">
               LOGOUT
-            </div>
+            </a>
           </div>
         )
       } 

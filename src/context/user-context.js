@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { fetchUser } from '../fetchRequests/user'
 import UserContext from './UserContext'
-// import { useAuth } from "./auth-context";
 
 
-
-// function UserProvider(props) {
-//   const {
-//     data: { user }
-//   } = useAuth();
-//   return <UserContext.Provider value={user} {...props} />;
-// }
 function UserProvider({ children }) {
   const [user, setUser] = useState()
 
@@ -18,9 +10,9 @@ function UserProvider({ children }) {
   fetchUser()
     .then(r => {
       if (r === undefined || null) return
-      setUser(r)
+      setUser(Object.keys(r).length === 0 ? false : r);
     })
-    // .catch(err => console.log(err))
+    .catch(err => console.log(err))
   }, [])
 
   return (

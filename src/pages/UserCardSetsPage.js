@@ -4,7 +4,7 @@ import UserCardSets from '../components/UserCardSets'
 import HomeLatest from '../components/HomeLatest'
 import StudiedCardSetsContainer from '../components/StudiedCardSetsContainer'
 import TextBox from '../components/TextBox'
-import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom'
+import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 export default function UserCardSetsPage(props){
 

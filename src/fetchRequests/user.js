@@ -24,6 +24,14 @@ export function fetchRemoveCookie(){
       }).then(r => r.json());
 }
 
+// export function fetchLogout(){
+//       return fetch(`${BASE_URL}/auth/logout`, {
+//         method: "GET",
+//         headers: BASE_HEADERS,
+//         credentials: "include"
+//       }).then(r => r.json());
+// }
+
 
 
 

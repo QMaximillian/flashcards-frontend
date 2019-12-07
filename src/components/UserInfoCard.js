@@ -1,13 +1,11 @@
-import React, { useContext, useEffect } from 'react'
-import UserContext from "../context/UserContext";
+import React, { useEffect } from 'react'
 import { fetchShowUser } from '../fetchRequests/user'
 import { Link, useParams, useRouteMatch } from 'react-router-dom'
-// import PropTypes from "prop-types";
+
 
 export default function UserInfoCard(props){
   const { user: userParam } = useParams()
   const [profile, setProfile] = React.useState({})
-    const user = useContext(UserContext);
 
     useEffect(() => {
       fetchShowUser(userParam)
@@ -85,17 +83,12 @@ export default function UserInfoCard(props){
        function renderUser(){
          return (
           <div className="text-4xl font-bold tracking-wide">
-            {user.username || user.first_name}
+            {profile.username || profile.first_name}
           </div>
          )
        }
 }
 
-UserInfoCard.defaultProps = {
-  user: {
-    username: ''
-  }
-};
 
 
 

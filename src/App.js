@@ -114,7 +114,7 @@ function App(props) {
             <UserContext.Consumer>
               {user => (   
                 <div>
-                  <Navigation user={user}/>
+                  <Navigation user={user} />
                   {user ? <LoggedInRoutes /> : <LoggedOutRoutes />}
                 </div>         
               )}

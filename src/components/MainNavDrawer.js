@@ -1,10 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
-import UserContext from '../context/UserContext'
 
 export default function MainNavDrawer(props) {
-
-  // const user = useContext(UserContext)
 
   const userRouteMatch = useRouteMatch(['/:user', '/:user/studied'])
   const recentRouteMatch = useRouteMatch('/:user/recent')

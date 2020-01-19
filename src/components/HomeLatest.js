@@ -7,12 +7,17 @@ import { addTimeIntervals } from '../lib/helpers'
 
 export default function HomeLatest(props){
     const [recentCardSets, setRecentCardSets] = useState([])
+    // const [error, setError] = useState(null)
     
     useEffect(() => {
       console.log(props);
-      fetchGetRecentCardSets(props.limit).then(r => setRecentCardSets(r));
+      fetchGetRecentCardSets(props.limit)
+        .then(r => setRecentCardSets(r))
+        // .catch(error => setError(error.message));
     }, [props, props.limit]);
 
+    // if (error) throw new Error(error)
+    // if (recentCardSets.length === 0) return "Loading..."
     if (props.pageType === 'HOME' || !props.pageType) {
 
       console.log('cardSets', recentCardSets)

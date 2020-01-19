@@ -12,6 +12,7 @@ import EditCardSet from "./pages/EditCardSet";
 import CardSetSearchResults from "./pages/CardSetSearchResults.js";
 import { fetchUser } from './fetchRequests/user'
 import {UserProvider} from './context/UserContext'
+import useFetch from './lib/hooks/useFetch'
 // import FlashcardsNavDrawer from "./components/FlashcardNavDrawer";
 
 
@@ -19,16 +20,18 @@ import {UserProvider} from './context/UserContext'
 
 function App(props) {
     const [response, setResponse] = useState(null);
+    // const { loading, data, error } = useFetch('/user')
     // const [navBar, setNavBar] = useState(null);
-    console.log(response)
+    // console.log(response)
     useEffect(() => {
-            fetchUser().then(r => setResponse(r))
+            fetchUser().then(r => setResponse(r)).catch(error => console.log(error))
     }, [])
     
     // useEffect(() => {
     //   console.log(props)
     // }, [props])
 
+    // console.log('useFetch', loading, data, error)
   return (
     <UserProvider value={response && response.user}>
       <div className="">

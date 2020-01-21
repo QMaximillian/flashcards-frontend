@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
-import UserContext from "../context/UserContext";
+import {UserContext} from "../context/user-context";
 
 export default function MainNavDrawer(props) {
   const userRouteMatch = useRouteMatch(["/:user", "/:user/studied"]);
   const recentRouteMatch = useRouteMatch("/:user/recent");
-
+  let { user } = useContext(UserContext)
   return (
     <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-full overflow-y-auto w-full">
       <div className="border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
@@ -27,8 +27,6 @@ export default function MainNavDrawer(props) {
       <div
         className={`border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center`}
       >
-        <UserContext.Consumer>
-          {({ user }) => (
             <Link
               // className={`w-full items-center flex-1 justify-start flex`}
               // to={`/${user && user.first_name}`}
@@ -47,8 +45,6 @@ export default function MainNavDrawer(props) {
                 Card Sets
               </div>
             </Link>
-          )}
-        </UserContext.Consumer>
         <Link className="w-full items-center flex-1 justify-start flex" to="#">
           <div className="w-full py-4 hover:bg-orange-500 pl-4 opacity-25 cursor-not-allowed">
             Folders

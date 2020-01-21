@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import TextBox from '../components/TextBox'
 import "../styles/index.css"
+import { UserContext } from '../context/user-context'
 
 
 
@@ -9,14 +10,15 @@ import "../styles/index.css"
 
 export default function Navigation(props){
 
+  let { user } = useContext(UserContext)
     const navRef = useRef(null)
-    // const [ user, setUser ] = React.useState(props.user)
+
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
     const [expandSearchBar, setExpandSearchBar] =  useState(false)
     const [dropdownToggle, setDropdownToggle] =  useState(false)
     const [focused, setFocused] = useState(false)
     const [redirect, setRedirect] = useState(false)
-
+  
 
     useEffect(() => {
       document.addEventListener('keydown', enterOnKeyPress)
@@ -115,7 +117,7 @@ export default function Navigation(props){
     }
 
     function renderUserOrOptions(){
-        if (props.user) {
+        if (user) {
           return (
             <div
               className="flex search-box"
@@ -128,7 +130,7 @@ export default function Navigation(props){
                   dropdownToggle ? "text-gray-500" : "text-white"
                 } search-box search`}
               >
-                {props.user && props.user.first_name}
+                {user && user.first_name}
               </div>
               <i
                 onClick={() => setDropdownToggle(prev => !prev)}

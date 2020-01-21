@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useRouteMatch, Redirect } from "react-router-dom";
 import { fetchShowUser, fetchUpdateUsername } from "../fetchRequests/user";
 import Modal from "../components/Modal";
 import TextBox from "../components/TextBox";
-import UserContext from "../context/UserContext";
+import {UserContext} from "../context/user-context";
 
 export default function UserInfoCard(props) {
   const { user: userParam } = useParams();
@@ -11,6 +11,7 @@ export default function UserInfoCard(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [text, setText] = useState({ name: "", value: "", isValid: true });
   let [redirect, setRedirect] = useState(false);
+  let { user, setUser } = useContext(UserContext)
   // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
     fetchShowUser(userParam).then(r => setProfile(r));
@@ -90,8 +91,6 @@ export default function UserInfoCard(props) {
   function renderUsernameUpdate() {
     if (uuidCheck.test(profile.username)) {
       return (
-        <UserContext.Consumer>
-          {({ user, setUser }) => (
             <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
               <div className="h-64 w-64 border border-black">
                 Change Username
@@ -118,8 +117,6 @@ export default function UserInfoCard(props) {
                 Submit
               </button>
             </Modal>
-          )}
-        </UserContext.Consumer>
       );
     }
 

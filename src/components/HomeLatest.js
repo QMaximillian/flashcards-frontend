@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import HomeLatestCard from './HomeLatestCard'
 import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 import UserCardSetCard from './UserCardSetCard'
 import { addTimeIntervals } from '../lib/helpers'
+import { UserContext } from '../context/user-context'
 
 export default function HomeLatest(props){
     const [recentCardSets, setRecentCardSets] = useState([])
+    let { user } = useContext(UserContext)
     
     useEffect(() => {
       fetchGetRecentCardSets(props.limit).then(r => setRecentCardSets(r));
@@ -18,7 +20,7 @@ export default function HomeLatest(props){
          <div className="py-10 px-8">
            <div className="flex  mb-4 w-full justify-between">
              <div className="mb-4">RECENT</div>
-             <Link to={`/${props.user.username}`} className="flex">
+             <Link to={`/${user.username}`} className="flex">
                <div className="mb-4 flex hover:text-yellow-500 text-teal-500">
                  <div className="">View all</div>
                  <i className="ml-2 fas fa-chevron-right self-center text-sm"></i>

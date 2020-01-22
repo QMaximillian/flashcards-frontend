@@ -15,7 +15,7 @@ export default function Login(props){
     function handleLoginFetch(e){
 
       e.preventDefault()
-      return fetch("http://localhost:8000/login", {
+      return fetch("http://localhost:8000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,6 +40,7 @@ export default function Login(props){
     //   });
     // } 
 
+    if (redirect) return <Redirect to="home" />
        return (
          <div className="flex justify-center w-full h-full items-center">
            <div className="w-full max-w-md self-center">
@@ -90,7 +91,6 @@ export default function Login(props){
                  </a>
                </button>
              </div>
-             {redirect && <Redirect to="home" />}
            </div>
          </div>
        );

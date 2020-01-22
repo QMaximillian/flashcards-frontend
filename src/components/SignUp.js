@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import TextBox from './TextBox'
 import { Redirect } from "react-router-dom";
+import { UserContext } from '../context/user-context';
 
 
 export default function SignUp(props) {
@@ -8,18 +9,21 @@ export default function SignUp(props) {
    const [password, setPassword] = useState({ name: "", value: "" });
    const [firstName, setFirstName] = useState({ name: "", value: "" });
    const [lastName, setLastName] = useState({ name: "", value: "" });
+   const [username, setUsername] = useState({ name: "", value: "" });
    const [redirect, setRedirect] = useState(false);
+   let { user, setUser } = useContext(UserContext)
+
 
 
    function handleSubmit(e){
     handleSignUpFetch(e) 
-    setRedirect(true)
+    // setRedirect(true)
    }
 
        function handleSignUpFetch(e){
 
       // e.preventDefault()
-      return fetch("http://localhost:8000/sign-up", {
+      return fetch("http://localhost:8000/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,12 +35,19 @@ export default function SignUp(props) {
           first_name: firstName.value,
           last_name: lastName.value,
           email: email.value,
-          password: password.value
+          password: password.value,
+          username: username.value
         })
-      }).then(r => {
-            setRedirect(true);
-        })
+      }).then(r => r.json())
+      .then(r =>  {
+        console.log('r', r)
+        setUser(r.user)
+        console.log('user in sign up r.user', r.user)
+      })
+      .catch(err => console.log(err))
     }
+
+  if (redirect) return <Redirect to="home"/>
 
   return (
     <div>
@@ -52,6 +63,7 @@ export default function SignUp(props) {
               value={firstName.value}
               onChange={setFirstName}
               type="text"
+              required
             />
           </div>
           <div className="px-4 pb-4">
@@ -64,6 +76,20 @@ export default function SignUp(props) {
               value={lastName.value}
               onChange={setLastName}
               type="text"
+              required
+            />
+          </div>
+          <div className="px-4 pb-4">
+            <label htmlFor="username" className="text-sm block font-bold pb-2">
+              USERNAME
+            </label>
+            <TextBox
+              placeholder={"Enter your username"}
+              name="username"
+              value={username.value}
+              onChange={setUsername}
+              type="text"
+              required
             />
           </div>
           <div className="px-4 pb-4">
@@ -76,6 +102,7 @@ export default function SignUp(props) {
               value={email.value}
               onChange={setEmail}
               type="email"
+              required
             />
           </div>
           <div className="px-4 pb-4">
@@ -87,7 +114,8 @@ export default function SignUp(props) {
               name="password"
               value={password.value}
               onChange={setPassword}
-              type="text"
+              type="password"
+              required
             />
           </div>
            <div onClick={handleSubmit} className="flex justify-center">
@@ -98,7 +126,6 @@ export default function SignUp(props) {
                    Submit
                  </button>
           </div>
-          {redirect && <Redirect to="home"/>}
           </div>
       </div>
     </div>

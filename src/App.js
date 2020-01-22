@@ -41,7 +41,6 @@ const LoggedInRoutes = () => {
           <Redirect to="/" from="/home" component={Home} />
           <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
           <Route path="/search/:search" component={CardSetSearchResults} />
-          <Route exact path="/sign-up" component={SignUp} />
 
           <Route path="/:user/" component={UserCardSetsPage} />
           <Route exact path="/" render={() => <Home />} />
@@ -63,6 +62,7 @@ const LoggedOutRoutes = () => {
           </div>
         )}
       />
+         <Route exact path="/sign-up" component={SignUp} />
       <Switch>
         {/* <Route exact path="/card-sets/new" component={CreateCardSetForm} /> */}
         <Route
@@ -89,10 +89,8 @@ console.log('UserContext', user)
     <div className="">
       <Router>
         <UserProvider>
-                  <React.Fragment>
-                    <Navigation/>
-                    <RouteDecider />
-                  </React.Fragment>
+          <Navigation/>
+          <RouteDecider />
         </UserProvider>
       </Router>
     </div>

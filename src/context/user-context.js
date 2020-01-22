@@ -15,7 +15,7 @@ export function UserProvider({ children }) {
         setUser(res.user)
       })
       .catch(err => console.log(err));
-  }, []);
+  }, [user]);
 
   
   return (

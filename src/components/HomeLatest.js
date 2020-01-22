@@ -27,7 +27,7 @@ export default function HomeLatest(props){
                </div>
              </Link>
            </div>
-
+          
            <div className="flex flex-wrap">
              {recentCardSets.map((cardSet, i) => {
                return (

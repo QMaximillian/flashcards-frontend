@@ -21,11 +21,11 @@ import {UserProvider, UserContext } from "./context/user-context.js";
 const LoggedInRoutes = () => {
 
   return (
-    <div className="flex w-full h-full">
+    <div className="flex w-full h-full pt-16">
       <Route path="/" component={NavDrawer} />
 
       <div className="w-full h-full">
-        {/* <Route exact path="/card-sets/" component={UserCardSetsPage} /> */}
+        <Route exact path="/card-sets/" component={UserCardSetsPage} />
         <Switch>
           <Route exact path="/card-sets/new" component={CreateCardSetForm} />
           {/* <div className="w-full h-full flex-col-reverse"> */}
@@ -59,7 +59,7 @@ const LoggedOutRoutes = () => {
         exact
         path="/"
         component={() => (
-          <div>
+          <div className="pt-16">
             Home
           </div>
         )}
@@ -93,7 +93,7 @@ function App(props) {
   
 console.log('UserContext', user)
   return (
-    <div className="">
+    <div className="h-full">
       <Router>
         <UserProvider>
           <Navigation />

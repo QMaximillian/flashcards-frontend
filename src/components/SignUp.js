@@ -11,6 +11,7 @@ export default function SignUp(props) {
    const [lastName, setLastName] = useState({ name: "", value: "" });
    const [username, setUsername] = useState({ name: "", value: "" });
    const [redirect, setRedirect] = useState(false);
+   const [error, setError] = useState(null);
    let { user, setUser } = useContext(UserContext)
 
 
@@ -41,8 +42,12 @@ export default function SignUp(props) {
       }).then(r => r.json())
       .then(r =>  {
         console.log('r', r)
+        if (r.code) {
+          setError(`${r.code} - ${r.status}`)
+        } else {
         // setUser(r.user)
-        setRedirect(true)
+          setRedirect(true)
+        }
       })
       .catch(err => console.log(err))
     }
@@ -50,7 +55,8 @@ export default function SignUp(props) {
   if (redirect) return <Redirect to={`/login`}/>
 
   return (
-    <div>
+    <div className="h-full pt-16">
+      {error}
       <div className="flex justify-center w-full h-full items-center">
         <div className="w-full max-w-md self-center">
           <div className="px-4 pb-4">

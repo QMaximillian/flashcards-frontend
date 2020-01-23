@@ -173,7 +173,7 @@ export default function Navigation(props){
 
 
        return (
-         <div className="w-full h-16 flex justify-between bg-teal-500 shadow px-6 items-center">
+         <div className="w-full h-16 flex justify-between bg-teal-500 shadow px-6 items-center absolute">
            {/* LOGO * */}
            <div className={`flex justify-start h-full items-center ${expandSearchBar ? 'w-full' : 'w-3/4'}`}>
              <div>{renderLogo()}</div>

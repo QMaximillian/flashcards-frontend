@@ -49,7 +49,7 @@ export default function Login(props){
       // return <Redirect to={`/${username}`} />
     // }
        return (
-         <div className="flex justify-center w-full h-full items-center">
+         <div className="flex justify-center w-full h-full items-center pt-16">
            <div className="w-full max-w-md self-center">
              <div className="px-4 pb-4">
                <label htmlFor="email" className="text-sm block font-bold  pb-2">

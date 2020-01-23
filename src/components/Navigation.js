@@ -117,6 +117,7 @@ export default function Navigation(props){
     }
 
     function renderUserOrOptions(){
+
         if (user) {
           return (
             <div
@@ -138,24 +139,26 @@ export default function Navigation(props){
                   dropdownToggle ? "text-gray-500" : "text-white"
                 } search-box search pl-4 self-center fas fa-chevron-down`}
               ></i>
-              <div className="flex">
-                {/* <div className="whitespace-no-wrap">SIGN UP</div>
-                  <Link
-                    className="flex justify-between w-full h-full"
-                    to="/login"
-                  >
-                    <div>LOGIN</div>
-                  </Link>
-                  <Link
-                    className="flex justify-between w-full h-full"
-                    to="sign-up"
-                  >
-                    <div>SIGN UP</div> 
-                  </Link>*/}
-              </div>
             </div>
           );
-        } 
+        } else {
+           
+           return <div className="flex">
+                <Link
+                  className="flex justify-between w-full h-full"
+                  to="/login"
+                >
+                  <div>LOGIN</div>
+                </Link>
+                <Link
+                  className="flex justify-between w-full h-full"
+                  to="sign-up"
+                >
+                  <div>SIGN UP</div> 
+                </Link>
+          </div>
+          
+        }
     }
 
     

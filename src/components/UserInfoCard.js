@@ -14,6 +14,7 @@ export default function UserInfoCard(props) {
   let { user, setUser } = useContext(UserContext)
   // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
+    console.log('userParam', userParam)
     fetchShowUser(userParam).then(r => setProfile(r));
   }, [userParam]);
 

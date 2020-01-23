@@ -22,7 +22,7 @@ export default function SignUp(props) {
 
        function handleSignUpFetch(e){
 
-      // e.preventDefault()
+      e.preventDefault()
       return fetch("http://localhost:8000/auth/register", {
         method: "POST",
         headers: {
@@ -41,13 +41,13 @@ export default function SignUp(props) {
       }).then(r => r.json())
       .then(r =>  {
         console.log('r', r)
-        setUser(r.user)
-        console.log('user in sign up r.user', r.user)
+        // setUser(r.user)
+        setRedirect(true)
       })
       .catch(err => console.log(err))
     }
 
-  if (redirect) return <Redirect to="home"/>
+  if (redirect) return <Redirect to={`/login`}/>
 
   return (
     <div>

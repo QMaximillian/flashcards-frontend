@@ -1,12 +1,23 @@
 import React, { useState } from 'react'
 import TextBox from '../components/TextBox'
 import { Redirect } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+
 
 
 export default function Login(props){
     const [email, setEmail] = useState({ name: "", value: "" });
     const [password, setPassword] = useState({ name: "", value: "" });
     const [redirect, setRedirect] = useState(false);
+    const [username, setUsername] = useState(false)
+    let history = useHistory()
+
+    React.useEffect(() => {
+      if (username){
+        history.push('/')
+      window.location.reload()
+      }
+    }, [username])
 
     function handleSubmit(e){
       handleLoginFetch(e)
@@ -19,28 +30,24 @@ export default function Login(props){
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json"
+          "Accept": "application/json",
         },
         credentials: "include",
         body: JSON.stringify({ email: email.value, password: password.value })
-      }).then(r => {
-          setRedirect(true);
+      })
+      .then(r => r.json())
+      .then(r => {
+        setUsername(r.username)
       });
     }
 
-    // function handleGoogleLogin(){
-    //   return fetch("http://localhost:8000/auth/google", {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Accept: "application/json",
-    //       mode: 'no-cors'
 
-    //     }
-    //   });
-    // } 
-
-    if (redirect) return <Redirect to="home" />
+    // if (redirect) {
+    //   console.log(username)
+    //   history.push(`/${username}`)
+    //   window.location.reload()
+      // return <Redirect to={`/${username}`} />
+    // }
        return (
          <div className="flex justify-center w-full h-full items-center">
            <div className="w-full max-w-md self-center">

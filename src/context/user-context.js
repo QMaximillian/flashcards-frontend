@@ -1,22 +1,27 @@
-import React from "react";
-import UserContext from './UserContext'
-// import { useAuth } from "./auth-context";
+import React, { useState, useEffect } from "react";
+import { fetchUser } from "../fetchRequests/user";
 
-// const UserContext = React.createContext();
 
-// function UserProvider(props) {
-//   const {
-//     data: { user }
-//   } = useAuth();
-//   return <UserContext.Provider value={user} {...props} />;
-// }
 
-export function useUser() {
-  const context = React.useContext(UserContext);
-  if (context === undefined) {
-    throw new Error(`useUser must be used within a UserProvider`);
-  }
-  return context;
+export const UserContext = React.createContext({});
+
+
+export function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetchUser()
+      .then(res => {
+        setUser(res.user)
+      })
+      .catch(err => console.log(err));
+  }, []);
+
+  
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
 }
 
-// export { UserProvider, useUser };

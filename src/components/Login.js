@@ -1,12 +1,23 @@
 import React, { useState } from 'react'
 import TextBox from '../components/TextBox'
 import { Redirect } from 'react-router-dom'
+import { useHistory } from "react-router-dom";
+
 
 
 export default function Login(props){
     const [email, setEmail] = useState({ name: "", value: "" });
     const [password, setPassword] = useState({ name: "", value: "" });
     const [redirect, setRedirect] = useState(false);
+    const [username, setUsername] = useState(false)
+    let history = useHistory()
+
+    React.useEffect(() => {
+      if (username){
+        history.push('/')
+      window.location.reload()
+      }
+    }, [username])
 
     function handleSubmit(e){
       handleLoginFetch(e)
@@ -15,21 +26,30 @@ export default function Login(props){
     function handleLoginFetch(e){
 
       e.preventDefault()
-      return fetch("http://localhost:8000/login", {
+      return fetch("http://localhost:8000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json"
+          "Accept": "application/json",
         },
         credentials: "include",
         body: JSON.stringify({ email: email.value, password: password.value })
-      }).then(r => {
-          setRedirect(true);
+      })
+      .then(r => r.json())
+      .then(r => {
+        setUsername(r.username)
       });
     }
 
+
+    // if (redirect) {
+    //   console.log(username)
+    //   history.push(`/${username}`)
+    //   window.location.reload()
+      // return <Redirect to={`/${username}`} />
+    // }
        return (
-         <div className="flex justify-center w-full h-full items-center">
+         <div className="flex justify-center w-full h-full items-center pt-16">
            <div className="w-full max-w-md self-center">
              <div className="px-4 pb-4">
                <label htmlFor="email" className="text-sm block font-bold  pb-2">
@@ -60,15 +80,24 @@ export default function Login(props){
                  type="text"
                />
              </div>
-             <div onClick={handleSubmit} className="flex justify-center">
+             <div className="flex justify-center">
                <button
+                 onClick={handleSubmit}
                  className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                  type="button"
                >
                  Submit
                </button>
+               <button
+                 // onClick={handleGoogleLogin}
+                 className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                 type="button"
+               >
+                 <a href="http://localhost:8000/auth/google">
+                   LOGIN WITH GOOGLE
+                 </a>
+               </button>
              </div>
-             {redirect && <Redirect to="home" />}
            </div>
          </div>
        );

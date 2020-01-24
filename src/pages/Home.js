@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import HomeLatest from '../components/HomeLatest'
+import UserContext from '../context/UserContext'
 // import React, { useEffect, useState } from 'react'
 // import {fetchUser} from '../fetchRequests/user'
 
@@ -11,11 +12,11 @@ export default function Home(props){
       
   // })
 
-  // console.log(response);
+let user = useContext(UserContext)
        return (
          <div className="w-full h-full mx-4">
            {/* <Link className="h-full w-full" to="/card-sets/new">CREATE SET</Link> */}
-           <HomeLatest pageType="HOME"/>
+           <HomeLatest pageType="HOME" user={user}/>
          </div>
        );
 }

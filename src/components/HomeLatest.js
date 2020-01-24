@@ -1,38 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import HomeLatestCard from './HomeLatestCard'
 import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 import UserCardSetCard from './UserCardSetCard'
 import { addTimeIntervals } from '../lib/helpers'
+import { UserContext } from '../context/user-context'
 
 export default function HomeLatest(props){
     const [recentCardSets, setRecentCardSets] = useState([])
-    // const [error, setError] = useState(null)
+    const [error, setError] = useState(null)
+
+    let { user } = useContext(UserContext)
     
     useEffect(() => {
-      console.log(props);
       fetchGetRecentCardSets(props.limit)
         .then(r => setRecentCardSets(r))
-        // .catch(error => setError(error.message));
-    }, [props, props.limit]);
+        .catch(error => setError(error.message));
+    }, [props.limit]);
+
 
     // if (error) throw new Error(error)
     // if (recentCardSets.length === 0) return "Loading..."
     if (props.pageType === 'HOME' || !props.pageType) {
 
-      console.log('cardSets', recentCardSets)
        return (
          <div className="py-10 px-8">
            <div className="flex  mb-4 w-full justify-between">
              <div className="mb-4">RECENT</div>
-             <Link to={`/QuinnMax`} className="flex">
+             <Link to={`/${user.username}`} className="flex">
                <div className="mb-4 flex hover:text-yellow-500 text-teal-500">
                  <div className="">View all</div>
                  <i className="ml-2 fas fa-chevron-right self-center text-sm"></i>
                </div>
              </Link>
            </div>
-
+          
            <div className="flex flex-wrap">
              {recentCardSets.map((cardSet, i) => {
                return (

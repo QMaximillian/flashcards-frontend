@@ -1,85 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
-import Home from './pages/Home'
-import Navigation from './components/Navigation'
-import NavDrawer from './components/NavDrawer'
-import Login from './components/Login'
-import SignUp from './components/SignUp'
-import CreateCardSetForm from './components/CreateCardSetForm'
-import UserCardSetsPage from './pages/UserCardSetsPage'
-import ShowCardSet from './pages/ShowCardSet'
+import React, { useState, useEffect, useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
+import Home from "./pages/Home";
+import Navigation from "./components/Navigation";
+import NavDrawer from "./components/NavDrawer";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import CreateCardSetForm from "./components/CreateCardSetForm";
+import UserCardSetsPage from "./pages/UserCardSetsPage";
+import ShowCardSet from "./pages/ShowCardSet";
 import EditCardSet from "./pages/EditCardSet";
 import CardSetSearchResults from "./pages/CardSetSearchResults.js";
-import { fetchUser } from './fetchRequests/user'
-import {UserProvider} from './context/UserContext'
 import useFetch from './lib/hooks/useFetch'
 // import FlashcardsNavDrawer from "./components/FlashcardNavDrawer";
+import {UserProvider, UserContext } from "./context/user-context.js";
 
 
-// import { fetchUser } from "./fetchRequests/user";
+const LoggedInRoutes = () => {
+
+  return (
+    <div className="flex w-full h-full pt-16">
+      <Route path="/" component={NavDrawer} />
+
+      <div className="w-full h-full">
+        <Route exact path="/card-sets/" component={UserCardSetsPage} />
+        <Switch>
+          <Route exact path="/card-sets/new" component={CreateCardSetForm} />
+          {/* <div className="w-full h-full flex-col-reverse"> */}
+          <Route
+            exact
+            path="/card-sets/:id"
+            render={props => (
+              <div className="w-full h-full flex-col-reverse">
+                <ShowCardSet {...props} />
+              </div>
+            )}
+          />
+
+          {/* <Redirect to="/" from="/home" component={Home} /> */}
+          <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
+          <Route path="/search/:search" component={CardSetSearchResults} />
+
+          <Route path="/:user/" component={UserCardSetsPage} />
+          <Route exact path="/" render={() => <Home />} />
+        </Switch>
+      </div>
+    </div>
+  );
+};
+
+const LoggedOutRoutes = () => {
+  // console.log('loggedoutroutes', user)
+  return (
+    <>
+    <Route
+        exact
+        path="/"
+        component={() => (
+          <div className="pt-16">
+            Home
+          </div>
+        )}
+      />
+      <Route
+        exact
+        path="/login"
+        component={Login}
+      />
+         <Route exact path="/sign-up" component={SignUp} />
+      <Switch>
+        {/* <Route exact path="/card-sets/new" component={CreateCardSetForm} /> */}
+        <Route
+          exact
+          path="/card-sets/:id"
+          render={props => (
+            <div className="w-full h-full flex-col-reverse">
+              <ShowCardSet {...props} />
+            </div>
+          )}
+        />
+        <Route path="/search/:search" component={CardSetSearchResults} />
+      </Switch>
+    </>
+  );
+};
 
 function App(props) {
-    const [response, setResponse] = useState(null);
     // const { loading, data, error } = useFetch('/user')
-    // const [navBar, setNavBar] = useState(null);
-    // console.log(response)
-    useEffect(() => {
-            fetchUser().then(r => setResponse(r)).catch(error => console.log(error))
-    }, [])
-    
-    // useEffect(() => {
-    //   console.log(props)
-    // }, [props])
-
-    // console.log('useFetch', loading, data, error)
   return (
-    <UserProvider value={response && response.user}>
-      <div className="">
-        <Router>
+    <div className="h-full">
+      <Router>
+        <UserProvider>
           <Navigation />
-          <div className="flex w-full h-full">
-            <Route path="/" component={NavDrawer} />
-
-            <div className="w-full h-full">
-              <Route exact path="/login" component={Login} />
-              {/* <Route exact path="/card-sets/" component={UserCardSetsPage} /> */}
-              <Switch>
-                <Route
-                  exact
-                  path="/card-sets/new"
-                  component={CreateCardSetForm}
-                />
-                {/* <div className="w-full h-full flex-col-reverse"> */}
-                <Route
-                  exact
-                  path="/card-sets/:id"
-                  render={(props) => (
-                    <div className="w-full h-full flex-col-reverse">
-                      <ShowCardSet {...props} />
-                    </div>
-                  )}
-                />
-
-                <Redirect to="/" from="/home" component={Home} />
-                <Route
-                  exact
-                  path="/card-sets/:id/edit"
-                  component={EditCardSet}
-                />
-                <Route
-                  path="/search/:search"
-                  component={CardSetSearchResults}
-                />
-                <Route exact path="/sign-up" component={SignUp} />
-                <Route path="/:user/" component={UserCardSetsPage} />
-                <Route exact path="/" component={Home} />
-              </Switch>
-            </div>
-          </div>
-        </Router>
-      </div>
-    </UserProvider>
+          <RouteDecider />
+        </UserProvider>
+      </Router>
+    </div>
   );
 }
 
+function RouteDecider(props){
+  let { user } = useContext(UserContext)
+
+  if (user) {
+    return <LoggedInRoutes />
+  } else {
+    return <LoggedOutRoutes />
+  }
+}
+
 export default App;
+
+

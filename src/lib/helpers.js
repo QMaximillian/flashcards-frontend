@@ -1,35 +1,33 @@
 import React from 'react'
 import { isDate, isThisWeek, parseISO, getMonth, format } from "date-fns";
 
-
 export function addTimeIntervals(array, Component, dynamicKey, props) {
 // Checking if array passed in is an array
   if (!Array.isArray(array)) {
-    throw new Error('Not an array')
+    throw new Error('First argument is not an array')
   }
 
-
-
-  let withinWeekFlag = true;
+  let isThisWeekFirstIdx = true;
   let month = getMonth(Date.now());
-
   let cutOffMonth = month - 4;
 
   return array
     .map((cardSet, idx) => {
 
       // Error checking dynamicKey can be converted into a date
-      if (isDate(parseISO(dynamicKey))) console.log('is date')
+      if (!isDate(parseISO(dynamicKey))) {
+        throw new Error("dynamicKey is not a date or can't be converted to a date")
+      }
 
 
       if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]), { weekStartsOn: 0 })) {
-        if (withinWeekFlag) {
+        if (isThisWeekFirstIdx) {
           // Check if the first value in our array is within the
           // first week. 
-          withinWeekFlag = false;
+          isThisWeekFirstIdx = false;
 
           // We only want to show the 'THIS WEEK' header once, 
-          // so set withinWeekFlag to false to prevent showing it 
+          // so set isThisWeekFirstIdx to false to prevent showing it 
           // for each entry that is within this week
           
           return (
@@ -49,7 +47,7 @@ export function addTimeIntervals(array, Component, dynamicKey, props) {
 
       if (month === getMonth(parseISO(cardSet[`${dynamicKey}`]))) {
         // If the month matches the current cardSet keys month then create a new header with that specific month
-        // Subtract to generate previous months header when the conditional is fulfilled again
+        // Subtract to generate previous months header when the conditional is fulfilled 
         month = month - 1;
 
         return (

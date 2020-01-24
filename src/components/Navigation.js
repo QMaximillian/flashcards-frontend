@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-// import { fetchRemoveCookie } from "../fetchRequests/user";
 import TextBox from '../components/TextBox'
-import UserContext from '../context/UserContext'
 import "../styles/index.css"
+import { UserContext } from '../context/user-context'
 
 
 
 
 
 export default function Navigation(props){
-    const user = useContext(UserContext)
 
+  let { user } = useContext(UserContext)
     const navRef = useRef(null)
-    // const [ user, setUser ] = React.useState(props.user)
+
     const [search, setSearch] = useState({name: '', value: '', isValid: true})
     const [expandSearchBar, setExpandSearchBar] =  useState(false)
     const [dropdownToggle, setDropdownToggle] =  useState(false)
     const [focused, setFocused] = useState(false)
     const [redirect, setRedirect] = useState(false)
-
+  
 
     useEffect(() => {
       document.addEventListener('keydown', enterOnKeyPress)
@@ -108,11 +107,9 @@ export default function Navigation(props){
       if (dropdownToggle) {
         return (
           <div className="pl-4 py-2 w-48 absolute h-56 border border-orange-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg">
-            <div onClick={() => {
-              // logout background
-            }}>
+            <a href="http://localhost:8000/auth/logout">
               LOGOUT
-            </div>
+            </a>
           </div>
         )
       } 
@@ -120,45 +117,47 @@ export default function Navigation(props){
     }
 
     function renderUserOrOptions(){
+
         if (user) {
           return (
             <div
               className="flex search-box"
               onClick={
                 () => {}
-                // () =>
-                // fetchRemoveCookie(r => {
-                //   // if (r.cookieDeleted) {
-                //   //    setUser(null)
-                //   // }
-                // })
               }
             >
-              <div className={`${dropdownToggle ? 'text-gray-500' : 'text-white'} search-box search`}>{user.first_name}</div>
+              <div
+                className={`${
+                  dropdownToggle ? "text-gray-500" : "text-white"
+                } search-box search`}
+              >
+                {user && user.first_name}
+              </div>
               <i
                 onClick={() => setDropdownToggle(prev => !prev)}
-                className={`${dropdownToggle ? 'text-gray-500' : 'text-white'} search-box search pl-4 self-center fas fa-chevron-down`}
+                className={`${
+                  dropdownToggle ? "text-gray-500" : "text-white"
+                } search-box search pl-4 self-center fas fa-chevron-down`}
               ></i>
             </div>
           );
         } else {
-            return (
-                <div className="flex">
-                  <div className="whitespace-no-wrap">SIGN UP</div>
-                  <Link
-                    className="flex justify-between w-full h-full"
-                    to="/login"
-                  >
-                    <div>LOGIN</div>
-                  </Link>
-                  <Link
-                    className="flex justify-between w-full h-full"
-                    to="sign-up"
-                  >
-                    <div>SIGN UP</div>
-                  </Link>
-                </div>
-            );  
+           
+           return <div className="flex">
+                <Link
+                  className="flex justify-between w-full h-full"
+                  to="/login"
+                >
+                  <div>LOGIN</div>
+                </Link>
+                <Link
+                  className="flex justify-between w-full h-full"
+                  to="sign-up"
+                >
+                  <div>SIGN UP</div> 
+                </Link>
+          </div>
+          
         }
     }
 
@@ -174,7 +173,7 @@ export default function Navigation(props){
 
 
        return (
-         <div className="w-full h-16 flex justify-between bg-teal-500 shadow px-6 items-center">
+         <div className="w-full h-16 flex justify-between bg-teal-500 shadow px-6 items-center absolute">
            {/* LOGO * */}
            <div className={`flex justify-start h-full items-center ${expandSearchBar ? 'w-full' : 'w-3/4'}`}>
              <div>{renderLogo()}</div>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import TextBox from '../components/TextBox'
-import { Redirect } from 'react-router-dom'
 import { useHistory } from "react-router-dom";
 
 
@@ -8,7 +7,6 @@ import { useHistory } from "react-router-dom";
 export default function Login(props){
     const [email, setEmail] = useState({ name: "", value: "" });
     const [password, setPassword] = useState({ name: "", value: "" });
-    const [redirect, setRedirect] = useState(false);
     const [username, setUsername] = useState(false)
     let history = useHistory()
 
@@ -17,7 +15,7 @@ export default function Login(props){
         history.push('/')
       window.location.reload()
       }
-    }, [username])
+    }, [username, history])
 
     function handleSubmit(e){
       handleLoginFetch(e)
@@ -42,12 +40,6 @@ export default function Login(props){
     }
 
 
-    // if (redirect) {
-    //   console.log(username)
-    //   history.push(`/${username}`)
-    //   window.location.reload()
-      // return <Redirect to={`/${username}`} />
-    // }
        return (
          <div className="flex justify-center w-full h-full items-center pt-16">
            <div className="w-full max-w-md self-center">

@@ -57,6 +57,9 @@ export default function UserCardSets(props){
 
 
     function renderCardSets() {
+      if (cardSets.length === 0){
+        return <div>THERE ARE NO CARDSETS</div>
+      }
                 switch (filter) {
                   case 'Latest':
                     const filteredAndSortedCardSets = cardSets

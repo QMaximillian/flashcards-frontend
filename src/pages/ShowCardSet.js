@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-// useCallback
+
 import { useTransition, useSpring, animated } from 'react-spring'
 import { Link } from 'react-router-dom'
 import {fetchGetCardSetShow } from '../fetchRequests/cardSets'
@@ -9,21 +9,25 @@ import PropTypes from "prop-types";
 import { format } from 'date-fns'
 import FlashcardsNavDrawer from "../components/FlashcardNavDrawer";
 import TermsInSet from '../components/TermsInSet'
+import { useParams } from 'react-router-dom'
+
+
 
 
 export default function ShowCardSet(props){
+  
   const [isLoading, setIsLoading] = useState(true)
   const [cardSet, setCardSet] = useState({})
   const [flashcards, setFlashcards] = useState([])
   const [count, setCount] = useState(0)
   const [reverse, setReverse] = useState(false)
+  const { id } = useParams()
+
+  console.log(id)
   
-  useEffect(() => {
-    console.log(props.match)
-  }, [props.match])
 
   useEffect(() => {
-    fetchGetCardSetShow(props.match.params.id)
+    fetchGetCardSetShow(id)
     .then(r => {
       console.log('r', r)
       const { flashcards, ...rest } = r
@@ -33,7 +37,8 @@ export default function ShowCardSet(props){
     })
         
     .then(r => setIsLoading(false))
-  }, [props.match.params.id])
+    .catch(err => console.log(err))
+  }, [id])
 
 
   useEffect(() => {
@@ -167,7 +172,7 @@ export default function ShowCardSet(props){
           <hr className="mx-4" />
           <div className="sm:flex px-4">
             <div className="w-1/3 py-6 flex">
-              <div class="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center" />
+              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center" />
               <div className="ml-2 self-center">
                 <div className="text-xs text-gray-500">Created by </div>
                 <div className="text-sm">{cardSet.creator_username}</div>

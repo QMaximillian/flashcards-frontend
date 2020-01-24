@@ -18,11 +18,14 @@ export default function HomeLatest(props){
         .catch(error => setError(error.message));
     }, [props.limit]);
 
+    useEffect(() => {
+      console.log('1', recentCardSets.length)
+    }, [recentCardSets])
+
 
     // if (error) throw new Error(error)
     // if (recentCardSets.length === 0) return "Loading..."
     if (props.pageType === 'HOME' || !props.pageType) {
-
        return (
          <div className="py-10 px-8">
            <div className="flex  mb-4 w-full justify-between">
@@ -36,7 +39,7 @@ export default function HomeLatest(props){
            </div>
           
            <div className="flex flex-wrap">
-             {recentCardSets.map((cardSet, i) => {
+             {recentCardSets.length === 0 ? <div>NO RECENT CARD SETS</div> : recentCardSets.map((cardSet, i) => {
                return (
                  <Link
                    to={`/card-sets/${cardSet.id}`}
@@ -51,6 +54,7 @@ export default function HomeLatest(props){
          </div>
        );
     } else if (props.pageType === 'RECENT') {
+  if (recentCardSets.length === 0) { return <div>THERE ARE NO RECENT CARD SETS</div>}
       const filteredCardSets = recentCardSets
         .filter(cardSet => cardSet.name.toLowerCase().match(props.search.value.toLowerCase()))
         

@@ -1,7 +1,6 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import TextBox from './TextBox'
 import { Redirect } from "react-router-dom";
-import { UserContext } from '../context/user-context';
 
 
 export default function SignUp(props) {
@@ -12,7 +11,6 @@ export default function SignUp(props) {
    const [username, setUsername] = useState({ name: "", value: "" });
    const [redirect, setRedirect] = useState(false);
    const [error, setError] = useState(null);
-   let { user, setUser } = useContext(UserContext)
 
 
 
@@ -45,7 +43,6 @@ export default function SignUp(props) {
         if (r.code) {
           setError(`${r.code} - ${r.status}`)
         } else {
-        // setUser(r.user)
           setRedirect(true)
         }
       })

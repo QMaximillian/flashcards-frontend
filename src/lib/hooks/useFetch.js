@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { BASE_HEADERS, BASE_URL } from '../../fetchRequests/baseFetchOptions'
 
 export default function useFetch(url, options = BASE_HEADERS, type = "GET"){
@@ -20,7 +20,7 @@ export default function useFetch(url, options = BASE_HEADERS, type = "GET"){
         setError(error)
         setLoading(false)
       })
-  }, [])
+  }, [options, type, url])
 
 
   return { data, loading, error }

@@ -20,6 +20,7 @@ export default function StudiedCardSetsContainer(props){
         //     </div>
         //   );
         // })
+        if (cardSets.length === 0) { return <div>THERE ARE NO STUDIED CARD SETS</div> }
         return addTimeIntervals(cardSets, UserCardSetCard, 'last_studied_at', {studied: true});
     }
        return (

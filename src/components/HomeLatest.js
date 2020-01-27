@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import HomeLatestCard from './HomeLatestCard'
 import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 import UserCardSetCard from './UserCardSetCard'
+import NoItemsCard from './NoItemsCard'
 import { addTimeIntervals } from '../lib/helpers'
 import { UserContext } from '../context/user-context'
 
@@ -39,7 +40,7 @@ export default function HomeLatest(props){
            </div>
           
            <div className="flex flex-wrap">
-             {recentCardSets.length === 0 ? <div>NO RECENT CARD SETS</div> : recentCardSets.map((cardSet, i) => {
+             {recentCardSets.length === 0 ? <div className="h-64 w-full"><NoItemsCard subtitle={"Use the search bar to check some out"} title={"No recently looked at sets!"}/></div> : recentCardSets.map((cardSet, i) => {
                return (
                  <Link
                    to={`/card-sets/${cardSet.id}`}
@@ -54,7 +55,16 @@ export default function HomeLatest(props){
          </div>
        );
     } else if (props.pageType === 'RECENT') {
-  if (recentCardSets.length === 0) { return <div>THERE ARE NO RECENT CARD SETS</div>}
+  if (recentCardSets.length === 0) {
+    return (
+      <div className="h-64 w-full">
+        <NoItemsCard 
+          subtitle={"Use the search bar to check some out"}
+          title={"No recently looked at sets!"}
+        />
+      </div>
+    ) 
+  }
       const filteredCardSets = recentCardSets
         .filter(cardSet => cardSet.name.toLowerCase().match(props.search.value.toLowerCase()))
         

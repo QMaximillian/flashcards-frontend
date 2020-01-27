@@ -3,6 +3,8 @@ import {
   fetchGetUserCardSetsIndex,
   // fetchDeleteCardSets
 } from "../fetchRequests/cardSets";
+import NoItemsCard from './NoItemsCard'
+import { Link } from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import { addTimeIntervals } from '../lib/helpers'
 import '../styles/index.css'
@@ -58,7 +60,11 @@ export default function UserCardSets(props){
 
     function renderCardSets() {
       if (cardSets.length === 0){
-        return <div>THERE ARE NO CARDSETS</div>
+        return (
+          <div className="h-64 w-full">
+            <NoItemsCard title={`You haven't created any sets`} subtitle={<>Click <Link to="/card-sets/new" className="hover:text-teal-800">here</Link> to create one!</>}/>
+          </div>
+        )
       }
                 switch (filter) {
                   case 'Latest':

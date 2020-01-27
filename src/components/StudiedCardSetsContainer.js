@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import UserCardSetCard from '../components/UserCardSetCard'
+import NoItemsCard from './NoItemsCard'
 import { fetchGetStudiedCardSets } from "../fetchRequests/cardSets";
 import { addTimeIntervals } from "../lib/helpers";
 
@@ -20,7 +21,14 @@ export default function StudiedCardSetsContainer(props){
         //     </div>
         //   );
         // })
-        if (cardSets.length === 0) { return <div>THERE ARE NO STUDIED CARD SETS</div> }
+        if (cardSets.length === 0) { 
+            return (
+                <div className="h-64 w-full">
+                  <NoItemsCard 
+                    title={`You haven't studied any sets`} 
+                    subtitle={"Use the search bar to check some out"}/>
+                </div>
+              ) }
         return addTimeIntervals(cardSets, UserCardSetCard, 'last_studied_at', {studied: true});
     }
        return (

@@ -1,17 +1,11 @@
 import React, { useContext } from 'react'
 import HomeLatest from '../components/HomeLatest'
 import UserContext from '../context/UserContext'
-// import React, { useEffect, useState } from 'react'
-// import {fetchUser} from '../fetchRequests/user'
+import LoggedInHome from './LoggedInHome'
+import LoggedOutHome from './LoggedOutHome'
 
 
 export default function Home(props){
-  // const [response, setResponse] = useState();
-
-  // useEffect(() => {
-      
-  // })
-
 let user = useContext(UserContext)
        return (
          <div className="w-full h-full mx-4">

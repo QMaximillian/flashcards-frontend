@@ -4,7 +4,8 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import Home from "./pages/Home";
+import LoggedInHome from "./pages/LoggedInHome";
+import LoggedOutHome from "./pages/LoggedOutHome";
 import Navigation from "./components/Navigation";
 import NavDrawer from "./components/NavDrawer";
 import Login from "./components/Login";
@@ -45,7 +46,7 @@ const LoggedInRoutes = () => {
           <Route path="/search/:search" component={CardSetSearchResults} />
 
           <Route path="/:user/" component={UserCardSetsPage} />
-          <Route exact path="/" render={() => <Home />} />
+          <Route exact path="/" render={LoggedInHome} />
         </Switch>
       </div>
     </div>
@@ -59,11 +60,7 @@ const LoggedOutRoutes = () => {
     <Route
         exact
         path="/"
-        component={() => (
-          <div className="pt-16">
-            Home
-          </div>
-        )}
+        component={LoggedOutHome}
       />
       <Route
         exact

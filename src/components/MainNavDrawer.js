@@ -18,7 +18,7 @@ export default function MainNavDrawer(props) {
               recentRouteMatch ? "bg-orange-500" : null
             } w-full py-4 hover:bg-orange-500 pl-4`}
           >
-            Home
+            {/* Home */}
           </div>
         </Link>
         <div className="flex flex-1 " />

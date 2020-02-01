@@ -4,23 +4,24 @@ import { fetchShowUser, fetchUpdateUsername } from "../fetchRequests/user";
 import Modal from "../components/Modal";
 import TextBox from "../components/TextBox";
 import {UserContext} from "../context/user-context";
+import { uuidCheck } from '../lib/helpers'
 
 export default function UserInfoCard(props) {
   const { user: userParam } = useParams();
   const [profile, setProfile] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const [text, setText] = useState({ name: "", value: "", isValid: true });
-  let [redirect, setRedirect] = useState(false);
+  let [redirect, setRedirect] = useState(false); 
   let { user, setUser } = useContext(UserContext)
+
+  
   // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
     console.log('userParam', userParam)
     fetchShowUser(userParam).then(r => setProfile(r));
   }, [userParam]);
 
-  let uuidCheck = new RegExp(
-    /([a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}){1}/
-  );
+ 
 
   const createdMatch = useRouteMatch("/:user");
   const recentMatch = useRouteMatch("/:user/recent");

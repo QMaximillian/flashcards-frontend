@@ -78,7 +78,7 @@ export default function Navigation(props){
                 </div>
               </div>
             </div>
-            <div className="w-24">
+            {user ? <><div className="w-24">
               <div className="text-center">|</div>
             </div>
             <Link
@@ -89,7 +89,7 @@ export default function Navigation(props){
               <div className="create text-center ml-3">
                 Create
               </div>
-            </Link>
+            </Link></> : null}
           </div>
         );
       }
@@ -143,15 +143,14 @@ export default function Navigation(props){
           );
         } else {
            
-           return <div className="flex">
+           return <div className="flex text-white w-full justify-around h-full items-center">
                 <Link
-                  className="flex justify-between w-full h-full"
                   to="/login"
                 >
                   <div>LOGIN</div>
                 </Link>
+                <div className="text-center">|</div>
                 <Link
-                  className="flex justify-between w-full h-full"
                   to="sign-up"
                 >
                   <div>SIGN UP</div> 

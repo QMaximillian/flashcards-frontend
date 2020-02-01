@@ -10,6 +10,7 @@ import { format } from 'date-fns'
 import FlashcardsNavDrawer from "../components/FlashcardNavDrawer";
 import TermsInSet from '../components/TermsInSet'
 import { useParams } from 'react-router-dom'
+import { uuidCheck } from '../lib/helpers'
 
 
 
@@ -21,32 +22,39 @@ export default function ShowCardSet(props){
   const [flashcards, setFlashcards] = useState([])
   const [count, setCount] = useState(0)
   const [reverse, setReverse] = useState(false)
+  // const [uuid, setUuid] = useState(uuidCheck.test(id))
   const { id } = useParams()
-
-  console.log(id)
+  const uuid = React.useRef(uuidCheck.test(id))
   
 
+
+
+  
+  
   useEffect(() => {
-    fetchGetCardSetShow(id)
-    .then(r => {
-      console.log('r', r)
-      const { flashcards, ...rest } = r
-      setCardSet(rest);
-      setFlashcards([...flashcards, {}])
-      
-    })
+
+    if (uuid.current) {
+      fetchGetCardSetShow(id)
+      .then(r => {
+        console.log('r', r)
+        const { flashcards, ...rest } = r
+        setCardSet(rest);
+        setFlashcards([...flashcards, {}])
         
-    .then(r => setIsLoading(false))
-    .catch(err => console.log(err))
+      })
+          
+      .then(r => setIsLoading(false))
+      .catch(err => console.log(err))
+    }
   }, [id])
 
 
   useEffect(() => {
-    if (!isLoading && count === flashcards.length - 1) {
-      fetchPostLastStudied({
-        card_set_id: props.match.params.id,
-        last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'")
-      });
+      if (!isLoading && count === flashcards.length - 1) {
+        fetchPostLastStudied({
+          card_set_id: props.match.params.id,
+          last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'")
+        });
     }
     
 
@@ -55,7 +63,7 @@ export default function ShowCardSet(props){
   }, [count, flashcards.length, isLoading, props.match.params.id])
 
   useEffect(() => {
-    fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'")})
+      fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'")})
   }, [props.match.params.id]);
 
   const transitions = useTransition([count], item => item, {
@@ -100,7 +108,7 @@ export default function ShowCardSet(props){
     }
   }
   
-
+      if (!uuid.current) return <div className="pt-16">No Match</div>
       return !isLoading ? (
         <div className="w-full">
           <div className="text-4xl font-bold text-gray-700 opacity-50 ml-16 mt-8">
@@ -116,27 +124,23 @@ export default function ShowCardSet(props){
               <div className="w-full py-4 overflow-hidden flex justify-center">
                 <div className="flex relative h-64 w-3/4">
                   {transitions.map(({ item, props, key }) => {
-                    if (count !== flashcards.length - 1) {
                       return (
                         <animated.div key={key} style={props}>
-                          <Card
-                            key={key}
-                            style={props}
-                            flashcardFront={flashcards[item].term}
-                            flashcardBack={flashcards[item].definition}
-                          />
+                          {count !== flashcards.length - 1 
+                          ? <Card
+                          
+                              key={key}
+                              style={props}
+                              flashcardFront={flashcards[item].term}
+                              flashcardBack={flashcards[item].definition}
+                            />
+                          : <FinalFlashCard
+                                  cardSetLength={flashcards.length - 2}
+                                  handleReset={() => setCount(0)}
+                                />
+                          }
                         </animated.div>
                       );
-                    } else {
-                      return (
-                        <animated.div key={key} style={props}>
-                          <FinalFlashCard
-                            cardSetLength={flashcards.length - 2}
-                            handleReset={() => setCount(0)}
-                          />
-                        </animated.div>
-                      );
-                    }
                   })}
                 </div>
               </div>

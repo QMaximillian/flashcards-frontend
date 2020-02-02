@@ -108,7 +108,7 @@ export default function ShowCardSet(props){
     }
   }
   
-      if (!uuid.current) return <div className="pt-16">No Match</div>
+      if (!uuid.current) return <div>No Match</div>
       return !isLoading ? (
         <div className="w-full">
           <div className="text-4xl font-bold text-gray-700 opacity-50 ml-16 mt-8">

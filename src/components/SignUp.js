@@ -52,7 +52,7 @@ export default function SignUp(props) {
   if (redirect) return <Redirect to={`/login`}/>
 
   return (
-    <div className="h-full pt-16">
+    <div className="h-full">
       {error}
       <div className="flex justify-center w-full h-full items-center">
         <div className="w-full max-w-md self-center">

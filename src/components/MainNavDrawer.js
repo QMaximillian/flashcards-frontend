@@ -6,6 +6,7 @@ export default function MainNavDrawer(props) {
   const userRouteMatch = useRouteMatch(["/:user", "/:user/studied"]);
   const recentRouteMatch = useRouteMatch("/:user/recent");
   let { user } = useContext(UserContext)
+
   return (
     <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-full overflow-y-auto w-full">
       <div className="border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
@@ -55,6 +56,6 @@ export default function MainNavDrawer(props) {
         </Link>
       </div>
       <div className="border border-gray-200 border-r-0 border-l-0 flex flex-1"></div>
-    </div>
+      </div>
   );
 }

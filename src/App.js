@@ -23,7 +23,7 @@ import {UserProvider, UserContext } from "./context/user-context.js";
 const LoggedInRoutes = () => {
 
   return (
-    <div className="flex w-full h-full pt-16">
+    <div className="flex w-full">
       <Route path="/" component={NavDrawer} />
 
       <div className="w-full h-full">
@@ -47,6 +47,13 @@ const LoggedInRoutes = () => {
 
           <Route path="/:user/" component={UserCardSetsPage} />
           <Route exact path="/" component={LoggedInHome} />
+          <Route component={() => 
+           <div>
+             <div>
+                No Match
+             </div>
+             </div>
+          }/>
         </Switch>
       </div>
     </div>
@@ -57,6 +64,7 @@ const LoggedOutRoutes = () => {
   // console.log('loggedoutroutes', user)
   return (
     <>
+    <Switch>
     <Route
         exact
         path="/"
@@ -68,7 +76,7 @@ const LoggedOutRoutes = () => {
         component={Login}
       />
          <Route exact path="/sign-up" component={SignUp} />
-      <Switch>
+      
         {/* <Route exact path="/card-sets/new" component={CreateCardSetForm} /> */}
         <Route
           exact
@@ -80,7 +88,13 @@ const LoggedOutRoutes = () => {
           )}
         />
         <Route path="/search/:search" component={CardSetSearchResults} />
-        <Route component={() => <div className="pt-16">No Match</div>}/>
+        <Route component={() => 
+           <div>
+             <div>
+                No Match
+             </div>
+             </div>
+          }/>
       </Switch>
           
       
@@ -91,7 +105,7 @@ const LoggedOutRoutes = () => {
 function App(props) {
     // const { loading, data, error } = useFetch('/user')
   return (
-    <div className="h-full">
+    <div className="h-full flex flex-col">
       <Router>
         <UserProvider>
           <Navigation />

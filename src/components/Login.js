@@ -8,6 +8,7 @@ export default function Login(props){
     const [email, setEmail] = useState({ name: "", value: "" });
     const [password, setPassword] = useState({ name: "", value: "" });
     const [username, setUsername] = useState(false)
+    const [changeType, setChangeType] = useState("password")
     let history = useHistory()
 
     React.useEffect(() => {
@@ -41,7 +42,7 @@ export default function Login(props){
 
 
        return (
-         <div className="flex justify-center w-full h-full items-center pt-16">
+         <div className="flex justify-center w-full h-full items-center">
            <div className="w-full max-w-md self-center">
              <div className="px-4 pb-4">
                <label htmlFor="email" className="text-sm block font-bold  pb-2">
@@ -69,8 +70,9 @@ export default function Login(props){
                  name="password"
                  value={password.value}
                  onChange={setPassword}
-                 type="text"
+                 type={changeType}
                />
+               <i class="fas fa-eye" className="text-black w-24 h-24 border border-black" onClick={() => setChangeType(changeType => changeType === 'password' ? "text" : "password")}></i>
              </div>
              <div className="flex justify-center">
                <button
@@ -81,7 +83,6 @@ export default function Login(props){
                  Submit
                </button>
                <button
-                 // onClick={handleGoogleLogin}
                  className="hover: font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                  type="button"
                >

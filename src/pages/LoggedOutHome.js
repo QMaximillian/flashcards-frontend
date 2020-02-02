@@ -2,7 +2,8 @@ import React from 'react'
 
 function LoggedOutHome(props) {
   return (
-    <div className="pt-16 flex justify-content align-items h-full">
+    <div className="flex flex-grow">
+    <div className=" flex justify-content align-items flex-grow">
       <div className="flex-1 h-full flex items-center flex-col" style={{justifyContent: 'space-evenly'}}>
         
         <div>
@@ -49,6 +50,7 @@ function LoggedOutHome(props) {
           Lorem ipsum quiquit dolor asndsndsdsakd asdasdksa dasd saddsdaasd
         </div>
       </div>
+    </div>
     </div>
   )
 }

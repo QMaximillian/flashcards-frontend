@@ -33,12 +33,13 @@ export default function UserCardSetCard(props){
                   return (
                     <div
                       key={idx}
-                      className="w-1/4 px-4 border border-gray-200 flex flex-col items-start justify-around h-full"
+                      style={{justifyContent: 'space-evenly'}}
+                      className="w-1/4 px-4 border border-gray-200 flex flex-col items-start h-full"
                     >
-                      <div className="text-xs">{flashcard.term}</div>
-                      <div className="text-xs opacity-50">
+                      <p style={{maxWidth: '20ch'}} className="text-xs truncate">{flashcard.term}</p>
+                      <p style={{maxWidth: '20ch'}} className="text-xs opacity-50 truncate">
                         {flashcard.definition}
-                      </div>
+                      </p>
                     </div>
                   );
                 })}
@@ -62,7 +63,7 @@ export default function UserCardSetCard(props){
              >
                <div
                  //  onClick={() => handleChecked(cardSet)}
-                 className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl"
+                 className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2"
                >
                  {/* <input
                             onChange={() => handleChecked(cardSet)}

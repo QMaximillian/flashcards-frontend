@@ -40,6 +40,8 @@ export default function NavDrawer(props){
     <Switch>
       <Route exact path="/card-sets/new" component={null}></Route>
       <Route exact path="/card-sets/:id" component={null}></Route>
+      <Route exact path="/card-sets/:id/edit" component={null}></Route>
+      <Route exact path="/search/:search" component={null}></Route>
       <Route
         path="/"
         component={

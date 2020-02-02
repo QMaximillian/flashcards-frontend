@@ -106,10 +106,16 @@ export default function Navigation(props){
     function renderDropdown(){
       if (dropdownToggle) {
         return (
-          <div className="pl-4 py-2 w-48 absolute h-56 border border-orange-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg">
+          <div className="flex flex-col justify-end ml-4 py-2 w-48 absolute h-18 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md">
+
+            <div className="pl-4 ">
+            
             <a href="http://localhost:8000/auth/logout">
-              LOGOUT
+              Log Out
             </a>
+            
+            </div>
+            
           </div>
         )
       } 

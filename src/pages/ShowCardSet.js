@@ -73,19 +73,22 @@ export default function ShowCardSet(props){
       width: "100%",
       transform: reverse
         ? "translate3d(-100%, 0, 0)"
-        : "translate3d(200%, 0, 0)"
+        : "translate3d(200%, 0, 0)",
+        textAlign: 'center'
     },
     enter: {
       opacity: 1,
       width: "100%",
-      transform: "translate3d(0, 0, 0)"
+      transform: "translate3d(0, 0, 0)",
+      textAlign: 'center'
     },
     leave: {
       opacity: 0,
       width: "100%",
       transform: reverse
         ? "translate3d(200%, 0, 0)"
-        : "translate3d(-100%, 0, 0)"
+        : "translate3d(-100%, 0, 0)",
+        textAlign: 'center'
     }
   });
 

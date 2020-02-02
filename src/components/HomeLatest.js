@@ -19,9 +19,9 @@ export default function HomeLatest(props){
         .catch(error => setError(error.message));
     }, [props.limit]);
 
-    useEffect(() => {
-      console.log('1', recentCardSets.length)
-    }, [recentCardSets])
+    // useEffect(() => {
+    //   console.log('1', recentCardSets.length)
+    // }, [recentCardSets])
 
 
     // if (error) throw new Error(error)

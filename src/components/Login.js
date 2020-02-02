@@ -72,7 +72,7 @@ export default function Login(props){
                  onChange={setPassword}
                  type={changeType}
                />
-               <i class="fas fa-eye" className="text-black w-24 h-24 border border-black" onClick={() => setChangeType(changeType => changeType === 'password' ? "text" : "password")}></i>
+               <i class="fas fa-eye" className="text-black w-24 h-24 border border-black" onClick={() => setChangeType(changeType => changeType === 'password' ? "text" : "password")}/>
              </div>
              <div className="flex justify-center">
                <button

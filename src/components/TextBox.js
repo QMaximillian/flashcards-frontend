@@ -13,10 +13,10 @@ const TextBox = React.forwardRef((props, ref) => {
     
 
     function getErrorMessage(){
-    const { error, value, type, required } = props;
+    const { error, value, type, required, name } = props;
 
     if (required && isEmpty(value)) {
-      const defaultMessage = `${type} is required.`;
+      const defaultMessage = `${name.replace(/^\w/, c => c.toUpperCase())} is required.`;
       return error.required || defaultMessage;
     }
 

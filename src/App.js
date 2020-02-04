@@ -26,7 +26,7 @@ const LoggedInRoutes = () => {
     <div className="flex w-full">
       <Route path="/" component={NavDrawer} />
 
-      <div className="w-full h-full">
+      {/* <div className="w-full h-full"> */}
         <Route exact path="/card-sets/" component={UserCardSetsPage} />
         <Switch>
           <Route exact path="/card-sets/new" component={CreateCardSetForm} />
@@ -55,7 +55,7 @@ const LoggedInRoutes = () => {
              </div>
           }/>
         </Switch>
-      </div>
+      {/* </div> */}
     </div>
   );
 };
@@ -105,14 +105,14 @@ const LoggedOutRoutes = () => {
 function App(props) {
     // const { loading, data, error } = useFetch('/user')
   return (
-    <div className="h-full flex flex-col">
+    // <div className="h-full flex flex-col">
       <Router>
         <UserProvider>
           <Navigation />
           <RouteDecider />
         </UserProvider>
       </Router>
-    </div>
+    // </div>
   );
 }
 

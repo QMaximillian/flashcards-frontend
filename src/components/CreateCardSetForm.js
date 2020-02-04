@@ -72,6 +72,9 @@ export default function CreateCardSetForm(props){
        return;
      }
 
+     // If both fields are not filled out, remove item from fields array
+
+     // ----------------------------------------------------------------------
      const trigger = fields.every((field) => {
        return (field.definition && !field.term) ||
             (!field.definition && field.term)

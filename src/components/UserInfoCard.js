@@ -11,6 +11,7 @@ export default function UserInfoCard(props) {
   const [profile, setProfile] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const [text, setText] = useState({ name: "", value: "", isValid: true });
+  const [modalError, setModalError] = useState('');
   let [redirect, setRedirect] = useState(false); 
   let { user, setUser } = useContext(UserContext)
 
@@ -95,8 +96,14 @@ export default function UserInfoCard(props) {
       return (
             <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
               <div className="h-64 w-64 border border-black">
-                Change Username
+                <div>
+                  Change Username
+                </div>
+                <div>
+                <p class="text-red-500 text-xs italic">{modalError}</p>
+                </div>
               </div>
+              
               <TextBox
                 name="update-username"
                 type="text"
@@ -108,10 +115,14 @@ export default function UserInfoCard(props) {
                 onClick={() => {
                   fetchUpdateUsername({ newUsername: text.value })
                     .then(r => {
+                      if (r.code) {
+                        setModalError(r.code)
+                        return
+                      }
+                      
                       setModalOpen(false);
                       setProfile({ ...profile, username: r.username });
                       setUser({ ...user, username: r.username });
-                      // setNewUsername(r.username);
                     })
                     .then(r => setRedirect(true));
                 }}

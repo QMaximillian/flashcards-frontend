@@ -34,7 +34,7 @@ export default function MainNavDrawer(props) {
               className={`hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${
                 userRouteMatch && !recentRouteMatch ? "bg-orange-500" : null
               }`}
-              to={`${user.username}`}
+              to={`/${user.username}`}
             >
               <div
                 className={`${

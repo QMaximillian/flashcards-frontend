@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import UserInfoCard from "../components/UserInfoCard";
 import UserCardSets from '../components/UserCardSets'
 import HomeLatest from '../components/HomeLatest'
@@ -64,7 +64,7 @@ export default function UserCardSetsPage(props){
     }
   }
        return (
-         <div className="w-full h-full bg-gray-200">
+         <div className="w-full h-screen bg-gray-200">
            <div className="w-full"></div>
            <div id="tabs">
              <Route path={`/:user`} component={UserInfoCard} />

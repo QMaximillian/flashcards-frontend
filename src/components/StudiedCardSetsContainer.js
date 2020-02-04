@@ -33,7 +33,7 @@ export default function StudiedCardSetsContainer(props){
     }
        return (
            <div>
-             {renderCardSets()}
+              {renderCardSets()}
            </div>
        )
 }

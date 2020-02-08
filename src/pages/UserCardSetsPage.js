@@ -1,21 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import UserInfoCard from "../components/UserInfoCard";
 import UserCardSets from '../components/UserCardSets'
 import HomeLatest from '../components/HomeLatest'
 import StudiedCardSetsContainer from '../components/StudiedCardSetsContainer'
 import TextBox from '../components/TextBox'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom'
+import { fetchShowUser, fetchUpdateUsername } from "../fetchRequests/user";
+import {UserContext} from '../context/user-context'
+
 
 export default function UserCardSetsPage(props){
-
+  
   const [filter, setFilter] = useState("Latest");
   const [search, setSearch] = useState({ name: "", value: "", isValid: true });
+  // const [username, setUsername] = useState('');
+  const [profile, setProfile] = useState({});
 
   const recentMatch = useRouteMatch('/:user/recent')
   const createdMatch = useRouteMatch('/:user/')
   const studiedMatch = useRouteMatch('/:user/studied')
-
-
+  const { user: userParam } = useParams()
+  const { user } = React.useContext(UserContext)
+  console.log(profile)
+  useEffect(() => {
+    // console.log('userParam', userParam)
+    fetchShowUser(userParam)
+      .then(r => setProfile(r))
+      .catch(error => console.log(error));
+      
+  }, [userParam]);
+console.log(profile.id)
+function isLoggedInUser() {
+  return user.id === profile.id ? true : false
+}
+    // console.log(user.id === profile.id)
+    // return 
+  
   function renderSelect() {
     if (recentMatch) return 
     if (studiedMatch) return
@@ -67,7 +87,7 @@ export default function UserCardSetsPage(props){
          <div className="w-full h-screen bg-gray-200">
            <div className="w-full"></div>
            <div id="tabs">
-             <Route path={`/:user`} component={UserInfoCard} />
+             <Route path={`/:user`} render={() => <UserInfoCard  profile={profile} setProfile={setProfile}/>} />
              <div className="w-full p-6">
                <div className=" w-full">
                  {/* <div onClick={() => setEditMode(!editMode)}>
@@ -80,24 +100,43 @@ export default function UserCardSetsPage(props){
                    {renderSearch()}
                  </div>
                  <div>
-                   <Switch>
-                     <Route
-                       path="/:user/recent"
-                       render={() => (
-                         <HomeLatest limit={10} pageType="RECENT" search={search} />
-                       )}
-                     />
-                     <Route
-                       path="/:user/studied"
-                       component={StudiedCardSetsContainer}
-                     />
-                     <Route
-                       path={`/:user`}
-                       render={() => (
-                         <UserCardSets search={search} filter={filter} />
-                       )}
-                     />
-                   </Switch>
+                      {isLoggedInUser() ? 
+                      (<Switch>
+                        <Route
+                          path="/:user/recent"
+                          render={() => (
+                            <HomeLatest limit={10} pageType="RECENT" search={search} />
+                          )}
+                        />
+                        <Route
+                          path="/:user/studied"
+                          component={StudiedCardSetsContainer}
+                        />
+                        <Route
+                          path={`/:user`}
+                          render={() => (
+                            <UserCardSets search={search} filter={filter} />
+                          )}
+                        />
+                      </Switch>
+                    ) 
+                   : 
+                   (
+                    <Switch>
+                    <Route
+                          path="/:user/studied"
+                          component={StudiedCardSetsContainer}
+                        />
+                        <Route
+                          path={`/:user`}
+                          component={() => {
+                            console.log(profile.id)
+                           return  <UserCardSets id={profile.id} search={search} filter={filter} />
+                          
+                          }}
+                        />
+                    </Switch>
+                   )}
                  </div>
                </div>
              </div>

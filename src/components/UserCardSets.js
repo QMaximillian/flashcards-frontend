@@ -25,13 +25,13 @@ export default function UserCardSets(props){
     }, [editMode, initialCardState])
 
     useEffect(() => {
-        fetchGetUserCardSetsIndex()
+        fetchGetUserCardSetsIndex(props.id)
           // .then(r => addCheckedProperty(r))
           .then(r => {
             setCardSets(r);
             setInitialCardState(r);
           });
-    }, [])
+    }, [props.id])
 
     // useEffect(() => {
     //   console.log(cardSets)

@@ -18,8 +18,9 @@ export function fetchPostCardSetSearch(body) {
   }).then(r => r.json());
 }
 
-export function fetchGetUserCardSetsIndex() {
-  return fetch(`${BASE_URL}/users-card-sets`, {
+export function fetchGetUserCardSetsIndex(id) {
+  console.log(id)
+  return fetch(`${BASE_URL}/users-card-sets/${id ? id : ''}`, {
     method: "GET",
     headers: BASE_HEADERS,
     credentials: 'include'
@@ -58,13 +59,12 @@ export function fetchGetEditCardSets(id){
   }).then(r => r.json());
 }
 
-export function fetchGetRecentCardSets(limit = 6){
+export function fetchGetRecentCardSets(limit = 6, id){
   return fetch(`${BASE_URL}/recent-card-sets`, {
     method: "POST",
     headers: BASE_HEADERS,
     credentials: "include",
-    body: JSON.stringify({ limit }),
-    // "X-HTTP-Method-Override" : "GET"
+    body: JSON.stringify({ limit, id }),
   }).then(r => r.json());
 }
 

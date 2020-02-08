@@ -47,13 +47,13 @@ const LoggedInRoutes = () => {
 
           <Route path="/:user/" component={UserCardSetsPage} />
           <Route exact path="/" component={LoggedInHome} />
-          <Route component={() => 
+          {/* <Route component={() => 
            <div>
              <div>
                 No Match
              </div>
              </div>
-          }/>
+          }/> */}
         </Switch>
       {/* </div> */}
     </div>
@@ -88,13 +88,13 @@ const LoggedOutRoutes = () => {
           )}
         />
         <Route path="/search/:search" component={CardSetSearchResults} />
-        <Route component={() => 
+        {/* <Route component={() => 
            <div>
              <div>
                 No Match
              </div>
              </div>
-          }/>
+          }/> */}
       </Switch>
           
       

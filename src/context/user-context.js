@@ -12,7 +12,7 @@ export function UserProvider({ children }) {
   useEffect(() => {
     fetchUser()
       .then(res => {
-        setUser(res.user)
+         setUser(res.user)
       })
       .catch(err => console.log(err));
   }, []);

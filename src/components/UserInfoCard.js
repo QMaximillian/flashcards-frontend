@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useRouteMatch, Redirect } from "react-router-dom";
-import { fetchShowUser, fetchUpdateUsername } from "../fetchRequests/user";
+import { fetchUpdateUsername } from "../fetchRequests/user";
 import Modal from "../components/Modal";
 import TextBox from "../components/TextBox";
 import {UserContext} from "../context/user-context";
 import { uuidCheck } from '../lib/helpers'
 
 export default function UserInfoCard(props) {
-  const { user: userParam } = useParams();
-  const [profile, setProfile] = useState({});
+  
+  const { profile } = props
   const [modalOpen, setModalOpen] = useState(false);
   const [text, setText] = useState({ name: "", value: "", isValid: true });
   const [modalError, setModalError] = useState('');
@@ -17,10 +17,7 @@ export default function UserInfoCard(props) {
 
   
   // let [newUsername, setNewUsername] = useState("");
-  useEffect(() => {
-    console.log('userParam', userParam)
-    fetchShowUser(userParam).then(r => setProfile(r));
-  }, [userParam]);
+ 
 
  
 
@@ -53,7 +50,7 @@ export default function UserInfoCard(props) {
   function renderMatch() {
     return (
       <div className="flex ml-4">
-        <Link to={`/${userParam}/recent`}>
+        <Link to={`/${profile.username}/recent`}>
           <div
             className={`${
               recentMatch
@@ -64,7 +61,7 @@ export default function UserInfoCard(props) {
             Recent
           </div>
         </Link>
-        <Link to={`/${userParam}`}>
+        <Link to={`/${profile.username}`}>
           <div
             className={`${
               createdMatch && !studiedMatch && !recentMatch
@@ -75,7 +72,7 @@ export default function UserInfoCard(props) {
             Created
           </div>
         </Link>
-        <Link to={`/${userParam}/studied`}>
+        <Link to={`/${profile.username}/studied`}>
           <div
             className={`${
               studiedMatch
@@ -121,7 +118,7 @@ export default function UserInfoCard(props) {
                       }
                       
                       setModalOpen(false);
-                      setProfile({ ...profile, username: r.username });
+                      props.setProfile({ ...profile, username: r.username });
                       setUser({ ...user, username: r.username });
                     })
                     .then(r => setRedirect(true));

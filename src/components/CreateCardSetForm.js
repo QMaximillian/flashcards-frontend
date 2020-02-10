@@ -6,11 +6,13 @@ import {
   fetchPostFlashCards,
   fetchPatchEditFlashcard
 } from "../fetchRequests/flashcards";
+import { useHistory } from 'react-router-dom';
 
 
  
 
 export default function CreateCardSetForm(props){
+ 
 		const [fields, setFields] = useState(
       Array.from({ length: 2 }, () => ({ term: "", definition: "" }))
     );
@@ -20,6 +22,7 @@ export default function CreateCardSetForm(props){
       isValid: true
     });
     const [isPrivate, setPrivacy] = useState(true)
+    const history = useHistory()
 
 
   useEffect(() => {
@@ -118,8 +121,8 @@ export default function CreateCardSetForm(props){
           await fetchPostFlashCards({ fields, card_set_id: cardSet.id });
 
           alert("Saved!");
-
-          // Redirect here
+          
+          history.push(`/card-sets/${cardSet.id}`)
         } catch (error) {
           console.log(error);
         }	
@@ -127,6 +130,7 @@ export default function CreateCardSetForm(props){
 
   }
   
+
   return (
     <div className="flex w-full flex-col bg-gray-300 overflow-auto">
       <div className="bg-white p-4">

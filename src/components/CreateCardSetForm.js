@@ -12,7 +12,7 @@ import {
 
 export default function CreateCardSetForm(props){
 		const [fields, setFields] = useState(
-      Array.from({ length: 5 }, () => ({ term: "", definition: "" }))
+      Array.from({ length: 2 }, () => ({ term: "", definition: "" }))
     );
 		const [cardSetName, setCardSetName] = useState({
       name: "card-set-name",
@@ -74,16 +74,28 @@ export default function CreateCardSetForm(props){
 
      // If both fields are not filled out, remove item from fields array
 
-     // ----------------------------------------------------------------------
-     const trigger = fields.every((field) => {
-       return (field.definition && !field.term) ||
-            (!field.definition && field.term)
-     })
+     
+    
+     if (fields.length < 2) {
+      alert('Please create at least 2 flashcards')
+      return
+    }
 
-     if (trigger) {
-       alert(`Please complete flashcard term or definition in all rows`);
-       return
-     }
+     for (let field of fields) {
+      if (field.term.trim() === "" && field.definition.trim() === ""){
+        alert('Please delete or complete term and definition for all flashcards')
+        return
+      }
+
+      if (field.term.trim() === "" || field.definition.trim() === ""){
+        alert(`Please complete flashcard term or definition in all rows`);
+        return
+      }
+
+      
+    }
+
+    // ----------------------------------------------------------------------
      
 
     if (props.editMode) {
@@ -101,7 +113,7 @@ export default function CreateCardSetForm(props){
     } else {
         try {
           const cardSet = await fetchPostCardSet({ name: cardSetName.value, flashcards_count: fields.length, isPrivate: isPrivate });
-
+          console.log(cardSet)
           await fetchPostUsersCardSet({ card_set_id: cardSet.id })
           await fetchPostFlashCards({ fields, card_set_id: cardSet.id });
 
@@ -116,7 +128,7 @@ export default function CreateCardSetForm(props){
   }
   
   return (
-    <div className="flex w-full flex-col bg-gray-300">
+    <div className="flex w-full flex-col bg-gray-300 overflow-auto">
       <div className="bg-white p-4">
         {!props.editMode ? (
           <div className="mt-6 flex justify-between">

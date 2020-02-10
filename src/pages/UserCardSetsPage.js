@@ -64,8 +64,7 @@ export default function UserCardSetsPage(props){
     }
   }
        return (
-         <div className="w-full h-screen bg-gray-200">
-           <div className="w-full"></div>
+         <div className="w-full h-full bg-gray-200 overflow-auto">
            <div id="tabs">
              <Route path={`/:user`} component={UserInfoCard} />
              <div className="w-full p-6">

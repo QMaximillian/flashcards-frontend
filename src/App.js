@@ -23,14 +23,12 @@ import {UserProvider, UserContext } from "./context/user-context.js";
 const LoggedInRoutes = () => {
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full h-full">
       <Route path="/" component={NavDrawer} />
 
-      {/* <div className="w-full h-full"> */}
         <Route exact path="/card-sets/" component={UserCardSetsPage} />
         <Switch>
           <Route exact path="/card-sets/new" component={CreateCardSetForm} />
-          {/* <div className="w-full h-full flex-col-reverse"> */}
           <Route
             exact
             path="/card-sets/:id"
@@ -55,13 +53,11 @@ const LoggedInRoutes = () => {
              </div>
           }/>
         </Switch>
-      {/* </div> */}
     </div>
   );
 };
 
 const LoggedOutRoutes = () => {
-  // console.log('loggedoutroutes', user)
   return (
     <>
     <Switch>
@@ -105,14 +101,12 @@ const LoggedOutRoutes = () => {
 function App(props) {
     // const { loading, data, error } = useFetch('/user')
   return (
-    // <div className="h-full flex flex-col">
       <Router>
         <UserProvider>
           <Navigation />
           <RouteDecider />
         </UserProvider>
       </Router>
-    // </div>
   );
 }
 

@@ -44,11 +44,15 @@ export default function NavDrawer(props){
       <Route exact path="/search/:search" component={null}></Route>
       <Route
         path="/"
-        component={
+        render={
           () => 
-          <div className="w-2/5 h-screen sticky top-0">
+          <div className="w-2/5 sticky top-0
+          ">
             <MainNavDrawer />
-          </div>
+            </div>
+
+
+
         }
       ></Route>
     </Switch>

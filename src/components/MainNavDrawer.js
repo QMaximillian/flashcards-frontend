@@ -8,7 +8,7 @@ export default function MainNavDrawer(props) {
   let { user } = useContext(UserContext)
 
   return (
-    <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-full overflow-y-auto w-full">
+    <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-full w-full">
       <div className="border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
         <Link
           className={`w-full items-center flex flex-1 justify-start`}

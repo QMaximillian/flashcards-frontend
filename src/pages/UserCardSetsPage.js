@@ -29,10 +29,12 @@ export default function UserCardSetsPage(props){
       .catch(error => console.log(error));
       
   }, [userParam]);
-console.log(profile.id)
+
 function isLoggedInUser() {
   return user.id === profile.id ? true : false
 }
+
+const isUser = isLoggedInUser()
     // console.log(user.id === profile.id)
     // return 
   
@@ -86,8 +88,8 @@ function isLoggedInUser() {
        return (
          <div className="w-full h-screen bg-gray-200">
            <div className="w-full"></div>
-           <div id="tabs">
-             <Route path={`/:user`} render={() => <UserInfoCard  profile={profile} setProfile={setProfile}/>} />
+           <div id="tabs" className="bg-gray-200">
+             <Route path={`/:user`} render={() => <UserInfoCard  isUser={isUser} profile={profile} setProfile={setProfile}/>} />
              <div className="w-full p-6">
                <div className=" w-full">
                  {/* <div onClick={() => setEditMode(!editMode)}>
@@ -100,7 +102,7 @@ function isLoggedInUser() {
                    {renderSearch()}
                  </div>
                  <div>
-                      {isLoggedInUser() ? 
+                      {isUser ? 
                       (<Switch>
                         <Route
                           path="/:user/recent"

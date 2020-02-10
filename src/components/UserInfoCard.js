@@ -24,6 +24,7 @@ export default function UserInfoCard(props) {
   const createdMatch = useRouteMatch("/:user");
   const recentMatch = useRouteMatch("/:user/recent");
   const studiedMatch = useRouteMatch("/:user/studied");
+  console.log(props.isUser)
 
   if (profile) {
     return (
@@ -47,20 +48,27 @@ export default function UserInfoCard(props) {
     return <div>Loading...</div>;
   }
 
+
   function renderMatch() {
     return (
       <div className="flex ml-4">
-        <Link to={`/${profile.username}/recent`}>
-          <div
-            className={`${
-              recentMatch
-                ? "bg-yellow-500 text-black"
-                : "hover:text-yellow-500 text-teal-300"
-            } border border-gray-500 py-2 px-4`}
-          >
-            Recent
-          </div>
-        </Link>
+        {
+          props.isUser 
+            && 
+            (
+              <Link to={`/${profile.username}/recent`}>
+                <div
+                  className={`${
+                    recentMatch
+                      ? "bg-yellow-500 text-black"
+                      : "hover:text-yellow-500 text-teal-300"
+                  } border border-gray-500 py-2 px-4`}
+                >
+                  Recent
+                </div>
+              </Link>
+            )
+        }
         <Link to={`/${profile.username}`}>
           <div
             className={`${

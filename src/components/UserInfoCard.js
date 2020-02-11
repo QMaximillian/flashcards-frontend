@@ -95,11 +95,16 @@ export default function UserInfoCard(props) {
     if (uuidCheck.test(profile.username)) {
       return (
             <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-              <div className="h-64 w-64 border border-black">
-                <div>
+              <div style={{height: '16rem', width: '24rem'}} >
+              <div className="flex justify-center w-full h-full items-center border border-teal-500 bg-gray-300">
+              <form className="shadow-md rounded w-full h-full px-6 py-8 flex flex-col" style={{justifyContent: "space-evenly"}}>
+            <div className="mb-6">
+            <label htmlFor="email" className="text-center text-sm block font-bold  pb-2">
                   Change Username
-                </div>
-                <div>
+                </label>
+            </div>
+            <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
+            <div>
                 <p class="text-red-500 text-xs italic">{modalError}</p>
                 </div>
               </div>
@@ -129,6 +134,23 @@ export default function UserInfoCard(props) {
               >
                 Submit
               </button>
+          </form>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                
             </Modal>
       );
     }

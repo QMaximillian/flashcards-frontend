@@ -18,12 +18,12 @@ class Modal extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="fixed inset-0 overflow-auto h-screen w-screen flex justify-center items-center bg-gray-500 opacity-75 z-9999">
-          <div
+        <div className="fixed inset-0 overflow-auto h-screen w-screen flex justify-center items-center z-9999 opacity-100" >         
+         <div
             onClick={this.overlayClick}
-            className="h-full w-full bg-dark-800 opacity-75 z-9000"
+            className="h-full w-full bg-black opacity-75 z-9000"
           ></div>
-          <div className="border border-red-500 bg-white absolute flex flex-col justify-start items-center z-99999">
+          <div className="bg-white absolute flex flex-col justify-start items-center z-99999">
             {this.props.children}
             {showDefaultCloseBtn && (
               <div
@@ -31,8 +31,8 @@ class Modal extends React.Component {
                 style={{ bottom: -100 }}
                 className="absolute flex flex-col items-center justify-center cursor-pointer mt-5"
               >
-                {/* <IoIosCloseCircle className="text-white text-6xl" /> */}
-                <div>X</div>
+                {/* <IoIosCloseCircle  /> */}
+                <i className="text-white text-4xl fas fa-times"></i>
                 <p className="text-white text-base font-primary">Close</p>
               </div>
             )}

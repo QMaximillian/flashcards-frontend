@@ -63,6 +63,7 @@ export default function ShowCardSet(props){
   }, [count, flashcards.length, isLoading, props.match.params.id])
 
   useEffect(() => {
+    console.log('jere')
       fetchPostLastSeen({card_set_id: props.match.params.id, last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'")})
   }, [props.match.params.id]);
 

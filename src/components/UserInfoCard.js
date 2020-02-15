@@ -95,11 +95,11 @@ export default function UserInfoCard(props) {
     if (uuidCheck.test(profile.username)) {
       return (
             <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-              <div style={{height: '16rem', width: '24rem'}} >
-              <div className="flex justify-center w-full h-full items-center border border-teal-500 bg-gray-300">
+              <div style={{height: '16rem', width: '24rem'}} className="">
+              <div className="flex justify-center w-full h-full bg-gray-500 items-center border border-teal-500 bg-gray-300">
               <form className="shadow-md rounded w-full h-full px-6 py-8 flex flex-col" style={{justifyContent: "space-evenly"}}>
             <div className="mb-6">
-            <label htmlFor="email" className="text-center text-sm block font-bold  pb-2">
+            <label htmlFor="changeUsername" className="text-center text-xl block font-semibold  pb-2">
                   Change Username
                 </label>
             </div>
@@ -108,8 +108,8 @@ export default function UserInfoCard(props) {
                 <p class="text-red-500 text-xs italic">{modalError}</p>
                 </div>
               </div>
-              
               <TextBox
+              className="bg-gray-500 outline-none mb-1 text-black h-full p-2 w-full placeholder placeholder-white border-b-2 border-black border-solid"
                 name="update-username"
                 type="text"
                 placeholder="Enter text here"
@@ -117,7 +117,8 @@ export default function UserInfoCard(props) {
                 value={text.value}
               />
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault()
                   fetchUpdateUsername({ newUsername: text.value })
                     .then(r => {
                       if (r.code) {

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { fetchPostUsersCardSet } from "../fetchRequests/usersCardSets";
+import { UserContext } from '../context/user-context'
+import { format } from 'date-fns'
+
 
 
 export default function UserCardSetCard(props){
+  let { user } = useContext(UserContext)
         const { idx, cardSet, studied = false, searchCard = false } = props
 
       function renderStudiedCard(){
@@ -49,8 +54,25 @@ export default function UserCardSetCard(props){
         );
       }
 
+      async function handleCreateUserCardSet(){
+          if (searchCard && user) {
+
+            let options = { 
+              card_set_id: cardSet.card_set_id,
+              creator_id: cardSet.user_id,
+              last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'")
+            }
+ 
+            await fetchPostUsersCardSet(options)
+          }
+      }
+
        return (
-         <div key={idx} className="flex justify-center ">
+         <div 
+          onClick={handleCreateUserCardSet}
+          key={idx} 
+          className="flex justify-center "
+        >
            <div className={`w-full my-2 px-4 `}>
              <div
                className={`relative z-0 w-full rounded-sm overflow-hidden  ${

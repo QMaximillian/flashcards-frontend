@@ -13,7 +13,7 @@ export default function EditCardSet(props){
 
 
        return (
-         <div>
+         <div className="w-full">
            <CreateCardSetForm
              editMode={true}
              cardSet={cardSet}

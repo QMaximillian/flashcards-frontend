@@ -168,9 +168,17 @@ export default function CreateCardSetForm(props){
           <div className="text-xs opacity-50 mt-1">TITLE</div>
         </div>
         <div className="flex justify-between">
-          <div onClick={() => setPrivacy(!isPrivate)} className="">
-            {isPrivate ? "Accessible to only you" : "Accessible to all"}
+          <div>
+          Accessible to: 
+          <select className="border border-black outline-none ml-2" style={{textAlignLast: 'center'}} onChange={(e)=> setPrivacy(e.target.value)} value={isPrivate}>
+            <option value={true}>only you</option>
+            <option value={false}>all</option>
+          </select>
           </div>
+          {console.log('1234', isPrivate)}
+          {/* <div onClick={() => setPrivacy(!isPrivate)} className="">
+            {isPrivate ? "Accessible to only you" : "Accessible to all"}
+          </div> */}
         </div>
       </div>
       <div className="bg-gray-300 my-4 mx-8">

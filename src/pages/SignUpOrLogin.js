@@ -5,7 +5,6 @@
 
 // export default function SignUpOrLogin(props){
 
-
 //   const [authEnum, setAuthEnum] = useState('LOGIN')
 
 //    const [email, setEmail] = useState({ name: "", value: "" });
@@ -13,9 +12,6 @@
 //    const [firstName, setFirstName] = useState({ name: "", value: "" });
 //    const [lastName, setLastName] = useState({ name: "", value: "" });
 //    const [redirect, setRedirect] = useState(false);
-
-   
-
 
 //     // function handleRedirect(){
 //     //   switch(authEnum){
@@ -50,7 +46,6 @@
 //         })
 //     }
 
-
 // function handleLoginFetch(e){
 
 //       // e.preventDefault()
@@ -64,7 +59,7 @@
 //         body: JSON.stringify({ email: email.value, password: password.value })
 //       }).then(r => {
 //           setRedirect(true);
-          
+
 //       });
 //     }
 
@@ -121,4 +116,3 @@
 //          </div>
 //        );
 // }
-

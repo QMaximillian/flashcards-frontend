@@ -1,28 +1,28 @@
-import { BASE_URL, BASE_HEADERS } from "./baseFetchOptions"; 
+import {BASE_URL, BASE_HEADERS} from './baseFetchOptions'
 
 export function fetchPostLastSeen(body) {
   return fetch(`${BASE_URL}/users-card-set-last-seen`, {
-    method: "POST",
+    method: 'POST',
     headers: BASE_HEADERS,
-    credentials: "include",
-    body: JSON.stringify(body)
-  });
+    credentials: 'include',
+    body: JSON.stringify(body),
+  })
 }
 
 export function fetchPostUsersCardSet(body) {
   return fetch(`${BASE_URL}/users-card-set/new`, {
-    method: "POST",
+    method: 'POST',
     headers: BASE_HEADERS,
-    credentials: "include",
-    body: JSON.stringify(body)
-  });
+    credentials: 'include',
+    body: JSON.stringify(body),
+  })
 }
 
 export function fetchPostLastStudied(body) {
-         return fetch(`${BASE_URL}/users-card-set-last-studied`, {
-           method: "POST",
-           headers: BASE_HEADERS,
-           credentials: "include",
-           body: JSON.stringify(body)
-         });
-       }
+  return fetch(`${BASE_URL}/users-card-set-last-studied`, {
+    method: 'POST',
+    headers: BASE_HEADERS,
+    credentials: 'include',
+    body: JSON.stringify(body),
+  })
+}

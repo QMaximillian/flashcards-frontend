@@ -1,25 +1,25 @@
-import React from "react";
+import React from 'react'
 // import { IoIosCloseCircle } from "react-icons/io";
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 
 class Modal extends React.Component {
   constructor(props) {
-    super(props);
-    this.container = React.createRef();
+    super(props)
+    this.container = React.createRef()
   }
 
   overlayClick = () => {
-    if (this.props.overlayClickable) this.props.onClose();
-  };
+    if (this.props.overlayClickable) this.props.onClose()
+  }
 
   render = () => {
-    const { open, onClose, showDefaultCloseBtn } = this.props;
-    if (!open) return null;
+    const {open, onClose, showDefaultCloseBtn} = this.props
+    if (!open) return null
 
     return (
       <React.Fragment>
-        <div className="fixed inset-0 overflow-auto h-screen w-screen flex justify-center items-center z-9999 opacity-100" >         
-         <div
+        <div className="fixed inset-0 overflow-auto h-screen w-screen flex justify-center items-center z-9999 opacity-100">
+          <div
             onClick={this.overlayClick}
             className="h-full w-full bg-black opacity-75 z-9000"
           ></div>
@@ -28,7 +28,7 @@ class Modal extends React.Component {
             {showDefaultCloseBtn && (
               <div
                 onClick={onClose}
-                style={{ bottom: -100 }}
+                style={{bottom: -100}}
                 className="absolute flex flex-col items-center justify-center cursor-pointer mt-5"
               >
                 {/* <IoIosCloseCircle  /> */}
@@ -39,14 +39,14 @@ class Modal extends React.Component {
           </div>
         </div>
       </React.Fragment>
-    );
-  };
+    )
+  }
 }
 
 Modal.defaultProps = {
   showDefaultCloseBtn: true,
-  overlayClickable: false
-};
+  overlayClickable: false,
+}
 
 Modal.propTypes = {
   // If modal is open.
@@ -56,7 +56,7 @@ Modal.propTypes = {
   // If default close button should be displayed.
   showDefaultCloseBtn: PropTypes.bool,
   // If clicking overlay should close the modal.
-  overlayClickable: PropTypes.bool
-};
+  overlayClickable: PropTypes.bool,
+}
 
-export default Modal;
+export default Modal

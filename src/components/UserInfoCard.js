@@ -1,32 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams, useRouteMatch, Redirect } from "react-router-dom";
-import { fetchShowUser, fetchUpdateUsername } from "../fetchRequests/user";
-import Modal from "../components/Modal";
-import TextBox from "../components/TextBox";
-import {UserContext} from "../context/user-context";
-import { uuidCheck } from '../lib/helpers'
+import React, {useState, useEffect, useContext} from 'react'
+import {Link, useParams, useRouteMatch, Redirect} from 'react-router-dom'
+import {fetchShowUser, fetchUpdateUsername} from '../fetchRequests/user'
+import Modal from '../components/Modal'
+import TextBox from '../components/TextBox'
+import {UserContext} from '../context/user-context'
+import {uuidCheck} from '../lib/helpers'
 
 export default function UserInfoCard(props) {
-  const { user: userParam } = useParams();
-  const [profile, setProfile] = useState({});
-  const [modalOpen, setModalOpen] = useState(false);
-  const [text, setText] = useState({ name: "", value: "", isValid: true });
-  const [modalError, setModalError] = useState('');
-  let [redirect, setRedirect] = useState(false); 
-  let { user, setUser } = useContext(UserContext)
+  const {user: userParam} = useParams()
+  const [profile, setProfile] = useState({})
+  const [modalOpen, setModalOpen] = useState(false)
+  const [text, setText] = useState({name: '', value: '', isValid: true})
+  const [modalError, setModalError] = useState('')
+  let [redirect, setRedirect] = useState(false)
+  let {user, setUser} = useContext(UserContext)
 
-  
   // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
     console.log('userParam', userParam)
-    fetchShowUser(userParam).then(r => setProfile(r));
-  }, [userParam]);
+    fetchShowUser(userParam).then(r => setProfile(r))
+  }, [userParam])
 
- 
-
-  const createdMatch = useRouteMatch("/:user");
-  const recentMatch = useRouteMatch("/:user/recent");
-  const studiedMatch = useRouteMatch("/:user/studied");
+  const createdMatch = useRouteMatch('/:user')
+  const recentMatch = useRouteMatch('/:user/recent')
+  const studiedMatch = useRouteMatch('/:user/studied')
 
   if (profile) {
     return (
@@ -45,9 +42,9 @@ export default function UserInfoCard(props) {
         </div>
         {redirect ? <Redirect to={`${profile.username}`} /> : null}
       </div>
-    );
+    )
   } else {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   function renderMatch() {
@@ -57,8 +54,8 @@ export default function UserInfoCard(props) {
           <div
             className={`${
               recentMatch
-                ? "bg-yellow-500 text-black"
-                : "hover:text-yellow-500 text-teal-300"
+                ? 'bg-yellow-500 text-black'
+                : 'hover:text-yellow-500 text-teal-300'
             } border border-gray-500 py-2 px-4`}
           >
             Recent
@@ -68,8 +65,8 @@ export default function UserInfoCard(props) {
           <div
             className={`${
               createdMatch && !studiedMatch && !recentMatch
-                ? "bg-yellow-500 text-black"
-                : "hover:text-yellow-500 text-teal-300"
+                ? 'bg-yellow-500 text-black'
+                : 'hover:text-yellow-500 text-teal-300'
             } border border-gray-500 py-2 px-4`}
           >
             Created
@@ -79,8 +76,8 @@ export default function UserInfoCard(props) {
           <div
             className={`${
               studiedMatch
-                ? "bg-yellow-500 text-black"
-                : "hover:text-yellow-500 text-teal-300"
+                ? 'bg-yellow-500 text-black'
+                : 'hover:text-yellow-500 text-teal-300'
             } border border-gray-500 py-2 px-4 `}
           >
             Studied
@@ -88,75 +85,67 @@ export default function UserInfoCard(props) {
         </Link>
         {renderUsernameUpdate()}
       </div>
-    );
+    )
   }
 
   function renderUsernameUpdate() {
     if (uuidCheck.test(profile.username)) {
       return (
-            <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-              <div style={{height: '16rem', width: '24rem'}} className="">
-              <div className="flex justify-center w-full h-full bg-gray-500 items-center border border-teal-500 bg-gray-300">
-              <form className="shadow-md rounded w-full h-full px-6 py-8 flex flex-col" style={{justifyContent: "space-evenly"}}>
-            <div className="mb-6">
-            <label htmlFor="changeUsername" className="text-center text-xl block font-semibold  pb-2">
-                  Change Username
-                </label>
-            </div>
-            <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
-            <div>
-                <p class="text-red-500 text-xs italic">{modalError}</p>
-                </div>
-              </div>
-              <TextBox
-              className="bg-gray-500 outline-none mb-1 text-black h-full p-2 w-full placeholder placeholder-white border-b-2 border-black border-solid"
-                name="update-username"
-                type="text"
-                placeholder="Enter text here"
-                onChange={setText}
-                value={text.value}
-              />
-              <button
-                onClick={(e) => {
-                  e.preventDefault()
-                  fetchUpdateUsername({ newUsername: text.value })
-                    .then(r => {
-                      if (r.code) {
-                        setModalError(r.code)
-                        return
-                      }
-                      
-                      setModalOpen(false);
-                      setProfile({ ...profile, username: r.username });
-                      setUser({ ...user, username: r.username });
-                    })
-                    .then(r => setRedirect(true));
-                }}
+        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+          <div style={{height: '16rem', width: '24rem'}} className="">
+            <div className="flex justify-center w-full h-full bg-gray-500 items-center border border-teal-500 bg-gray-300">
+              <form
+                className="shadow-md rounded w-full h-full px-6 py-8 flex flex-col"
+                style={{justifyContent: 'space-evenly'}}
               >
-                Submit
-              </button>
-          </form>
+                <div className="mb-6">
+                  <label
+                    htmlFor="changeUsername"
+                    className="text-center text-xl block font-semibold  pb-2"
+                  >
+                    Change Username
+                  </label>
+                </div>
+                <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
+                  <div>
+                    <p class="text-red-500 text-xs italic">{modalError}</p>
+                  </div>
+                </div>
+                <TextBox
+                  className="bg-gray-500 outline-none mb-1 text-black h-full p-2 w-full placeholder placeholder-white border-b-2 border-black border-solid"
+                  name="update-username"
+                  type="text"
+                  placeholder="Enter text here"
+                  onChange={setText}
+                  value={text.value}
+                />
+                <button
+                  onClick={e => {
+                    e.preventDefault()
+                    fetchUpdateUsername({newUsername: text.value})
+                      .then(r => {
+                        if (r.code) {
+                          setModalError(r.code)
+                          return
+                        }
+
+                        setModalOpen(false)
+                        setProfile({...profile, username: r.username})
+                        setUser({...user, username: r.username})
+                      })
+                      .then(r => setRedirect(true))
+                  }}
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-                
-                
-            </Modal>
-      );
+        </Modal>
+      )
     }
 
-    return;
+    return
   }
 
   function renderUser() {
@@ -167,6 +156,6 @@ export default function UserInfoCard(props) {
           <button onClick={() => setModalOpen(true)}>Change Username</button>
         ) : null}
       </div>
-    );
+    )
   }
 }

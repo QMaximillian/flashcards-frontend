@@ -5,30 +5,24 @@ import React from 'react'
 // import { fetchUser } from '../fetchRequests/user'
 // import { useCookies } from 'react-cookie'
 
-export default function Landing(props){
-    
-    // const [cookies] = useCookies(["token"]);
+export default function Landing(props) {
+  // const [cookies] = useCookies(["token"]);
 
-    // const [response, setResponse] = useState();
-    
-    // useEffect(() => {
-    //      if (cookies.token) {
-    //         fetchUser().then(r => setResponse(r));
-    //      } else {
-    //          setResponse('')
-    //      }
-    // }, [cookies.token])
-    // <Navigation user={response}/>
+  // const [response, setResponse] = useState();
 
-// console.log(response);
+  // useEffect(() => {
+  //      if (cookies.token) {
+  //         fetchUser().then(r => setResponse(r));
+  //      } else {
+  //          setResponse('')
+  //      }
+  // }, [cookies.token])
+  // <Navigation user={response}/>
 
-       return (
-        <div className="h-full w-full">
-              
-        </div>
-       )
+  // console.log(response);
+
+  return <div className="h-full w-full"></div>
 }
-
 
 // function handleFetch() {
 //     return fetch("http://localhost:8000/", {
@@ -39,6 +33,6 @@ export default function Landing(props){
 //       },
 //       credentials: "include"
 //     })
-    //   .then(r => r.json())
-    //   .then(r => console.log(r))
+//   .then(r => r.json())
+//   .then(r => console.log(r))
 // }

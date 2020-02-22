@@ -1,36 +1,33 @@
-import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, {useState, useEffect} from 'react'
+import {useParams} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
-import { fetchPostCardSetSearch } from '../fetchRequests/cardSets'
+import {fetchPostCardSetSearch} from '../fetchRequests/cardSets'
 
+export default function CardSetSearchResults(props) {
+  const [cardSets, setCardSets] = useState([])
 
-export default function CardSetSearchResults(props){
+  let {search} = useParams()
 
-    const [cardSets, setCardSets] = useState([])
+  useEffect(() => {
+    fetchPostCardSetSearch({search}).then(r => setCardSets(r))
+  }, [search])
 
-    let { search } = useParams()
+  // function renderFlashcards(){
+  //     return cardSets.flashcards && cardSets.flashcards.map(flashcard => {
+  //         return <div>{flashcard.term}</div>
+  //     })
+  // }
 
-    useEffect(() => {
-        fetchPostCardSetSearch({ search }).then(r => setCardSets(r))
-    }, [search])
-
-    // function renderFlashcards(){
-    //     return cardSets.flashcards && cardSets.flashcards.map(flashcard => {
-    //         return <div>{flashcard.term}</div>
-    //     })
-    // }
-
-    console.log(cardSets);
-       return (
-           <div className='w-full p-6'>
-            {cardSets.map((cardSet, idx) => {
-                return (
-                  <div key={idx}>
-                      <UserCardSetCard cardSet={cardSet} searchCard={true}/>
-                  </div>
-                );
-            })}
-           </div>
-       )
+  console.log(cardSets)
+  return (
+    <div className="w-full p-6">
+      {cardSets.map((cardSet, idx) => {
+        return (
+          <div key={idx}>
+            <UserCardSetCard cardSet={cardSet} searchCard={true} />
+          </div>
+        )
+      })}
+    </div>
+  )
 }
-

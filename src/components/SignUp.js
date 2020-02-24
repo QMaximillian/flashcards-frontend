@@ -9,7 +9,7 @@ export default function SignUp(props) {
   const [lastName, setLastName] = useState({name: '', value: ''})
   const [username, setUsername] = useState({name: '', value: ''})
   const [redirect, setRedirect] = useState(false)
-  const [error, setError] = useState(null)
+  const [, setError] = useState(null)
 
   function handleSubmit(e) {
     if (!email || !password || !username || !firstName || !lastName) {

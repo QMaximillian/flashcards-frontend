@@ -1,14 +1,12 @@
 import React, {useState, useContext} from 'react'
 import TextBox from '../components/TextBox'
-import {useHistory, Redirect} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import {UserContext} from '../context/user-context'
 
 export default function Login(props) {
   const {setTrigger, setAuthLoading} = useContext(UserContext)
   const [email, setEmail] = useState({name: '', value: ''})
   const [password, setPassword] = useState({name: '', value: ''})
-  const [username, setUsername] = useState(false)
-  const [changeType, setChangeType] = useState('password')
   let history = useHistory()
 
   // React.useEffect(() => {
@@ -89,7 +87,7 @@ export default function Login(props) {
             name="password"
             value={password.value}
             onChange={setPassword}
-            type={changeType}
+            type={'password'}
           />
           {/*
                 Error checking if nothing is entered

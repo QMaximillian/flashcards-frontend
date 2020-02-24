@@ -9,7 +9,7 @@ import {UserContext} from '../context/user-context'
 
 export default function HomeLatest(props) {
   const [recentCardSets, setRecentCardSets] = useState([])
-  const [error, setError] = useState(null)
+  const [, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
   let {user} = useContext(UserContext)

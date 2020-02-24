@@ -13,6 +13,7 @@ export default function UserCardSets(props) {
   const {filter, search} = props
 
   const [cardSets, setCardSets] = useState([])
+  const [loading, setLoading] = useState(true)
   const [
     editMode,
     // setEditMode
@@ -29,6 +30,7 @@ export default function UserCardSets(props) {
     fetchGetUserCardSetsIndex()
       // .then(r => addCheckedProperty(r))
       .then(r => {
+        setLoading(false)
         setCardSets(r)
         setInitialCardState(r)
       })
@@ -58,7 +60,7 @@ export default function UserCardSets(props) {
   }
 
   function renderCardSets() {
-    if (cardSets.length === 0) {
+    if (!loading && cardSets.length === 0) {
       return (
         <div className="h-64 w-full">
           <NoItemsCard

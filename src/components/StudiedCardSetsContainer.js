@@ -6,8 +6,12 @@ import {addTimeIntervals} from '../lib/helpers'
 
 export default function StudiedCardSetsContainer(props) {
   const [cardSets, setCardSets] = useState([])
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
-    fetchGetStudiedCardSets().then(r => setCardSets(r))
+    fetchGetStudiedCardSets().then(r => {
+      setLoading(false)
+      setCardSets(r)
+    })
   }, [])
 
   function renderCardSets() {
@@ -18,7 +22,7 @@ export default function StudiedCardSetsContainer(props) {
     //     </div>
     //   );
     // })
-    if (cardSets.length === 0) {
+    if (!loading && cardSets.length === 0) {
       return (
         <div className="h-64 w-full">
           <NoItemsCard

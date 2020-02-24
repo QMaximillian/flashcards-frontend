@@ -10,21 +10,22 @@ import {UserContext} from '../context/user-context'
 export default function HomeLatest(props) {
   const [recentCardSets, setRecentCardSets] = useState([])
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   let {user} = useContext(UserContext)
 
   useEffect(() => {
+    // setLoading(true)
+
     fetchGetRecentCardSets(props.limit)
-      .then(r => setRecentCardSets(r))
+      .then(r => {
+        console.log(r.length)
+        setRecentCardSets(r)
+        setLoading(false)
+      })
       .catch(error => setError(error.message))
   }, [props.limit])
 
-  // useEffect(() => {
-  //   console.log('1', recentCardSets.length)
-  // }, [recentCardSets])
-
-  // if (error) throw new Error(error)
-  // if (recentCardSets.length === 0) return "Loading..."
   if (props.pageType === 'HOME' || !props.pageType) {
     return (
       <div className="py-10 px-8">
@@ -39,7 +40,7 @@ export default function HomeLatest(props) {
         </div>
 
         <div className="flex flex-wrap">
-          {recentCardSets.length === 0 ? (
+          {!loading && recentCardSets.length === 0 ? (
             <div className="h-64 w-full">
               <NoItemsCard
                 subtitle={'Use the search bar to check some out'}
@@ -63,7 +64,7 @@ export default function HomeLatest(props) {
       </div>
     )
   } else if (props.pageType === 'RECENT') {
-    if (recentCardSets.length === 0) {
+    if (!loading && recentCardSets.length === 0) {
       return (
         <div className="h-64 w-full">
           <NoItemsCard

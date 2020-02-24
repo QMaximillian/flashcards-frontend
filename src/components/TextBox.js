@@ -1,15 +1,10 @@
 import {isEmail, isEmpty, isMobilePhone} from 'validator'
 import PropTypes from 'prop-types'
-import React, {
-  useState,
-  // useRef
-} from 'react'
+import React, {useState} from 'react'
 
 const TextBox = React.forwardRef((props, ref) => {
   const [showError, setShowError] = useState(false)
   const [valueModified, setValueModified] = useState(false)
-
-  // const inputRef = useRef(null)
 
   function getErrorMessage() {
     const {error, value, type, required, name} = props
@@ -271,7 +266,7 @@ const TextBox = React.forwardRef((props, ref) => {
 // }
 
 TextBox.defaultProps = {
-  autoComplete: 'on',
+  autoComplete: 'off',
   error: {invalid: '', required: ''},
   onBlur: () => {},
   required: false,

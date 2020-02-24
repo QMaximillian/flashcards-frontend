@@ -2,7 +2,7 @@ import React from 'react'
 import {MemoryRouter} from 'react-router'
 import '@testing-library/jest-dom/extend-expect'
 import {createMemoryHistory} from 'history'
-import {render, getByText, fireEvent} from '@testing-library/react'
+import {render} from '@testing-library/react'
 import CreateCardSetForm from './CreateCardSetForm'
 
 test('renders a text input with a label "TITLE', () => {

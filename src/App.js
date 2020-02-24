@@ -83,7 +83,6 @@ const LoggedOutRoutes = () => {
 }
 
 function App(props) {
-  // const { loading, data, error } = useFetch('/user')
   return (
     <Router>
       <UserProvider>
@@ -95,7 +94,13 @@ function App(props) {
 }
 
 function RouteDecider(props) {
-  let {user} = useContext(UserContext)
+  let {user, authLoading} = useContext(UserContext)
+  if (authLoading)
+    return (
+      <div className="flex h-full w-full justify-center items-center">
+        <div className="text-6xl">Loading...</div>
+      </div>
+    )
 
   if (user) {
     return <LoggedInRoutes />

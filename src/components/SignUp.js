@@ -13,21 +13,12 @@ export default function SignUp(props) {
 
   function handleSubmit(e) {
     if (!email || !password || !username || !firstName || !lastName) {
-      console.log('no')
       return
     }
     handleSignUpFetch(e)
   }
 
   function handleSignUpFetch(e) {
-    // console.log(JSON.stringify({
-    //         first_name: firstName.value,
-    //         last_name: lastName.value,
-    //         email: email.value,
-    //         password: password.value,
-    //         username: username.value
-    //       })
-    //     )
     e.preventDefault()
     return fetch('http://localhost:8000/auth/register', {
       method: 'POST',

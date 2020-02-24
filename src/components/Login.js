@@ -1,20 +1,22 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import TextBox from '../components/TextBox'
-import {useHistory} from 'react-router-dom'
+import {useHistory, Redirect} from 'react-router-dom'
+import {UserContext} from '../context/user-context'
 
 export default function Login(props) {
+  const {setTrigger, setAuthLoading} = useContext(UserContext)
   const [email, setEmail] = useState({name: '', value: ''})
   const [password, setPassword] = useState({name: '', value: ''})
   const [username, setUsername] = useState(false)
   const [changeType, setChangeType] = useState('password')
   let history = useHistory()
 
-  React.useEffect(() => {
-    if (username) {
-      history.push('/')
-      window.location.reload()
-    }
-  }, [username, history])
+  // React.useEffect(() => {
+  //   if (user) {
+  //     history.push('/')
+  //     // window.location.reload()
+  //   }
+  // }, [user, history])
 
   function handleSubmit(e) {
     handleLoginFetch(e)
@@ -33,7 +35,12 @@ export default function Login(props) {
     })
       .then(r => r.json())
       .then(r => {
-        setUsername(r.username)
+        console.log('xxx0', r.user)
+        if (r.user) {
+          setAuthLoading(true)
+          setTrigger(true)
+          history.push('/')
+        }
       })
   }
 

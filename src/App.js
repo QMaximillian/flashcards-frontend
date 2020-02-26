@@ -14,6 +14,7 @@ import CardSetSearchResults from './pages/CardSetSearchResults.js'
 import useFetch from './lib/hooks/useFetch'
 // import FlashcardsNavDrawer from "./components/FlashcardNavDrawer";
 import {UserProvider, UserContext} from './context/user-context.js'
+import NoMatch from './components/NoMatch'
 
 const LoggedInRoutes = () => {
   return (
@@ -42,7 +43,7 @@ const LoggedInRoutes = () => {
         <Route
           component={() => (
             <div>
-              <div>No Match</div>
+              <NoMatch />
             </div>
           )}
         />
@@ -72,8 +73,8 @@ const LoggedOutRoutes = () => {
         <Route path="/search/:search" component={CardSetSearchResults} />
         <Route
           component={() => (
-            <div>
-              <div>No Match</div>
+            <div className="justify-center items-center flex max-w-6xl w-full h-full">
+              <NoMatch />
             </div>
           )}
         />

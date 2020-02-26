@@ -64,7 +64,6 @@ export function fetchGetRecentCardSets(limit = 6) {
     headers: BASE_HEADERS,
     credentials: 'include',
     body: JSON.stringify({limit}),
-    // "X-HTTP-Method-Override" : "GET"
   }).then(r => r.json())
 }
 

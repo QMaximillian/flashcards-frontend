@@ -9,9 +9,7 @@ import UserCardSetCard from '../components/UserCardSetCard'
 import {addTimeIntervals} from '../lib/helpers'
 import '../styles/index.css'
 
-export default function UserCardSets(props) {
-  const {filter, search} = props
-
+export default function UserCardSets({filter, search}) {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   const [
@@ -27,18 +25,20 @@ export default function UserCardSets(props) {
   }, [editMode, initialCardState])
 
   useEffect(() => {
+    let isSubscribed = true
     fetchGetUserCardSetsIndex()
       // .then(r => addCheckedProperty(r))
       .then(r => {
-        setLoading(false)
-        setCardSets(r)
-        setInitialCardState(r)
+        if (isSubscribed) {
+          setLoading(false)
+          setCardSets(r)
+          setInitialCardState(r)
+        }
       })
-  }, [])
+      .catch(r => (isSubscribed ? console.log(r) : null))
 
-  // useEffect(() => {
-  //   console.log(cardSets)
-  // }, [cardSets])
+    return () => (isSubscribed = false)
+  }, [])
 
   function selectFilter(a, b) {
     if (filter === 'Latest') {

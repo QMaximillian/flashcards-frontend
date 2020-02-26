@@ -4,12 +4,13 @@ import UserCardSets from '../components/UserCardSets'
 import HomeLatest from '../components/HomeLatest'
 import StudiedCardSetsContainer from '../components/StudiedCardSetsContainer'
 import TextBox from '../components/TextBox'
+import NoMatch from '../components/NoMatch'
 import {Switch, Route, useRouteMatch} from 'react-router-dom'
 
 export default function UserCardSetsPage(props) {
   const [filter, setFilter] = useState('Latest')
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
-
+  const [noMatch, setNoMatch] = useState(false)
   const recentMatch = useRouteMatch('/:user/recent')
   const createdMatch = useRouteMatch('/:user/')
   const studiedMatch = useRouteMatch('/:user/studied')
@@ -61,10 +62,24 @@ export default function UserCardSetsPage(props) {
       return 'Type to filter'
     }
   }
+
+  if (noMatch) {
+    return (
+      <div className="h-full w-full flex justify-center items-start m-8">
+        <NoMatch message={'There is no matching user'} />
+      </div>
+    )
+  }
+
   return (
     <div className="w-full h-full bg-gray-200 overflow-auto">
       <div id="tabs">
-        <Route path={`/:user`} component={UserInfoCard} />
+        <Route
+          path={`/:user`}
+          render={() => (
+            <UserInfoCard noMatch={noMatch} setNoMatch={setNoMatch} />
+          )}
+        />
         <div className="w-full p-6">
           <div className=" w-full">
             {/* <div onClick={() => setEditMode(!editMode)}>

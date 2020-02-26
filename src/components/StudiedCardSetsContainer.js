@@ -8,10 +8,17 @@ export default function StudiedCardSetsContainer(props) {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    fetchGetStudiedCardSets().then(r => {
-      setLoading(false)
-      setCardSets(r)
-    })
+    let isSubscribed = true
+    fetchGetStudiedCardSets()
+      .then(r => {
+        if (isSubscribed) {
+          setLoading(false)
+          setCardSets(r)
+        }
+      })
+      .catch(r => (isSubscribed ? console.log(r) : null))
+
+    return () => (isSubscribed = false)
   }, [])
 
   function renderCardSets() {

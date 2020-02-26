@@ -7,7 +7,7 @@ import NoItemsCard from './NoItemsCard'
 import {addTimeIntervals} from '../lib/helpers'
 import {UserContext} from '../context/user-context'
 
-export default function HomeLatest(props) {
+export default function HomeLatest({limit, pageType, search}) {
   const [recentCardSets, setRecentCardSets] = useState([])
   const [, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -15,18 +15,22 @@ export default function HomeLatest(props) {
   let {user} = useContext(UserContext)
 
   useEffect(() => {
-    // setLoading(true)
-
-    fetchGetRecentCardSets(props.limit)
+    let isSubscribed = true
+    fetchGetRecentCardSets(limit)
       .then(r => {
-        console.log(r.length)
-        setRecentCardSets(r)
-        setLoading(false)
+        if (isSubscribed) {
+          setRecentCardSets(r)
+          setLoading(false)
+        }
       })
-      .catch(error => setError(error.message))
-  }, [props.limit])
+      .catch(error => {
+        return isSubscribed ? setError(error.message) : null
+      })
 
-  if (props.pageType === 'HOME' || !props.pageType) {
+    return () => (isSubscribed = false)
+  }, [limit])
+
+  if (pageType === 'HOME' || !pageType) {
     return (
       <div className="py-10 px-8">
         <div className="flex  mb-4 w-full justify-between">
@@ -63,7 +67,7 @@ export default function HomeLatest(props) {
         </div>
       </div>
     )
-  } else if (props.pageType === 'RECENT') {
+  } else if (pageType === 'RECENT') {
     if (!loading && recentCardSets.length === 0) {
       return (
         <div className="h-64 w-full">
@@ -75,7 +79,7 @@ export default function HomeLatest(props) {
       )
     }
     const filteredCardSets = recentCardSets.filter(cardSet =>
-      cardSet.name.toLowerCase().match(props.search.value.toLowerCase()),
+      cardSet.name.toLowerCase().match(search.value.toLowerCase()),
     )
 
     return addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')

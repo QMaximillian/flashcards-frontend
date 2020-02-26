@@ -6,7 +6,7 @@ import TextBox from '../components/TextBox'
 import {UserContext} from '../context/user-context'
 import {uuidCheck} from '../lib/helpers'
 
-export default function UserInfoCard(props) {
+function UserInfoCard({setNoMatch, ...props}) {
   const {user: userParam} = useParams()
   const [profile, setProfile] = useState({})
   const [modalOpen, setModalOpen] = useState(false)
@@ -17,9 +17,10 @@ export default function UserInfoCard(props) {
 
   // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
-    console.log('userParam', userParam)
-    fetchShowUser(userParam).then(r => setProfile(r))
-  }, [userParam])
+    fetchShowUser(userParam)
+      .then(r => setProfile(r))
+      .catch(() => setNoMatch(true))
+  }, [userParam, setNoMatch])
 
   const createdMatch = useRouteMatch('/:user')
   const recentMatch = useRouteMatch('/:user/recent')
@@ -159,3 +160,5 @@ export default function UserInfoCard(props) {
     )
   }
 }
+
+export default React.memo(UserInfoCard)

@@ -13,7 +13,7 @@ export default function NoMatch({message}) {
       >
         <div className="text-3xl self-center font-semibold">No Match</div>
         <div className="text-lg self-center font-medium">
-          The page you are looking for is not available || {message}
+          {'The page you are looking for is not available' || message}
         </div>
       </article>
     </div>

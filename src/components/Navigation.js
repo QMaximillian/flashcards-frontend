@@ -113,7 +113,10 @@ export default function Navigation(props) {
   function renderUserOrOptions() {
     if (user) {
       return (
-        <div className="flex search-box" onClick={() => {}}>
+        <div
+          className="flex search-box"
+          onClick={() => setDropdownToggle(prev => !prev)}
+        >
           <div
             className={`${
               dropdownToggle ? 'text-gray-500' : 'text-white'
@@ -122,7 +125,6 @@ export default function Navigation(props) {
             {user && user.first_name}
           </div>
           <i
-            onClick={() => setDropdownToggle(prev => !prev)}
             className={`${
               dropdownToggle ? 'text-gray-500' : 'text-white'
             } search-box search pl-4 self-center fas fa-chevron-down`}

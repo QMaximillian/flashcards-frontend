@@ -6,6 +6,7 @@ import {
 import NoItemsCard from './NoItemsCard'
 import {Link} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
+import NoMatch from '../components/NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
 import '../styles/index.css'
 
@@ -86,13 +87,19 @@ export default function UserCardSets({filter, search}) {
           )
           .sort((a, b) => selectFilter(a, b))
 
-        return addTimeIntervals(
-          filteredAndSortedCardSets,
-          UserCardSetCard,
-          'created_at',
+        return !loading && filteredAndSortedCardSets.length === 0 ? (
+          <div className="w-full justify-center flex">
+            <NoMatch />
+          </div>
+        ) : (
+          addTimeIntervals(
+            filteredAndSortedCardSets,
+            UserCardSetCard,
+            'created_at',
+          )
         )
       case 'Alphabetical':
-        return cardSets
+        let alphabeticalSort = cardSets
           .filter(cardSet =>
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),
           )
@@ -106,6 +113,14 @@ export default function UserCardSets({filter, search}) {
               />
             )
           })
+
+        return !loading && alphabeticalSort.length === 0 ? (
+          <div className="w-full justify-center flex">
+            <NoMatch />
+          </div>
+        ) : (
+          alphabeticalSort
+        )
       default:
         return
     }

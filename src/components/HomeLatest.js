@@ -4,6 +4,7 @@ import HomeLatestCard from './HomeLatestCard'
 import {fetchGetRecentCardSets} from '../fetchRequests/cardSets'
 import UserCardSetCard from './UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
+import NoMatch from './NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
 import {UserContext} from '../context/user-context'
 
@@ -82,6 +83,12 @@ export default function HomeLatest({limit, pageType, search}) {
       cardSet.name.toLowerCase().match(search.value.toLowerCase()),
     )
 
-    return addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
+    return !loading && filteredCardSets.length === 0 ? (
+      <div className="w-full justify-center flex">
+        <NoMatch />
+      </div>
+    ) : (
+      addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
+    )
   }
 }

@@ -12,9 +12,11 @@ import {
 import {useHistory} from 'react-router-dom'
 
 export default function CreateCardSetForm(props) {
-  const [fields, setFields] = useState(
-    Array.from({length: 2}, () => ({term: '', definition: ''})),
-  )
+  const initialState = Array.from({length: 2}, () => ({
+    term: '',
+    definition: '',
+  }))
+  const [fields, setFields] = useState(initialState)
   const [cardSetName, setCardSetName] = useState({
     name: 'card-set-name',
     value: '',
@@ -70,10 +72,6 @@ export default function CreateCardSetForm(props) {
     setFields(values)
   }
 
-  // function errorCheck(){
-
-  // }
-
   async function handleSave() {
     if (cardSetName.value === '') {
       alert('Must enter a card name')
@@ -115,8 +113,8 @@ export default function CreateCardSetForm(props) {
         })
 
         alert('Updated!')
-      } catch (e) {
-        console.log(e)
+      } catch (error) {
+        console.log(error)
       }
     } else {
       try {
@@ -125,13 +123,13 @@ export default function CreateCardSetForm(props) {
           flashcards_count: fields.length,
           isPrivate: isPrivate,
         })
-        console.log(cardSet)
+
         await fetchPostUsersCardSet({card_set_id: cardSet.id})
         await fetchPostFlashCards({fields, card_set_id: cardSet.id})
 
         alert('Saved!')
 
-        // history.push(`/card-sets/${cardSet.id}`)
+        history.push(`/card-sets/${cardSet.id}`)
       } catch (error) {
         console.log(error)
       }
@@ -141,31 +139,34 @@ export default function CreateCardSetForm(props) {
   return (
     <div className="flex w-full flex-col bg-gray-300 overflow-auto">
       <div className="bg-white p-4">
-        {!props.editMode ? (
-          <div className="mt-6 flex justify-between">
-            <div className="text-3xl opacity-75 font-bold bg-white">
-              Create a new study set
+        <div className="mt-6 flex justify-between">
+          <div className="text-3xl opacity-75 font-bold bg-white">
+            Create a new study set
+          </div>
+          <div className="flex justify-end">
+            <div
+              className="m-2 p-2 bg-teal-500 text-white h-18  text-2xl self-center"
+              onClick={() => setFields(initialState)}
+            >
+              ERASE ALL ENTRIES
             </div>
-            <div className="flex justify-end">
+            {/* <div
+              onClick={handleSave}
+              className="p-2 ml-2 bg-teal-500 text-white h-18  text-2xl self-center"
+            >
+              CREATE SET
+            </div> */}
+
+            {props.editMode ? (
               <div
                 className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"
                 onClick={() => setFields([{term: '', definition: ''}])}
               >
-                ERASE ALL ENTRIES
+                DELETE ALL
               </div>
-              <div
-                onClick={handleSave}
-                className="p-2 ml-2 bg-teal-500 text-white h-18  text-2xl self-center"
-              >
-                CREATE SET
-              </div>
-            </div>
+            ) : null}
           </div>
-        ) : (
-          <div onClick={() => setFields([{term: '', definition: ''}])}>
-            DELETE ALL
-          </div>
-        )}
+        </div>
         <div className="w-full mt-12">
           <TextBox
             id="title"
@@ -247,15 +248,13 @@ export default function CreateCardSetForm(props) {
           )
         })}
       </div>
-      <div className="shadow-lg bg-white mx-8 justify-center items-center flex h-24">
-        <div className=" flex justify-center items-center mb-1 add-card-div border-b-4 border-teal-500 p-2 h-10">
+      <div
+        className="shadow-lg bg-white mx-8 justify-center items-center flex h-24 "
+        onClick={() => setFields([...fields, {term: '', definition: ''}])}
+      >
+        <div className="m-6 flex justify-center items-center add-card-div border-b-4 border-teal-500 h-10">
           <i className="fas fa-plus text-xs add-card-plus"></i>
-          <div
-            className="ml-2 text-base add-card-text"
-            onClick={() => setFields([...fields, {term: '', definition: ''}])}
-          >
-            ADD CARD
-          </div>
+          <div className="ml-2 text-base add-card-text">ADD CARD</div>
         </div>
       </div>
       <div className="flex justify-end mb-2">

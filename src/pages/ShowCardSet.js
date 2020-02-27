@@ -111,8 +111,8 @@ export default function ShowCardSet(props) {
       <div className="text-4xl font-bold text-gray-700 opacity-50 ml-16 mt-8">
         {cardSet.name}
       </div>
-      <div className="flex lg:flex-row flex-col-reverse lg:w-full pl-20">
-        <div className="lg:flex-col lg:flex lg:w-1/4">
+      <div className="flex lg:flex-row flex-col-reverse lg:w-full lg:pl-20">
+        <div className="lg:flex-col lg:flex lg:w-1/5">
           <div className="pl-2 text-sm opacity-25">STUDY</div>
 
           <FlashcardsNavDrawer />

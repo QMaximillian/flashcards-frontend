@@ -262,7 +262,9 @@ export default function CreateCardSetForm(props) {
           className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
           onClick={handleSave}
         >
-          <div className="create-text text-lg">Create Set</div>
+          <div onClick={handleSave} className="create-text text-lg">
+            Create Set
+          </div>
         </div>
       </div>
     </div>

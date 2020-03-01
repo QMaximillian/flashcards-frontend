@@ -1,43 +1,43 @@
-import React, { useState, useEffect, useContext } from "react";
-import UserInfoCard from "../components/UserInfoCard";
-import UserCardSets from "../components/UserCardSets";
-import HomeLatest from "../components/HomeLatest";
-import StudiedCardSetsContainer from "../components/StudiedCardSetsContainer";
-import TextBox from "../components/TextBox";
-import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
-import { fetchShowUser, fetchUpdateUsername } from "../fetchRequests/user";
-import { UserContext } from "../context/user-context";
+import React, {useState, useEffect, useContext} from 'react'
+import UserInfoCard from '../components/UserInfoCard'
+import UserCardSets from '../components/UserCardSets'
+import HomeLatest from '../components/HomeLatest'
+import StudiedCardSetsContainer from '../components/StudiedCardSetsContainer'
+import TextBox from '../components/TextBox'
+import {Switch, Route, useRouteMatch, useParams} from 'react-router-dom'
+import {fetchShowUser, fetchUpdateUsername} from '../fetchRequests/user'
+import {UserContext} from '../context/user-context'
 
 export default function UserCardSetsPage(props) {
-  const [filter, setFilter] = useState("Latest");
-  const [search, setSearch] = useState({ name: "", value: "", isValid: true });
+  const [filter, setFilter] = useState('Latest')
+  const [search, setSearch] = useState({name: '', value: '', isValid: true})
   // const [username, setUsername] = useState('');
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState({})
 
-  const recentMatch = useRouteMatch("/:user/recent");
-  const createdMatch = useRouteMatch("/:user/");
-  const studiedMatch = useRouteMatch("/:user/studied");
-  const { user: userParam } = useParams();
-  const { user } = React.useContext(UserContext);
-  console.log(profile);
+  const recentMatch = useRouteMatch('/:user/recent')
+  const createdMatch = useRouteMatch('/:user/')
+  const studiedMatch = useRouteMatch('/:user/studied')
+  const {user: userParam} = useParams()
+  const {user} = React.useContext(UserContext)
+  console.log(profile)
   useEffect(() => {
     // console.log('userParam', userParam)
     fetchShowUser(userParam)
       .then(r => setProfile(r))
-      .catch(error => console.log(error));
-  }, [userParam]);
+      .catch(error => console.log(error))
+  }, [userParam])
 
   function isLoggedInUser() {
-    return user.id === profile.id ? true : false;
+    return user.id === profile.id ? true : false
   }
 
-  const isUser = isLoggedInUser();
+  const isUser = isLoggedInUser()
   // console.log(user.id === profile.id)
   // return
 
   function renderSelect() {
-    if (recentMatch) return;
-    if (studiedMatch) return;
+    if (recentMatch) return
+    if (studiedMatch) return
     return (
       <>
         <div className="self-center text-xs">SORT</div>
@@ -55,7 +55,7 @@ export default function UserCardSetsPage(props) {
           </option>
         </select>
       </>
-    );
+    )
   }
 
   function renderSearch() {
@@ -71,15 +71,15 @@ export default function UserCardSetsPage(props) {
             className={`outline-none bg-gray-200 mb-1 text-black h-full p-2 w-full placeholder placeholder-gray-400 border-b-2 border-black border-solid`}
           />
         </div>
-      );
+      )
     }
   }
 
   function renderPlaceholder() {
     if (recentMatch) {
-      return "Search your sets by title";
+      return 'Search your sets by title'
     } else if (createdMatch) {
-      return "Type to filter";
+      return 'Type to filter'
     }
   }
   return (
@@ -142,14 +142,14 @@ export default function UserCardSetsPage(props) {
                   <Route
                     path={`/:user`}
                     component={() => {
-                      console.log(profile.id);
+                      console.log(profile.id)
                       return (
                         <UserCardSets
                           id={profile.id}
                           search={search}
                           filter={filter}
                         />
-                      );
+                      )
                     }}
                   />
                 </Switch>
@@ -159,5 +159,5 @@ export default function UserCardSetsPage(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }

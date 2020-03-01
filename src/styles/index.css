@@ -13,7 +13,6 @@
 
 .create-box:hover .plus {
   opacity: 60%;
-  
 }
 
 .create-box:hover .create {
@@ -29,11 +28,7 @@
   border-bottom-width: 6px;
 }
 
-
-
-.add-card-div  { 
-  
-  
+.add-card-div {
   border-bottom-width: 6px;
 }
 
@@ -45,7 +40,7 @@
 .create-card-set-button:hover .create-text {
   color: black;
 }
-.create-card-set-button:hover  {
+.create-card-set-button:hover {
   background-color: #ebc034;
 }
 
@@ -57,7 +52,6 @@
   width: 24rem;
 }
 
-
 .has-line:hover {
-    box-shadow: inset 0px -.3rem 0 0 #ebc034;
+  box-shadow: inset 0px -0.3rem 0 0 #ebc034;
 }

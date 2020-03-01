@@ -1,5 +1,5 @@
-// import React, { 
-//   // useEffect 
+// import React, {
+//   // useEffect
 // } from 'react'
 // import FlashcardsNavDrawer from '../components/FlashcardNavDrawer'
 // import MainNavDrawer from '../components/MainNavDrawer'
@@ -26,16 +26,12 @@
 //   }
 // }
 
-import React, { 
-  // useEffect 
-} from 'react'
-import { Route, Switch } from 'react-router-dom'
+import React from 'react' // useEffect
+import {Route, Switch} from 'react-router-dom'
 
 import MainNavDrawer from '../components/MainNavDrawer'
 
-export default function NavDrawer(props){
-
-
+export default function NavDrawer(props) {
   return (
     <Switch>
       <Route exact path="/card-sets/new" component={null}></Route>
@@ -44,17 +40,15 @@ export default function NavDrawer(props){
       <Route exact path="/search/:search" component={null}></Route>
       <Route
         path="/"
-        component={
-          () => 
-          <div className="w-2/5 h-screen sticky top-0">
+        render={() => (
+          <div
+            className="w-2/5 sticky top-0
+          "
+          >
             <MainNavDrawer />
           </div>
-        }
+        )}
       ></Route>
     </Switch>
-  );
+  )
 }
-
-
-
-

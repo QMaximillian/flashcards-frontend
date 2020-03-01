@@ -1,20 +1,18 @@
-import React, { useContext } from 'react'
+import React, {useContext} from 'react'
 import HomeLatest from '../components/HomeLatest'
 import UserContext from '../context/UserContext'
 import LoggedInHome from './LoggedInHome'
 import LoggedOutHome from './LoggedOutHome'
 
-
-export default function Home(props){
-let user = useContext(UserContext)
-       return (
-         <div className="w-full h-full mx-4">
-           {/* <Link className="h-full w-full" to="/card-sets/new">CREATE SET</Link> */}
-           <HomeLatest pageType="HOME" user={user}/>
-         </div>
-       );
+export default function Home(props) {
+  let user = useContext(UserContext)
+  return (
+    <div className="w-full h-full mx-4">
+      {/* <Link className="h-full w-full" to="/card-sets/new">CREATE SET</Link> */}
+      <HomeLatest pageType="HOME" user={user} />
+    </div>
+  )
 }
-
 
 // function handleFetch() {
 //     return fetch("http://localhost:8000/home", {
@@ -25,6 +23,6 @@ let user = useContext(UserContext)
 //       },
 //       credentials: "include"
 //     })
-    //   .then(r => r.json())
-    //   .then(r => console.log(r))
+//   .then(r => r.json())
+//   .then(r => console.log(r))
 // }

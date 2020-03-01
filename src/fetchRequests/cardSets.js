@@ -1,4 +1,4 @@
-import { BASE_URL, BASE_HEADERS } from "./baseFetchOptions"; 
+import { BASE_URL, BASE_HEADERS } from "./baseFetchOptions";
 
 export function fetchPostCardSet(body) {
   return fetch(`${BASE_URL}/card-sets`, {
@@ -19,11 +19,11 @@ export function fetchPostCardSetSearch(body) {
 }
 
 export function fetchGetUserCardSetsIndex(id) {
-  console.log(id)
-  return fetch(`${BASE_URL}/users-card-sets/${id ? id : ''}`, {
+  console.log(id);
+  return fetch(`${BASE_URL}/users-card-sets/${id ? id : ""}`, {
     method: "GET",
     headers: BASE_HEADERS,
-    credentials: 'include'
+    credentials: "include"
   }).then(r => r.json());
 }
 
@@ -31,7 +31,7 @@ export function fetchStudiedCardSets() {
   return fetch(`${BASE_URL}/studied`, {
     method: "GET",
     headers: BASE_HEADERS,
-    credentials: 'include'
+    credentials: "include"
   }).then(r => r.json());
 }
 
@@ -40,10 +40,10 @@ export function fetchGetCardSetShow(id) {
     method: "GET",
     headers: BASE_HEADERS,
     credentials: "include"
-  }).then(r => r.json())
+  }).then(r => r.json());
 }
 
-export function fetchDeleteCardSets(id){
+export function fetchDeleteCardSets(id) {
   return fetch(`${BASE_URL}/card-sets/${id}`, {
     method: "DELETE",
     headers: BASE_HEADERS,
@@ -51,7 +51,7 @@ export function fetchDeleteCardSets(id){
   }).then(r => r.json());
 }
 
-export function fetchGetEditCardSets(id){
+export function fetchGetEditCardSets(id) {
   return fetch(`${BASE_URL}/card-sets/${id}`, {
     method: "GET",
     headers: BASE_HEADERS,
@@ -59,33 +59,28 @@ export function fetchGetEditCardSets(id){
   }).then(r => r.json());
 }
 
-export function fetchGetRecentCardSets(limit = 6, id){
+export function fetchGetRecentCardSets(limit = 6, id) {
   return fetch(`${BASE_URL}/recent-card-sets`, {
     method: "POST",
     headers: BASE_HEADERS,
     credentials: "include",
-    body: JSON.stringify({ limit, id }),
+    body: JSON.stringify({ limit, id })
   }).then(r => r.json());
 }
 
 export function fetchPostUpdateCardSetFlashcardCount(body) {
-         return fetch(`${BASE_URL}/update-flashcard-count`, {
-           method: "POST",
-           headers: BASE_HEADERS,
-           credentials: "include",
-           body: JSON.stringify(body)
-         }).then(r => r.json());
-       }
-       
-export function fetchGetStudiedCardSets() {
-         return fetch(`${BASE_URL}/studied`, {
-           method: "GET",
-           headers: BASE_HEADERS,
-           credentials: "include",
-         }).then(r => r.json());
-       }
+  return fetch(`${BASE_URL}/update-flashcard-count`, {
+    method: "POST",
+    headers: BASE_HEADERS,
+    credentials: "include",
+    body: JSON.stringify(body)
+  }).then(r => r.json());
+}
 
-       
-
-
-
+export function fetchGetStudiedCardSets(username) {
+  return fetch(`${BASE_URL}/studied/${username}`, {
+    method: "GET",
+    headers: BASE_HEADERS,
+    credentials: "include"
+  }).then(r => r.json());
+}

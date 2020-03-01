@@ -1,52 +1,58 @@
-import React, { useState, useEffect} from 'react'
-import TextBox from './TextBox'
-import { fetchPostCardSet, fetchPostUpdateCardSetFlashcardCount } from '../fetchRequests/cardSets'
-import { fetchPostUsersCardSet } from '../fetchRequests/usersCardSets'
+import React, { useState, useEffect } from "react";
+import TextBox from "./TextBox";
+import {
+  fetchPostCardSet,
+  fetchPostUpdateCardSetFlashcardCount
+} from "../fetchRequests/cardSets";
+import { fetchPostUsersCardSet } from "../fetchRequests/usersCardSets";
 import {
   fetchPostFlashCards,
   fetchPatchEditFlashcard
 } from "../fetchRequests/flashcards";
 
-
- 
-
-export default function CreateCardSetForm(props){
-		const [fields, setFields] = useState(
-      Array.from({ length: 5 }, () => ({ term: "", definition: "" }))
-    );
-		const [cardSetName, setCardSetName] = useState({
-      name: "card-set-name",
-      value: "",
-      isValid: true
-    });
-    const [isPrivate, setPrivacy] = useState(true)
-
+export default function CreateCardSetForm(props) {
+  const [fields, setFields] = useState(
+    Array.from({ length: 5 }, () => ({ term: "", definition: "" }))
+  );
+  const [cardSetName, setCardSetName] = useState({
+    name: "card-set-name",
+    value: "",
+    isValid: true
+  });
+  const [isPrivate, setPrivacy] = useState(true);
 
   useEffect(() => {
     if (props.editMode && props.cardSet) {
       let editCardSet;
       if (props.cardSet.length !== 0) {
         editCardSet = props.cardSet.flashcards.map(flashcard => {
-          return {id: flashcard.id, term: flashcard.term, definition: flashcard.definition}
-        })
-    }
+          return {
+            id: flashcard.id,
+            term: flashcard.term,
+            definition: flashcard.definition
+          };
+        });
+      }
 
-      setFields(editCardSet || [])
-      setCardSetName(props.cardSet.name ? ({name: 'card-set-name', value: props.cardSet.name, isValid: true}) : {})
+      setFields(editCardSet || []);
+      setCardSetName(
+        props.cardSet.name
+          ? { name: "card-set-name", value: props.cardSet.name, isValid: true }
+          : {}
+      );
     }
-  }, [props.editMode, props.cardSet, cardSetName.name])
-
+  }, [props.editMode, props.cardSet, cardSetName.name]);
 
   function handleChange(i, event) {
     const values = [...fields];
-    
-		if (event.name === `term-${i}`) {
-			values[i].term = event.value;
-		}
-		if (event.name === `definition-${i}`) {
+
+    if (event.name === `term-${i}`) {
+      values[i].term = event.value;
+    }
+    if (event.name === `definition-${i}`) {
       values[i].definition = event.value;
     }
-    
+
     setFields(values);
   }
 
@@ -60,61 +66,67 @@ export default function CreateCardSetForm(props){
     const values = [...fields];
     values.splice(i, 1);
     setFields(values);
-	}
-  
+  }
+
   // function errorCheck(){
-    
+
   // }
 
-	async function handleSave(){
-     if (cardSetName.value === "") {
-       alert("Must enter a card name");
-       return;
-     }
+  async function handleSave() {
+    if (cardSetName.value === "") {
+      alert("Must enter a card name");
+      return;
+    }
 
-     // If both fields are not filled out, remove item from fields array
+    // If both fields are not filled out, remove item from fields array
 
-     // ----------------------------------------------------------------------
-     const trigger = fields.every((field) => {
-       return (field.definition && !field.term) ||
-            (!field.definition && field.term)
-     })
+    // ----------------------------------------------------------------------
+    const trigger = fields.every(field => {
+      return (
+        (field.definition && !field.term) || (!field.definition && field.term)
+      );
+    });
 
-     if (trigger) {
-       alert(`Please complete flashcard term or definition in all rows`);
-       return
-     }
-     
+    if (trigger) {
+      alert(`Please complete flashcard term or definition in all rows`);
+      return;
+    }
 
     if (props.editMode) {
       try {
         fields.forEach(async field => {
           await fetchPatchEditFlashcard(field);
-        })
+        });
 
-        await fetchPostUpdateCardSetFlashcardCount({id: props.cardSetId, flashcards_count: fields.length})
-        
-        alert('Updated!')
-      } catch(e) {
-        console.log(e)
+        await fetchPostUpdateCardSetFlashcardCount({
+          id: props.cardSetId,
+          flashcards_count: fields.length
+        });
+
+        alert("Updated!");
+      } catch (e) {
+        console.log(e);
       }
     } else {
-        try {
-          const cardSet = await fetchPostCardSet({ name: cardSetName.value, flashcards_count: fields.length, isPrivate: isPrivate });
+      try {
+        const cardSet = await fetchPostCardSet({
+          name: cardSetName.value,
+          flashcards_count: fields.length,
+          isPrivate: isPrivate
+        });
 
-          await fetchPostUsersCardSet({ card_set_id: cardSet.id })
-          await fetchPostFlashCards({ fields, card_set_id: cardSet.id });
+        await fetchPostUsersCardSet({ card_set_id: cardSet.id });
+        await fetchPostFlashCards({ fields, card_set_id: cardSet.id });
 
-          alert("Saved!");
+        alert("Saved!");
 
-          // Redirect here
-        } catch (error) {
-          console.log(error);
-        }	
+        // Redirect here
+      } catch (error) {
+        console.log(error);
+      }
     }
-
   }
-  
+
   return (
     <div className="flex w-full flex-col bg-gray-300">
       <div className="bg-white p-4">
@@ -221,13 +233,12 @@ export default function CreateCardSetForm(props){
       </div>
       <div className="flex justify-end mb-2">
         <div
-          className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
           onClick={handleSave}
+          className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
         >
           <div className="create-text text-lg">Create Set</div>
         </div>
       </div>
     </div>
   );
-
 }

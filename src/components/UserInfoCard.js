@@ -7,7 +7,7 @@ import {UserContext} from '../context/user-context'
 import {uuidCheck} from '../lib/helpers'
 
 export default function UserInfoCard(props) {
-  const {profile, setProfile, setNoMatch} = props
+  const {profile, setProfile} = props
   const [modalOpen, setModalOpen] = useState(false)
   const [text, setText] = useState({name: '', value: '', isValid: true})
   const [modalError, setModalError] = useState('')
@@ -19,8 +19,9 @@ export default function UserInfoCard(props) {
   useEffect(() => {
     fetchShowUser(userParam)
       .then(r => setProfile(r))
-      .catch(() => setNoMatch(true))
-  }, [userParam, setNoMatch, setProfile])
+      // .catch(() => setNoMatch(true))
+      .catch(error => console.log(error))
+  }, [userParam, setProfile])
 
   const createdMatch = useRouteMatch('/:user')
   const recentMatch = useRouteMatch('/:user/recent')

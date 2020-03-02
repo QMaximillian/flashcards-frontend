@@ -4,7 +4,13 @@ import UserCardSets from '../components/UserCardSets'
 import HomeLatest from '../components/HomeLatest'
 import StudiedCardSetsContainer from '../components/StudiedCardSetsContainer'
 import TextBox from '../components/TextBox'
-import {Switch, Route, useRouteMatch, useParams} from 'react-router-dom'
+import {
+  Switch,
+  Route,
+  Redirect,
+  useRouteMatch,
+  useParams,
+} from 'react-router-dom'
 import {fetchShowUser} from '../fetchRequests/user'
 import {UserContext} from '../context/user-context'
 
@@ -82,6 +88,11 @@ export default function UserCardSetsPage(props) {
       return 'Type to filter'
     }
   }
+
+  if (!isUser && recentMatch) {
+    return <Redirect to={`/${userParam}`} />
+  }
+
   return (
     <div className="w-full h-screen bg-gray-200">
       <div className="w-full"></div>
@@ -148,7 +159,6 @@ export default function UserCardSetsPage(props) {
                   <Route
                     path={`/:user`}
                     component={() => {
-                      console.log(profile.id)
                       return (
                         <UserCardSets
                           id={profile.id}

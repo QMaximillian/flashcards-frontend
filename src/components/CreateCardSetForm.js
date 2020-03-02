@@ -9,17 +9,20 @@ import {
   fetchPostFlashCards,
   fetchPatchEditFlashcard,
 } from '../fetchRequests/flashcards'
+import {useHistory} from 'react-router-dom'
 
 export default function CreateCardSetForm(props) {
-  const [fields, setFields] = useState(
-    Array.from({length: 5}, () => ({term: '', definition: ''})),
+  const [initialState] = useState(
+    Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
+  const [fields, setFields] = useState(initialState)
   const [cardSetName, setCardSetName] = useState({
     name: 'card-set-name',
     value: '',
     isValid: true,
   })
   const [isPrivate, setPrivacy] = useState(true)
+  let history = useHistory()
 
   useEffect(() => {
     if (props.editMode && props.cardSet) {
@@ -262,9 +265,7 @@ export default function CreateCardSetForm(props) {
           onClick={handleSave}
           className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
         >
-          <div onClick={handleSave} className="create-text text-lg">
-            Create Set
-          </div>
+          <div className="create-text text-lg">Create Set</div>
         </div>
       </div>
     </div>

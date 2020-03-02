@@ -18,9 +18,8 @@ export function fetchPostCardSetSearch(body) {
   }).then(r => r.json())
 }
 
-export function fetchGetUserCardSetsIndex(id) {
-  console.log(id)
-  return fetch(`${BASE_URL}/users-card-sets/${id ? id : ''}`, {
+export function fetchGetUserCardSetsIndex(username) {
+  return fetch(`${BASE_URL}/users-card-sets/${username}`, {
     method: 'GET',
     headers: BASE_HEADERS,
     credentials: 'include',

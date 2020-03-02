@@ -5,7 +5,7 @@ import HomeLatest from '../components/HomeLatest'
 import StudiedCardSetsContainer from '../components/StudiedCardSetsContainer'
 import TextBox from '../components/TextBox'
 import {Switch, Route, useRouteMatch, useParams} from 'react-router-dom'
-import {fetchShowUser, fetchUpdateUsername} from '../fetchRequests/user'
+import {fetchShowUser} from '../fetchRequests/user'
 import {UserContext} from '../context/user-context'
 
 export default function UserCardSetsPage(props) {
@@ -18,7 +18,7 @@ export default function UserCardSetsPage(props) {
   const createdMatch = useRouteMatch('/:user/')
   const studiedMatch = useRouteMatch('/:user/studied')
   const {user: userParam} = useParams()
-  const {user} = React.useContext(UserContext)
+  const {user} = useContext(UserContext)
   console.log(profile)
   useEffect(() => {
     // console.log('userParam', userParam)
@@ -122,12 +122,18 @@ export default function UserCardSetsPage(props) {
                   />
                   <Route
                     path="/:user/studied"
-                    component={StudiedCardSetsContainer}
+                    render={() => (
+                      <StudiedCardSetsContainer username={profile.username} />
+                    )}
                   />
                   <Route
                     path={`/:user`}
                     render={() => (
-                      <UserCardSets search={search} filter={filter} />
+                      <UserCardSets
+                        search={search}
+                        filter={filter}
+                        username={profile.username}
+                      />
                     )}
                   />
                 </Switch>
@@ -148,6 +154,7 @@ export default function UserCardSetsPage(props) {
                           id={profile.id}
                           search={search}
                           filter={filter}
+                          username={userParam}
                         />
                       )
                     }}

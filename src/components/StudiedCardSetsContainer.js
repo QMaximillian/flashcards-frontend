@@ -4,12 +4,12 @@ import NoItemsCard from './NoItemsCard'
 import {fetchGetStudiedCardSets} from '../fetchRequests/cardSets'
 import {addTimeIntervals} from '../lib/helpers'
 
-export default function StudiedCardSetsContainer(props) {
+export default function StudiedCardSetsContainer({username}) {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     let isSubscribed = true
-    fetchGetStudiedCardSets()
+    fetchGetStudiedCardSets(username)
       .then(r => {
         if (isSubscribed) {
           setLoading(false)
@@ -19,7 +19,7 @@ export default function StudiedCardSetsContainer(props) {
       .catch(r => (isSubscribed ? console.log(r) : null))
 
     return () => (isSubscribed = false)
-  }, [])
+  }, [username])
 
   function renderCardSets() {
     // return cardSets.map((cardSet, idx) => {

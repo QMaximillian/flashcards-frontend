@@ -10,16 +10,9 @@ import NoMatch from '../components/NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
 import '../styles/index.css'
 
-export default function UserCardSets({filter, search}) {
+export default function UserCardSets({filter, search, username}) {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
-  const [
-    editMode,
-    // setEditMode
-  ] = useState(false)
-  const [initialCardState, setInitialCardState] = useState([])
-
-  const [cardSets, setCardSets] = useState([])
   const [
     editMode,
     // setEditMode
@@ -34,7 +27,7 @@ export default function UserCardSets({filter, search}) {
 
   useEffect(() => {
     let isSubscribed = true
-    fetchGetUserCardSetsIndex()
+    fetchGetUserCardSetsIndex(username)
       // .then(r => addCheckedProperty(r))
       .then(r => {
         if (isSubscribed) {
@@ -46,7 +39,7 @@ export default function UserCardSets({filter, search}) {
       .catch(r => (isSubscribed ? console.log(r) : null))
 
     return () => (isSubscribed = false)
-  }, [])
+  }, [username])
 
   function selectFilter(a, b) {
     if (filter === 'Latest') {

@@ -1,25 +1,26 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Link, useParams, useRouteMatch, Redirect} from 'react-router-dom'
-import {fetchUpdateUsername} from '../fetchRequests/user'
+import {fetchUpdateUsername, fetchShowUser} from '../fetchRequests/user'
 import Modal from '../components/Modal'
 import TextBox from '../components/TextBox'
 import {UserContext} from '../context/user-context'
 import {uuidCheck} from '../lib/helpers'
 
 export default function UserInfoCard(props) {
-  const {profile} = props
+  const {profile, setProfile, setNoMatch} = props
   const [modalOpen, setModalOpen] = useState(false)
   const [text, setText] = useState({name: '', value: '', isValid: true})
   const [modalError, setModalError] = useState('')
   let [redirect, setRedirect] = useState(false)
   let {user, setUser} = useContext(UserContext)
+  const {user: userParam} = useParams()
 
   // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
     fetchShowUser(userParam)
       .then(r => setProfile(r))
       .catch(() => setNoMatch(true))
-  }, [userParam, setNoMatch])
+  }, [userParam, setNoMatch, setProfile])
 
   const createdMatch = useRouteMatch('/:user')
   const recentMatch = useRouteMatch('/:user/recent')
@@ -159,5 +160,3 @@ export default function UserInfoCard(props) {
     )
   }
 }
-
-export default React.memo(UserInfoCard)

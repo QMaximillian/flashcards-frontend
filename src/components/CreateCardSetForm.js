@@ -12,9 +12,9 @@ import {
 import {useHistory} from 'react-router-dom'
 
 export default function CreateCardSetForm(props) {
-  const [initialState] = useState(
-    props.cardSet.flashcards ||
-      Array.from({length: 2}, () => ({term: '', definition: ''})),
+  const [initialState, setInitialState] = useState(
+    // props.cardSet.flashcards ||
+    Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
 
   const [fields, setFields] = useState(initialState)
@@ -56,6 +56,7 @@ export default function CreateCardSetForm(props) {
       }
 
       setFields(editCardSet || [])
+      setInitialState(editCardSet)
       setCardSetName(
         props.cardSet.name
           ? {name: 'card-set-name', value: props.cardSet.name, isValid: true}
@@ -124,15 +125,27 @@ export default function CreateCardSetForm(props) {
 
     if (props.editMode) {
       // if no changes are made run this
+
+      const ids = initialState.map(state => state.id)
+      let newFlashcards = fields.filter(field => !ids.includes(field.id))
+
+      await fetchPostFlashCards({
+        fields: newFlashcards,
+        card_set_id: props.cardSetId,
+      })
+      // check if field has a flashcard id that matches an initialState id
+      // if it does not create a new flashcard and add this cardSet.id to this flashcard
+      // if it does not run current try logic
+
       try {
         // if the ids match run this logic
-        fields.forEach(async field => {
+        initialState.forEach(async field => {
           await fetchPatchEditFlashcard(field)
         })
 
         await fetchPatchCardSetFlashcardCount({
           id: props.cardSetId,
-          flashcards_count: fields.length,
+          flashcards_count: initialState.length,
         })
 
         // if there is no matching id in an an object in the array

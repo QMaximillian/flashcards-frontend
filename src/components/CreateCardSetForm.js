@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import TextBox from './TextBox'
 import {
   fetchPostCardSet,
-  fetchPostUpdateCardSetFlashcardCount,
+  fetchPatchCardSetFlashcardCount,
 } from '../fetchRequests/cardSets'
 import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
 import {
@@ -13,8 +13,10 @@ import {useHistory} from 'react-router-dom'
 
 export default function CreateCardSetForm(props) {
   const [initialState] = useState(
-    Array.from({length: 2}, () => ({term: '', definition: ''})),
+    props.cardSet.flashcards ||
+      Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
+
   const [fields, setFields] = useState(initialState)
   const [cardSetName, setCardSetName] = useState({
     name: 'card-set-name',
@@ -23,6 +25,22 @@ export default function CreateCardSetForm(props) {
   })
   const [isPrivate, setPrivacy] = useState(true)
   let history = useHistory()
+
+  useEffect(() => {
+    if (
+      props.location &&
+      props.location.state &&
+      props.location.state.fromCustomize !== undefined
+    ) {
+      const {flashcardFields, cardSetName} = props.location.state
+      setFields(flashcardFields)
+      setCardSetName({
+        name: 'card-set-name',
+        value: cardSetName,
+        isValid: true,
+      })
+    }
+  }, [props.location])
 
   useEffect(() => {
     if (props.editMode && props.cardSet) {
@@ -105,15 +123,21 @@ export default function CreateCardSetForm(props) {
     // ----------------------------------------------------------------------
 
     if (props.editMode) {
+      // if no changes are made run this
       try {
+        // if the ids match run this logic
         fields.forEach(async field => {
           await fetchPatchEditFlashcard(field)
         })
 
-        await fetchPostUpdateCardSetFlashcardCount({
+        await fetchPatchCardSetFlashcardCount({
           id: props.cardSetId,
           flashcards_count: fields.length,
         })
+
+        // if there is no matching id in an an object in the array
+        // create a new flashcard and post it
+        // flashcard.card_set_id === card_set.id
 
         alert('Updated!')
       } catch (e) {
@@ -265,7 +289,11 @@ export default function CreateCardSetForm(props) {
           onClick={handleSave}
           className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
         >
-          <div className="create-text text-lg">Create Set</div>
+          {props.editMode ? (
+            <div className="create-text text-lg">Save</div>
+          ) : (
+            <div className="create-text text-lg">Create Set</div>
+          )}
         </div>
       </div>
     </div>

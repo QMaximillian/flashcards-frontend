@@ -67,12 +67,14 @@ export function fetchGetRecentCardSets(limit = 6, id) {
   }).then(r => r.json())
 }
 
-export function fetchPostUpdateCardSetFlashcardCount(body) {
+export function fetchPatchCardSetFlashcardCount(body) {
   return fetch(`${BASE_URL}/update-flashcard-count`, {
+    method: 'PATCH',
     headers: BASE_HEADERS,
     credentials: 'include',
     body: JSON.stringify(body),
-  }).then(r => r.json())
+  })
+  // .then(r => r.json())
 }
 
 export function fetchGetStudiedCardSets(username) {

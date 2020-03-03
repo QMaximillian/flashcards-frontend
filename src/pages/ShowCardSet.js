@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 
 import {useTransition, useSpring, animated} from 'react-spring'
 import {Link} from 'react-router-dom'
@@ -14,6 +14,7 @@ import FlashcardsNavDrawer from '../components/FlashcardNavDrawer'
 import TermsInSet from '../components/TermsInSet'
 import {useParams} from 'react-router-dom'
 import {uuidCheck} from '../lib/helpers'
+import {UserContext} from '../context/user-context'
 
 export default function ShowCardSet(props) {
   const [isLoading, setIsLoading] = useState(true)
@@ -21,6 +22,7 @@ export default function ShowCardSet(props) {
   const [flashcards, setFlashcards] = useState([])
   const [count, setCount] = useState(0)
   const [reverse, setReverse] = useState(false)
+  const {user} = useContext(UserContext)
   // const [uuid, setUuid] = useState(uuidCheck.test(id))
   const {id} = useParams()
   const uuid = React.useRef(uuidCheck.test(id))
@@ -35,7 +37,7 @@ export default function ShowCardSet(props) {
           setFlashcards([...flashcards, {}])
         })
 
-        .then(r => setIsLoading(false))
+        .then(() => setIsLoading(false))
         .catch(err => console.log(err))
     }
   }, [id])
@@ -51,7 +53,6 @@ export default function ShowCardSet(props) {
     // console.log('count', count)
     // console.log('flashcards.length', flashcards.length)
   }, [count, flashcards.length, isLoading, props.match.params.id])
-
   useEffect(() => {
     console.log('jere')
     fetchPostLastSeen({
@@ -102,6 +103,38 @@ export default function ShowCardSet(props) {
       return `${count + 1}/${flashcards.length - 1}`
     } else {
       return `${flashcards.length - 1}/${flashcards.length - 1}`
+    }
+  }
+
+  function renderEditOrCustomize() {
+    if (
+      user.username === cardSet.creator_username &&
+      user.id === cardSet.creator_id
+    ) {
+      return (
+        <Link
+          to={`/card-sets/${props.match.params.id}/edit`}
+          className="flex items-center justify-center"
+        >
+          <i className="far fa-edit"></i>
+        </Link>
+      )
+    } else {
+      return (
+        <Link
+          to={{
+            pathname: '/card-sets/new',
+            state: {
+              fromCustomize: true,
+              cardSetName: cardSet.name,
+              flashcardFields: flashcards.slice(0, -1),
+            },
+          }}
+          className="flex items-center justify-center"
+        >
+          <i className="far fa-clone text-gray-600"></i>
+        </Link>
+      )
     }
   }
 
@@ -182,12 +215,7 @@ export default function ShowCardSet(props) {
         <div className="flex justify-end sm:items-center sm:w-full">
           <div className="w-2/5 flex justify-around">
             <i className="fas fa-plus opacity-50 cursor-not-allowed"></i>
-            <Link
-              to={`/card-sets/${props.match.params.id}/edit`}
-              className="flex items-center justify-center"
-            >
-              <i className="far fa-edit"></i>
-            </Link>
+            {renderEditOrCustomize()}
             <i className="fas fa-share opacity-50 cursor-not-allowed"></i>
             <i className="fas fa-info opacity-50 cursor-not-allowed"></i>
             <i className="fas fa-ellipsis-h opacity-50 cursor-not-allowed"></i>

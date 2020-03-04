@@ -13,7 +13,6 @@ import {useHistory} from 'react-router-dom'
 
 export default function CreateCardSetForm(props) {
   const [initialState, setInitialState] = useState(
-    // props.cardSet.flashcards ||
     Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
 
@@ -95,6 +94,7 @@ export default function CreateCardSetForm(props) {
   // }
 
   async function handleSave() {
+    // validation checks
     if (cardSetName.value === '') {
       alert('Must enter a card name')
       return
@@ -147,10 +147,6 @@ export default function CreateCardSetForm(props) {
           id: props.cardSetId,
           flashcards_count: initialState.length,
         })
-
-        // if there is no matching id in an an object in the array
-        // create a new flashcard and post it
-        // flashcard.card_set_id === card_set.id
 
         alert('Updated!')
       } catch (e) {

@@ -109,7 +109,9 @@ export default function Login(props) {
             className="w-full font-bold py-2 px-2 rounded "
             type="button"
           >
-            <a href="http://localhost:8000/auth/google">Sign In With Google</a>
+            <a href={`${process.env.REACT_APP_PRODUCTION_API_URL}/auth/google`}>
+              Sign In With Google
+            </a>
           </button>
         </div>
       </form>

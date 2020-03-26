@@ -20,7 +20,7 @@ export default function SignUp(props) {
 
   function handleSignUpFetch(e) {
     e.preventDefault()
-    return fetch('http://localhost:8000/auth/register', {
+    return fetch(`${process.env.REACT_APP_PRODUCTION_API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -165,7 +165,9 @@ export default function SignUp(props) {
             className="w-full font-bold py-2 px-2 rounded "
             type="button"
           >
-            <a href="http://localhost:8000/auth/google">Sign Up With Google</a>
+            <a href={`${process.env.REACT_APP_PRODUCTION_API_URL}/auth/google`}>
+              Sign Up With Google
+            </a>
           </button>
         </div>
       </form>

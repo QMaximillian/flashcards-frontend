@@ -1,1 +1,1 @@
-web: NODE_ENV=production && npm run build && npm start
+web: NODE_ENV=production && npm install -g serve && serve -s build

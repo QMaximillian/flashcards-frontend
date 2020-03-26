@@ -31,14 +31,16 @@ export default function ShowCardSet(props) {
     if (uuid.current) {
       fetchGetCardSetShow(id)
         .then(r => {
-          console.log('r', r)
           const {flashcards, ...rest} = r
           setCardSet(rest)
           setFlashcards([...flashcards, {}])
         })
 
         .then(() => setIsLoading(false))
-        .catch(err => console.log(err))
+        .catch(
+          err => {},
+          // console.log(err)
+        )
     }
   }, [id])
 
@@ -54,7 +56,6 @@ export default function ShowCardSet(props) {
     // console.log('flashcards.length', flashcards.length)
   }, [count, flashcards.length, isLoading, props.match.params.id])
   useEffect(() => {
-    console.log('jere')
     fetchPostLastSeen({
       card_set_id: props.match.params.id,
       last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),

@@ -25,9 +25,7 @@ export default function UserCardSetsPage(props) {
   const studiedMatch = useRouteMatch('/:user/studied')
   const {user: userParam} = useParams()
   const {user} = useContext(UserContext)
-  console.log(profile)
   useEffect(() => {
-    // console.log('userParam', userParam)
     fetchShowUser(userParam)
       .then(r => setProfile(r))
       .catch(error => console.log(error))

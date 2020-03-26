@@ -20,7 +20,9 @@ export default function UserInfoCard(props) {
     fetchShowUser(userParam)
       .then(r => setProfile(r))
       // .catch(() => setNoMatch(true))
-      .catch(error => console.log(error))
+      .catch(error => {
+        // console.log(error)
+      })
   }, [userParam, setProfile])
 
   const createdMatch = useRouteMatch('/:user')

@@ -36,7 +36,12 @@ export default function UserCardSets({filter, search, username}) {
           setInitialCardState(r)
         }
       })
-      .catch(r => (isSubscribed ? console.log(r) : null))
+      .catch(r =>
+        isSubscribed
+          ? // console.log(r)
+            () => {}
+          : null,
+      )
 
     return () => (isSubscribed = false)
   }, [username])

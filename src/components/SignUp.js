@@ -38,14 +38,15 @@ export default function SignUp(props) {
     })
       .then(r => r.json())
       .then(r => {
-        console.log('r', r)
         if (r.code) {
           setError(`${r.code} - ${r.status}`)
         } else {
           setRedirect(true)
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        // console.log(err)
+      })
   }
 
   if (redirect) return <Redirect to={`/login`} />

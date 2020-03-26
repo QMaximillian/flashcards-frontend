@@ -16,7 +16,12 @@ export default function StudiedCardSetsContainer({username}) {
           setCardSets(r)
         }
       })
-      .catch(r => (isSubscribed ? console.log(r) : null))
+      .catch(r =>
+        isSubscribed
+          ? // console.log(r)
+            () => {}
+          : null,
+      )
 
     return () => (isSubscribed = false)
   }, [username])

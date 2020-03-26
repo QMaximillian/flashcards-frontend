@@ -84,8 +84,6 @@ const LoggedOutRoutes = () => {
 }
 
 function App(props) {
-  console.log = function() {}
-
   return (
     <Router>
       <UserProvider>

@@ -150,7 +150,7 @@ export default function CreateCardSetForm(props) {
 
         alert('Updated!')
       } catch (e) {
-        console.log(e)
+        // console.log(e)
       }
     } else {
       try {
@@ -167,7 +167,7 @@ export default function CreateCardSetForm(props) {
 
         history.push(`/card-sets/${cardSet.id}`)
       } catch (error) {
-        console.log(error)
+        // console.log(error)
       }
     }
   }

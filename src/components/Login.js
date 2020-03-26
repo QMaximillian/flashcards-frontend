@@ -33,7 +33,6 @@ export default function Login(props) {
     })
       .then(r => r.json())
       .then(r => {
-        console.log('xxx0', r.user)
         if (r.user) {
           setAuthLoading(true)
           setTrigger(true)

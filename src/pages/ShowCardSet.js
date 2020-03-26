@@ -108,7 +108,9 @@ export default function ShowCardSet(props) {
   }
 
   function renderEditOrCustomize() {
-    if (
+    if (!user) {
+      return null
+    } else if (
       user.username === cardSet.creator_username &&
       user.id === cardSet.creator_id
     ) {

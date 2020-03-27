@@ -4,6 +4,7 @@ import TextBox from '../components/TextBox'
 import useClickOutside from '../lib/hooks/useClickOutside'
 import {UserContext} from '../context/user-context'
 import '../styles/index.css'
+import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
 export default function Navigation(props) {
   let {user} = useContext(UserContext)
@@ -111,9 +112,7 @@ export default function Navigation(props) {
           className="flex flex-col justify-end ml-4 py-2 w-48 absolute h-18 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md"
         >
           <div className="pl-4 ">
-            <a href={`${process.env.REACT_APP_PRODUCTION_API_URL}/auth/logout`}>
-              Log Out
-            </a>
+            <a href={`${BASE_URL}/auth/logout`}>Log Out</a>
           </div>
         </div>
       )

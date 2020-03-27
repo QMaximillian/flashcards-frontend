@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react'
 import TextBox from '../components/TextBox'
 import {useHistory} from 'react-router-dom'
 import {UserContext} from '../context/user-context'
+import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
 export default function Login(props) {
   const {setTrigger, setAuthLoading} = useContext(UserContext)
@@ -22,7 +23,7 @@ export default function Login(props) {
 
   function handleLoginFetch(e) {
     e.preventDefault()
-    return fetch(`${process.env.REACT_APP_PRODUCTION_API_URL}/auth/login`, {
+    return fetch(`${BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -109,9 +110,7 @@ export default function Login(props) {
             className="w-full font-bold py-2 px-2 rounded "
             type="button"
           >
-            <a href={`${process.env.REACT_APP_PRODUCTION_API_URL}/auth/google`}>
-              Sign In With Google
-            </a>
+            <a href={`${BASE_URL}/auth/google`}>Sign In With Google</a>
           </button>
         </div>
       </form>

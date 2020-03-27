@@ -7,7 +7,7 @@ export default function HomeLatestCard(props) {
 
   return (
     <div className="h-full w-full border border-gray-500 shadow-lg rounded">
-      <div className="h-full w-full home-latest pl-4 pt-6">
+      <div className="h-full w-full home-latest px-4 py-6">
         <div className="text-base font-semibold">{name}</div>
         <div className="opacity-50 text-sm">{flashcards_count} terms</div>
         <Link className="hover:text-teal-500" to={`/${username}`}>

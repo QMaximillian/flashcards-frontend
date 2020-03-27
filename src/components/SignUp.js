@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import TextBox from './TextBox'
 import {Redirect} from 'react-router-dom'
+import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
 export default function SignUp(props) {
   const [email, setEmail] = useState({name: '', value: ''})
@@ -20,7 +21,7 @@ export default function SignUp(props) {
 
   function handleSignUpFetch(e) {
     e.preventDefault()
-    return fetch(`${process.env.REACT_APP_PRODUCTION_API_URL}/auth/register`, {
+    return fetch(`${BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -165,9 +166,7 @@ export default function SignUp(props) {
             className="w-full font-bold py-2 px-2 rounded "
             type="button"
           >
-            <a href={`${process.env.REACT_APP_PRODUCTION_API_URL}/auth/google`}>
-              Sign Up With Google
-            </a>
+            <a href={`${BASE_URL}/auth/google`}>Sign Up With Google</a>
           </button>
         </div>
       </form>

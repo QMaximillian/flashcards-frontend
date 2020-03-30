@@ -90,9 +90,8 @@ export default function UserCardSetsPage(props) {
   }
 
   return (
-    !loading && (
-      <div className="w-full h-screen bg-gray-200">
-        <div className="w-full"></div>
+    <div className="w-full h-screen bg-gray-200">
+      {!loading && (
         <div id="tabs" className="bg-gray-200">
           <Route
             path={`/:user`}
@@ -172,7 +171,7 @@ export default function UserCardSetsPage(props) {
             </div>
           </div>
         </div>
-      </div>
-    )
+      )}
+    </div>
   )
 }

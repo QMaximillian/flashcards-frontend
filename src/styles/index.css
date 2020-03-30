@@ -23,6 +23,11 @@
   height: 32rem;
 }
 
+.home-latest {
+  border-bottom-color: transparent;
+  border-bottom-width: 6px;
+}
+
 .home-latest:hover {
   border-bottom-color: #ebc034;
   border-bottom-width: 6px;

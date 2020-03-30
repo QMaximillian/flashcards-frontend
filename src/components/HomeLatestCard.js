@@ -6,16 +6,31 @@ export default function HomeLatestCard(props) {
   const {name, flashcards_count, owner, username} = props.cardSet
 
   return (
-    <div className="h-full w-full border border-gray-500 shadow-lg rounded">
-      <div className="h-full w-full home-latest px-4 py-6">
-        <div className="text-base font-semibold">{name}</div>
-        <div className="opacity-50 text-sm">{flashcards_count} terms</div>
-        <Link className="hover:text-teal-500" to={`/${username}`}>
-          {owner}
-        </Link>
-        {/* <div className="w-full h-2 border border-black group-hover:bg-orange-500"></div> */}
+    <article className="h-full w-full border border-gray-500 shadow-lg rounded">
+      <div
+        className="h-full w-full home-latest px-4 flex flex-col"
+        style={{justifyContent: 'space-evenly'}}
+      >
+        <p
+          className="text-base font-semibold truncate sm:break-words"
+          title={name}
+        >
+          {name}
+        </p>
+        <div>
+          <p className="opacity-50 text-sm truncate sm:break-words">
+            {flashcards_count} terms
+          </p>
+
+          <Link
+            className="hover:text-teal-500 truncate sm:break-words"
+            to={`/${username}`}
+          >
+            <p>{owner}</p>
+          </Link>
+        </div>
       </div>
-    </div>
+    </article>
   )
 }
 

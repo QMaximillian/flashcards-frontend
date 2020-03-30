@@ -17,7 +17,7 @@ import {UserContext} from '../context/user-context'
 export default function UserCardSetsPage(props) {
   const [filter, setFilter] = useState('Latest')
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
-  // const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState({})
 
   const recentMatch = useRouteMatch('/:user/recent')
@@ -26,18 +26,16 @@ export default function UserCardSetsPage(props) {
   const {user: userParam} = useParams()
   const {user} = useContext(UserContext)
   useEffect(() => {
+    setLoading(true)
     fetchShowUser(userParam)
-      .then(r => setProfile(r))
+      .then(r => {
+        setProfile(r)
+        setLoading(false)
+      })
       .catch(error => console.log(error))
   }, [userParam])
 
-  function isLoggedInUser() {
-    return user.id === profile.id ? true : false
-  }
-
-  const isUser = isLoggedInUser()
-  // console.log(user.id === profile.id)
-  // return
+  const isUser = user.id === profile.id ? true : false
 
   function renderSelect() {
     if (recentMatch) return
@@ -92,87 +90,89 @@ export default function UserCardSetsPage(props) {
   }
 
   return (
-    <div className="w-full h-screen bg-gray-200">
-      <div className="w-full"></div>
-      <div id="tabs" className="bg-gray-200">
-        <Route
-          path={`/:user`}
-          render={() => (
-            <UserInfoCard
-              isUser={isUser}
-              profile={profile}
-              setProfile={setProfile}
-            />
-          )}
-        />
-        <div className="w-full p-6">
-          <div className=" w-full">
-            {/* <div onClick={() => setEditMode(!editMode)}>
+    !loading && (
+      <div className="w-full h-screen bg-gray-200">
+        <div className="w-full"></div>
+        <div id="tabs" className="bg-gray-200">
+          <Route
+            path={`/:user`}
+            render={() => (
+              <UserInfoCard
+                isUser={isUser}
+                profile={profile}
+                setProfile={setProfile}
+              />
+            )}
+          />
+          <div className="w-full p-6">
+            <div className=" w-full">
+              {/* <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}
            </div> */}
-            <div className="flex w-full justify-between p-4">
-              <div className="w-full flex text-sm justify-start ml-2">
-                {renderSelect()}
+              <div className="flex w-full justify-between p-4">
+                <div className="w-full flex text-sm justify-start ml-2">
+                  {renderSelect()}
+                </div>
+                {renderSearch()}
               </div>
-              {renderSearch()}
-            </div>
-            <div>
-              {isUser ? (
-                <Switch>
-                  <Route
-                    path="/:user/recent"
-                    render={() => (
-                      <HomeLatest
-                        limit={10}
-                        pageType="RECENT"
-                        search={search}
-                      />
-                    )}
-                  />
-                  <Route
-                    path="/:user/studied"
-                    render={() => (
-                      <StudiedCardSetsContainer username={profile.username} />
-                    )}
-                  />
-                  <Route
-                    path={`/:user`}
-                    render={() => (
-                      <UserCardSets
-                        search={search}
-                        filter={filter}
-                        username={profile.username}
-                      />
-                    )}
-                  />
-                </Switch>
-              ) : (
-                <Switch>
-                  <Route
-                    path="/:user/studied"
-                    render={() => (
-                      <StudiedCardSetsContainer username={userParam} />
-                    )}
-                  />
-                  <Route
-                    path={`/:user`}
-                    component={() => {
-                      return (
+              <div>
+                {isUser ? (
+                  <Switch>
+                    <Route
+                      path="/:user/recent"
+                      render={() => (
+                        <HomeLatest
+                          limit={10}
+                          pageType="RECENT"
+                          search={search}
+                        />
+                      )}
+                    />
+                    <Route
+                      path="/:user/studied"
+                      render={() => (
+                        <StudiedCardSetsContainer username={profile.username} />
+                      )}
+                    />
+                    <Route
+                      path={`/:user`}
+                      render={() => (
                         <UserCardSets
-                          id={profile.id}
                           search={search}
                           filter={filter}
-                          username={userParam}
+                          username={profile.username}
                         />
-                      )
-                    }}
-                  />
-                </Switch>
-              )}
+                      )}
+                    />
+                  </Switch>
+                ) : (
+                  <Switch>
+                    <Route
+                      path="/:user/studied"
+                      render={() => (
+                        <StudiedCardSetsContainer username={userParam} />
+                      )}
+                    />
+                    <Route
+                      path={`/:user`}
+                      component={() => {
+                        return (
+                          <UserCardSets
+                            id={profile.id}
+                            search={search}
+                            filter={filter}
+                            username={userParam}
+                          />
+                        )
+                      }}
+                    />
+                  </Switch>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   )
 }

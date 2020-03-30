@@ -17,13 +17,13 @@ export function fetchUpdateUsername(body) {
   }).then(r => r.json())
 }
 
-export function fetchShowUser(username) {
-  return fetch(`${BASE_URL}/user/${username}`, {
-    method: 'GET',
-    headers: BASE_HEADERS,
-    credentials: 'include',
-  }).then(r => r.json())
-}
+// export function fetchShowUser(username) {
+//   return fetch(`${BASE_URL}/user/${username}`, {
+//     method: 'GET',
+//     headers: BASE_HEADERS,
+//     credentials: 'include',
+//   }).then(r => r.json())
+// }
 
 export function fetchRemoveCookie() {
   return fetch(`${BASE_URL}/delete-cookie`, {
@@ -32,11 +32,3 @@ export function fetchRemoveCookie() {
     credentials: 'include',
   }).then(r => r.json())
 }
-
-// export function fetchLogout(){
-//       return fetch(`${BASE_URL}/auth/logout`, {
-//         method: "GET",
-//         headers: BASE_HEADERS,
-//         credentials: "include"
-//       }).then(r => r.json());
-// }

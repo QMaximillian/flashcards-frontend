@@ -1,29 +1,20 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Link, useParams, useRouteMatch, Redirect} from 'react-router-dom'
-import {fetchUpdateUsername, fetchShowUser} from '../fetchRequests/user'
+import useFetch from 'use-http'
+
+import {fetchUpdateUsername} from '../fetchRequests/user'
 import Modal from '../components/Modal'
 import TextBox from '../components/TextBox'
 import {UserContext} from '../context/user-context'
 import {uuidCheck} from '../lib/helpers'
+import {BASE_URL, BASE_HEADERS} from '../fetchRequests/baseFetchOptions'
 
-export default function UserInfoCard(props) {
-  const {profile, setProfile} = props
+export default function UserInfoCard({profile, setProfile, isUser}) {
   const [modalOpen, setModalOpen] = useState(false)
   const [text, setText] = useState({name: '', value: '', isValid: true})
   const [modalError, setModalError] = useState('')
   let [redirect, setRedirect] = useState(false)
-  let {user, setUser} = useContext(UserContext)
-  const {user: userParam} = useParams()
-
-  // let [newUsername, setNewUsername] = useState("");
-  useEffect(() => {
-    fetchShowUser(userParam)
-      .then(r => setProfile(r))
-      // .catch(() => setNoMatch(true))
-      .catch(error => {
-        // console.log(error)
-      })
-  }, [userParam, setProfile])
+  let {setUser} = useContext(UserContext)
 
   const createdMatch = useRouteMatch('/:user')
   const recentMatch = useRouteMatch('/:user/recent')
@@ -54,7 +45,7 @@ export default function UserInfoCard(props) {
   function renderMatch() {
     return (
       <div className="flex ml-4">
-        {props.isUser && (
+        {isUser && (
           <Link to={`/${profile.username}/recent`}>
             <div
               className={`${
@@ -118,6 +109,7 @@ export default function UserInfoCard(props) {
                   </div>
                 </div>
                 <TextBox
+                  id={'changeUsername'}
                   name="update-username"
                   type="text"
                   placeholder="Enter text here"
@@ -125,7 +117,8 @@ export default function UserInfoCard(props) {
                   value={text.value}
                 />
                 <button
-                  onClick={() => {
+                  onClick={event => {
+                    event.preventDefault()
                     fetchUpdateUsername({newUsername: text.value})
                       .then(r => {
                         if (r.code) {
@@ -134,8 +127,8 @@ export default function UserInfoCard(props) {
                         }
 
                         setModalOpen(false)
-                        props.setProfile({...profile, username: r.username})
-                        setUser({...user, username: r.username})
+                        setProfile({...profile, username: r.username})
+                        setUser({...profile, username: r.username})
                       })
                       .then(r => setRedirect(true))
                   }}

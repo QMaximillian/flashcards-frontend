@@ -13,16 +13,3 @@ export default function Home(props) {
     </div>
   )
 }
-
-// function handleFetch() {
-//     return fetch("http://localhost:8000/home", {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json"
-//       },
-//       credentials: "include"
-//     })
-//   .then(r => r.json())
-//   .then(r => console.log(r))
-// }

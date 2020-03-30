@@ -11,29 +11,36 @@ import {
   useRouteMatch,
   useParams,
 } from 'react-router-dom'
-import {fetchShowUser} from '../fetchRequests/user'
+
 import {UserContext} from '../context/user-context'
+
+import useFetch from 'use-http'
+import {BASE_URL, BASE_HEADERS} from '../fetchRequests/baseFetchOptions'
 
 export default function UserCardSetsPage(props) {
   const [filter, setFilter] = useState('Latest')
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
-  const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState({})
 
   const recentMatch = useRouteMatch('/:user/recent')
   const createdMatch = useRouteMatch('/:user/')
   const studiedMatch = useRouteMatch('/:user/studied')
-  const {user: userParam} = useParams()
   const {user} = useContext(UserContext)
+  const {user: userParam} = useParams()
+
+  const {loading, data} = useFetch(
+    `${BASE_URL}/user/${userParam}`,
+    {
+      method: 'GET',
+      headers: BASE_HEADERS,
+      credentials: 'include',
+    },
+    [],
+  )
+
   useEffect(() => {
-    setLoading(true)
-    fetchShowUser(userParam)
-      .then(r => {
-        setProfile(r)
-        setLoading(false)
-      })
-      .catch(error => console.log(error))
-  }, [userParam])
+    if (data) setProfile(data)
+  }, [data])
 
   const isUser = user.id === profile.id ? true : false
 

@@ -92,7 +92,7 @@ export default function UserCardSetsPage(props) {
   }
 
   return (
-    <div className="w-full h-full bg-gray-200 overflow-hidden">
+    <div className="w-full h-full bg-gray-200">
       {!loading && (
         <div id="tabs" className="bg-gray-200 h-full">
           <Route
@@ -106,71 +106,67 @@ export default function UserCardSetsPage(props) {
             )}
           />
           <div className="w-full px-6">
-            <div className=" w-full">
-              {/* <div onClick={() => setEditMode(!editMode)}>
+            {/* <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}
            </div> */}
-              <div className="flex w-full justify-between p-4">
-                <div className="w-full flex text-sm justify-start ml-2">
-                  {renderSelect()}
-                </div>
-                {renderSearch()}
-              </div>
-              <div className="overflow-y-scroll" style={{height: '60vh'}}>
-                {isUser ? (
-                  <Switch>
-                    <Route
-                      path="/:user/recent"
-                      render={() => (
-                        <HomeLatest
-                          limit={10}
-                          pageType="RECENT"
-                          search={search}
-                        />
-                      )}
-                    />
-                    <Route
-                      path="/:user/studied"
-                      render={() => (
-                        <StudiedCardSetsContainer username={profile.username} />
-                      )}
-                    />
-                    <Route
-                      path={`/:user`}
-                      render={() => (
-                        <UserCardSets
-                          search={search}
-                          filter={filter}
-                          username={profile.username}
-                        />
-                      )}
-                    />
-                  </Switch>
-                ) : (
-                  <Switch>
-                    <Route
-                      path="/:user/studied"
-                      render={() => (
-                        <StudiedCardSetsContainer username={userParam} />
-                      )}
-                    />
-                    <Route
-                      path={`/:user`}
-                      component={() => {
-                        return (
-                          <UserCardSets
-                            id={profile.id}
-                            search={search}
-                            filter={filter}
-                            username={userParam}
-                          />
-                        )
-                      }}
-                    />
-                  </Switch>
-                )}
-              </div>
+            <div className="w-full flex text-sm justify-start ml-2">
+              {renderSelect()}
             </div>
+            {renderSearch()}
+          </div>
+          <div
+            className="overflow-y-scroll"
+            // need an equation to calculate the height of the container and set style based on this
+            style={{height: '60vh'}}
+          >
+            {isUser ? (
+              <Switch>
+                <Route
+                  path="/:user/recent"
+                  render={() => (
+                    <HomeLatest limit={10} pageType="RECENT" search={search} />
+                  )}
+                />
+                <Route
+                  path="/:user/studied"
+                  render={() => (
+                    <StudiedCardSetsContainer username={profile.username} />
+                  )}
+                />
+                <Route
+                  path={`/:user`}
+                  render={() => (
+                    <UserCardSets
+                      search={search}
+                      filter={filter}
+                      username={profile.username}
+                    />
+                  )}
+                />
+              </Switch>
+            ) : (
+              <Switch>
+                <Route
+                  path="/:user/studied"
+                  render={() => (
+                    <StudiedCardSetsContainer username={userParam} />
+                  )}
+                />
+                <Route
+                  path={`/:user`}
+                  component={() => {
+                    return (
+                      <UserCardSets
+                        id={profile.id}
+                        search={search}
+                        filter={filter}
+                        username={userParam}
+                      />
+                    )
+                  }}
+                />
+              </Switch>
+            )}
           </div>
         </div>
       )}

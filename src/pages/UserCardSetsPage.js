@@ -92,7 +92,7 @@ export default function UserCardSetsPage(props) {
   }
 
   return (
-    <div className="w-full h-full bg-gray-200">
+    <div className="w-full h-full bg-gray-200 overflow-hidden">
       {!loading && (
         <div id="tabs" className="bg-gray-200 h-full">
           <Route
@@ -116,7 +116,7 @@ export default function UserCardSetsPage(props) {
                 </div>
                 {renderSearch()}
               </div>
-              <div className="overflow-y-auto" style={{height: '60vh'}}>
+              <div className="overflow-y-scroll" style={{height: '60vh'}}>
                 {isUser ? (
                   <Switch>
                     <Route

@@ -77,17 +77,16 @@ export default function UserCardSetCard(props) {
     >
       <div className={`w-full my-2 px-4 `}>
         <div
-          className={`relative z-0 w-full rounded-sm overflow-hidden  ${
-            cardSet.checked ? 'shadow-inner border-2 border-blue-700' : ''
-          } 
-               ${studied ? 'h-40' : 'h-20'}
-               ${searchCard ? 'h-48' : 'h-20'}
-
-               `}
+          // relative z-0
+          className={`
+           w-full rounded-sm overflow-hidden  ${
+             cardSet.checked ? 'shadow-inner border-2 border-blue-700' : ''
+           } ${studied ? 'h-40' : 'h-20'} ${searchCard ? 'h-48' : 'h-20'}`}
         >
           <div
             //  onClick={() => handleChecked(cardSet)}
-            className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2"
+            // absolute z-10
+            className="has-line flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2"
           >
             {/* <input
                             onChange={() => handleChecked(cardSet)}

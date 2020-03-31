@@ -41,10 +41,7 @@ export default function NavDrawer(props) {
       <Route
         path="/"
         render={() => (
-          <div
-            className="w-2/5 sticky top-0
-          "
-          >
+          <div className="w-2/5 sticky top-0" style={{height: '92vh'}}>
             <MainNavDrawer />
           </div>
         )}

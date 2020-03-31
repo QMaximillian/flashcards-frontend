@@ -130,8 +130,5 @@ export default function UserCardSets({filter, search, username}) {
         return
     }
   }
-
-  return (
-    <div className="overflow-y-auto justify-center">{renderCardSets()}</div>
-  )
+  return <div className="w-full h-full">{renderCardSets()}</div>
 }

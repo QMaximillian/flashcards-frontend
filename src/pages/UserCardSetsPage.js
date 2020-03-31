@@ -25,6 +25,7 @@ export default function UserCardSetsPage(props) {
   const studiedMatch = useRouteMatch('/:user/studied')
   const {user: userParam} = useParams()
   const {user} = useContext(UserContext)
+
   useEffect(() => {
     setLoading(true)
     fetchShowUser(userParam)
@@ -40,6 +41,7 @@ export default function UserCardSetsPage(props) {
   function renderSelect() {
     if (recentMatch) return
     if (studiedMatch) return
+
     return (
       <>
         <div className="self-center text-xs">SORT</div>
@@ -90,9 +92,9 @@ export default function UserCardSetsPage(props) {
   }
 
   return (
-    <div className="w-full h-screen bg-gray-200">
+    <div className="w-full h-full bg-gray-200">
       {!loading && (
-        <div id="tabs" className="bg-gray-200">
+        <div id="tabs" className="bg-gray-200 h-full">
           <Route
             path={`/:user`}
             render={() => (
@@ -103,7 +105,7 @@ export default function UserCardSetsPage(props) {
               />
             )}
           />
-          <div className="w-full p-6">
+          <div className="w-full px-6">
             <div className=" w-full">
               {/* <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}
@@ -114,7 +116,7 @@ export default function UserCardSetsPage(props) {
                 </div>
                 {renderSearch()}
               </div>
-              <div>
+              <div className="overflow-y-auto" style={{height: '60vh'}}>
                 {isUser ? (
                   <Switch>
                     <Route

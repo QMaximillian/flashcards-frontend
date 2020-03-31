@@ -165,7 +165,10 @@ export default function Navigation(props) {
   }
 
   return (
-    <div className="w-full h-16 flex justify-between bg-teal-500 shadow px-6 items-center">
+    <div
+      className="w-full flex justify-between bg-teal-500 shadow px-6 items-center fixed"
+      style={{height: '8vh'}}
+    >
       {/* LOGO * */}
       <div
         className={`flex justify-start h-full items-center ${

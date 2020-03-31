@@ -11,14 +11,15 @@ import UserCardSetsPage from './pages/UserCardSetsPage'
 import ShowCardSet from './pages/ShowCardSet'
 import EditCardSet from './pages/EditCardSet'
 import CardSetSearchResults from './pages/CardSetSearchResults.js'
-// import useFetch from './lib/hooks/useFetch'
-// import FlashcardsNavDrawer from "./components/FlashcardNavDrawer";
 import {UserProvider, UserContext} from './context/user-context.js'
 import NoMatch from './components/NoMatch'
 
 const LoggedInRoutes = () => {
   return (
-    <div className="flex w-full h-full">
+    <div
+      className="flex w-full h-full"
+      style={{height: '100vh', paddingTop: '8vh'}}
+    >
       <Route path="/" component={NavDrawer} />
 
       <Route exact path="/card-sets/" component={UserCardSetsPage} />
@@ -28,7 +29,7 @@ const LoggedInRoutes = () => {
           exact
           path="/card-sets/:id"
           render={props => (
-            <div className="w-full h-full flex-col-reverse">
+            <div className="w-full h-full flex-col-reverse overflow-scroll">
               <ShowCardSet {...props} />
             </div>
           )}
@@ -65,7 +66,7 @@ const LoggedOutRoutes = () => {
           exact
           path="/card-sets/:id"
           render={props => (
-            <div className="w-full h-full flex-col-reverse">
+            <div className="w-full h-full flex-col-reverse overflow-scroll">
               <ShowCardSet {...props} />
             </div>
           )}

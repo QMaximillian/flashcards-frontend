@@ -87,7 +87,6 @@ function App(props) {
   return (
     <Router>
       <UserProvider>
-        <Navigation />
         <RouteDecider />
       </UserProvider>
     </Router>
@@ -103,11 +102,21 @@ function RouteDecider(props) {
       </div>
     )
 
-  if (user) {
-    return <LoggedInRoutes />
-  } else {
-    return <LoggedOutRoutes />
-  }
+  return (
+    <div className="grid grid-cols-12 grid-rows-12 h-screen w-screen">
+      <div className="col-start-1 col-end-13 row-start-1 row-end-2">
+        <Navigation />
+      </div>
+      <div className="col-start-1 col-end-13 row-start-2 row-end-12">
+        {user ? <LoggedInRoutes /> : <LoggedOutRoutes />}
+      </div>
+    </div>
+  )
+  // if (user) {
+  //   return
+  // } else {
+  //   return
+  // }
 }
 
 export default App

@@ -60,3 +60,16 @@
 .has-line:hover {
   box-shadow: inset 0px -0.3rem 0 0 #ebc034;
 }
+
+@responsive {
+  .grid-rows-12 {
+    grid-template-rows: repeat(12, minmax(0, 1fr));
+  }
+
+  .row-end-12 {
+    grid-row-end: 12;
+  }
+  .row-end-13 {
+    grid-row-end: 13;
+  }
+}

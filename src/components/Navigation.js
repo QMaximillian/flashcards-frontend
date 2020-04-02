@@ -165,10 +165,10 @@ export default function Navigation(props) {
   }
 
   return (
-    <div className="w-full h-16 flex justify-between bg-teal-500 shadow px-6 items-center">
+    <div className="h-full flex justify-between bg-teal-500 shadow items-center">
       {/* LOGO * */}
       <div
-        className={`flex justify-start h-full items-center ${
+        className={`px-6 flex justify-start h-full items-center ${
           expandSearchBar ? 'w-full' : 'w-3/4'
         }`}
       >

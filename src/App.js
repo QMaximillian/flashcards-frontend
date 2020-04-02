@@ -18,7 +18,7 @@ import NoMatch from './components/NoMatch'
 
 const LoggedInRoutes = () => {
   return (
-    <div className="flex w-full h-full">
+    <div className="grid grid-rows-11 grid-cols-12 h-full w-full">
       <Route path="/" component={NavDrawer} />
 
       <Route exact path="/card-sets/" component={UserCardSetsPage} />
@@ -40,13 +40,13 @@ const LoggedInRoutes = () => {
 
         <Route path="/:user/" component={UserCardSetsPage} />
         <Route exact path="/" component={LoggedInHome} />
-        <Route
+        {/* <Route
           component={() => (
             <div>
               <NoMatch />
             </div>
           )}
-        />
+        /> */}
       </Switch>
     </div>
   )
@@ -107,7 +107,7 @@ function RouteDecider(props) {
       <div className="col-start-1 col-end-13 row-start-1 row-end-2">
         <Navigation />
       </div>
-      <div className="col-start-1 col-end-13 row-start-2 row-end-12">
+      <div className="col-start-1 col-end-13 row-start-2 row-end-13">
         {user ? <LoggedInRoutes /> : <LoggedOutRoutes />}
       </div>
     </div>

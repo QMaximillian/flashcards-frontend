@@ -90,9 +90,12 @@ export default function UserCardSetsPage(props) {
   }
 
   return (
-    <div className="w-full h-screen bg-gray-200">
+    <div
+      className="col-start-4 col-end-13 row-start-1 row-end-13 bg-gray-200 overflow-y-auto"
+      style={{height: 'calc(100vh-2fr)'}}
+    >
       {!loading && (
-        <div id="tabs" className="bg-gray-200">
+        <>
           <Route
             path={`/:user`}
             render={() => (
@@ -103,8 +106,8 @@ export default function UserCardSetsPage(props) {
               />
             )}
           />
-          <div className="w-full p-6">
-            <div className=" w-full">
+          <>
+            <div className="h-full w-full min-h-0">
               {/* <div onClick={() => setEditMode(!editMode)}>
              EDIT MODE: {editMode ? "On" : "Off"}
            </div> */}
@@ -169,8 +172,8 @@ export default function UserCardSetsPage(props) {
                 )}
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        </>
       )}
     </div>
   )

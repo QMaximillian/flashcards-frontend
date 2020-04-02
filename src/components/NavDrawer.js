@@ -42,7 +42,7 @@ export default function NavDrawer(props) {
         path="/"
         render={() => (
           <div
-            className="w-2/5 sticky top-0
+            className="row-start-1 row-end-13 col-start-1 col-end-4
           "
           >
             <MainNavDrawer />

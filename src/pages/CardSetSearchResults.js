@@ -20,13 +20,13 @@ export default function CardSetSearchResults(props) {
   if (loading) return <div>Loading...</div>
   if (cardSets.length === 0) {
     return (
-      <div className="w-full justify-center flex items-center h-full">
+      <div className="col-start-3 col-end-11 row-start-4 row-end-7">
         <NoMatch />
       </div>
     )
   }
   return (
-    <div className="w-full p-6">
+    <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full p-6">
       {cardSets.map((cardSet, idx) => {
         return (
           <div key={idx}>

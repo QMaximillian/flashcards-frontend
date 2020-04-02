@@ -10,7 +10,7 @@ import NoMatch from '../components/NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
 import '../styles/index.css'
 
-export default function UserCardSets({filter, search, username}) {
+export default function UserCardSets({filter, search, username, isUser}) {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   const [
@@ -68,17 +68,23 @@ export default function UserCardSets({filter, search, username}) {
   function renderCardSets() {
     if (!loading && cardSets.length === 0) {
       return (
-        <div className="h-64 w-full">
+        <div className="h-64 w-full px-4">
           <NoItemsCard
-            title={`You haven't created any sets`}
+            title={
+              isUser
+                ? `You haven't created any sets`
+                : `This user hasn't created any sets`
+            }
             subtitle={
-              <>
-                Click{' '}
-                <Link to="/card-sets/new" className="hover:text-teal-800">
-                  here
-                </Link>{' '}
-                to create one!
-              </>
+              isUser ? (
+                <>
+                  Click{' '}
+                  <Link to="/card-sets/new" className="hover:text-teal-800">
+                    here
+                  </Link>{' '}
+                  to create one!
+                </>
+              ) : null
             }
           />
         </div>

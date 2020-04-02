@@ -11,6 +11,7 @@ import FinalFlashCard from '../components/FinalFlashCard'
 import PropTypes from 'prop-types'
 import {format} from 'date-fns'
 import FlashcardsNavDrawer from '../components/FlashcardNavDrawer'
+import NoMatch from '../components/NoMatch'
 import TermsInSet from '../components/TermsInSet'
 import {useParams} from 'react-router-dom'
 import {uuidCheck} from '../lib/helpers'
@@ -22,6 +23,7 @@ export default function ShowCardSet(props) {
   const [flashcards, setFlashcards] = useState([])
   const [count, setCount] = useState(0)
   const [reverse, setReverse] = useState(false)
+  const [error, setError] = useState(false)
   const {user} = useContext(UserContext)
   // const [uuid, setUuid] = useState(uuidCheck.test(id))
   const {id} = useParams()
@@ -34,11 +36,13 @@ export default function ShowCardSet(props) {
           const {flashcards, ...rest} = r
           setCardSet(rest)
           setFlashcards([...flashcards, {}])
+          setIsLoading(false)
         })
-
-        .then(() => setIsLoading(false))
         .catch(
-          err => {},
+          err => {
+            console.log(err)
+            setError(true)
+          },
           // console.log(err)
         )
     }
@@ -51,9 +55,6 @@ export default function ShowCardSet(props) {
         last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
       })
     }
-
-    // console.log('count', count)
-    // console.log('flashcards.length', flashcards.length)
   }, [count, flashcards.length, isLoading, props.match.params.id])
   useEffect(() => {
     fetchPostLastSeen({
@@ -142,7 +143,15 @@ export default function ShowCardSet(props) {
   }
 
   if (!uuid.current) return <div>No Match</div>
-  return !isLoading ? (
+  if (error)
+    return (
+      <div className="flex items-center justify-center h-full">
+        <NoMatch />
+      </div>
+    )
+  if (isLoading) return <div>Loading...</div>
+
+  return (
     <div className="w-full">
       <div className="text-4xl font-bold text-gray-700 opacity-50 ml-16 mt-8">
         {cardSet.name}
@@ -228,7 +237,7 @@ export default function ShowCardSet(props) {
       <div className="mx-4 mt-4">
         <TermsInSet flashcards={flashcards.slice(0, flashcards.length - 1)} />
       </div>
-      <div className="flex justify-center">
+      <div className="mb-4 flex justify-center">
         <div className="h-16 rounded bg-teal-500 w-64 flex items-center justify-center">
           <Link to={`/card-sets/${props.match.params.id}/edit`}>
             <div className="text-white tracking-wide">Add or Remove Items</div>
@@ -236,8 +245,6 @@ export default function ShowCardSet(props) {
         </div>
       </div>
     </div>
-  ) : (
-    <div>Loading...</div>
   )
 }
 

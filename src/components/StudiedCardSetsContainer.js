@@ -4,7 +4,7 @@ import NoItemsCard from './NoItemsCard'
 import {fetchGetStudiedCardSets} from '../fetchRequests/cardSets'
 import {addTimeIntervals} from '../lib/helpers'
 
-export default function StudiedCardSetsContainer({username}) {
+export default function StudiedCardSetsContainer({username, isUser}) {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -38,8 +38,10 @@ export default function StudiedCardSetsContainer({username}) {
       return (
         <div className="h-64 w-full">
           <NoItemsCard
-            title={`You haven't studied any sets`}
-            subtitle={'Use the search bar to check some out'}
+            title={`${
+              isUser ? `You haven't` : `This user hasn't`
+            } studied any sets`}
+            subtitle={isUser ? 'Use the search bar to check some out' : null}
           />
         </div>
       )

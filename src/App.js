@@ -28,7 +28,7 @@ const LoggedInRoutes = () => {
           exact
           path="/card-sets/:id"
           render={props => (
-            <div className="w-full h-full flex-col-reverse">
+            <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full h-full flex-col-reverse">
               <ShowCardSet {...props} />
             </div>
           )}
@@ -40,13 +40,13 @@ const LoggedInRoutes = () => {
 
         <Route path="/:user/" component={UserCardSetsPage} />
         <Route exact path="/" component={LoggedInHome} />
-        {/* <Route
+        <Route
           component={() => (
             <div>
               <NoMatch />
             </div>
           )}
-        /> */}
+        />
       </Switch>
     </div>
   )

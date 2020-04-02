@@ -10,12 +10,10 @@ export default function EditCardSet(props) {
   }, [props.match.params.id])
 
   return (
-    <div className="w-full">
-      <CreateCardSetForm
-        editMode={true}
-        cardSet={cardSet}
-        cardSetId={props.match.params.id}
-      />
-    </div>
+    <CreateCardSetForm
+      editMode={true}
+      cardSet={cardSet}
+      cardSetId={props.match.params.id}
+    />
   )
 }

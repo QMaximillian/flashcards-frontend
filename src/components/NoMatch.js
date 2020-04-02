@@ -4,7 +4,7 @@ export default function NoMatch({message}) {
   return (
     <div
       className={
-        'bg-gray-200 shadow-xl max-w-6xl w-3/4 h-64 flex border-teal-400  rounded-lg border justify-center align-center'
+        'bg-gray-200 shadow-xl max-w-6xl h-64 flex border-teal-400  rounded-lg border justify-center align-center'
       }
     >
       <article

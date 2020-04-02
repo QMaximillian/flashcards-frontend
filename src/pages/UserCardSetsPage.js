@@ -13,12 +13,14 @@ import {
 } from 'react-router-dom'
 import {fetchShowUser} from '../fetchRequests/user'
 import {UserContext} from '../context/user-context'
+import NoMatch from '../components/NoMatch'
 
 export default function UserCardSetsPage(props) {
   const [filter, setFilter] = useState('Latest')
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState({})
+  const [error, setError] = useState(false)
 
   const recentMatch = useRouteMatch('/:user/recent')
   const createdMatch = useRouteMatch('/:user/')
@@ -32,7 +34,10 @@ export default function UserCardSetsPage(props) {
         setProfile(r)
         setLoading(false)
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        setError(true)
+        console.log(error)
+      })
   }, [userParam])
 
   const isUser = user.id === profile.id ? true : false
@@ -85,6 +90,13 @@ export default function UserCardSetsPage(props) {
     }
   }
 
+  if (error) {
+    return (
+      <div className="col-start-5 col-end-12 row-start-7 row-end-10">
+        <NoMatch />
+      </div>
+    )
+  }
   if (!isUser && recentMatch) {
     return <Redirect to={`/${userParam}`} />
   }
@@ -92,7 +104,7 @@ export default function UserCardSetsPage(props) {
   return (
     <div
       className="col-start-4 col-end-13 row-start-1 row-end-13 bg-gray-200 overflow-y-auto"
-      style={{height: 'calc(100vh-2fr)'}}
+      style={{height: '92vh'}}
     >
       {!loading && (
         <>
@@ -133,13 +145,17 @@ export default function UserCardSetsPage(props) {
                     <Route
                       path="/:user/studied"
                       render={() => (
-                        <StudiedCardSetsContainer username={profile.username} />
+                        <StudiedCardSetsContainer
+                          isUser={isUser}
+                          username={profile.username}
+                        />
                       )}
                     />
                     <Route
                       path={`/:user`}
                       render={() => (
                         <UserCardSets
+                          isUser={isUser}
                           search={search}
                           filter={filter}
                           username={profile.username}

@@ -8,6 +8,7 @@ export default function Login(props) {
   const {setTrigger, setAuthLoading} = useContext(UserContext)
   const [email, setEmail] = useState({name: '', value: ''})
   const [password, setPassword] = useState({name: '', value: ''})
+  const [error, setError] = useState(false)
   let history = useHistory()
 
   // React.useEffect(() => {
@@ -40,6 +41,7 @@ export default function Login(props) {
           history.push('/')
         }
       })
+      .catch(error => setError('Invalid username or password'))
   }
 
   const styleObj = {
@@ -54,6 +56,9 @@ export default function Login(props) {
       className="flex justify-center w-full h-full items-center "
     >
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
+        <div className="italic text-red-500 h-6 w-full text-center">
+          {error ? error : null}
+        </div>
         <div className="mb-6">
           <label htmlFor="email" className="text-sm block font-bold  pb-2">
             Email Address
@@ -66,7 +71,10 @@ export default function Login(props) {
               placeholder={'Email'}
               name="email"
               value={email.value}
-              onChange={setEmail}
+              onChange={e => {
+                if (error) setError(false)
+                setEmail(e)
+              }}
               type="email"
             />
           </div>
@@ -86,7 +94,10 @@ export default function Login(props) {
             placeholder={'Password'}
             name="password"
             value={password.value}
-            onChange={setPassword}
+            onChange={e => {
+              if (error) setError(false)
+              setPassword(e)
+            }}
             type={'password'}
           />
           {/*
@@ -102,16 +113,25 @@ export default function Login(props) {
           >
             Sign In
           </button>
-          <button
+          {/* <button
             style={{
               borderImage:
                 'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
             }}
-            className="w-full font-bold py-2 px-2 rounded "
+            className=" "
             type="button"
+          > */}
+          <a
+            style={{
+              borderImage:
+                'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
+            }}
+            className="text-center w-full font-bold rounded h-full w-full py-2 px-2"
+            href={`${BASE_URL}/auth/google`}
           >
-            <a href={`${BASE_URL}/auth/google`}>Sign In With Google</a>
-          </button>
+            Sign In With Google
+          </a>
+          {/* </button> */}
         </div>
       </form>
     </div>

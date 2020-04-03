@@ -36,7 +36,7 @@ export default function StudiedCardSetsContainer({username, isUser}) {
     // })
     if (!loading && cardSets.length === 0) {
       return (
-        <div className="h-64 w-full">
+        <div className="h-64 w-full px-4">
           <NoItemsCard
             title={`${
               isUser ? `You haven't` : `This user hasn't`

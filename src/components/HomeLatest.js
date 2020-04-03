@@ -57,7 +57,7 @@ export default function HomeLatest({limit, pageType, search, user}) {
 
         <div className="flex flex-wrap">
           {!loading && recentCardSets.length === 0 ? (
-            <div className="h-64 w-full">
+            <div className="h-64 w-full px-4">
               <NoItemsCard
                 subtitle={'Use the search bar to check some out'}
                 title={'No recently looked at sets!'}
@@ -72,7 +72,7 @@ export default function HomeLatest({limit, pageType, search, user}) {
   } else if (pageType === 'RECENT') {
     if (!loading && recentCardSets.length === 0) {
       return (
-        <div className="h-64 w-full">
+        <div className="h-64 w-full px-4">
           <NoItemsCard
             subtitle={'Use the search bar to check some out'}
             title={'No recently looked at sets!'}

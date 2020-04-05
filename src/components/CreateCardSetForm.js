@@ -22,6 +22,7 @@ export default function CreateCardSetForm(props) {
     value: '',
     isValid: true,
   })
+
   const [isPrivate, setPrivacy] = useState(true)
   let history = useHistory()
 

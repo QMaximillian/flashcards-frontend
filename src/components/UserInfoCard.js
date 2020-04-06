@@ -17,12 +17,19 @@ export default function UserInfoCard(props) {
 
   // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
+    let isSubscribed = true
     fetchShowUser(userParam)
-      .then(r => setProfile(r))
+      .then(r => {
+        if (isSubscribed) {
+          setProfile(r)
+        }
+      })
       // .catch(() => setNoMatch(true))
       .catch(error => {
         // console.log(error)
       })
+
+    return () => (isSubscribed = false)
   }, [userParam, setProfile])
 
   const createdMatch = useRouteMatch('/:user')
@@ -114,7 +121,7 @@ export default function UserInfoCard(props) {
                 </div>
                 <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
                   <div>
-                    <p class="text-red-500 text-xs italic">{modalError}</p>
+                    <p className="text-red-500 text-xs italic">{modalError}</p>
                   </div>
                 </div>
                 <TextBox
@@ -125,7 +132,8 @@ export default function UserInfoCard(props) {
                   value={text.value}
                 />
                 <button
-                  onClick={() => {
+                  onClick={e => {
+                    e.preventDefault()
                     fetchUpdateUsername({newUsername: text.value})
                       .then(r => {
                         if (r.code) {

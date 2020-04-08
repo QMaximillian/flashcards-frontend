@@ -6,7 +6,7 @@ import {UserContext} from '../context/user-context'
 import '../styles/index.css'
 import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
-export default function Navigation(props) {
+export default function Navigation({showMobileMenu, setShowMobileMenu}) {
   let {user} = useContext(UserContext)
   const navRef = useRef(null)
   const wrapperRef = useRef(null)
@@ -165,10 +165,15 @@ export default function Navigation(props) {
   }
 
   return (
-    <div className="h-full flex justify-between bg-teal-500 shadow items-center">
+    <div className="h-full flex justify-center md:justify-between bg-teal-500 shadow items-center">
       {/* LOGO * */}
+      <i
+        className="md:hidden absolute left-0 fas fa-circle text-xl text-white pl-4"
+        onClick={() => setShowMobileMenu(showMobileMenu => !showMobileMenu)}
+      />
+      <div className="md:hidden">{renderLogo()}</div>
       <div
-        className={`px-6 flex justify-start h-full items-center ${
+        className={`hidden px-6 md:flex justify-start h-full items-center ${
           expandSearchBar ? 'w-full' : 'w-3/4'
         }`}
       >
@@ -179,7 +184,7 @@ export default function Navigation(props) {
       </div>
       {!expandSearchBar && (
         <div
-          className={`relative h-full flex items-center justify-center ${
+          className={`relative h-full hidden md:flex items-center justify-center ${
             expandSearchBar ? 'w-full' : 'w-1/4'
           }`}
         >

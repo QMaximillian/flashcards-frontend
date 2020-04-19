@@ -14,7 +14,7 @@ export function UserProvider({children}) {
         setUser(res.user)
         setAuthLoading(false)
       })
-      .catch(err => console.log(err))
+      .catch(err => {})
   }, [trigger])
 
   return (

@@ -36,7 +36,6 @@ export default function UserCardSetsPage(props) {
       })
       .catch(error => {
         setError(true)
-        console.log(error)
       })
   }, [userParam])
 

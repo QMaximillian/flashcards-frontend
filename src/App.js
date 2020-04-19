@@ -3,7 +3,7 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import RouteDecider from './components/RouteDecider'
 import {UserProvider} from './context/user-context.js'
 
-function App(props) {
+function App() {
   return (
     <Router>
       <UserProvider>

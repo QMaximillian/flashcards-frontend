@@ -90,10 +90,6 @@ export default function CreateCardSetForm(props) {
     setFields(values)
   }
 
-  // function errorCheck(){
-
-  // }
-
   async function handleSave() {
     // validation checks
     if (cardSetName.value === '') {
@@ -150,9 +146,7 @@ export default function CreateCardSetForm(props) {
         })
 
         alert('Updated!')
-      } catch (e) {
-        // console.log(e)
-      }
+      } catch (e) {}
     } else {
       try {
         const cardSet = await fetchPostCardSet({
@@ -167,9 +161,7 @@ export default function CreateCardSetForm(props) {
         alert('Saved!')
 
         history.push(`/card-sets/${cardSet.id}`)
-      } catch (error) {
-        // console.log(error)
-      }
+      } catch (error) {}
     }
   }
 

@@ -45,9 +45,7 @@ export default function SignUp(props) {
           setRedirect(true)
         }
       })
-      .catch(err => {
-        // console.log(err)
-      })
+      .catch(err => {})
   }
 
   if (redirect) return <Redirect to={`/login`} />

@@ -24,10 +24,7 @@ export default function UserInfoCard(props) {
           setProfile(r)
         }
       })
-      // .catch(() => setNoMatch(true))
-      .catch(error => {
-        // console.log(error)
-      })
+      .catch(error => {})
 
     return () => (isSubscribed = false)
   }, [userParam, setProfile])

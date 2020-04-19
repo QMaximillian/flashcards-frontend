@@ -16,24 +16,12 @@ export default function StudiedCardSetsContainer({username, isUser}) {
           setCardSets(r)
         }
       })
-      .catch(r =>
-        isSubscribed
-          ? // console.log(r)
-            () => {}
-          : null,
-      )
+      .catch(err => {})
 
     return () => (isSubscribed = false)
   }, [username])
 
   function renderCardSets() {
-    // return cardSets.map((cardSet, idx) => {
-    //   return (
-    //     <div key={idx}>
-    //         <UserCardSetCard studied={true} cardSet={cardSet} />
-    //     </div>
-    //   );
-    // })
     if (!loading && cardSets.length === 0) {
       return (
         <div className="h-64 w-full px-4">

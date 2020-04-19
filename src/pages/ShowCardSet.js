@@ -38,13 +38,7 @@ export default function ShowCardSet(props) {
           setFlashcards([...flashcards, {}])
           setIsLoading(false)
         })
-        .catch(
-          err => {
-            console.log(err)
-            setError(true)
-          },
-          // console.log(err)
-        )
+        .catch(err => setError(true))
     }
   }, [id])
 

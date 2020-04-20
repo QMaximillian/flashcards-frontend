@@ -13,8 +13,11 @@ export default function LoggedInRoutes() {
   return (
     <div className="grid grid-rows-11 grid-cols-12 h-full w-full">
       <Route path="/" component={NavDrawer} />
-      <Route exact path="/card-sets/" component={UserCardSetsPage} />
+
       <Switch>
+        <Route exact path="/card-sets/" component={UserCardSetsPage} />
+        <Route path="/search/:search" component={CardSetSearchResults} />
+        <Route path="/search/" component={CardSetSearchResults} />
         <Route exact path="/card-sets/new" component={CreateCardSetForm} />
         <Route
           exact
@@ -28,7 +31,6 @@ export default function LoggedInRoutes() {
 
         {/* <Redirect to="/" from="/home" component={Home} /> */}
         <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
-        <Route path="/search/:search" component={CardSetSearchResults} />
 
         <Route path="/:user/" component={UserCardSetsPage} />
         <Route exact path="/" component={LoggedInHome} />

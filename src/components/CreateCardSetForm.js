@@ -78,12 +78,6 @@ export default function CreateCardSetForm(props) {
     setFields(values)
   }
 
-  // function handleAdd() {
-  //   const values = [...fields];
-  //   values.push({ value: '' });
-  //   setFields(values);
-  // }
-
   function handleRemove(i) {
     const values = [...fields]
     values.splice(i, 1)

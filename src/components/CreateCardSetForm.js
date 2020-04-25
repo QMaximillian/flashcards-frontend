@@ -140,6 +140,8 @@ export default function CreateCardSetForm(props) {
         })
 
         alert('Updated!')
+
+        history.push(`/card-sets/${props.cardSetId}`)
       } catch (e) {}
     } else {
       try {

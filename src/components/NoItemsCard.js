@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default function NoItemsCard({title, subtitle}) {
   return (
@@ -16,4 +17,13 @@ export default function NoItemsCard({title, subtitle}) {
       </article>
     </div>
   )
+}
+
+NoItemsCard.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.instanceOf(null),
+  ]),
 }

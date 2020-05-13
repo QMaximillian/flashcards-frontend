@@ -9,6 +9,8 @@ import EditCardSet from '../pages/EditCardSet'
 import CardSetSearchResults from '../pages/CardSetSearchResults.js'
 import NoMatch from './NoMatch'
 
+// THIS FILE IS INTENDED MAKE A BASE CARD FORM TO SPLIT UP THE HUGE CreateCardSetForm component
+
 export default function LoggedInRoutes() {
   return (
     <div className="grid grid-rows-11 grid-cols-12 h-full w-full">
@@ -29,7 +31,6 @@ export default function LoggedInRoutes() {
           )}
         />
 
-        {/* <Redirect to="/" from="/home" component={Home} /> */}
         <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
 
         <Route path="/:user/" component={UserCardSetsPage} />

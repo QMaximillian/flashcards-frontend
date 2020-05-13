@@ -8,9 +8,16 @@ import {Link} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
+import PropTypes from 'prop-types'
 import '../styles/index.css'
 
-export default function UserCardSets({filter, search, username, isUser}) {
+export default function UserCardSets({
+  filter,
+  search,
+  username,
+  isUser,
+  ...props
+}) {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   const [
@@ -135,4 +142,15 @@ export default function UserCardSets({filter, search, username, isUser}) {
   return (
     <div className="overflow-y-auto justify-center">{renderCardSets()}</div>
   )
+}
+
+UserCardSets.propTypes = {
+  filter: PropTypes.oneOf(['Alphabetical', 'Latest']),
+  search: PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.string,
+    isValid: PropTypes.bool,
+  }),
+  username: PropTypes.string,
+  isUser: PropTypes.bool,
 }

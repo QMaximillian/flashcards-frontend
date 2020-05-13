@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-export default function FlashcardsNavDrawer(props) {
+export default function FlashcardsNavDrawer() {
   const flashcardCategories = [
     {
       name: 'Flashcards',

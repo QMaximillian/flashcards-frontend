@@ -3,7 +3,7 @@ import {Route, Switch} from 'react-router-dom'
 
 import MainNavDrawer from '../components/MainNavDrawer'
 
-export default function NavDrawer(props) {
+export default function NavDrawer() {
   return (
     <Switch>
       <Route exact path="/card-sets/new" component={null}></Route>

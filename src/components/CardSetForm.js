@@ -12,6 +12,7 @@ import {
 import {useHistory} from 'react-router-dom'
 
 export default function CardSetForm(props) {
+  console.log('props', props)
   const [initialState, setInitialState] = useState(
     Array.from({length: 2}, () => ({term: '', definition: ''})),
   )

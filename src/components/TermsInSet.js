@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default function TermsInSet(props) {
   return (
@@ -19,4 +20,14 @@ export default function TermsInSet(props) {
       })}
     </div>
   )
+}
+
+TermsInSet.propTypes = {
+  flashcards: PropTypes.arrayOf(
+    PropTypes.shape({
+      definition: PropTypes.string,
+      id: PropTypes.string,
+      term: PropTypes.string,
+    }),
+  ),
 }

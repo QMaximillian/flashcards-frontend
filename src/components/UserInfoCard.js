@@ -5,9 +5,9 @@ import Modal from '../components/Modal'
 import TextBox from '../components/TextBox'
 import {UserContext} from '../context/user-context'
 import {uuidCheck} from '../lib/helpers'
+import PropTypes from 'prop-types'
 
-export default function UserInfoCard(props) {
-  const {profile, setProfile} = props
+export default function UserInfoCard({profile, setProfile, isUser}) {
   const [modalOpen, setModalOpen] = useState(false)
   const [text, setText] = useState({name: '', value: '', isValid: true})
   const [modalError, setModalError] = useState('')
@@ -58,7 +58,7 @@ export default function UserInfoCard(props) {
   function renderMatch() {
     return (
       <div className="flex ml-4">
-        {props.isUser && (
+        {isUser && (
           <Link to={`/${profile.username}/recent`}>
             <div
               className={`${
@@ -139,7 +139,7 @@ export default function UserInfoCard(props) {
                         }
 
                         setModalOpen(false)
-                        props.setProfile({...profile, username: r.username})
+                        setProfile({...profile, username: r.username})
                         setUser({...user, username: r.username})
                       })
                       .then(r => setRedirect(true))
@@ -167,4 +167,22 @@ export default function UserInfoCard(props) {
       </div>
     )
   }
+}
+
+UserInfoCard.propTypes = {
+  isUser: PropTypes.bool,
+  profile: PropTypes.shape({
+    id: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    profile_pic: PropTypes.oneOf([
+      PropTypes.string,
+      PropTypes.instanceOf(null),
+    ]),
+    updated_at: PropTypes.string,
+    username: PropTypes.string,
+  }),
+  setProfile: PropTypes.func,
 }

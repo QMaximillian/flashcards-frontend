@@ -9,9 +9,11 @@ import {
   fetchPostFlashCards,
   fetchPatchEditFlashcard,
 } from '../fetchRequests/flashcards'
-import {useHistory} from 'react-router-dom'
+import PropTypes from 'prop-types'
+// import {useHistory} from 'react-router-dom'
 
-export default function CreateCardSetForm(props) {
+export default function CreateCardSetForm({...props}) {
+  console.log('props', props)
   const [initialState, setInitialState] = useState(
     Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
@@ -24,7 +26,7 @@ export default function CreateCardSetForm(props) {
   })
 
   const [isPrivate, setPrivacy] = useState(true)
-  let history = useHistory()
+  // let history = useHistory()
 
   useEffect(() => {
     if (
@@ -141,7 +143,7 @@ export default function CreateCardSetForm(props) {
 
         alert('Updated!')
 
-        history.push(`/card-sets/${props.cardSetId}`)
+        props.history.push(`/card-sets/${props.cardSetId}`)
       } catch (e) {}
     } else {
       try {
@@ -156,7 +158,7 @@ export default function CreateCardSetForm(props) {
 
         alert('Saved!')
 
-        history.push(`/card-sets/${cardSet.id}`)
+        props.history.push(`/card-sets/${cardSet.id}`)
       } catch (error) {}
     }
   }
@@ -243,8 +245,6 @@ export default function CreateCardSetForm(props) {
                   key={`${field}-definition-${idx}`}
                 >
                   <TextBox
-                    // required={true}
-                    // error={{required: "Please enter corresponding answer"}}
                     placeholder="Enter term"
                     onChange={e => handleChange(idx, e)}
                     value={field.term}
@@ -258,8 +258,6 @@ export default function CreateCardSetForm(props) {
                   key={`${field}-answer-${idx}`}
                 >
                   <TextBox
-                    // required={true}
-                    // error={{required: "Please enter corresponding definition"}}
                     placeholder="Enter definition"
                     onChange={e => handleChange(idx, e)}
                     value={field.definition}
@@ -296,4 +294,22 @@ export default function CreateCardSetForm(props) {
       </div>
     </div>
   )
+}
+
+React.propTypes = {
+  cardSetId: PropTypes.string,
+  editMode: PropTypes.bool,
+  cardSet: PropTypes.shape({
+    name: PropTypes.string,
+    card_set_id: PropTypes.string,
+    creator_id: PropTypes.string,
+    creator_username: PropTypes.string,
+    flashcards: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        term: PropTypes.string,
+        definition: PropTypes.string,
+      }),
+    ),
+  }),
 }

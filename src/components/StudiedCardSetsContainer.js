@@ -3,6 +3,7 @@ import UserCardSetCard from '../components/UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
 import {fetchGetStudiedCardSets} from '../fetchRequests/cardSets'
 import {addTimeIntervals} from '../lib/helpers'
+import PropTypes from 'prop-types'
 
 export default function StudiedCardSetsContainer({username, isUser}) {
   const [cardSets, setCardSets] = useState([])
@@ -39,4 +40,9 @@ export default function StudiedCardSetsContainer({username, isUser}) {
     })
   }
   return <div>{renderCardSets()}</div>
+}
+
+StudiedCardSetsContainer.propTypes = {
+  username: PropTypes.string,
+  isUser: PropTypes.bool,
 }

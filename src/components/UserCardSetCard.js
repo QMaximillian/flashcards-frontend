@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
 import {UserContext} from '../context/user-context'
 import {format} from 'date-fns'
+import PropTypes from 'prop-types'
 
 export default function UserCardSetCard(props) {
   let {user} = useContext(UserContext)
@@ -143,4 +144,18 @@ export default function UserCardSetCard(props) {
                       )} */}
     </div>
   )
+}
+
+UserCardSetCard.propTypes = {
+  cardSet: PropTypes.shape({
+    card_set_id: PropTypes.string,
+    created_at: PropTypes.string,
+    creator_id: PropTypes.string,
+    creator_name: PropTypes.string,
+    flashcards_count: PropTypes.number,
+    id: PropTypes.string,
+    last_seen_at: PropTypes.string,
+    name: PropTypes.string,
+    updated_at: PropTypes.string,
+  }),
 }

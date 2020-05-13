@@ -6,7 +6,7 @@ import {UserContext} from '../context/user-context'
 import '../styles/index.css'
 import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
-export default function Navigation(props) {
+export default function Navigation() {
   let {user} = useContext(UserContext)
   const navRef = useRef(null)
   const wrapperRef = useRef(null)

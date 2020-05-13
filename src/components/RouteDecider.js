@@ -3,7 +3,7 @@ import Navigation from '../components/Navigation'
 import LoggedInRoutes from '../components/LoggedInRoutes'
 import LoggedOutRoutes from '../components/LoggedOutRoutes'
 import {UserContext} from '../context/user-context'
-export default function RouteDecider(props) {
+export default function RouteDecider() {
   let {user, authLoading} = useContext(UserContext)
   if (authLoading)
     return (

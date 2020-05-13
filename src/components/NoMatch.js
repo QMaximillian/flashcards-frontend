@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 export default function NoMatch({message}) {
   return (
     <div
@@ -18,4 +18,8 @@ export default function NoMatch({message}) {
       </article>
     </div>
   )
+}
+
+NoMatch.propTypes = {
+  message: PropTypes.string,
 }

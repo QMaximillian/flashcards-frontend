@@ -6,8 +6,10 @@ import UserCardSetCard from './UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
 import NoMatch from './NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
+import PropTypes from 'prop-types'
 
-export default function HomeLatest({limit, pageType, search, user}) {
+export default function HomeLatest({limit, pageType, search, user, ...props}) {
+  console.log(props)
   const [recentCardSets, setRecentCardSets] = useState([])
   const [, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -94,4 +96,9 @@ export default function HomeLatest({limit, pageType, search, user}) {
       </section>
     )
   }
+}
+
+HomeLatest.propTypes = {
+  pageType: PropTypes.oneOf(['HOME', 'RECENT']),
+  limit: PropTypes.number,
 }

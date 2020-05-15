@@ -21,6 +21,7 @@ export default function UserCardSetsPage(props) {
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState({})
   const [error, setError] = useState(false)
+  const [isUser, setIsUser] = useState(false)
 
   const recentMatch = useRouteMatch('/:user/recent')
   const createdMatch = useRouteMatch('/:user/')
@@ -30,8 +31,8 @@ export default function UserCardSetsPage(props) {
   useEffect(() => {
     setLoading(true)
     fetchShowUser(userParam)
-      .then(r => {
-        setProfile(r)
+      .then(profile => {
+        setProfile(profile)
         setLoading(false)
       })
       .catch(error => {
@@ -39,7 +40,11 @@ export default function UserCardSetsPage(props) {
       })
   }, [userParam])
 
-  const isUser = user.id === profile.id ? true : false
+  useEffect(() => {
+    if (profile && user) {
+      setIsUser(profile.id === user.id)
+    }
+  }, [user, profile])
 
   function renderSelect() {
     if (recentMatch) return

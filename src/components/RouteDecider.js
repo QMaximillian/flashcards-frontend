@@ -5,21 +5,22 @@ import LoggedOutRoutes from '../components/LoggedOutRoutes'
 import {UserContext} from '../context/user-context'
 export default function RouteDecider(props) {
   let {user, authLoading} = useContext(UserContext)
-  if (authLoading)
+  if (authLoading) {
     return (
-      <div className="flex h-full w-full justify-center items-center">
-        <div className="text-6xl">Loading...</div>
-      </div>
+      <main className="flex h-full w-full justify-center items-center">
+        <p className="text-6xl">Loading...</p>
+      </main>
     )
+  }
 
   return (
     <div className="grid grid-cols-12 grid-rows-12 h-screen w-screen">
-      <div className="col-start-1 col-end-13 row-start-1 row-end-2">
+      <nav className="col-start-1 col-end-13 row-start-1 row-end-2">
         <Navigation />
-      </div>
-      <div className="col-start-1 col-end-13 row-start-2 row-end-13">
+      </nav>
+      <main className="col-start-1 col-end-13 row-start-2 row-end-13">
         {user ? <LoggedInRoutes /> : <LoggedOutRoutes />}
-      </div>
+      </main>
     </div>
   )
 }

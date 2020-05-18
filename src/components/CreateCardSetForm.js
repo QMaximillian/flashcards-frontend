@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react'
+import {useHistory} from 'react-router-dom'
+import PropTypes from 'prop-types'
 import TextBox from './TextBox'
+import CreateCardSetFormHeader from './CreateCardSetFormHeader'
+
 import {
   fetchPostCardSet,
   fetchPatchCardSetFlashcardCount,
@@ -9,9 +13,13 @@ import {
   fetchPostFlashCards,
   fetchPatchEditFlashcard,
 } from '../fetchRequests/flashcards'
-import {useHistory} from 'react-router-dom'
 
-export default function CreateCardSetForm(props) {
+export default function CreateCardSetForm({
+  editMode = false,
+  cardSet,
+  cardSetId,
+  location = {},
+}) {
   const [initialState, setInitialState] = useState(
     Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
@@ -23,16 +31,23 @@ export default function CreateCardSetForm(props) {
     isValid: true,
   })
 
-  const [isPrivate, setPrivacy] = useState(true)
+  const [isCardSetPrivate, setIsCardSetPrivate] = useState(true)
   let history = useHistory()
 
+  const handlePrivacy = React.useCallback(e => {
+    setIsCardSetPrivate(e.target.value)
+  }, [])
+
+  useEffect(() => {
+    console.log(cardSet)
+  }, [cardSet])
   useEffect(() => {
     if (
-      props.location &&
-      props.location.state &&
-      props.location.state.fromCustomize !== undefined
+      location &&
+      location.state &&
+      location.state.fromCustomize !== undefined
     ) {
-      const {flashcardFields, cardSetName} = props.location.state
+      const {flashcardFields, cardSetName} = location.state
       setFields(flashcardFields)
       setCardSetName({
         name: 'card-set-name',
@@ -40,13 +55,13 @@ export default function CreateCardSetForm(props) {
         isValid: true,
       })
     }
-  }, [props.location])
+  }, [location])
 
   useEffect(() => {
-    if (props.editMode && props.cardSet) {
+    if (editMode && cardSet) {
       let editCardSet
-      if (props.cardSet.length !== 0) {
-        editCardSet = props.cardSet.flashcards.map(flashcard => {
+      if (cardSet.length !== 0) {
+        editCardSet = cardSet.flashcards.map(flashcard => {
           return {
             id: flashcard.id,
             term: flashcard.term,
@@ -58,12 +73,12 @@ export default function CreateCardSetForm(props) {
       setFields(editCardSet || [])
       setInitialState(editCardSet)
       setCardSetName(
-        props.cardSet.name
-          ? {name: 'card-set-name', value: props.cardSet.name, isValid: true}
+        cardSet.name
+          ? {name: 'card-set-name', value: cardSet.name, isValid: true}
           : {},
       )
     }
-  }, [props.editMode, props.cardSet, cardSetName.name])
+  }, [editMode, cardSet, cardSetName.name])
 
   function handleChange(i, event) {
     const values = [...fields]
@@ -114,7 +129,7 @@ export default function CreateCardSetForm(props) {
 
     // ----------------------------------------------------------------------
 
-    if (props.editMode) {
+    if (editMode) {
       // if no changes are made run this
 
       const ids = initialState.map(state => state.id)
@@ -122,7 +137,7 @@ export default function CreateCardSetForm(props) {
 
       await fetchPostFlashCards({
         fields: newFlashcards,
-        card_set_id: props.cardSetId,
+        card_set_id: cardSetId,
       })
       // check if field has a flashcard id that matches an initialState id
       // if it does not create a new flashcard and add this cardSet.id to this flashcard
@@ -135,20 +150,20 @@ export default function CreateCardSetForm(props) {
         })
 
         await fetchPatchCardSetFlashcardCount({
-          id: props.cardSetId,
+          id: cardSetId,
           flashcards_count: initialState.length,
         })
 
         alert('Updated!')
 
-        history.push(`/card-sets/${props.cardSetId}`)
+        history.push(`/card-sets/${cardSetId}`)
       } catch (e) {}
     } else {
       try {
         const cardSet = await fetchPostCardSet({
           name: cardSetName.value,
           flashcards_count: fields.length,
-          isPrivate: isPrivate,
+          isCardSetPrivate: isCardSetPrivate,
         })
 
         await fetchPostUsersCardSet({card_set_id: cardSet.id})
@@ -163,66 +178,20 @@ export default function CreateCardSetForm(props) {
 
   return (
     <div className="col-start-1 col-end-13 row-start-1 row-end-13 flex w-full flex-col bg-gray-300 overflow-auto">
-      <div className="bg-white p-4">
-        <div className="mt-6 flex justify-between">
-          <div className="text-3xl opacity-75 font-bold bg-white">
-            Create a new study set
-          </div>
-          <div className="flex justify-end">
-            <div
-              className="m-2 p-2 bg-teal-500 text-white h-18  text-2xl self-center"
-              onClick={() => setFields(initialState)}
-            >
-              ERASE ALL ENTRIES
-            </div>
-            {/* <div
-              onClick={handleSave}
-              className="p-2 ml-2 bg-teal-500 text-white h-18  text-2xl self-center"
-            >
-              CREATE SET
-            </div> */}
-
-            {props.editMode ? (
-              <div
-                className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"
-                onClick={() => setFields([{term: '', definition: ''}])}
-              >
-                DELETE ALL
-              </div>
-            ) : null}
-          </div>
-        </div>
-        <div className="w-full mt-12">
-          <TextBox
-            id="title"
-            required={true}
-            error={{required: 'Must have a name for the card set'}}
-            name="card-set-name"
-            value={cardSetName.value}
-            onChange={setCardSetName}
-            placeholder={'Subject, chapter, unit'}
-            type="text"
-          />
-          <label htmlFor="title" className="text-xs opacity-50 mt-1">
-            TITLE
-          </label>
-        </div>
-        <div className="flex justify-between">
-          <div>
-            Accessible to:
-            <select
-              className="border border-black outline-none ml-2"
-              style={{textAlignLast: 'center'}}
-              onChange={e => setPrivacy(e.target.value)}
-              value={isPrivate}
-            >
-              <option value={true}>only you</option>
-              <option value={false}>all</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div className="bg-gray-300 my-4 mx-8">
+      <CreateCardSetFormHeader
+        handleReset={() => {
+          setFields([
+            {term: '', definition: ''},
+            {term: '', definition: ''},
+          ])
+        }}
+        cardSetNameValue={cardSetName.value}
+        setCardSetName={setCardSetName}
+        isCardSetPrivate={isCardSetPrivate}
+        handlePrivacy={handlePrivacy}
+        editMode={editMode}
+      />
+      <div className="bg-gray-300 my-2 mx-8">
         {fields.map((field, idx) => {
           return (
             <div key={idx} className="w-full shadow-xl my-2 bg-white">
@@ -287,7 +256,7 @@ export default function CreateCardSetForm(props) {
           onClick={handleSave}
           className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
         >
-          {props.editMode ? (
+          {editMode ? (
             <div className="create-text text-lg">Save</div>
           ) : (
             <div className="create-text text-lg">Create Set</div>
@@ -296,4 +265,21 @@ export default function CreateCardSetForm(props) {
       </div>
     </div>
   )
+}
+
+CreateCardSetForm.propTypes = {
+  editMode: PropTypes.bool.isRequired,
+  cardSet: PropTypes.shape({
+    card_set_id: PropTypes.string.isRequired,
+    creator_id: PropTypes.string.isRequired,
+    creator_username: PropTypes.string.isRequired,
+    flashcards: PropTypes.arrayOf(
+      PropTypes.shape({
+        definition: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        term: PropTypes.string.isRequired,
+      }),
+    ),
+    name: PropTypes.string.isRequired,
+  }),
 }

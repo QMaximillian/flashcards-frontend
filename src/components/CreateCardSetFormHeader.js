@@ -1,5 +1,6 @@
 import React from 'react'
 import TextBox from './TextBox'
+import Button from './Button'
 
 export default function CreateCardSetFormHeader({
   handleReset,
@@ -13,33 +14,18 @@ export default function CreateCardSetFormHeader({
   return (
     <header className="p-8 pt-2">
       <div className="mt-6 flex justify-between">
-        <p className="text-3xl opacity-75 font-bold self-center ">
+        <p className="text-3xl opacity-75 font-bold self-center w-full">
           Create A Card Set
         </p>
-        <div className="flex justify-end">
-          <button
-            className="m-2 p-2 bg-teal-500 text-white h-18  text-2xl self-center"
+        <div className="w-1/3 h-16">
+          <Button
+            className="bg-white hover:bg-red-500 "
+            buttonText={'Erase All'}
             onClick={handleReset}
-          >
-            ERASE ALL ENTRIES
-          </button>
-          {/* <div
-              onClick={handleSave}
-              className="p-2 ml-2 bg-teal-500 text-white h-18  text-2xl self-center"
-            >
-              CREATE SET
-            </div> */}
-
-          {editMode ? (
-            <button
-              className="p-2 bg-teal-500 text-white h-18 text-2xl self-center"
-              onClick={handleReset}
-            >
-              DELETE ALL
-            </button>
-          ) : null}
+          />
         </div>
       </div>
+
       <div className="w-full mt-6">
         <label htmlFor="title" className="text-xs opacity-50 mt-4">
           TITLE

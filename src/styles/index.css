@@ -33,11 +33,7 @@
   border-bottom-width: 6px;
 }
 
-.add-card-div {
-  border-bottom-width: 6px;
-}
-
-.add-card-div:hover {
+.add-card:hover > button {
   color: #ebc034;
   border-bottom-color: #ebc034;
 }

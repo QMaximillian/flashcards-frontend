@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import TextBox from './TextBox'
 import CreateCardSetFormHeader from './CreateCardSetFormHeader'
+import CardSetFields from './CardSetFields'
 
 import {
   fetchPostCardSet,
@@ -39,9 +39,6 @@ export default function CreateCardSetForm({
   }, [])
 
   useEffect(() => {
-    console.log(cardSet)
-  }, [cardSet])
-  useEffect(() => {
     if (
       location &&
       location.state &&
@@ -58,6 +55,7 @@ export default function CreateCardSetForm({
   }, [location])
 
   useEffect(() => {
+    // Put this in a function
     if (editMode && cardSet) {
       let editCardSet
       if (cardSet.length !== 0) {
@@ -99,7 +97,8 @@ export default function CreateCardSetForm({
     setFields(values)
   }
 
-  async function handleSave() {
+  async function handleSave(event) {
+    event.preventDefault()
     // validation checks
     if (cardSetName.value === '') {
       alert('Must enter a card name')
@@ -114,6 +113,7 @@ export default function CreateCardSetForm({
     }
 
     for (let field of fields) {
+      console.log(field.term.trim(), field.definition.trim())
       if (field.term.trim() === '' && field.definition.trim() === '') {
         alert(
           'Please delete or complete term and definition for all flashcards',
@@ -192,76 +192,14 @@ export default function CreateCardSetForm({
         editMode={editMode}
       />
       <div className="bg-gray-300 my-2 mx-8">
-        {fields.map((field, idx) => {
-          return (
-            <div key={idx} className="w-full shadow-xl my-2 bg-white">
-              <div className="border-b border-gray-500 h-16 flex justify-between item-center">
-                <div className="font-semibold self-center pr-2 text-lg h-164 pl-6 text-gray-500">
-                  {idx + 1}
-                </div>
-                <div
-                  className="ml-2 self-center my-6 pr-4"
-                  onClick={() => handleRemove(idx)}
-                >
-                  X
-                </div>
-              </div>
-              <div className="flex w-full pt-2 pb-8">
-                <div
-                  className="w-1/2 my-6 mr-6 pl-4"
-                  key={`${field}-definition-${idx}`}
-                >
-                  <TextBox
-                    // required={true}
-                    // error={{required: "Please enter corresponding answer"}}
-                    placeholder="Enter term"
-                    onChange={e => handleChange(idx, e)}
-                    value={field.term}
-                    type="text"
-                    name={`term-${idx}`}
-                  />
-                  <label className="text-xs opacity-50 mt-1">TERM</label>
-                </div>
-                <div
-                  className="w-1/2 my-6 ml-6 pr-4"
-                  key={`${field}-answer-${idx}`}
-                >
-                  <TextBox
-                    // required={true}
-                    // error={{required: "Please enter corresponding definition"}}
-                    placeholder="Enter definition"
-                    onChange={e => handleChange(idx, e)}
-                    value={field.definition}
-                    type="text"
-                    name={`definition-${idx}`}
-                  />
-                  <label className="text-xs opacity-50 mt-1">DEFINITION</label>
-                </div>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-      <div
-        className="shadow-lg bg-white mx-8 justify-center items-center flex h-24 "
-        onClick={() => setFields([...fields, {term: '', definition: ''}])}
-      >
-        <div className="m-6 flex justify-center items-center add-card-div border-b-4 border-teal-500 h-10">
-          <i className="fas fa-plus text-xs add-card-plus"></i>
-          <div className="ml-2 text-base add-card-text">ADD CARD</div>
-        </div>
-      </div>
-      <div className="flex justify-end mb-2">
-        <div
-          onClick={handleSave}
-          className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
-        >
-          {editMode ? (
-            <div className="create-text text-lg">Save</div>
-          ) : (
-            <div className="create-text text-lg">Create Set</div>
-          )}
-        </div>
+        <CardSetFields
+          handleRemove={handleRemove}
+          handleChange={handleChange}
+          fields={fields}
+          setFields={setFields}
+          handleSave={handleSave}
+          editMode={editMode}
+        />
       </div>
     </div>
   )

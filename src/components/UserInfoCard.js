@@ -5,6 +5,7 @@ import Modal from '../components/Modal'
 import TextBox from '../components/TextBox'
 import {UserContext} from '../context/user-context'
 import {uuidCheck} from '../lib/helpers'
+import placeholderPhoto from '../photos/placeholder-photo.png'
 
 export default function UserInfoCard(props) {
   const {profile, setProfile} = props
@@ -37,8 +38,12 @@ export default function UserInfoCard(props) {
     return (
       <div className="flex">
         <div className="flex p-6">
-          <div>
-            <img className="w-32 h-32 rounded-full mr-4 bg-gray-500" alt="" />
+          <div className="w-32 h-32">
+            <img
+              src={profile.profile_pic || placeholderPhoto}
+              className="min-h-full min-w-full rounded-full mr-4 bg-gray-500"
+              alt="A user's profile"
+            />
           </div>
           <div className="flex flex-col justify-around">
             <div className="flex ml-4">

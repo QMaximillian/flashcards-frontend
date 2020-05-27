@@ -36,13 +36,14 @@ export default function UserInfoCard(props) {
 
   if (profile) {
     return (
-      <div className="flex">
-        <div className="flex p-6">
-          <div className="w-32 h-32">
+      <div className="flex p-6">
+        <div className="flex">
+          <div className="h-full">
             <img
               src={profile.profile_pic || placeholderPhoto}
-              className="min-h-full min-w-full rounded-full mr-4 bg-gray-500"
+              className="h-16 w-16 md:w-32 md:h-32 object-fill rounded-full mr-4 bg-gray-500"
               alt="A user's profile"
+              style={{minWidth: '4rem', minHeight: '4rem'}}
             />
           </div>
           <div className="flex flex-col justify-around">

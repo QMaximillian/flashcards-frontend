@@ -253,7 +253,7 @@ function Card(props) {
   return (
     <div className="h-64 w-3/4" onClick={() => set(state => !state)}>
       <animated.div
-        className={` bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
+        className={`p-4 bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
         style={{
           boxShadow: '0 0 15px rgba(0, 0, 0, 0.4)',
           opacity: opacity.interpolate(o => 0.75 - o),
@@ -263,7 +263,7 @@ function Card(props) {
         <div className="text-3xl font-light">{props.flashcardFront}</div>
       </animated.div>
       <animated.div
-        className={` bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
+        className={`p-4 bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
         style={{
           boxShadow: '0 0 15px rgba(0, 0, 0, 0.4)',
           opacity,

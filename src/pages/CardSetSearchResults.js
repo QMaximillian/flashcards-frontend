@@ -4,7 +4,7 @@ import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
 import {fetchPostCardSetSearch} from '../fetchRequests/cardSets'
 
-export default function CardSetSearchResults(props) {
+export default function CardSetSearchResults() {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
 

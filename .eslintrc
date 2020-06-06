@@ -2,13 +2,15 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "eslint-config-prettier"
+    "eslint-config-prettier",
+    "plugin:jsx-a11y/recommended"
   ],
-  "parser": "babel-eslint",
-  "react/jsx-curly-spacing": "always",
-  "react/jsx-max-props-per-line": [1, {"allowMultiline": false}],
-  "react/jsx-no-undef": true,
-  "react/jsx-no-duplicate-props": true,
-  "react/jsx-no-useless-fragment": true,
-  "react/jsx-one-expression-per-line": [true, {"allow": "none"}]
+  "plugins": ["jsx-a11y"],
+  "parser": "babel-eslint"
+  // "react/jsx-curly-spacing": "always",
+  // "react/jsx-max-props-per-line": [1, {"allowMultiline": false}],
+  // "react/jsx-no-undef": true,
+  // "react/jsx-no-duplicate-props": true,
+  // "react/jsx-no-useless-fragment": true,
+  // "react/jsx-one-expression-per-line": [true, {"allow": "none"}]
 }

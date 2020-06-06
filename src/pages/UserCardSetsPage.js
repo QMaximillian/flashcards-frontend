@@ -15,7 +15,7 @@ import {fetchShowUser} from '../fetchRequests/user'
 import {UserContext} from '../context/user-context'
 import NoMatch from '../components/NoMatch'
 
-export default function UserCardSetsPage(props) {
+export default function UserCardSetsPage() {
   const [filter, setFilter] = useState('Latest')
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
   const [loading, setLoading] = useState(true)
@@ -35,7 +35,7 @@ export default function UserCardSetsPage(props) {
         setProfile(profile)
         setLoading(false)
       })
-      .catch(error => {
+      .catch(() => {
         setError(true)
       })
   }, [userParam])
@@ -55,6 +55,10 @@ export default function UserCardSetsPage(props) {
         <select
           className="ml-4 h-12 w-32 border-gray-500 border rounded-none text-teal-500"
           // style={{ textAlignLast: "left" }}
+          onBlur={e => {
+            // console.log(e.target.value)
+            setFilter(e.target.value)
+          }}
           onChange={e => setFilter(e.target.value)}
           value={filter}
         >

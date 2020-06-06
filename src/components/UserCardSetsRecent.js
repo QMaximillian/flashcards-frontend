@@ -1,5 +1,5 @@
 import React from 'react'
 
-export default function UserCardSetsRecent(props) {
+export default function UserCardSetsRecent() {
   return <div></div>
 }

@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import {UserContext} from '../context/user-context'
 import HomeLatest from '../components/HomeLatest'
 
-export function LoggedInHome(props) {
+export function LoggedInHome() {
   let {user} = useContext(UserContext)
 
   return (

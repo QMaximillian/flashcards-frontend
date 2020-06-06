@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-function LoggedOutHome(props) {
+function LoggedOutHome() {
   const styleObj = {
     backgroundColor: '#DFDBE5',
     backgroundImage:

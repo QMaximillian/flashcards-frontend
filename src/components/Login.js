@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom'
 import {UserContext} from '../context/user-context'
 import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
-export default function Login(props) {
+export default function Login() {
   const {setTrigger, setAuthLoading} = useContext(UserContext)
   const [email, setEmail] = useState({name: '', value: ''})
   const [password, setPassword] = useState({name: '', value: ''})

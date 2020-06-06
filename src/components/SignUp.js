@@ -3,7 +3,7 @@ import TextBox from './TextBox'
 import {Redirect} from 'react-router-dom'
 import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
-export default function SignUp(props) {
+export default function SignUp() {
   const [email, setEmail] = useState({name: '', value: ''})
   const [password, setPassword] = useState({name: '', value: ''})
   const [firstName, setFirstName] = useState({name: '', value: ''})

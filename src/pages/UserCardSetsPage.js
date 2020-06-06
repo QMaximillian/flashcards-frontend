@@ -46,6 +46,10 @@ export default function UserCardSetsPage() {
     }
   }, [user, profile])
 
+  function handleFilter(event) {
+    setFilter(event.target.value)
+  }
+
   function renderSelect() {
     if (recentMatch) return
     if (studiedMatch) return
@@ -55,11 +59,8 @@ export default function UserCardSetsPage() {
         <select
           className="ml-4 h-12 w-32 border-gray-500 border rounded-none text-teal-500"
           // style={{ textAlignLast: "left" }}
-          onBlur={e => {
-            // console.log(e.target.value)
-            setFilter(e.target.value)
-          }}
-          onChange={e => setFilter(e.target.value)}
+          onBlur={handleFilter}
+          onChange={handleFilter}
           value={filter}
         >
           <option className="h-12 w-32" value="Latest">

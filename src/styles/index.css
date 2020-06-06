@@ -11,6 +11,11 @@
   opacity: 60%;
 } */
 
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
 .create-box:hover .plus {
   opacity: 60%;
 }

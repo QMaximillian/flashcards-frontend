@@ -6,7 +6,7 @@ import {UserContext} from '../context/user-context'
 import '../styles/index.css'
 import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
-export default function Navigation(props) {
+export default function Navigation() {
   let {user} = useContext(UserContext)
   const navRef = useRef(null)
   const wrapperRef = useRef(null)
@@ -71,6 +71,9 @@ export default function Navigation(props) {
             <div className="h-full w-24 text-white flex justify-center search-box">
               <i className="h-full self-center h-full search-box mag-glass fas fa-search"></i>
               <div
+                role="search"
+                tabIndex={0}
+                onKeyDown={handleExpandAndFocusSearchBar}
                 onClick={handleExpandAndFocusSearchBar}
                 className="mx-2 search-box search"
               >
@@ -124,8 +127,11 @@ export default function Navigation(props) {
     if (user) {
       return (
         <div
+          role="button"
+          tabIndex={0}
           className="flex search-box"
           onClick={() => setDropdownToggle(prev => !prev)}
+          onKeyDown={() => setDropdownToggle(prev => !prev)}
         >
           <div
             className={`${

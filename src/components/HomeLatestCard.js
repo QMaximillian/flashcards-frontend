@@ -22,13 +22,13 @@ export default function HomeLatestCard(props) {
           <p className="opacity-50 text-sm truncate sm:break-words">
             {flashcards_count} terms
           </p>
-
-          <div
+          {/* Has to be fixed to be an absolute link */}
+          <button
             onClick={() => history.push(`/${username}`)}
             className="hover:text-teal-500 truncate sm:break-words"
           >
             <p>{owner}</p>
-          </div>
+          </button>
         </div>
       </div>
     </article>
@@ -48,5 +48,6 @@ HomeLatestCard.propTypes = {
     name: PropTypes.string,
     flashcards_count: PropTypes.number,
     owner: PropTypes.string,
+    username: PropTypes.string,
   }),
 }

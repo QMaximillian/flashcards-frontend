@@ -1,7 +1,6 @@
 import React from 'react'
 import {MemoryRouter} from 'react-router'
 import '@testing-library/jest-dom/extend-expect'
-import {createMemoryHistory} from 'history'
 import {render} from '@testing-library/react'
 import CreateCardSetForm from './CreateCardSetForm'
 

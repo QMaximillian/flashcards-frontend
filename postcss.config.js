@@ -1,5 +1,6 @@
 const purgecss = require('@fullhuman/postcss-purgecss')
 const tailwindcss = require('tailwindcss')
+const cssnano = require('cssnano')
 
 module.exports = {
   plugins: [

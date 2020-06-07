@@ -25,6 +25,7 @@ export default function CardSetSearchResults() {
       </div>
     )
   }
+
   return (
     <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full p-6">
       {cardSets.map((cardSet, idx) => {

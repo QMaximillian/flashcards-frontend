@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import PropTypes from 'prop-types'
 import {fetchUser} from '../fetchRequests/user'
 
 export const UserContext = React.createContext({})
@@ -24,4 +25,8 @@ export function UserProvider({children}) {
       {children}
     </UserContext.Provider>
   )
+}
+
+UserProvider.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.elementType]),
 }

@@ -1,8 +1,9 @@
 import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
-import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
+// import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
 import {UserContext} from '../context/user-context'
-import {format} from 'date-fns'
+// import {format} from 'date-fns'
+import PropTypes from 'prop-types'
 
 export default function UserCardSetCard(props) {
   let {user} = useContext(UserContext)
@@ -57,45 +58,46 @@ export default function UserCardSetCard(props) {
     )
   }
 
-  async function handleCreateUserCardSet() {
-    if (searchCard && user) {
-      let options = {
-        card_set_id: cardSet.card_set_id,
-        creator_id: cardSet.user_id,
-        last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
-      }
+  // What is this doing?
+  // async function handleCreateUserCardSet() {
+  //   if (searchCard && user) {
+  //     let options = {
+  //       card_set_id: cardSet.card_set_id,
+  //       creator_id: cardSet.user_id,
+  //       last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
+  //     }
 
-      await fetchPostUsersCardSet(options)
-    }
-  }
+  //     await fetchPostUsersCardSet(options)
+  //   }
+  // }
 
   return (
-    <div
-      onClick={handleCreateUserCardSet}
-      key={idx}
-      className="flex justify-center "
-    >
-      <div className={`w-full my-2 px-4 `}>
-        <div
-          className={`relative z-0 w-full rounded-sm overflow-hidden  ${
-            cardSet.checked ? 'shadow-inner border-2 border-blue-700' : ''
-          } 
+    // <div
+    //   onClick={handleCreateUserCardSet}
+    //   key={idx}
+    //   className="flex justify-center"
+    // >
+    <div className={`w-full my-2 px-4 `}>
+      <div
+        className={`relative z-0 w-full rounded-sm overflow-hidden  ${
+          '' // cardSet.checked ? 'shadow-inner border-2 border-blue-700' : ''
+        } 
                ${studied ? 'h-40' : 'h-20'}
                ${searchCard ? 'h-48' : 'h-20'}
 
                `}
+      >
+        <div
+          //  onClick={() => handleChecked(cardSet)}
+          className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2"
         >
-          <div
-            //  onClick={() => handleChecked(cardSet)}
-            className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2"
-          >
-            {/* <input
+          {/* <input
                             onChange={() => handleChecked(cardSet)}
                             className="ml-4 self-center"
                             type="checkbox"
                             checked={cardSet.checked}
                           /> */}
-            {/* {editMode ? (
+          {/* {editMode ? (
                               <div
                                 className="h-full w-full text-2xl ml-24"
                                 key={idx}
@@ -103,35 +105,35 @@ export default function UserCardSetCard(props) {
                                 <div>{cardSet.name}</div>
                               </div>
                             ) : ( */}
-            <div
-              className={`py-2 h-20 pl-5 flex w-full justify-start ${
-                searchCard ? 'border-b-0 border-2 border-gray-200' : ''
-              }`}
-              key={idx}
+          <div
+            className={`py-2 h-20 pl-5 flex w-full justify-start ${
+              searchCard ? 'border-b-0 border-2 border-gray-200' : ''
+            }`}
+            key={idx}
+          >
+            <Link
+              className="h-full w-full"
+              to={`/card-sets/${cardSet.card_set_id}`}
             >
-              <Link
-                className="h-full w-full"
-                to={`/card-sets/${cardSet.card_set_id}`}
-              >
-                <div className="flex px-2 items-center">
-                  <div className="pr-2 text-sm text-gray-700">
-                    {cardSet.flashcards_count} Terms
-                  </div>
-                  <div className="pl-2 border-yellow-500 border-l-2 text-sm text-teal-500">
-                    {cardSet.creator_name}
-                  </div>
+              <div className="flex px-2 items-center">
+                <div className="pr-2 text-sm text-gray-700">
+                  {cardSet.flashcards_count} Terms
                 </div>
-                <div className="mt-1 pl-2 text-xl font-medium">
-                  {cardSet.name}
+                <div className="pl-2 border-yellow-500 border-l-2 text-sm text-teal-500">
+                  {cardSet.creator_name}
                 </div>
-              </Link>
-            </div>
-            {studied ? renderStudiedCard() : null}
-            {searchCard ? renderSearchCard() : null}
+              </div>
+              <div className="mt-1 pl-2 text-xl font-medium">
+                {cardSet.name}
+              </div>
+            </Link>
           </div>
+          {studied ? renderStudiedCard() : null}
+          {searchCard ? renderSearchCard() : null}
         </div>
       </div>
-      {/* {editMode && (
+    </div>
+    /*{ {editMode && (
                         <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
                           <i
                             data-id={cardSet.id}
@@ -140,7 +142,41 @@ export default function UserCardSetCard(props) {
                             style={{ WebkitTextStroke: "2px grey" }}
                           ></i>
                         </div>
-                      )} */}
-    </div>
+                      )} }*/
+    // </div>
   )
+}
+
+UserCardSetCard.propTypes = {
+  idx: PropTypes.number,
+  cardSet: PropTypes.shape({
+    user_id: PropTypes.oneOfType([
+      PropTypes.oneOf([null]).isRequired,
+      PropTypes.string.isRequired,
+    ]),
+    card_set_id: PropTypes.string.isRequired,
+    creator_name: PropTypes.string.isRequired,
+    flashcards_count: PropTypes.oneOfType([
+      PropTypes.oneOf([null]).isRequired,
+      PropTypes.number.isRequired,
+    ]),
+    name: PropTypes.string.isRequired,
+    last_studied_at: PropTypes.string,
+    flashcards: PropTypes.arrayOf(
+      PropTypes.shape({
+        definition: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        term: PropTypes.string.isRequired,
+      }).isRequired,
+    ),
+  }),
+  studied: PropTypes.bool,
+  searchCard: PropTypes.bool,
+}
+
+UserCardSetCard.defaultProps = {
+  cardSet: {
+    flashcards_count: null,
+    user_id: null,
+  },
 }

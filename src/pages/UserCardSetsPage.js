@@ -16,7 +16,7 @@ import {UserContext} from '../context/user-context'
 import NoMatch from '../components/NoMatch'
 
 export default function UserCardSetsPage() {
-  const [filter, setFilter] = useState('Latest')
+  const [filterString, setFilterString] = useState('Latest')
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState({})
@@ -47,7 +47,7 @@ export default function UserCardSetsPage() {
   }, [user, profile])
 
   function handleFilter(event) {
-    setFilter(event.target.value)
+    setFilterString(event.target.value)
   }
 
   function renderSelect() {
@@ -61,7 +61,7 @@ export default function UserCardSetsPage() {
           // style={{ textAlignLast: "left" }}
           onBlur={handleFilter}
           onChange={handleFilter}
-          value={filter}
+          value={filterString}
         >
           <option className="h-12 w-32" value="Latest">
             Latest
@@ -80,6 +80,7 @@ export default function UserCardSetsPage() {
         <div className="w-full">
           <TextBox
             name="search-bar"
+            id="search-bar"
             type="text"
             value={search.value}
             onChange={setSearch}
@@ -166,7 +167,7 @@ export default function UserCardSetsPage() {
                         <UserCardSets
                           isUser={isUser}
                           search={search}
-                          filter={filter}
+                          filterString={filterString}
                           username={profile.username}
                         />
                       )}
@@ -187,7 +188,7 @@ export default function UserCardSetsPage() {
                           <UserCardSets
                             id={profile.id}
                             search={search}
-                            filter={filter}
+                            filterString={filterString}
                             username={userParam}
                           />
                         )

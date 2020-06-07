@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
+import PropTypes from 'prop-types'
 import {Link, useParams, useRouteMatch, Redirect} from 'react-router-dom'
 import {fetchUpdateUsername, fetchShowUser} from '../fetchRequests/user'
 import Modal from '../components/Modal'
@@ -7,8 +8,7 @@ import {UserContext} from '../context/user-context'
 import {uuidCheck} from '../lib/helpers'
 import placeholderPhoto from '../photos/placeholder-photo.png'
 
-export default function UserInfoCard(props) {
-  const {profile, setProfile} = props
+export default function UserInfoCard({profile, setProfile, isUser}) {
   const [modalOpen, setModalOpen] = useState(false)
   const [text, setText] = useState({name: '', value: '', isValid: true})
   const [modalError, setModalError] = useState('')
@@ -64,7 +64,7 @@ export default function UserInfoCard(props) {
   function renderMatch() {
     return (
       <div className="flex ml-4">
-        {props.isUser && (
+        {isUser && (
           <Link to={`/${profile.username}/recent`}>
             <div
               className={`${
@@ -145,10 +145,10 @@ export default function UserInfoCard(props) {
                         }
 
                         setModalOpen(false)
-                        props.setProfile({...profile, username: r.username})
+                        setProfile({...profile, username: r.username})
                         setUser({...user, username: r.username})
                       })
-                      .then(r => setRedirect(true))
+                      .then(() => setRedirect(true))
                   }}
                 >
                   Submit

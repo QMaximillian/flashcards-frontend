@@ -1,12 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-export default function TermsInSet(props) {
+export default function TermsInSet({flashcards}) {
+  console.log(flashcards)
   return (
     <div>
       <div className="mx-4 font-bold mb-6 text-lg">
-        Terms in this set ({props.flashcards.length})
+        Terms in this set ({flashcards.length})
       </div>
-      {props.flashcards.map((flashcard, idx) => {
+      {flashcards.map((flashcard, idx) => {
         return (
           <div
             key={idx}
@@ -19,4 +21,14 @@ export default function TermsInSet(props) {
       })}
     </div>
   )
+}
+
+TermsInSet.propTypes = {
+  flashcards: PropTypes.arrayOf(
+    PropTypes.shape({
+      definition: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      term: PropTypes.string.isRequired,
+    }),
+  ),
 }

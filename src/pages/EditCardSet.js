@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import PropTypes from 'prop-types'
 import {fetchGetEditCardSets} from '../fetchRequests/cardSets'
 import CreateCardSetForm from '../components/CreateCardSetForm'
 
@@ -22,4 +23,12 @@ export default function EditCardSet(props) {
       cardSetId={props.match.params.id}
     />
   )
+}
+
+EditCardSet.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 }

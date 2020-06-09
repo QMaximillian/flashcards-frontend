@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
-
+import PropTypes from 'prop-types'
 import {useTransition, useSpring, animated} from 'react-spring'
 import {Link} from 'react-router-dom'
 import {fetchGetCardSetShow} from '../fetchRequests/cardSets'
@@ -8,7 +8,6 @@ import {
   fetchPostLastStudied,
 } from '../fetchRequests/usersCardSets'
 import FinalFlashCard from '../components/FinalFlashCard'
-import PropTypes from 'prop-types'
 import {format} from 'date-fns'
 import FlashcardsNavDrawer from '../components/FlashcardNavDrawer'
 import NoMatch from '../components/NoMatch'
@@ -181,7 +180,7 @@ export default function ShowCardSet(props) {
             </div>
           </div>
           <div className="flex justify-center w-3/4 h-12 flex justify-center items-center">
-            <div
+            <button
               onClick={prevSlide}
               className={`mx-10 ${
                 count === 0
@@ -190,9 +189,9 @@ export default function ShowCardSet(props) {
               }`}
             >
               <i className="fas fa-arrow-left"></i>
-            </div>
+            </button>
             <div>{renderCurrentCardFraction()}</div>
-            <div
+            <button
               onClick={nextSlide}
               className={`mx-10 ${
                 count === flashcards.length - 1
@@ -201,7 +200,7 @@ export default function ShowCardSet(props) {
               }`}
             >
               <i className="fas fa-arrow-right"></i>
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -243,7 +242,7 @@ export default function ShowCardSet(props) {
 }
 
 function Card(props) {
-  const [flipped, set] = useState(false)
+  const [flipped, setFlipped] = useState(false)
   const {transform, opacity} = useSpring({
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
@@ -251,9 +250,12 @@ function Card(props) {
   })
 
   return (
-    <div className="h-64 w-3/4" onClick={() => set(state => !state)}>
+    <button
+      className="h-64 w-full flex focus:outline-none background-transparent"
+      onClick={() => setFlipped(state => !state)}
+    >
       <animated.div
-        className={`p-4 bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
+        className={` p-4 bg-cover flex items-center justify-center h-full w-full border-2 border-gray-400 rounded cursor-pointer mx-h-full`}
         style={{
           boxShadow: '0 0 15px rgba(0, 0, 0, 0.4)',
           opacity: opacity.interpolate(o => 0.75 - o),
@@ -270,15 +272,35 @@ function Card(props) {
           transform: transform.interpolate(t => `${t} rotateX(180deg)`),
         }}
       >
-        <div className="text-3xl font-light">{props.flashcardBack}</div>
+        <animated.div
+          style={{
+            opacity,
+          }}
+          className="text-3xl font-light"
+        >
+          {props.flashcardBack}
+        </animated.div>
       </animated.div>
-    </div>
+    </button>
   )
 }
 
+Card.propTypes = {
+  flashcardFront: PropTypes.string.isRequired,
+  flashcardBack: PropTypes.string.isRequired,
+}
+
+ShowCardSet.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+}
+
 FinalFlashCard.propTypes = {
-  cardSetLength: PropTypes.number,
-  handleReset: PropTypes.func,
+  cardSetLength: PropTypes.number.isRequired,
+  handleReset: PropTypes.func.isRequired,
 }
 
 FinalFlashCard.defaultProps = {

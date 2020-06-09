@@ -174,3 +174,15 @@ export default function UserInfoCard({profile, setProfile, isUser}) {
     )
   }
 }
+
+UserInfoCard.propTypes = {
+  profile: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    first_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    profile_pic: PropTypes.string,
+  }).isRequired,
+  setProfile: PropTypes.func.isRequired,
+  isUser: PropTypes.bool.isRequired,
+}

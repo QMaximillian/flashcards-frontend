@@ -1,5 +1,4 @@
 import React from 'react'
-// import { IoIosCloseCircle } from "react-icons/io";
 import PropTypes from 'prop-types'
 
 class Modal extends React.Component {

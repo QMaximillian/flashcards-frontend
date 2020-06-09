@@ -1,12 +1,13 @@
-import React, {useContext} from 'react'
+import React from // {useContext}
+'react'
 import {Link} from 'react-router-dom'
 // import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
-import {UserContext} from '../context/user-context'
+// import {UserContext} from '../context/user-context'
 // import {format} from 'date-fns'
 import PropTypes from 'prop-types'
 
 export default function UserCardSetCard(props) {
-  let {user} = useContext(UserContext)
+  // let {user} = useContext(UserContext)
   const {idx, cardSet, studied = false, searchCard = false} = props
 
   function renderStudiedCard() {

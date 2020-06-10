@@ -16,6 +16,7 @@ import TermsInSet from '../components/TermsInSet'
 import {useParams} from 'react-router-dom'
 import {uuidCheck} from '../lib/helpers'
 import {UserContext} from '../context/user-context'
+import Card from '../components/Card'
 
 export default function ShowCardSet(props) {
   const [isLoading, setIsLoading] = useState(true)
@@ -25,7 +26,6 @@ export default function ShowCardSet(props) {
   const [reverse, setReverse] = useState(false)
   const [error, setError] = useState(false)
   const {user} = useContext(UserContext)
-  // const [uuid, setUuid] = useState(uuidCheck.test(id))
   const {id} = useParams()
   const uuid = React.useRef(uuidCheck.test(id))
 
@@ -35,7 +35,7 @@ export default function ShowCardSet(props) {
         .then(r => {
           const {flashcards, ...rest} = r
           setCardSet(rest)
-          setFlashcards([...flashcards, {}])
+          setFlashcards([...flashcards])
           setIsLoading(false)
         })
         .catch(err => setError(true))
@@ -43,13 +43,14 @@ export default function ShowCardSet(props) {
   }, [id])
 
   useEffect(() => {
-    if (!isLoading && count === flashcards.length - 1) {
+    if (!isLoading && count === flashcards.length) {
       fetchPostLastStudied({
         card_set_id: props.match.params.id,
         last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
       })
     }
-  }, [count, flashcards.length, isLoading, props.match.params.id])
+  }, [count, flashcards, isLoading, props.match.params.id])
+
   useEffect(() => {
     fetchPostLastSeen({
       card_set_id: props.match.params.id,
@@ -83,23 +84,23 @@ export default function ShowCardSet(props) {
     },
   })
 
+  if (isLoading) return <div>Loading...</div>
+  if (error || !uuid.current)
+    return (
+      <div className="flex items-center justify-center h-full">
+        <NoMatch />
+      </div>
+    )
+
   function nextSlide() {
-    if (count >= flashcards.length - 1) return
+    if (count === flashcards.length) return
     setCount(count + 1)
     setReverse(false)
   }
   function prevSlide() {
-    if (count <= 0) return
+    if (count === 0) return
     setCount(count - 1)
     setReverse(true)
-  }
-
-  function renderCurrentCardFraction() {
-    if (flashcards.length - 1 !== count) {
-      return `${count + 1}/${flashcards.length - 1}`
-    } else {
-      return `${flashcards.length - 1}/${flashcards.length - 1}`
-    }
   }
 
   function renderEditOrCustomize() {
@@ -125,56 +126,52 @@ export default function ShowCardSet(props) {
             state: {
               fromCustomize: true,
               cardSetName: cardSet.name,
-              flashcardFields: flashcards.slice(0, -1),
+              flashcardFields: flashcards.slice(),
             },
           }}
           className="flex items-center justify-center"
         >
-          <i className="far fa-clone text-gray-600"></i>
+          <i className="far fa-clone text-gray-600" />
         </Link>
       )
     }
   }
 
-  if (!uuid.current) return <div>No Match</div>
-  if (error)
-    return (
-      <div className="flex items-center justify-center h-full">
-        <NoMatch />
-      </div>
-    )
-  if (isLoading) return <div>Loading...</div>
+  function createFlashcardList(key, transitionProps) {
+    let cards = flashcards.map(flashcard => (
+      <Card
+        key={key}
+        style={transitionProps}
+        flashcardFront={flashcard.term}
+        flashcardBack={flashcard.definition}
+      />
+    ))
+    return (cards = [
+      ...cards,
+      <FinalFlashCard
+        numOfFlashcards={flashcards.length}
+        handleReset={() => setCount(0)}
+      />,
+    ])
+  }
 
   return (
     <div className="w-full">
-      <div className="text-4xl font-bold text-gray-700 opacity-50 ml-16 mt-8">
+      <div className="text-4xl font-bold text-gray-700 opacity-50 ml-16 mt-6">
         {cardSet.name}
       </div>
-      <div className="flex lg:flex-row flex-col-reverse lg:w-full lg:pl-20">
+      <div className="mt-6 flex lg:flex-row flex-col-reverse lg:w-full lg:pl-20">
         <div className="lg:flex-col lg:flex lg:w-1/5">
           <div className="pl-2 text-sm opacity-25">STUDY</div>
-
           <FlashcardsNavDrawer />
         </div>
         <div className="flex-col flex items-center justify-between lg:w-3/4">
           <div className="w-full py-4 overflow-hidden flex justify-center">
             <div className="flex relative h-64 w-3/4">
-              {transitions.map(({item, props, key}) => {
+              {transitions.map(({item, props: transitionProps, key}) => {
                 return (
-                  <animated.div key={key} style={props}>
-                    {count !== flashcards.length - 1 ? (
-                      <Card
-                        key={key}
-                        style={props}
-                        flashcardFront={flashcards[item].term}
-                        flashcardBack={flashcards[item].definition}
-                      />
-                    ) : (
-                      <FinalFlashCard
-                        cardSetLength={flashcards.length - 2}
-                        handleReset={() => setCount(0)}
-                      />
-                    )}
+                  <animated.div key={key} style={transitionProps}>
+                    {createFlashcardList(key, transitionProps)[item]}
                   </animated.div>
                 )
               })}
@@ -191,11 +188,11 @@ export default function ShowCardSet(props) {
             >
               <i className="fas fa-arrow-left"></i>
             </div>
-            <div>{renderCurrentCardFraction()}</div>
+            <div>{`${count + 1} / ${flashcards.length + 1}`}</div>
             <div
               onClick={nextSlide}
               className={`mx-10 ${
-                count === flashcards.length - 1
+                count === flashcards.length
                   ? 'opacity-50 cursor-not-allowed'
                   : 'hover:text-orange-500'
               }`}
@@ -229,7 +226,7 @@ export default function ShowCardSet(props) {
         </div>
       </div>
       <div className="mx-4 mt-4">
-        <TermsInSet flashcards={flashcards.slice(0, flashcards.length - 1)} />
+        <TermsInSet flashcards={flashcards} />
       </div>
       <div className="mb-4 flex justify-center">
         <div className="h-16 rounded bg-teal-500 w-64 flex items-center justify-center">
@@ -240,48 +237,4 @@ export default function ShowCardSet(props) {
       </div>
     </div>
   )
-}
-
-function Card(props) {
-  const [flipped, set] = useState(false)
-  const {transform, opacity} = useSpring({
-    opacity: flipped ? 1 : 0,
-    transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
-    config: {mass: 5, tension: 500, friction: 80},
-  })
-
-  return (
-    <div className="h-64 w-3/4" onClick={() => set(state => !state)}>
-      <animated.div
-        className={`p-4 bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
-        style={{
-          boxShadow: '0 0 15px rgba(0, 0, 0, 0.4)',
-          opacity: opacity.interpolate(o => 0.75 - o),
-          transform,
-        }}
-      >
-        <div className="text-3xl font-light">{props.flashcardFront}</div>
-      </animated.div>
-      <animated.div
-        className={`p-4 bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
-        style={{
-          boxShadow: '0 0 15px rgba(0, 0, 0, 0.4)',
-          opacity,
-          transform: transform.interpolate(t => `${t} rotateX(180deg)`),
-        }}
-      >
-        <div className="text-3xl font-light">{props.flashcardBack}</div>
-      </animated.div>
-    </div>
-  )
-}
-
-FinalFlashCard.propTypes = {
-  cardSetLength: PropTypes.number,
-  handleReset: PropTypes.func,
-}
-
-FinalFlashCard.defaultProps = {
-  cardSetLength: 0,
-  handleReset: () => {},
 }

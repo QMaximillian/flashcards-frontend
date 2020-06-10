@@ -95,12 +95,12 @@ export default function ShowCardSet(props) {
   function nextSlide() {
     if (count === flashcards.length) return
     setCount(count + 1)
-    setReverse(false)
+    if (reverse) setReverse(false)
   }
   function prevSlide() {
     if (count === 0) return
     setCount(count - 1)
-    setReverse(true)
+    if (!reverse) setReverse(true)
   }
 
   function renderEditOrCustomize() {
@@ -150,7 +150,10 @@ export default function ShowCardSet(props) {
       ...cards,
       <FinalFlashCard
         numOfFlashcards={flashcards.length}
-        handleReset={() => setCount(0)}
+        handleReset={() => {
+          setReverse(true)
+          setCount(0)
+        }}
       />,
     ])
   }

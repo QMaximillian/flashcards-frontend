@@ -34,7 +34,7 @@ export default function StudiedCardSetsContainer({ username, isUser }) {
         </div>
       )
     }
-    console.log('fetchGetStudiedCardSets', cardSets)
+    // console.log('fetchGetStudiedCardSets', cardSets)
     return addTimeIntervals(cardSets, UserCardSetCard, 'last_studied_at', {
       studied: true,
     })

@@ -2,7 +2,7 @@ import React from 'react'
 import { isDate, isThisWeek, parseISO, getMonth, format } from 'date-fns'
 
 export function addTimeIntervals(array, Component, dynamicKey, props) {
-  console.log('addTimeIntervals', array[0])
+  // console.log('addTimeIntervals', array[0])
   // Checking if array passed in is an array
   if (!Array.isArray(array)) {
     throw new Error('First argument is not an array')

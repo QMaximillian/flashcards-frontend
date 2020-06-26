@@ -84,7 +84,7 @@ export default function UserCardSets({ filter, search, username, isUser }) {
           .filter(cardSet =>
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),
           )
-        console.log('fetchGetUserCardSetsIndex', filteredCardSets.map((x) => x.created_at))
+        // console.log('fetchGetUserCardSetsIndex', filteredCardSets.map((x) => x.created_at))
         return !loading && filteredCardSets.length === 0 ? (
           <div className="w-full justify-center flex">
             <NoMatch />

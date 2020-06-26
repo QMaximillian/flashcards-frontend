@@ -1,5 +1,5 @@
 import React from 'react'
-import {isDate, isThisWeek, parseISO, getMonth, format} from 'date-fns'
+import { isDate, isThisWeek, parseISO, getMonth, format } from 'date-fns'
 
 export function addTimeIntervals(array, Component, dynamicKey, props) {
   // Checking if array passed in is an array
@@ -19,7 +19,7 @@ export function addTimeIntervals(array, Component, dynamicKey, props) {
       )
     }
 
-    if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]), {weekStartsOn: 0})) {
+    if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]), { weekStartsOn: 0 })) {
       if (isThisWeekFirstIdx) {
         // Check if the first value in our array is within the
         // first week.

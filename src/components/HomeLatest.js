@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import HomeLatestCard from './HomeLatestCard'
-import {fetchGetRecentCardSets} from '../fetchRequests/cardSets'
+import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 import UserCardSetCard from './UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
 import NoMatch from './NoMatch'
-import {addTimeIntervals} from '../lib/helpers'
+import { addTimeIntervals } from '../lib/helpers'
 
-export default function HomeLatest({limit, pageType, search, user}) {
+export default function HomeLatest({ limit, pageType, search, user }) {
   const [recentCardSets, setRecentCardSets] = useState([])
   const [, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -64,8 +64,8 @@ export default function HomeLatest({limit, pageType, search, user}) {
               />
             </div>
           ) : (
-            renderRecentCardSets()
-          )}
+              renderRecentCardSets()
+            )}
         </div>
       </section>
     )
@@ -83,14 +83,13 @@ export default function HomeLatest({limit, pageType, search, user}) {
     const filteredCardSets = recentCardSets.filter(cardSet =>
       cardSet.name.toLowerCase().match(search.value.toLowerCase()),
     )
-
     return (
       <section className="w-full justify-center flex flex-col">
         {!loading && filteredCardSets.length === 0 ? (
           <NoMatch />
         ) : (
-          addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
-        )}
+            addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
+          )}
       </section>
     )
   }

@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
-import {fetchGetStudiedCardSets} from '../fetchRequests/cardSets'
-import {addTimeIntervals} from '../lib/helpers'
+import { fetchGetStudiedCardSets } from '../fetchRequests/cardSets'
+import { addTimeIntervals } from '../lib/helpers'
 
-export default function StudiedCardSetsContainer({username, isUser}) {
+export default function StudiedCardSetsContainer({ username, isUser }) {
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -16,7 +16,7 @@ export default function StudiedCardSetsContainer({username, isUser}) {
           setCardSets(r)
         }
       })
-      .catch(err => {})
+      .catch(err => { })
 
     return () => (isSubscribed = false)
   }, [username])
@@ -28,12 +28,13 @@ export default function StudiedCardSetsContainer({username, isUser}) {
           <NoItemsCard
             title={`${
               isUser ? `You haven't` : `This user hasn't`
-            } studied any sets`}
+              } studied any sets`}
             subtitle={isUser ? 'Use the search bar to check some out' : null}
           />
         </div>
       )
     }
+    console.log('fetchGetStudiedCardSets', cardSets)
     return addTimeIntervals(cardSets, UserCardSetCard, 'last_studied_at', {
       studied: true,
     })

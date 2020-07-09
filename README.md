@@ -2,7 +2,7 @@
 
 Flashcards is Quizlet inspired copy. It is intended to mimic Quizlet features, such as:
 
-* Create, Read, and Update flashcard sets
+* Create, read, and update operations flashcard sets
 * Duplicate other users flashcard sets in order to create, read, and update your very own copy of the original flashcard set
 * Search all public flashcard sets
 

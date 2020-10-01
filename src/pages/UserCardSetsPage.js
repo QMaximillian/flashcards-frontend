@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import UserInfoCard from '../components/UserInfoCard'
 import UserCardSets from '../components/UserCardSets'
 import HomeLatest from '../components/HomeLatest'
@@ -11,13 +11,18 @@ import {
   useRouteMatch,
   useParams,
 } from 'react-router-dom'
-import {fetchShowUser} from '../fetchRequests/user'
-import {UserContext} from '../context/user-context'
+import { fetchShowUser } from '../fetchRequests/user'
+import { UserContext } from '../context/user-context'
 import NoMatch from '../components/NoMatch'
+import { AuthContext } from '../context/AuthContext'
+import { FetchContext } from '../context/FetchContext'
 
 export default function UserCardSetsPage(props) {
+  const { authState } = useContext(AuthContext)
+  const { mainAxios } = useContext(FetchContext)
+
   const [filter, setFilter] = useState('Latest')
-  const [search, setSearch] = useState({name: '', value: '', isValid: true})
+  const [search, setSearch] = useState({ name: '', value: '', isValid: true })
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState({})
   const [error, setError] = useState(false)
@@ -26,25 +31,37 @@ export default function UserCardSetsPage(props) {
   const recentMatch = useRouteMatch('/:user/recent')
   const createdMatch = useRouteMatch('/:user/')
   const studiedMatch = useRouteMatch('/:user/studied')
-  const {user: userParam} = useParams()
-  const {user} = useContext(UserContext)
+  const { user: userParam } = useParams()
+
   useEffect(() => {
     setLoading(true)
-    fetchShowUser(userParam)
-      .then(profile => {
-        setProfile(profile)
+    mainAxios
+      .get(`/user/${userParam}`)
+      .then(userParamProfile => {
+        if (userParamProfile.data.id === authState.userInfo.id) {
+          setIsUser(true)
+        }
         setLoading(false)
       })
       .catch(error => {
         setError(true)
       })
-  }, [userParam])
 
-  useEffect(() => {
-    if (profile && user) {
-      setIsUser(profile.id === user.id)
-    }
-  }, [user, profile])
+    // fetchShowUser(userParam)
+    //   .then(profile => {
+    //     setProfile(profile)
+    //     setLoading(false)
+    //   })
+    //   .catch(error => {
+    //     setError(true)
+    //   })
+  }, [userParam, authState, mainAxios])
+
+  // useEffect(() => {
+  //   if (profile && authState.userInfo) {
+  //     setIsUser(profile.id === authState.userInfo.id)
+  //   }
+  // }, [authState, profile])
 
   function renderSelect() {
     if (recentMatch) return
@@ -108,7 +125,7 @@ export default function UserCardSetsPage(props) {
   return (
     <div
       className="col-start-4 col-end-13 row-start-1 row-end-13 bg-gray-200 overflow-y-auto"
-      style={{height: '92vh'}}
+      style={{ height: '92vh' }}
     >
       {!loading && (
         <>
@@ -157,39 +174,41 @@ export default function UserCardSetsPage(props) {
                     />
                     <Route
                       path={`/:user`}
-                      render={() => (
-                        <UserCardSets
-                          isUser={isUser}
-                          search={search}
-                          filter={filter}
-                          username={profile.username}
-                        />
-                      )}
+                      render={
+                        () => (
+                          <UserCardSets
+                            isUser={isUser}
+                            search={search}
+                            filter={filter}
+                            username={profile.username}
+                          />
+                        )
+                      }
                     />
                   </Switch>
                 ) : (
-                  <Switch>
-                    <Route
-                      path="/:user/studied"
-                      render={() => (
-                        <StudiedCardSetsContainer username={userParam} />
-                      )}
-                    />
-                    <Route
-                      path={`/:user`}
-                      component={() => {
-                        return (
-                          <UserCardSets
-                            id={profile.id}
-                            search={search}
-                            filter={filter}
-                            username={userParam}
-                          />
-                        )
-                      }}
-                    />
-                  </Switch>
-                )}
+                    <Switch>
+                      <Route
+                        path="/:user/studied"
+                        render={() => (
+                          <StudiedCardSetsContainer username={userParam} />
+                        )}
+                      />
+                      <Route
+                        path={`/:user`}
+                        render={() => {
+                          return (
+                            <UserCardSets
+                              id={profile.id}
+                              search={search}
+                              filter={filter}
+                              username={userParam}
+                            />
+                          )
+                        }}
+                      />
+                    </Switch>
+                  )}
               </div>
             </div>
           </>

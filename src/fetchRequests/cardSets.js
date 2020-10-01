@@ -1,4 +1,4 @@
-import {BASE_URL, BASE_HEADERS} from './baseFetchOptions'
+import { BASE_URL, BASE_HEADERS } from './baseFetchOptions'
 
 export function fetchPostCardSet(body) {
   return fetch(`${BASE_URL}/card-sets`, {
@@ -63,7 +63,7 @@ export function fetchGetRecentCardSets(limit = 6, id) {
     method: 'POST',
     headers: BASE_HEADERS,
     credentials: 'include',
-    body: JSON.stringify({limit, id}),
+    body: JSON.stringify({ limit, id }),
   }).then(r => r.json())
 }
 

@@ -1,16 +1,22 @@
-import React, {useState} from 'react'
+import React, { useContext, useState } from 'react'
 import TextBox from './TextBox'
-import {Redirect} from 'react-router-dom'
-import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+import { Redirect } from 'react-router-dom'
+import { BASE_URL } from '../fetchRequests/baseFetchOptions'
+import { FetchContext } from '../context/FetchContext'
+import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 
 export default function SignUp(props) {
-  const [email, setEmail] = useState({name: '', value: ''})
-  const [password, setPassword] = useState({name: '', value: ''})
-  const [firstName, setFirstName] = useState({name: '', value: ''})
-  const [lastName, setLastName] = useState({name: '', value: ''})
-  const [username, setUsername] = useState({name: '', value: ''})
+  const { authAxios } = useContext(FetchContext)
+  const { setAuthState } = useContext(AuthContext)
+  const [email, setEmail] = useState({ name: '', value: '' })
+  const [password, setPassword] = useState({ name: '', value: '' })
+  const [firstName, setFirstName] = useState({ name: '', value: '' })
+  const [lastName, setLastName] = useState({ name: '', value: '' })
+  const [username, setUsername] = useState({ name: '', value: '' })
   const [redirect, setRedirect] = useState(false)
   const [, setError] = useState(null)
+  const history = useHistory()
 
   function handleSubmit(e) {
     if (!email || !password || !username || !firstName || !lastName) {
@@ -21,31 +27,49 @@ export default function SignUp(props) {
 
   function handleSignUpFetch(e) {
     e.preventDefault()
-    return fetch(`${BASE_URL}/auth/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
 
-      credentials: 'include',
-      body: JSON.stringify({
-        first_name: firstName.value,
-        last_name: lastName.value,
-        email: email.value,
-        password: password.value,
-        username: username.value,
-      }),
-    })
-      .then(r => r.json())
-      .then(r => {
-        if (r.code) {
-          setError(`${r.code} - ${r.status}`)
-        } else {
-          setRedirect(true)
+    authAxios
+      .post('/register', {
+        data: {
+          first_name: firstName.value,
+          last_name: lastName.value,
+          email: email.value,
+          password: password.value,
+          username: username.value,
         }
       })
-      .catch(err => {})
+      .then((res) => {
+        setAuthState(res.data)
+        console.log(res)
+        history.push('/')
+      })
+
+
+    // return fetch(`${BASE_URL}/auth/register`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Accept: 'application/json',
+    //   },
+
+    //   credentials: 'include',
+    //   body: JSON.stringify({
+    //     first_name: firstName.value,
+    //     last_name: lastName.value,
+    //     email: email.value,
+    //     password: password.value,
+    //     username: username.value,
+    //   }),
+    // })
+    //   .then(r => r.json())
+    //   .then(r => {
+    //     if (r.code) {
+    //       setError(`${r.code} - ${r.status}`)
+    //     } else {
+    //       setRedirect(true)
+    //     }
+    //   })
+    //   .catch(err => { })
   }
 
   if (redirect) return <Redirect to={`/login`} />

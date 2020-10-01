@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import {
-  fetchGetUserCardSetsIndex,
-  // fetchDeleteCardSets
-} from '../fetchRequests/cardSets'
+import React, { useContext, useEffect, useState } from 'react'
 import NoItemsCard from './NoItemsCard'
 import { Link } from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
 import { addTimeIntervals } from '../lib/helpers'
+import { FetchContext } from '../context/FetchContext'
 import '../styles/index.css'
 
 export default function UserCardSets({ filter, search, username, isUser }) {
+  const { mainAxios } = useContext(FetchContext)
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   const [
@@ -26,20 +24,14 @@ export default function UserCardSets({ filter, search, username, isUser }) {
   }, [editMode, initialCardState])
 
   useEffect(() => {
-    let isSubscribed = true
-    fetchGetUserCardSetsIndex(username)
-      // .then(r => addCheckedProperty(r))
-      .then(r => {
-        if (isSubscribed) {
-          setLoading(false)
-          setCardSets(r)
-          setInitialCardState(r)
-        }
+    mainAxios.get(`/users-card-sets/${username}`)
+      .then(res => {
+        setLoading(false)
+        setCardSets(res.data.userCardSets)
+        setInitialCardState(res.data.userCardSets)
       })
-      .catch(err => { })
-
-    return () => (isSubscribed = false)
-  }, [username])
+      .catch(error => { console.log(error) })
+  }, [username, mainAxios])
 
   function alphabeticalFilter(a, b) {
     if (a.name.toLowerCase() < b.name.toLowerCase()) {
@@ -53,7 +45,7 @@ export default function UserCardSets({ filter, search, username, isUser }) {
 
 
   function renderCardSets() {
-    if (!loading && cardSets.length === 0) {
+    if (!loading && cardSets?.length === 0) {
       return (
         <div className="h-64 w-full px-4">
           <NoItemsCard
@@ -81,11 +73,11 @@ export default function UserCardSets({ filter, search, username, isUser }) {
     switch (filter) {
       case 'Latest':
         const filteredCardSets = cardSets
-          .filter(cardSet =>
+          ?.filter(cardSet =>
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),
-          )
+          ) || []
         // console.log('fetchGetUserCardSetsIndex', filteredCardSets.map((x) => x.created_at))
-        return !loading && filteredCardSets.length === 0 ? (
+        return !loading && filteredCardSets?.length === 0 ? (
           <div className="w-full justify-center flex">
             <NoMatch />
           </div>

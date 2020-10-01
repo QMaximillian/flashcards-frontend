@@ -1,32 +1,57 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import HomeLatestCard from './HomeLatestCard'
 import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 import UserCardSetCard from './UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
 import NoMatch from './NoMatch'
 import { addTimeIntervals } from '../lib/helpers'
+import { AuthContext } from '../context/AuthContext'
+import { FetchContext } from '../context/FetchContext'
 
 export default function HomeLatest({ limit, pageType, search, user }) {
+  const { authState } = useContext(AuthContext)
+  const { mainAxios } = useContext(FetchContext)
+
   const [recentCardSets, setRecentCardSets] = useState([])
   const [, setError] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    let isSubscribed = true
-    fetchGetRecentCardSets(limit)
-      .then(r => {
-        if (isSubscribed) {
-          setRecentCardSets(r)
-          setLoading(false)
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
+    console.log(authState.userInfo.id)
+    mainAxios
+      .post('/recent-card-sets', {
+        data: { id: authState.userInfo.id },
+        cancelToken: source.token
+      })
+      .then(res => {
+        setRecentCardSets(res.data.recentCardSets)
+      })
+      .catch(thrown => {
+        if (axios.isCancel(thrown)) {
+          console.log('Request canceled', thrown.message)
+        } else {
+          console.log(thrown)
         }
       })
-      .catch(error => {
-        return isSubscribed ? setError(error.message) : null
-      })
 
-    return () => (isSubscribed = false)
-  }, [limit])
+
+    // fetchGetRecentCardSets(limit)
+    //   .then(r => {
+    // if (isSubscribed) {
+    //   setRecentCardSets(r)
+    //   setLoading(false)
+    // }
+    // })
+    // .catch(error => {
+    // return isSubscribed ? setError(error.message) : null
+    // })
+
+    // return () => (isSubscribed = false)
+  }, [authState, mainAxios])
 
   function renderRecentCardSets() {
     return recentCardSets.map(cardSet => {
@@ -47,7 +72,7 @@ export default function HomeLatest({ limit, pageType, search, user }) {
       <section>
         <div className="flex py-6 px-2 w-full justify-between">
           <h1 className="mb-4 text-2xl self-center">Recent</h1>
-          <Link to={`/${user.username}`} className="flex">
+          <Link to={`/${authState.userInfo.username}`} className="flex">
             <div className="mb-4 flex hover:text-yellow-500 text-teal-500">
               <div className="text-2xl self-center">View all</div>
               <i className="ml-2 fas fa-chevron-right self-center text-sm"></i>

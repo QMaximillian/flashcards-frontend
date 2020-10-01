@@ -1,22 +1,25 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
-import {Link, Redirect} from 'react-router-dom'
+import React, { useState, useEffect, useRef, useContext } from 'react'
+import { Link, Redirect } from 'react-router-dom'
 import TextBox from '../components/TextBox'
 import useClickOutside from '../lib/hooks/useClickOutside'
-import {UserContext} from '../context/user-context'
+
 import '../styles/index.css'
-import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+import { BASE_URL } from '../fetchRequests/baseFetchOptions'
+import { AuthContext } from '../context/AuthContext'
+import { FetchContext } from '../context/FetchContext'
 
 export default function Navigation(props) {
-  let {user} = useContext(UserContext)
+  let { isAuthenticated, authState, logout } = useContext(AuthContext)
+  let { authAxios } = useContext(FetchContext)
   const navRef = useRef(null)
   const wrapperRef = useRef(null)
 
-  const [search, setSearch] = useState({name: '', value: '', isValid: true})
+  const [search, setSearch] = useState({ name: '', value: '', isValid: true })
   const [expandSearchBar, setExpandSearchBar] = useState(false)
   const [dropdownToggle, setDropdownToggle] = useState(false)
   const [focused, setFocused] = useState(false)
   const [redirect, setRedirect] = useState(false)
-  useClickOutside(wrapperRef, function() {
+  useClickOutside(wrapperRef, function () {
     if (!dropdownToggle) return
     setDropdownToggle(false)
   })
@@ -24,7 +27,7 @@ export default function Navigation(props) {
   useEffect(() => {
     document.addEventListener('keydown', enterOnKeyPress)
 
-    return function() {
+    return function () {
       document.removeEventListener('keydown', enterOnKeyPress)
     }
   })
@@ -54,7 +57,7 @@ export default function Navigation(props) {
               onBlur={() => {
                 setExpandSearchBar(false)
                 setFocused(false)
-                setSearch({name: '', value: '', isValid: true})
+                setSearch({ name: '', value: '', isValid: true })
                 setRedirect(false)
               }}
               ref={navRef}
@@ -78,7 +81,7 @@ export default function Navigation(props) {
               </div>
             </div>
           </div>
-          {user ? (
+          {isAuthenticated() ? (
             <>
               <div className="w-24">
                 <div className="text-center">|</div>
@@ -99,7 +102,7 @@ export default function Navigation(props) {
 
   const handleExpandAndFocusSearchBar = () => {
     setExpandSearchBar(true)
-    setTimeout(function() {
+    setTimeout(function () {
       navRef.current.focus()
     }, 10)
   }
@@ -112,7 +115,16 @@ export default function Navigation(props) {
           className="flex flex-col justify-end ml-4 py-2 w-48 absolute h-18 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md"
         >
           <div className="pl-4 ">
-            <a href={`${BASE_URL}/auth/logout`}>Log Out</a>
+            {/* <a href={`${BASE_URL}/auth/logout`}>Log Out</a> */}
+            <div onClick={() => {
+
+              authAxios
+                .get('/logout')
+                .then(() => {
+                  // logout()
+                })
+                .catch(console.log)
+            }}>Log Out</div>
           </div>
         </div>
       )
@@ -121,23 +133,21 @@ export default function Navigation(props) {
   }
 
   function renderUserOrOptions() {
-    if (user) {
+    if (isAuthenticated()) {
       return (
         <div
           className="flex search-box"
           onClick={() => setDropdownToggle(prev => !prev)}
         >
           <div
-            className={`${
-              dropdownToggle ? 'text-gray-500' : 'text-white'
-            } search-box search`}
+            className={`${dropdownToggle ? 'text-gray-500' : 'text-white'
+              } search-box search`}
           >
-            {user && user.first_name}
+            {authState.userInfo.first_name}
           </div>
           <i
-            className={`${
-              dropdownToggle ? 'text-gray-500' : 'text-white'
-            } search-box search pl-4 self-center fas fa-chevron-down`}
+            className={`${dropdownToggle ? 'text-gray-500' : 'text-white'
+              } search-box search pl-4 self-center fas fa-chevron-down`}
           ></i>
         </div>
       )
@@ -168,9 +178,8 @@ export default function Navigation(props) {
     <div className="h-full flex justify-between bg-teal-500 shadow items-center">
       {/* LOGO * */}
       <div
-        className={`px-6 flex justify-start h-full items-center ${
-          expandSearchBar ? 'w-full' : 'w-3/4'
-        }`}
+        className={`px-6 flex justify-start h-full items-center ${expandSearchBar ? 'w-full' : 'w-3/4'
+          }`}
       >
         <div>{renderLogo()}</div>
         <div className="ml-20 flex text-white items-center h-full w-full">
@@ -179,9 +188,8 @@ export default function Navigation(props) {
       </div>
       {!expandSearchBar && (
         <div
-          className={`relative h-full flex items-center justify-center ${
-            expandSearchBar ? 'w-full' : 'w-1/4'
-          }`}
+          className={`relative h-full flex items-center justify-center ${expandSearchBar ? 'w-full' : 'w-1/4'
+            }`}
         >
           {renderUserOrOptions()}
           {renderDropdown()}

@@ -44,26 +44,11 @@ export default function UserCardSetsPage(props) {
       .catch(error => {
         setError(true)
       })
-
-    // fetchShowUser(userParam)
-    //   .then(profile => {
-    //     setProfile(profile)
-    //     setLoading(false)
-    //   })
-    //   .catch(error => {
-    //     setError(true)
-    //   })
   }, [userParam, authState, mainAxios])
 
-  // useEffect(() => {
-  //   if (profile && authState.userInfo) {
-  //     setIsUser(profile.id === authState.userInfo.id)
-  //   }
-  // }, [authState, profile])
-
   function renderSelect() {
-    if (recentMatch) return
-    if (studiedMatch) return
+    if (recentMatch || studiedMatch) return
+
     return (
       <>
         <div className="self-center text-xs">SORT</div>

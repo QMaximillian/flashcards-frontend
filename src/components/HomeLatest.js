@@ -9,7 +9,7 @@ import {addTimeIntervals} from '../lib/helpers'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
 
-export default function HomeLatest({limit, pageType, search, user}) {
+export default function HomeLatest({pageType, search}) {
   const {authState} = useContext(AuthContext)
   const {mainAxios} = useContext(FetchContext)
 
@@ -19,7 +19,6 @@ export default function HomeLatest({limit, pageType, search, user}) {
   useEffect(() => {
     const CancelToken = axios.CancelToken
     const source = CancelToken.source()
-    console.log(authState.userInfo.id)
     mainAxios
       .post('/recent-card-sets', {
         data: {id: authState.userInfo.id},

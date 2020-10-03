@@ -13,13 +13,6 @@ export default function Login(props) {
   const [error, setError] = useState(false)
   let history = useHistory()
 
-  // React.useEffect(() => {
-  //   if (user) {
-  //     history.push('/')
-  //     // window.location.reload()
-  //   }
-  // }, [user, history])
-
   async function handleSubmit(event) {
     event.preventDefault()
     authAxios

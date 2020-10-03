@@ -1,11 +1,11 @@
 import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
 import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
-import {UserContext} from '../context/user-context'
+import {AuthContext} from '../context/AuthContext'
 import {format} from 'date-fns'
 
 export default function UserCardSetCard(props) {
-  let {user} = useContext(UserContext)
+  let {authState} = useContext(AuthContext)
   const {idx, cardSet, studied = false, searchCard = false} = props
 
   function renderStudiedCard() {
@@ -58,7 +58,7 @@ export default function UserCardSetCard(props) {
   }
 
   async function handleCreateUserCardSet() {
-    if (searchCard && user) {
+    if (searchCard && authState.userInfo) {
       let options = {
         card_set_id: cardSet.card_set_id,
         creator_id: cardSet.user_id,

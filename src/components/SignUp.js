@@ -1,21 +1,18 @@
-import React, { useContext, useState } from 'react'
+import React, {useContext, useState} from 'react'
 import TextBox from './TextBox'
-import { Redirect } from 'react-router-dom'
-import { BASE_URL } from '../fetchRequests/baseFetchOptions'
-import { FetchContext } from '../context/FetchContext'
-import { useHistory } from 'react-router-dom'
-import { AuthContext } from '../context/AuthContext'
+import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+import {FetchContext} from '../context/FetchContext'
+import {useHistory} from 'react-router-dom'
+import {AuthContext} from '../context/AuthContext'
 
 export default function SignUp(props) {
-  const { authAxios } = useContext(FetchContext)
-  const { setAuthState } = useContext(AuthContext)
-  const [email, setEmail] = useState({ name: '', value: '' })
-  const [password, setPassword] = useState({ name: '', value: '' })
-  const [firstName, setFirstName] = useState({ name: '', value: '' })
-  const [lastName, setLastName] = useState({ name: '', value: '' })
-  const [username, setUsername] = useState({ name: '', value: '' })
-  const [redirect, setRedirect] = useState(false)
-  const [, setError] = useState(null)
+  const {authAxios} = useContext(FetchContext)
+  const {setAuthState} = useContext(AuthContext)
+  const [email, setEmail] = useState({name: '', value: ''})
+  const [password, setPassword] = useState({name: '', value: ''})
+  const [firstName, setFirstName] = useState({name: '', value: ''})
+  const [lastName, setLastName] = useState({name: '', value: ''})
+  const [username, setUsername] = useState({name: '', value: ''})
   const history = useHistory()
 
   function handleSubmit(e) {
@@ -36,14 +33,13 @@ export default function SignUp(props) {
           email: email.value,
           password: password.value,
           username: username.value,
-        }
+        },
       })
-      .then((res) => {
+      .then(res => {
         setAuthState(res.data)
         console.log(res)
         history.push('/')
       })
-
 
     // return fetch(`${BASE_URL}/auth/register`, {
     //   method: 'POST',
@@ -71,8 +67,6 @@ export default function SignUp(props) {
     //   })
     //   .catch(err => { })
   }
-
-  if (redirect) return <Redirect to={`/login`} />
 
   return (
     <div

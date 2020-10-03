@@ -1,17 +1,15 @@
-import React, { useState, useContext } from 'react'
+import React, {useState, useContext} from 'react'
 import TextBox from '../components/TextBox'
-import { useHistory } from 'react-router-dom'
-import { UserContext } from '../context/user-context'
-import { BASE_URL } from '../fetchRequests/baseFetchOptions'
-import { FetchContext } from '../context/FetchContext'
-import { AuthContext } from '../context/AuthContext'
+import {useHistory} from 'react-router-dom'
+import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+import {FetchContext} from '../context/FetchContext'
+import {AuthContext} from '../context/AuthContext'
 
 export default function Login(props) {
-  const { setTrigger, setAuthLoading } = useContext(UserContext)
-  let { authAxios } = useContext(FetchContext)
-  let { setAuthState } = useContext(AuthContext)
-  const [email, setEmail] = useState({ name: '', value: '' })
-  const [password, setPassword] = useState({ name: '', value: '' })
+  let {authAxios} = useContext(FetchContext)
+  let {setAuthState} = useContext(AuthContext)
+  const [email, setEmail] = useState({name: '', value: ''})
+  const [password, setPassword] = useState({name: '', value: ''})
   const [error, setError] = useState(false)
   let history = useHistory()
 
@@ -25,37 +23,15 @@ export default function Login(props) {
   async function handleSubmit(event) {
     event.preventDefault()
     authAxios
-      .post("/login/", {
-        data: { email: email.value, password: password.value },
-        withCredentials: true
+      .post('/login/', {
+        data: {email: email.value, password: password.value},
+        withCredentials: true,
       })
       .then(res => {
         setAuthState(res.data)
         history.push(`/${res.data.userInfo.username}`)
       })
       .catch(console.log)
-  }
-
-  function handleLoginFetch(e) {
-    e.preventDefault()
-    return fetch(`${BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({ email: email.value, password: password.value }),
-    })
-      .then(r => r.json())
-      .then(r => {
-        if (r.user) {
-          setAuthLoading(true)
-          setTrigger(true)
-          history.push('/')
-        }
-      })
-      .catch(error => setError('Invalid username or password'))
   }
 
   const styleObj = {

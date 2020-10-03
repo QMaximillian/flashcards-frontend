@@ -1,17 +1,17 @@
 import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
+import {BrowserRouter as Router} from 'react-router-dom'
 import RouteDecider from './components/RouteDecider'
-import { AuthProvider } from './context/AuthContext.js'
-import { FetchProvider } from './context/FetchContext.js'
+import {AuthProvider} from './context/AuthContext.js'
+import {FetchProvider} from './context/FetchContext.js'
 
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <FetchProvider>
+      <FetchProvider>
+        <AuthProvider>
           <RouteDecider />
-        </FetchProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </FetchProvider>
     </Router>
   )
 }

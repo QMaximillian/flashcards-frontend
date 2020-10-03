@@ -1,22 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React, {useState, useEffect, useContext} from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 import HomeLatestCard from './HomeLatestCard'
-import { fetchGetRecentCardSets } from '../fetchRequests/cardSets'
 import UserCardSetCard from './UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
 import NoMatch from './NoMatch'
-import { addTimeIntervals } from '../lib/helpers'
-import { AuthContext } from '../context/AuthContext'
-import { FetchContext } from '../context/FetchContext'
+import {addTimeIntervals} from '../lib/helpers'
+import {AuthContext} from '../context/AuthContext'
+import {FetchContext} from '../context/FetchContext'
 
-export default function HomeLatest({ limit, pageType, search, user }) {
-  const { authState } = useContext(AuthContext)
-  const { mainAxios } = useContext(FetchContext)
+export default function HomeLatest({limit, pageType, search, user}) {
+  const {authState} = useContext(AuthContext)
+  const {mainAxios} = useContext(FetchContext)
 
   const [recentCardSets, setRecentCardSets] = useState([])
-  const [, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading] = useState(true)
 
   useEffect(() => {
     const CancelToken = axios.CancelToken
@@ -24,8 +22,8 @@ export default function HomeLatest({ limit, pageType, search, user }) {
     console.log(authState.userInfo.id)
     mainAxios
       .post('/recent-card-sets', {
-        data: { id: authState.userInfo.id },
-        cancelToken: source.token
+        data: {id: authState.userInfo.id},
+        cancelToken: source.token,
       })
       .then(res => {
         setRecentCardSets(res.data.recentCardSets)
@@ -37,20 +35,6 @@ export default function HomeLatest({ limit, pageType, search, user }) {
           console.log(thrown)
         }
       })
-
-
-    // fetchGetRecentCardSets(limit)
-    //   .then(r => {
-    // if (isSubscribed) {
-    //   setRecentCardSets(r)
-    //   setLoading(false)
-    // }
-    // })
-    // .catch(error => {
-    // return isSubscribed ? setError(error.message) : null
-    // })
-
-    // return () => (isSubscribed = false)
   }, [authState, mainAxios])
 
   function renderRecentCardSets() {
@@ -89,8 +73,8 @@ export default function HomeLatest({ limit, pageType, search, user }) {
               />
             </div>
           ) : (
-              renderRecentCardSets()
-            )}
+            renderRecentCardSets()
+          )}
         </div>
       </section>
     )
@@ -113,8 +97,8 @@ export default function HomeLatest({ limit, pageType, search, user }) {
         {!loading && filteredCardSets.length === 0 ? (
           <NoMatch />
         ) : (
-            addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
-          )}
+          addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
+        )}
       </section>
     )
   }

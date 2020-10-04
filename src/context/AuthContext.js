@@ -30,8 +30,7 @@ function AuthProvider({children}) {
   }
 
   async function logout() {
-    const res = await authAxios('/logout')
-    console.log('res: ', res)
+    await authAxios('/logout')
     localStorage.removeItem('userInfo')
     localStorage.removeItem('expiresAt')
     setAuthState({})

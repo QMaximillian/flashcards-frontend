@@ -23,6 +23,7 @@ export default function SignUp(props) {
   }
 
   function handleSignUpFetch(e) {
+    debugger
     e.preventDefault()
 
     authAxios
@@ -37,9 +38,8 @@ export default function SignUp(props) {
       })
       .then(res => {
         setAuthState(res.data)
-        console.log(res)
-        history.push('/')
       })
+      .then(() => history.push('/'))
 
     // return fetch(`${BASE_URL}/auth/register`, {
     //   method: 'POST',

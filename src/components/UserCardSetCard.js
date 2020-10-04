@@ -1,6 +1,5 @@
 import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
-import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
 import {format} from 'date-fns'
@@ -60,20 +59,22 @@ export default function UserCardSetCard(props) {
   }
 
   async function handleCreateUserCardSet() {
-    if (searchCard && authState.userInfo) {
-      let options = {
-        card_set_id: cardSet.card_set_id,
-        creator_id: cardSet.user_id,
-        last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
+    try {
+      if (searchCard && authState.userInfo) {
+        let options = {
+          card_set_id: cardSet.card_set_id,
+          creator_id: cardSet.user_id,
+          last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
+        }
+
+        function postUsersCardSet() {
+          return mainAxios.post('/users-card-set/new', options)
+        }
+
+        await postUsersCardSet()
       }
-
-      // await fetchPostUsersCardSet(options)
-
-      async function postUsersCardSet() {
-        return await mainAxios.post('/users-card-set/new', options)
-      }
-
-      postUsersCardSet()
+    } catch (error) {
+      console.log('error: ', error)
     }
   }
 

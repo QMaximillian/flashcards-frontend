@@ -1,17 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import TextBox from './TextBox'
-import {
-  fetchPostCardSet,
-  fetchPatchCardSetFlashcardCount,
-} from '../fetchRequests/cardSets'
-import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
-import {
-  fetchPostFlashCards,
-  fetchPatchEditFlashcard,
-} from '../fetchRequests/flashcards'
 import {useHistory} from 'react-router-dom'
+import {FetchContext} from '../context/FetchContext'
 
 export default function CreateCardSetForm(props) {
+  const {mainAxios} = useContext(FetchContext)
   const [initialState, setInitialState] = useState(
     Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
@@ -116,48 +109,83 @@ export default function CreateCardSetForm(props) {
 
     if (props.editMode) {
       // if no changes are made run this
-
-      const ids = initialState.map(state => state.id)
-      let newFlashcards = fields.filter(field => !ids.includes(field.id))
-
-      await fetchPostFlashCards({
-        fields: newFlashcards,
-        card_set_id: props.cardSetId,
-      })
-      // check if field has a flashcard id that matches an initialState id
-      // if it does not create a new flashcard and add this cardSet.id to this flashcard
-      // if it does not run current try logic
-
       try {
+        const ids = initialState.map(state => state.id)
+        let newFlashcards = fields.filter(field => !ids.includes(field.id))
+
+        function postFlashcards() {
+          mainAxios.post('/flashcards', {
+            fields: newFlashcards,
+            card_set_id: props.cardSetId,
+          })
+        }
+
+        function patchEditFlashcard(field) {
+          mainAxios.patch(`/flashcards/${field.id}`, {field})
+        }
+
+        await postFlashcards()
+
+        // TODO:
+
+        // check if field has a flashcard id that matches an initialState id
+        // if it does not create a new flashcard and add this cardSet.id to this flashcard
+        // if it does not run current try logic
+
         // if the ids match run this logic
-        initialState.forEach(async field => {
-          await fetchPatchEditFlashcard(field)
+        initialState.forEach(field => {
+          patchEditFlashcard(field)
         })
 
-        await fetchPatchCardSetFlashcardCount({
-          id: props.cardSetId,
-          flashcards_count: initialState.length,
-        })
+        function patchCardSetFlashcardCount() {
+          mainAxios.patch('/update-flashcard-count', {
+            id: props.cardSetId,
+            flashcards_count: initialState.length,
+          })
+        }
 
+        // FIX THIS -------------------------------------------------------
+
+        // Doesn't save when creating a new flashcard and saving
+        // Saves after you do that and then save again
+        await patchCardSetFlashcardCount()
         alert('Updated!')
-
         history.push(`/card-sets/${props.cardSetId}`)
-      } catch (e) {}
+      } catch (error) {
+        console.log('error: ', error)
+      }
     } else {
       try {
-        const cardSet = await fetchPostCardSet({
-          name: cardSetName.value,
-          flashcards_count: fields.length,
-          isPrivate: isPrivate,
-        })
+        function postCardSet() {
+          return mainAxios.post('/card-sets', {
+            name: cardSetName.value,
+            flashcards_count: fields.length,
+            isPrivate: isPrivate,
+          })
+        }
 
-        await fetchPostUsersCardSet({card_set_id: cardSet.id})
-        await fetchPostFlashCards({fields, card_set_id: cardSet.id})
+        function postUsersCardSet(cardSetId) {
+          return mainAxios.post('/users-card-set/new', {
+            card_set_id: cardSetId,
+          })
+        }
 
+        function postFlashcards(cardSetId) {
+          return mainAxios.post('/flashcards', {
+            fields,
+            card_set_id: cardSetId,
+          })
+        }
+
+        const res = await postCardSet()
+        const cardSetId = res.data.cardSetId
+        await postUsersCardSet(cardSetId)
+        await postFlashcards(cardSetId)
         alert('Saved!')
-
-        history.push(`/card-sets/${cardSet.id}`)
-      } catch (error) {}
+        history.push(`/card-sets/${cardSetId}`)
+      } catch (error) {
+        console.log('error: ', error)
+      }
     }
   }
 

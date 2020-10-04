@@ -13,19 +13,18 @@ export default function SignUp(props) {
   const [firstName, setFirstName] = useState({name: '', value: ''})
   const [lastName, setLastName] = useState({name: '', value: ''})
   const [username, setUsername] = useState({name: '', value: ''})
+
   const history = useHistory()
 
-  function handleSubmit(e) {
+  function handleSubmit(event) {
     if (!email || !password || !username || !firstName || !lastName) {
       return
     }
-    handleSignUpFetch(e)
+    handleSignUpFetch(event)
   }
 
-  function handleSignUpFetch(e) {
-    debugger
-    e.preventDefault()
-
+  function handleSignUpFetch(event) {
+    event.preventDefault()
     authAxios
       .post('/register', {
         data: {
@@ -38,34 +37,8 @@ export default function SignUp(props) {
       })
       .then(res => {
         setAuthState(res.data)
+        setTimeout(() => history.push('/'), 700)
       })
-      .then(() => history.push('/'))
-
-    // return fetch(`${BASE_URL}/auth/register`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Accept: 'application/json',
-    //   },
-
-    //   credentials: 'include',
-    //   body: JSON.stringify({
-    //     first_name: firstName.value,
-    //     last_name: lastName.value,
-    //     email: email.value,
-    //     password: password.value,
-    //     username: username.value,
-    //   }),
-    // })
-    //   .then(r => r.json())
-    //   .then(r => {
-    //     if (r.code) {
-    //       setError(`${r.code} - ${r.status}`)
-    //     } else {
-    //       setRedirect(true)
-    //     }
-    //   })
-    //   .catch(err => { })
   }
 
   return (

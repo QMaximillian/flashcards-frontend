@@ -1,13 +1,15 @@
-import React, {useState, useEffect} from 'react'
-import {fetchGetEditCardSets} from '../fetchRequests/cardSets'
+import React, {useState, useEffect, useContext} from 'react'
 import CreateCardSetForm from '../components/CreateCardSetForm'
+import {FetchContext} from '../context/FetchContext'
 
 export default function EditCardSet(props) {
   const [cardSet, setCardSet] = useState([])
-
+  const {mainAxios} = useContext(FetchContext)
   useEffect(() => {
-    fetchGetEditCardSets(props.match.params.id).then(r => setCardSet(r))
-  }, [props.match.params.id])
+    mainAxios
+      .get(`/card-sets/${props.match.params.id}`)
+      .then(res => setCardSet(res.data.cardSet))
+  }, [props.match.params.id, mainAxios])
 
   return (
     <CreateCardSetForm

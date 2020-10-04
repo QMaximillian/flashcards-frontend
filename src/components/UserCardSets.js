@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import NoItemsCard from './NoItemsCard'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
-import { addTimeIntervals } from '../lib/helpers'
-import { FetchContext } from '../context/FetchContext'
+import {addTimeIntervals} from '../lib/helpers'
+import {FetchContext} from '../context/FetchContext'
 import '../styles/index.css'
 
-export default function UserCardSets({ filter, search, username, isUser }) {
-  const { mainAxios } = useContext(FetchContext)
+export default function UserCardSets({filter, search, username, isUser}) {
+  const {mainAxios} = useContext(FetchContext)
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   const [
@@ -24,13 +24,16 @@ export default function UserCardSets({ filter, search, username, isUser }) {
   }, [editMode, initialCardState])
 
   useEffect(() => {
-    mainAxios.get(`/users-card-sets/${username}`)
+    mainAxios
+      .get(`/users-card-sets/${username}`)
       .then(res => {
         setLoading(false)
         setCardSets(res.data.userCardSets)
         setInitialCardState(res.data.userCardSets)
       })
-      .catch(error => { console.log(error) })
+      .catch(error => {
+        console.log(error)
+      })
   }, [username, mainAxios])
 
   function alphabeticalFilter(a, b) {
@@ -42,7 +45,6 @@ export default function UserCardSets({ filter, search, username, isUser }) {
     }
     return 0
   }
-
 
   function renderCardSets() {
     if (!loading && cardSets?.length === 0) {
@@ -72,22 +74,17 @@ export default function UserCardSets({ filter, search, username, isUser }) {
 
     switch (filter) {
       case 'Latest':
-        const filteredCardSets = cardSets
-          ?.filter(cardSet =>
+        const filteredCardSets =
+          cardSets?.filter(cardSet =>
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),
           ) || []
-        // console.log('fetchGetUserCardSetsIndex', filteredCardSets.map((x) => x.created_at))
         return !loading && filteredCardSets?.length === 0 ? (
           <div className="w-full justify-center flex">
             <NoMatch />
           </div>
         ) : (
-            addTimeIntervals(
-              filteredCardSets,
-              UserCardSetCard,
-              'created_at',
-            )
-          )
+          addTimeIntervals(filteredCardSets, UserCardSetCard, 'created_at')
+        )
 
       case 'Alphabetical':
         let alphabeticalSort = cardSets
@@ -100,7 +97,7 @@ export default function UserCardSets({ filter, search, username, isUser }) {
               <UserCardSetCard
                 key={idx}
                 cardSet={cardSet}
-              // handleChecked={handleChecked}
+                // handleChecked={handleChecked}
               />
             )
           })
@@ -110,8 +107,8 @@ export default function UserCardSets({ filter, search, username, isUser }) {
             <NoMatch />
           </div>
         ) : (
-            alphabeticalSort
-          )
+          alphabeticalSort
+        )
       default:
         return
     }

@@ -2,7 +2,6 @@ import React, {useEffect, useState, useContext} from 'react'
 
 import {useTransition, animated} from 'react-spring'
 import {Link} from 'react-router-dom'
-import {fetchGetCardSetShow} from '../fetchRequests/cardSets'
 import {
   fetchPostLastSeen,
   fetchPostLastStudied,
@@ -16,30 +15,34 @@ import {useParams} from 'react-router-dom'
 import {uuidCheck} from '../lib/helpers'
 import Card from '../components/Card'
 import {AuthContext} from '../context/AuthContext'
+import {FetchContext} from '../context/FetchContext'
 
 export default function ShowCardSet(props) {
+  const {isAuthenticated, authState} = useContext(AuthContext)
+  const {mainAxios} = useContext(FetchContext)
+
   const [isLoading, setIsLoading] = useState(true)
   const [cardSet, setCardSet] = useState({})
   const [flashcards, setFlashcards] = useState([])
   const [count, setCount] = useState(0)
   const [reverse, setReverse] = useState(false)
   const [error, setError] = useState(false)
-  const {isAuthenticated, authState} = useContext(AuthContext)
   const {id} = useParams()
   const uuid = React.useRef(uuidCheck.test(id))
 
   useEffect(() => {
     if (uuid.current) {
-      fetchGetCardSetShow(id)
-        .then(r => {
-          const {flashcards, ...rest} = r
+      mainAxios
+        .get(`/card-sets/${id}`)
+        .then(res => {
+          const {flashcards, ...rest} = res.data.cardSet
           setCardSet(rest)
           setFlashcards([...flashcards])
           setIsLoading(false)
         })
         .catch(err => setError(true))
     }
-  }, [id])
+  }, [id, mainAxios])
 
   useEffect(() => {
     if (!isLoading && count === flashcards.length) {
@@ -101,7 +104,7 @@ export default function ShowCardSet(props) {
     setCount(count - 1)
     if (!reverse) setReverse(true)
   }
-  console.log('authState:', authState)
+
   function renderEditOrCustomize() {
     if (!isAuthenticated()) {
       return null

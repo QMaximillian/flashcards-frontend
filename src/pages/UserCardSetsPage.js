@@ -31,24 +31,19 @@ export default function UserCardSetsPage(props) {
   const studiedMatch = useRouteMatch('/:user/studied')
   const {user: userParam} = useParams()
 
-  const isMounted = React.useRef(false)
   useEffect(() => {
-    if (isMounted.current) {
-      setLoading(true)
-      mainAxios
-        .get(`/user/${userParam}`)
-        .then(userParamProfile => {
-          if (userParamProfile.data.id === authState.userInfo.id) {
-            setIsUser(true)
-          }
-          setLoading(false)
-        })
-        .catch(error => {
-          setError(true)
-        })
-    } else {
-      isMounted.current = true
-    }
+    setLoading(true)
+    mainAxios
+      .get(`/user/${userParam}`)
+      .then(userParamProfile => {
+        if (userParamProfile.data.id === authState.userInfo.id) {
+          setIsUser(true)
+        }
+        setLoading(false)
+      })
+      .catch(error => {
+        setError(true)
+      })
   }, [userParam, authState, mainAxios])
 
   function renderSelect() {

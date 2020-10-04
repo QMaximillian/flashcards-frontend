@@ -2,10 +2,12 @@ import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
 import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
 import {AuthContext} from '../context/AuthContext'
+import {FetchContext} from '../context/FetchContext'
 import {format} from 'date-fns'
 
 export default function UserCardSetCard(props) {
   let {authState} = useContext(AuthContext)
+  let {mainAxios} = useContext(FetchContext)
   const {idx, cardSet, studied = false, searchCard = false} = props
 
   function renderStudiedCard() {
@@ -65,7 +67,13 @@ export default function UserCardSetCard(props) {
         last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
       }
 
-      await fetchPostUsersCardSet(options)
+      // await fetchPostUsersCardSet(options)
+
+      async function postUsersCardSet() {
+        return await mainAxios.post('/users-card-set/new', options)
+      }
+
+      postUsersCardSet()
     }
   }
 

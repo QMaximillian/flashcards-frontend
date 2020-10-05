@@ -1,7 +1,6 @@
 import React from 'react'
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import ShowCardSet from '../pages/ShowCardSet'
-import NoMatch from './NoMatch'
 import Login from './Login'
 import SignUp from './SignUp'
 import LoggedOutHome from '../pages/LoggedOutHome'
@@ -23,13 +22,7 @@ export default function LoggedOutRoutes() {
         )}
       />
       <Route path="/search/:search" component={CardSetSearchResults} />
-      <Route
-        component={() => (
-          <div className="justify-center items-center flex max-w-6xl w-full h-full">
-            <NoMatch />
-          </div>
-        )}
-      />
+      <Redirect to="/" />
     </Switch>
   )
 }

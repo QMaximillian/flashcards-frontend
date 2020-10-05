@@ -2,10 +2,6 @@ import React, {useEffect, useState, useContext} from 'react'
 
 import {useTransition, animated} from 'react-spring'
 import {Link} from 'react-router-dom'
-import {
-  fetchPostLastSeen,
-  fetchPostLastStudied,
-} from '../fetchRequests/usersCardSets'
 import FinalFlashCard from '../components/FinalFlashCard'
 import {format} from 'date-fns'
 import FlashcardsNavDrawer from '../components/FlashcardNavDrawer'
@@ -46,19 +42,19 @@ export default function ShowCardSet(props) {
 
   useEffect(() => {
     if (!isLoading && count === flashcards.length) {
-      fetchPostLastStudied({
+      mainAxios.post(`/users-card-set-last-studied`, {
         card_set_id: props.match.params.id,
         last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
       })
     }
-  }, [count, flashcards, isLoading, props.match.params.id])
+  }, [count, flashcards, isLoading, props.match.params.id, mainAxios])
 
   useEffect(() => {
-    fetchPostLastSeen({
+    mainAxios.post(`/users-card-set-last-seen`, {
       card_set_id: props.match.params.id,
       last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
     })
-  }, [props.match.params.id])
+  }, [props.match.params.id, mainAxios])
 
   const transitions = useTransition([count], item => item, {
     from: {

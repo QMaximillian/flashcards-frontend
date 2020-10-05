@@ -1,13 +1,14 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Link, useParams, useRouteMatch, Redirect} from 'react-router-dom'
-import {fetchUpdateUsername, fetchShowUser} from '../fetchRequests/user'
 import Modal from '../components/Modal'
 import TextBox from '../components/TextBox'
 import {AuthContext} from '../context/AuthContext'
 import {uuidCheck} from '../lib/helpers'
 import placeholderPhoto from '../photos/placeholder-photo.png'
+import {FetchContext} from '../context/FetchContext'
 
 export default function UserInfoCard(props) {
+  const {mainAxios} = useContext(FetchContext)
   const {profile, setProfile} = props
   const [modalOpen, setModalOpen] = useState(false)
   const [text, setText] = useState({name: '', value: '', isValid: true})
@@ -16,19 +17,21 @@ export default function UserInfoCard(props) {
   let {setAuthState} = useContext(AuthContext)
   const {user: userParam} = useParams()
 
+  console.log(props.isUser)
   // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
     let isSubscribed = true
-    fetchShowUser(userParam)
-      .then(r => {
+    mainAxios
+      .get(`/user/${userParam}`)
+      .then(res => {
         if (isSubscribed) {
-          setProfile(r)
+          setProfile(res.data.user)
         }
       })
-      .catch(error => {})
+      .catch(console.log)
 
     return () => (isSubscribed = false)
-  }, [userParam, setProfile])
+  }, [userParam, setProfile, mainAxios])
 
   const createdMatch = useRouteMatch('/:user')
   const recentMatch = useRouteMatch('/:user/recent')
@@ -137,7 +140,9 @@ export default function UserInfoCard(props) {
                 <button
                   onClick={e => {
                     e.preventDefault()
-                    fetchUpdateUsername({newUsername: text.value})
+                    mainAxios
+                      .patch('/update-username', {newUsername: text.value})
+                      // fetchUpdateUsername({newUsername: text.value})
                       .then(res => {
                         if (res.code) {
                           setModalError(res.code)
@@ -145,13 +150,16 @@ export default function UserInfoCard(props) {
                         }
 
                         setModalOpen(false)
-                        props.setProfile({...profile, username: res.username})
+                        props.setProfile({
+                          ...profile,
+                          username: res.data.username,
+                        })
                         setAuthState(prevAuthState => ({
                           ...prevAuthState,
-                          username: res.username,
+                          username: res.data.username,
                         }))
                       })
-                      .then(r => setRedirect(true))
+                      .then(() => setRedirect(true))
                   }}
                 >
                   Submit

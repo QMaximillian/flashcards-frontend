@@ -27,26 +27,41 @@ export default function ShowCardSet(props) {
   const uuid = React.useRef(uuidCheck.test(id))
 
   useEffect(() => {
+    let isMounted = true
     if (uuid.current) {
       mainAxios
         .get(`/card-sets/${id}`)
         .then(res => {
-          const {flashcards, ...rest} = res.data.cardSet
-          setCardSet(rest)
-          setFlashcards([...flashcards])
-          setIsLoading(false)
+          if (isMounted) {
+            const {flashcards, ...rest} = res.data.cardSet
+            setCardSet(rest)
+            setFlashcards([...flashcards])
+            setIsLoading(false)
+          }
         })
-        .catch(err => setError(true))
+        .catch(err => {
+          if (isMounted) {
+            setError(true)
+          }
+        })
     }
+
+    return () => (isMounted = false)
   }, [id, mainAxios])
 
   useEffect(() => {
-    if (!isLoading && count === flashcards.length && isAuthenticated()) {
-      mainAxios.post(`/users-card-set-last-studied`, {
-        card_set_id: props.match.params.id,
-        last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
-      })
+    let isMounted = true
+    console.log(props)
+    if (!isLoading && count === flashcards.length && props.isUser) {
+      if (isMounted) {
+        mainAxios.post(`/users-card-set-last-studied`, {
+          card_set_id: props.match.params.id,
+          last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
+        })
+      }
     }
+
+    return () => (isMounted = false)
   }, [
     count,
     flashcards,

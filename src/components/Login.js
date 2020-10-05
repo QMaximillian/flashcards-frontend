@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react'
 import TextBox from '../components/TextBox'
 import {useHistory} from 'react-router-dom'
-import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+
 import {FetchContext} from '../context/FetchContext'
 import {AuthContext} from '../context/AuthContext'
 
@@ -22,8 +22,8 @@ export default function Login(props) {
       })
       .then(res => {
         setAuthState(res.data)
-        history.push(`/${res.data.userInfo.username}`)
       })
+      .then(() => history.push(`/`))
       .catch(console.log)
   }
 
@@ -104,7 +104,7 @@ export default function Login(props) {
             className=" "
             type="button"
           > */}
-          <a
+          {/* <a
             style={{
               borderImage:
                 'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
@@ -113,7 +113,7 @@ export default function Login(props) {
             href={`${BASE_URL}/auth/google`}
           >
             Sign In With Google
-          </a>
+          </a> */}
           {/* </button> */}
         </div>
       </form>

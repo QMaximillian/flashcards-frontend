@@ -24,16 +24,23 @@ export default function UserCardSets({filter, search, username, isUser}) {
   }, [editMode, initialCardState])
 
   useEffect(() => {
+    let isMounted = true
     mainAxios
       .get(`/users-card-sets/${username}`)
       .then(res => {
-        setLoading(false)
-        setCardSets(res.data.userCardSets)
-        setInitialCardState(res.data.userCardSets)
+        if (isMounted) {
+          setLoading(false)
+          setCardSets(res.data.userCardSets)
+          setInitialCardState(res.data.userCardSets)
+        }
       })
       .catch(error => {
-        console.log(error)
+        if (isMounted) {
+          console.log(error)
+        }
       })
+
+    return () => (isMounted = false)
   }, [username, mainAxios])
 
   function alphabeticalFilter(a, b) {

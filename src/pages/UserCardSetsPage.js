@@ -32,20 +32,26 @@ export default function UserCardSetsPage(props) {
   const {user: userParam} = useParams()
 
   useEffect(() => {
+    let isMounted = true
     setIsLoading(true)
-    if (userParam === 'sign-up') return
     mainAxios
       .get(`/user/${userParam}`)
       .then(userParamProfile => {
-        if (userParamProfile.data.id === authState.userInfo.id) {
-          setIsUser(true)
+        if (isMounted) {
+          if (userParamProfile.data.user.id === authState.userInfo.id) {
+            setIsUser(true)
+          }
+          setProfile(userParamProfile.data.user)
+          setIsLoading(false)
         }
-        setProfile(userParamProfile.data.user)
       })
-      .then(() => setIsLoading(false))
       .catch(error => {
-        setError(true)
+        if (isMounted) {
+          setError(true)
+        }
       })
+
+    return () => (isMounted = false)
   }, [userParam, authState, mainAxios])
 
   function renderSelect() {

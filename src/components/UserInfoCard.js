@@ -17,8 +17,6 @@ export default function UserInfoCard(props) {
   let {setAuthState} = useContext(AuthContext)
   const {user: userParam} = useParams()
 
-  console.log(props.isUser)
-  // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
     let isSubscribed = true
     mainAxios

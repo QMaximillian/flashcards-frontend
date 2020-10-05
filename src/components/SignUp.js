@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react'
 import TextBox from './TextBox'
-import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+
 import {FetchContext} from '../context/FetchContext'
 import {useHistory} from 'react-router-dom'
 import {AuthContext} from '../context/AuthContext'
@@ -147,7 +147,7 @@ export default function SignUp(props) {
           >
             Sign Up
           </button>
-          <button
+          {/* <button
             style={{
               borderImage:
                 'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
@@ -156,7 +156,7 @@ export default function SignUp(props) {
             type="button"
           >
             <a href={`${BASE_URL}/auth/google`}>Sign Up With Google</a>
-          </button>
+          </button> */}
         </div>
       </form>
     </div>

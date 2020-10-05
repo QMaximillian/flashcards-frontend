@@ -16,30 +16,24 @@ export default function HomeLatest({pageType, search}) {
   const [recentCardSets, setRecentCardSets] = useState([])
   const [loading] = useState(true)
 
-  const isMounted = React.useRef(false)
-
   useEffect(() => {
-    if (isMounted.current) {
-      const CancelToken = axios.CancelToken
-      const source = CancelToken.source()
-      mainAxios
-        .post('/recent-card-sets', {
-          data: {id: authState?.userInfo?.id},
-          cancelToken: source.token,
-        })
-        .then(res => {
-          setRecentCardSets(res.data.recentCardSets)
-        })
-        .catch(thrown => {
-          if (axios.isCancel(thrown)) {
-            console.log('Request canceled', thrown.message)
-          } else {
-            console.log(thrown)
-          }
-        })
-    } else {
-      isMounted.current = true
-    }
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
+    mainAxios
+      .post('/recent-card-sets', {
+        data: {id: authState?.userInfo?.id},
+        cancelToken: source.token,
+      })
+      .then(res => {
+        setRecentCardSets(res.data.recentCardSets)
+      })
+      .catch(thrown => {
+        if (axios.isCancel(thrown)) {
+          console.log('Request canceled', thrown.message)
+        } else {
+          console.log(thrown)
+        }
+      })
   }, [authState, mainAxios])
 
   function renderRecentCardSets() {

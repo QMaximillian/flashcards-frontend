@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
 import {format} from 'date-fns'
+import {uuidCheck} from '../lib/helpers'
 
 export default function UserCardSetCard(props) {
   let {authState} = useContext(AuthContext)
@@ -60,7 +61,7 @@ export default function UserCardSetCard(props) {
 
   async function handleCreateUserCardSet() {
     try {
-      if (searchCard && authState.userInfo) {
+      if (searchCard && uuidCheck.test(authState.userInfo.id)) {
         let options = {
           card_set_id: cardSet.card_set_id,
           creator_id: cardSet.user_id,

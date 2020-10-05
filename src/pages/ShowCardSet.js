@@ -41,20 +41,29 @@ export default function ShowCardSet(props) {
   }, [id, mainAxios])
 
   useEffect(() => {
-    if (!isLoading && count === flashcards.length) {
+    if (!isLoading && count === flashcards.length && isAuthenticated()) {
       mainAxios.post(`/users-card-set-last-studied`, {
         card_set_id: props.match.params.id,
         last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
       })
     }
-  }, [count, flashcards, isLoading, props.match.params.id, mainAxios])
+  }, [
+    count,
+    flashcards,
+    isLoading,
+    props.match.params.id,
+    mainAxios,
+    isAuthenticated,
+  ])
 
   useEffect(() => {
-    mainAxios.post(`/users-card-set-last-seen`, {
-      card_set_id: props.match.params.id,
-      last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
-    })
-  }, [props.match.params.id, mainAxios])
+    if (isAuthenticated()) {
+      mainAxios.post(`/users-card-set-last-seen`, {
+        card_set_id: props.match.params.id,
+        last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
+      })
+    }
+  }, [props.match.params.id, mainAxios, isAuthenticated])
 
   const transitions = useTransition([count], item => item, {
     from: {

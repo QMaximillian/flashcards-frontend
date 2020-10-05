@@ -2,15 +2,6 @@
 
 import React, {useState, useEffect, useContext} from 'react'
 import TextBox from './TextBox'
-import {
-  fetchPostCardSet,
-  fetchPatchCardSetFlashcardCount,
-} from '../fetchRequests/cardSets'
-import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
-import {
-  fetchPostFlashCards,
-  fetchPatchEditFlashcard,
-} from '../fetchRequests/flashcards'
 import {useHistory} from 'react-router-dom'
 import {AuthContext} from '../context/AuthContext'
 

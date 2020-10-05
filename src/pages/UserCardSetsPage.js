@@ -21,7 +21,7 @@ export default function UserCardSetsPage(props) {
 
   const [filter, setFilter] = useState('Latest')
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const [profile, setProfile] = useState({})
   const [error, setError] = useState(false)
   const [isUser, setIsUser] = useState(false)
@@ -32,15 +32,17 @@ export default function UserCardSetsPage(props) {
   const {user: userParam} = useParams()
 
   useEffect(() => {
-    setLoading(true)
+    setIsLoading(true)
+    if (userParam === 'sign-up') return
     mainAxios
       .get(`/user/${userParam}`)
       .then(userParamProfile => {
         if (userParamProfile.data.id === authState.userInfo.id) {
           setIsUser(true)
         }
-        setLoading(false)
+        setProfile(userParamProfile.data.user)
       })
+      .then(() => setIsLoading(false))
       .catch(error => {
         setError(true)
       })
@@ -101,6 +103,7 @@ export default function UserCardSetsPage(props) {
       </div>
     )
   }
+
   if (!isUser && recentMatch) {
     return <Redirect to={`/${userParam}`} />
   }
@@ -110,7 +113,7 @@ export default function UserCardSetsPage(props) {
       className="col-start-4 col-end-13 row-start-1 row-end-13 bg-gray-200 overflow-y-auto"
       style={{height: '92vh'}}
     >
-      {!loading && (
+      {!isLoading && (
         <>
           <Route
             path={`/:user`}
@@ -151,7 +154,7 @@ export default function UserCardSetsPage(props) {
                       render={() => (
                         <StudiedCardSetsContainer
                           isUser={isUser}
-                          username={profile.username}
+                          username={profile?.username}
                         />
                       )}
                     />
@@ -162,7 +165,7 @@ export default function UserCardSetsPage(props) {
                           isUser={isUser}
                           search={search}
                           filter={filter}
-                          username={profile.username}
+                          username={profile?.username}
                         />
                       )}
                     />
@@ -180,7 +183,7 @@ export default function UserCardSetsPage(props) {
                       render={() => {
                         return (
                           <UserCardSets
-                            id={profile.id}
+                            id={profile?.id}
                             search={search}
                             filter={filter}
                             username={userParam}

@@ -53,7 +53,7 @@ export default function Login(props) {
               }
               placeholder={'Email'}
               name="email"
-              value={email.value}
+              value={email.value.toLowerCase()}
               onChange={e => {
                 if (error) setError(false)
                 setEmail(e)

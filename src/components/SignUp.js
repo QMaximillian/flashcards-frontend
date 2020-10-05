@@ -114,7 +114,7 @@ export default function SignUp(props) {
             }
             placeholder={'Email'}
             name="email"
-            value={email.value}
+            value={email.value.toLowerCase()}
             onChange={setEmail}
             type="email"
             required

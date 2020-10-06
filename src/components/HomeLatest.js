@@ -37,6 +37,21 @@ export default function HomeLatest({pageType, search}) {
   }, [authState, mainAxios])
 
   function renderRecentCardSets() {
+    if (recentCardSets.length === 0) {
+      return (
+        <div className="h-64 w-full">
+          <NoItemsCard
+            title={'No recent card sets'}
+            subtitle={
+              <Link to="card-sets/new">
+                Click <strong className="hover:text-teal-800">here</strong> to
+                create one!
+              </Link>
+            }
+          />
+        </div>
+      )
+    }
     return recentCardSets.map(cardSet => {
       return (
         <Link

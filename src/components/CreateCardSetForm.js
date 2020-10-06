@@ -160,7 +160,7 @@ export default function CreateCardSetForm(props) {
           return mainAxios.post('/card-sets', {
             name: cardSetName.value,
             flashcards_count: fields.length,
-            isPrivate: isPrivate,
+            isPrivate,
           })
         }
 

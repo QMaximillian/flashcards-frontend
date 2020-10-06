@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {useHistory} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
 export default function HomeLatestCard(props) {
-  const {name, flashcards_count, owner, username} = props.cardSet
-  const history = useHistory()
+  const {name, flashcards_count, owner} = props.cardSet
 
   return (
     <article className="h-full w-full border border-gray-500 shadow-lg rounded">
@@ -23,11 +22,15 @@ export default function HomeLatestCard(props) {
             {flashcards_count} terms
           </p>
 
-          <div
-            onClick={() => history.push(`/${username}`)}
-            className="hover:text-teal-500 truncate sm:break-words"
-          >
-            <p>{owner}</p>
+          <div>
+            <p>
+              Created by:{' '}
+              <NavLink to={`/${owner}`}>
+                <span className="hover:text-teal-500 truncate sm:break-words">
+                  {owner}
+                </span>
+              </NavLink>
+            </p>
           </div>
         </div>
       </div>

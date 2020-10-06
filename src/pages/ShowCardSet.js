@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect, useState, useContext, useCallback} from 'react'
 
 import {useTransition, animated} from 'react-spring'
 import {Link} from 'react-router-dom'
@@ -26,6 +26,14 @@ export default function ShowCardSet(props) {
   const {id} = useParams()
   const uuid = React.useRef(uuidCheck.test(id))
 
+  const isAuthenticatedAndUser = useCallback(
+    () =>
+      isAuthenticated() &&
+      authState.userInfo.username === cardSet.creator_username &&
+      authState.userInfo.id === cardSet.creator_id,
+    [authState.userInfo, cardSet, isAuthenticated],
+  )
+
   useEffect(() => {
     let isMounted = true
     if (uuid.current) {
@@ -51,13 +59,19 @@ export default function ShowCardSet(props) {
 
   useEffect(() => {
     let isMounted = true
-    console.log(props)
-    if (!isLoading && count === flashcards.length && props.isUser) {
-      if (isMounted) {
-        mainAxios.post(`/users-card-set-last-studied`, {
-          card_set_id: props.match.params.id,
-          last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
-        })
+
+    if (isAuthenticatedAndUser()) {
+      if (
+        !isLoading &&
+        count === flashcards.length
+        /* Add isUser call here to make sure this only post if it's the users card-set */
+      ) {
+        if (isMounted) {
+          mainAxios.post(`/users-card-set-last-studied`, {
+            card_set_id: props.match.params.id,
+            last_studied_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
+          })
+        }
       }
     }
 
@@ -68,17 +82,20 @@ export default function ShowCardSet(props) {
     isLoading,
     props.match.params.id,
     mainAxios,
-    isAuthenticated,
+    isAuthenticatedAndUser,
   ])
 
   useEffect(() => {
-    if (isAuthenticated()) {
+    if (
+      isAuthenticatedAndUser()
+      /* Add isUser call here to make sure this only post if it's the users card-set */
+    ) {
       mainAxios.post(`/users-card-set-last-seen`, {
         card_set_id: props.match.params.id,
         last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
       })
     }
-  }, [props.match.params.id, mainAxios, isAuthenticated])
+  }, [props.match.params.id, mainAxios, isAuthenticatedAndUser])
 
   const transitions = useTransition([count], item => item, {
     from: {
@@ -253,13 +270,17 @@ export default function ShowCardSet(props) {
       <div className="mx-4 mt-4">
         <TermsInSet flashcards={flashcards} />
       </div>
-      <div className="mb-4 flex justify-center">
-        <div className="h-16 rounded bg-teal-500 w-64 flex items-center justify-center">
-          <Link to={`/card-sets/${props.match.params.id}/edit`}>
-            <div className="text-white tracking-wide">Add or Remove Items</div>
-          </Link>
+      {isAuthenticatedAndUser() && (
+        <div className="mb-4 flex justify-center">
+          <div className="h-16 rounded bg-teal-500 w-64 flex items-center justify-center">
+            <Link to={`/card-sets/${props.match.params.id}/edit`}>
+              <div className="text-white tracking-wide">
+                Add or Remove Items
+              </div>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

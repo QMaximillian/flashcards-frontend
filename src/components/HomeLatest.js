@@ -4,7 +4,6 @@ import axios from 'axios'
 import HomeLatestCard from './HomeLatestCard'
 import UserCardSetCard from './UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
-import NoMatch from './NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
@@ -14,7 +13,7 @@ export default function HomeLatest({pageType, search}) {
   const {mainAxios} = useContext(FetchContext)
 
   const [recentCardSets, setRecentCardSets] = useState([])
-  const [loading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const CancelToken = axios.CancelToken
@@ -34,6 +33,8 @@ export default function HomeLatest({pageType, search}) {
           console.log(thrown)
         }
       })
+
+    setIsLoading(false)
   }, [authState, mainAxios])
 
   function renderRecentCardSets() {
@@ -52,6 +53,7 @@ export default function HomeLatest({pageType, search}) {
         </div>
       )
     }
+
     return recentCardSets.map(cardSet => {
       return (
         <Link
@@ -65,6 +67,7 @@ export default function HomeLatest({pageType, search}) {
     })
   }
 
+  if (isLoading) return <div>Loading...</div>
   if (pageType === 'HOME' || !pageType) {
     return (
       <section>
@@ -79,7 +82,7 @@ export default function HomeLatest({pageType, search}) {
         </div>
 
         <div className="flex flex-wrap">
-          {!loading && recentCardSets.length === 0 ? (
+          {recentCardSets.length === 0 ? (
             <div className="h-64 w-full px-4">
               <NoItemsCard
                 subtitle={'Use the search bar to check some out'}
@@ -93,12 +96,12 @@ export default function HomeLatest({pageType, search}) {
       </section>
     )
   } else if (pageType === 'RECENT') {
-    if (!loading && recentCardSets.length === 0) {
+    if (recentCardSets.length === 0) {
       return (
         <div className="h-64 w-full px-4">
           <NoItemsCard
-            subtitle={'Use the search bar to check some out'}
             title={'No recently looked at sets!'}
+            subtitle={'Use the search bar to check some out'}
           />
         </div>
       )
@@ -108,8 +111,11 @@ export default function HomeLatest({pageType, search}) {
     )
     return (
       <section className="w-full justify-center flex flex-col">
-        {!loading && filteredCardSets.length === 0 ? (
-          <NoMatch />
+        {filteredCardSets.length === 0 ? (
+          <NoItemsCard
+            title={'No recently looked at sets!'}
+            subtitle={'Use the search bar to check some out'}
+          />
         ) : (
           addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
         )}

@@ -95,24 +95,7 @@ export default function UserCardSetCard(props) {
 
                `}
         >
-          <div
-            //  onClick={() => handleChecked(cardSet)}
-            className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2"
-          >
-            {/* <input
-                            onChange={() => handleChecked(cardSet)}
-                            className="ml-4 self-center"
-                            type="checkbox"
-                            checked={cardSet.checked}
-                          /> */}
-            {/* {editMode ? (
-                              <div
-                                className="h-full w-full text-2xl ml-24"
-                                key={idx}
-                              >
-                                <div>{cardSet.name}</div>
-                              </div>
-                            ) : ( */}
+          <div className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2">
             <div
               className={`py-2 h-20 pl-5 flex w-full justify-start ${
                 searchCard ? 'border-b-0 border-2 border-gray-200' : ''
@@ -141,16 +124,6 @@ export default function UserCardSetCard(props) {
           </div>
         </div>
       </div>
-      {/* {editMode && (
-                        <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
-                          <i
-                            data-id={cardSet.id}
-                            onClick={handleDelete}
-                            className="fas fa-times hover:border-black opacity-50 hover:opacity-100"
-                            style={{ WebkitTextStroke: "2px grey" }}
-                          ></i>
-                        </div>
-                      )} */}
     </div>
   )
 }

@@ -133,9 +133,6 @@ export default function UserCardSetsPage(props) {
           />
           <>
             <div className="h-full w-full min-h-0">
-              {/* <div onClick={() => setEditMode(!editMode)}>
-             EDIT MODE: {editMode ? "On" : "Off"}
-           </div> */}
               <div className="flex w-full justify-between p-4">
                 <div className="w-full flex text-sm justify-start ml-2">
                   {renderSelect()}

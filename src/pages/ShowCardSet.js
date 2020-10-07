@@ -61,11 +61,7 @@ export default function ShowCardSet(props) {
     let isMounted = true
 
     if (isAuthenticatedAndUser()) {
-      if (
-        !isLoading &&
-        count === flashcards.length
-        /* Add isUser call here to make sure this only post if it's the users card-set */
-      ) {
+      if (!isLoading && count === flashcards.length) {
         if (isMounted) {
           mainAxios.post(`/users-card-set-last-studied`, {
             card_set_id: props.match.params.id,
@@ -86,10 +82,7 @@ export default function ShowCardSet(props) {
   ])
 
   useEffect(() => {
-    if (
-      isAuthenticatedAndUser()
-      /* Add isUser call here to make sure this only post if it's the users card-set */
-    ) {
+    if (isAuthenticatedAndUser()) {
       mainAxios.post(`/users-card-set-last-seen`, {
         card_set_id: props.match.params.id,
         last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
@@ -244,10 +237,6 @@ export default function ShowCardSet(props) {
           </div>
         </div>
       </div>
-      {/* <div className="pl-2 text-sm opacity-25">STUDY</div> */}
-      {/* <div className="flex flex-col sm:flex-row lg:hidden">
-            <FlashcardsNavDrawer />
-          </div> */}
       <hr className="mx-4" />
       <div className="sm:flex px-4">
         <div className="w-1/3 py-6 flex">

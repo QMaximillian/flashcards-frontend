@@ -209,13 +209,6 @@ export default function CardSetForm(props) {
             >
               ERASE ALL ENTRIES
             </div>
-            {/* <div
-              onClick={handleSave}
-              className="p-2 ml-2 bg-teal-500 text-white h-18  text-2xl self-center"
-            >
-              CREATE SET
-            </div> */}
-
             {props.editMode ? (
               <div
                 className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"

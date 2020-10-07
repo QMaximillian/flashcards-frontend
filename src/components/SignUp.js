@@ -147,16 +147,6 @@ export default function SignUp(props) {
           >
             Sign Up
           </button>
-          {/* <button
-            style={{
-              borderImage:
-                'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
-            }}
-            className="w-full font-bold py-2 px-2 rounded "
-            type="button"
-          >
-            <a href={`${BASE_URL}/auth/google`}>Sign Up With Google</a>
-          </button> */}
         </div>
       </form>
     </div>

@@ -83,10 +83,6 @@ export default function Login(props) {
             }}
             type={'password'}
           />
-          {/*
-                Error checking if nothing is entered
-                <p className="mt-2 text-red-500 text-xs italic">Please choose a password.</p>
-              */}
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
@@ -96,25 +92,6 @@ export default function Login(props) {
           >
             Sign In
           </button>
-          {/* <button
-            style={{
-              borderImage:
-                'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
-            }}
-            className=" "
-            type="button"
-          > */}
-          {/* <a
-            style={{
-              borderImage:
-                'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
-            }}
-            className="text-center w-full font-bold rounded h-full w-full py-2 px-2"
-            href={`${BASE_URL}/auth/google`}
-          >
-            Sign In With Google
-          </a> */}
-          {/* </button> */}
         </div>
       </form>
     </div>

@@ -20,7 +20,10 @@ export default function HomeLatest({pageType, search}) {
     const source = CancelToken.source()
     mainAxios
       .post('/recent-card-sets', {
-        data: {id: authState?.userInfo?.id},
+        data: {
+          id: authState?.userInfo?.id,
+          limit: pageType === 'RECENT' ? 10 : 6,
+        },
         cancelToken: source.token,
       })
       .then(res => {
@@ -35,7 +38,7 @@ export default function HomeLatest({pageType, search}) {
       })
 
     setIsLoading(false)
-  }, [authState, mainAxios])
+  }, [authState, mainAxios, pageType])
 
   function renderRecentCardSets() {
     if (recentCardSets.length === 0) {

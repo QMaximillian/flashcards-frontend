@@ -13,7 +13,6 @@ export default function RouteDecider() {
       </div>
       <div className="col-start-1 col-end-13 row-start-2 row-end-13">
         {isAuthenticated() ? <LoggedInRoutes /> : <LoggedOutRoutes />}
-        {console.log('isAuthenticated: ', isAuthenticated())}
       </div>
     </div>
   )

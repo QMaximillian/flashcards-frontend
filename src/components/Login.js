@@ -15,11 +15,12 @@ export default function Login(props) {
 
   async function handleSubmit(event) {
     event.preventDefault()
-    authAxios
-      .post('/login/', {
-        data: {email: email.value, password: password.value},
-        withCredentials: true,
-      })
+    authAxios({
+      url: '/login',
+      method: 'POST',
+      data: {email: email.value, password: password.value},
+      withCredentials: true,
+    })
       .then(res => {
         setAuthState(res.data)
       })

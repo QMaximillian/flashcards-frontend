@@ -25,20 +25,20 @@ export default function SignUp(props) {
 
   function handleSignUpFetch(event) {
     event.preventDefault()
-    authAxios
-      .post('/register', {
-        data: {
-          first_name: firstName.value,
-          last_name: lastName.value,
-          email: email.value,
-          password: password.value,
-          username: username.value,
-        },
-      })
-      .then(res => {
-        setAuthState(res.data)
-        setTimeout(() => history.push('/'), 700)
-      })
+    authAxios({
+      url: '/register',
+      method: 'POST',
+      data: {
+        first_name: firstName.value,
+        last_name: lastName.value,
+        email: email.value,
+        password: password.value,
+        username: username.value,
+      },
+    }).then(res => {
+      setAuthState(res.data)
+      setTimeout(() => history.push('/'), 700)
+    })
   }
 
   return (

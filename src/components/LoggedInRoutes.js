@@ -16,7 +16,7 @@ export default function LoggedInRoutes() {
 
       <Switch>
         <Redirect to="/" from="/sign-up" />
-        <Route exact path="/card-sets/" component={UserCardSetsPage} />
+        {/* <Route exact path="/card-sets/" component={UserCardSetsPage} />
         <Route path="/search/:search" component={CardSetSearchResults} />
         <Route path="/search/" component={CardSetSearchResults} />
         <Route exact path="/card-sets/new" component={CreateCardSetForm} />
@@ -31,7 +31,7 @@ export default function LoggedInRoutes() {
         />
 
         <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
-        <Route path="/:user/" component={UserCardSetsPage} />
+        <Route path="/:user/" component={UserCardSetsPage} /> */}
         <Route exact path="/" component={LoggedInHome} />
         <Route
           component={() => (

@@ -18,14 +18,15 @@ export default function HomeLatest({pageType, search}) {
   useEffect(() => {
     const CancelToken = axios.CancelToken
     const source = CancelToken.source()
-    mainAxios
-      .post('/recent-card-sets', {
-        data: {
-          id: authState?.userInfo?.id,
-          limit: pageType === 'RECENT' ? 10 : 6,
-        },
-        cancelToken: source.token,
-      })
+    mainAxios({
+      url: '/recent-card-sets',
+      method: 'POST',
+      data: {
+        id: authState?.userInfo?.id,
+        limit: pageType === 'RECENT' ? 10 : 6,
+      },
+      cancelToken: source.token,
+    })
       .then(res => {
         setRecentCardSets(res.data.recentCardSets)
       })

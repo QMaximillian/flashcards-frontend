@@ -19,16 +19,16 @@ const FetchContext = createContext()
 const {Provider} = FetchContext
 
 function FetchProvider({children}) {
+  axios.defaults.withCredentials = true
+
   const authAxios = axios.create({
     baseURL: environmentApiUrlAuth[process.env.NODE_ENV],
     headers: BASE_HEADERS,
-    withCredentials: true,
   })
 
   const mainAxios = axios.create({
     baseURL: environmentApiUrlMain[process.env.NODE_ENV],
     headers: BASE_HEADERS,
-    withCredentials: true,
   })
 
   return (

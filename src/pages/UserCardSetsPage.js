@@ -38,7 +38,6 @@ export default function UserCardSetsPage(props) {
       .get(`/user/${userParam}`)
       .then(userParamProfile => {
         if (isMounted) {
-          console.log(userParamProfile.data)
           if (userParamProfile.data.user.id === authState.userInfo.id) {
             setIsUser(true)
           }

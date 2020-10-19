@@ -29,8 +29,7 @@
     "prettier": "prettier --ignore-path .gitignore \"**/*.+(js|json|jsx)\"",
     "format": "npm run prettier -- --write ",
     "validate": "npm run check-format && npm run lint",
-    "check-format": "npm run prettier -- --list-different",
-    "express:start": "node server.js"
+    "check-format": "npm run prettier -- --list-different"
   },
   "eslintConfig": {
     "extends": "react-app"

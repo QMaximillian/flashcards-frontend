@@ -6,13 +6,13 @@ const BASE_HEADERS = {
   Accept: 'application/json',
 }
 const environmentApiUrlAuth = {
-  development: `${process.env.REACT_APP_DEVELOPMENT_API_URL}/auth`,
-  production: `${process.env.REACT_APP_PRODUCTION_API_URL}/auth`,
+  development: `/api/auth`,
+  production: `/api/auth`,
 }
 
 const environmentApiUrlMain = {
-  development: process.env.REACT_APP_DEVELOPMENT_API_URL,
-  production: process.env.REACT_APP_PRODUCTION_API_URL,
+  development: `/api`,
+  production: `/api`,
 }
 
 const FetchContext = createContext()

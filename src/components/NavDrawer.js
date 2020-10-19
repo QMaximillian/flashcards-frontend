@@ -1,7 +1,7 @@
 import React from 'react' // useEffect
 import {Route, Switch} from 'react-router-dom'
 
-import MainNavDrawer from '../components/MainNavDrawer'
+import MainNavDrawer from './MainNavDrawer'
 
 export default function NavDrawer(props) {
   return (

@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react'
-import TextBox from '../components/TextBox'
+import TextBox from './TextBox'
 import {useHistory} from 'react-router-dom'
 
 import {FetchContext} from '../context/FetchContext'
@@ -25,7 +25,9 @@ export default function Login(props) {
         setAuthState(res.data)
       })
       .then(() => history.push(`/`))
-      .catch(console.log)
+      .catch((error) => {
+        console.log('here')
+        console.log(error)})
   }
 
   const styleObj = {

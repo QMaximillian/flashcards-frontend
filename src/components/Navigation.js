@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import TextBox from '../components/TextBox'
+import TextBox from './TextBox'
 import useClickOutside from '../lib/hooks/useClickOutside'
 import {AuthContext} from '../context/AuthContext'
 import '../styles/index.css'

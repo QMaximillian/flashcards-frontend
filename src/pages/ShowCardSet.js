@@ -41,6 +41,7 @@ export default function ShowCardSet(props) {
         .get(`/card-sets/${id}`)
         .then(res => {
           if (isMounted) {
+            console.log('res:', res)
             const {flashcards, ...rest} = res.data.cardSet
             setCardSet(rest)
             setFlashcards([...flashcards])

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import TextBox from './TextBox'
-import {useHistory} from 'react-router-dom'
+import {useHistory, useLocation} from 'react-router-dom'
 import {FetchContext} from '../context/FetchContext'
 
 export default function CreateCardSetForm(props) {
@@ -18,22 +18,22 @@ export default function CreateCardSetForm(props) {
 
   const [isPrivate, setPrivacy] = useState(true)
   let history = useHistory()
+  let location = useLocation()
 
   useEffect(() => {
     if (
-      props.location &&
-      props.location.state &&
-      props.location.state.fromCustomize !== undefined
-    ) {
-      const {flashcardFields, cardSetName} = props.location.state
+      location?.state?.fromCustomize !== undefined
+      ) {
+        console.log('fired')
+      const {flashcardFields, prevCardSetName} = location.state
       setFields(flashcardFields)
       setCardSetName({
         name: 'card-set-name',
-        value: cardSetName,
+        value: prevCardSetName,
         isValid: true,
       })
     }
-  }, [props.location])
+  }, [location])
 
   useEffect(() => {
     if (props.editMode && props.cardSet) {

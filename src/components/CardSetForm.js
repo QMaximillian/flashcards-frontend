@@ -21,12 +21,13 @@ export default function CardSetForm(props) {
   const [isPrivate, setPrivacy] = useState(true)
   let history = useHistory()
 
+  
   useEffect(() => {
     if (
       props.location &&
       props.location.state &&
       props.location.state.fromCustomize !== undefined
-    ) {
+      ) {
       const {flashcardFields, cardSetName} = props.location.state
       setFields(flashcardFields)
       setCardSetName({
@@ -35,7 +36,7 @@ export default function CardSetForm(props) {
         isValid: true,
       })
     }
-  }, [props.location])
+  }, [props.location.state.fromCustomize, props.location.state.cardSetName, props.location.state.flashcardFields])
 
   useEffect(() => {
     if (props.editMode && props.cardSet) {

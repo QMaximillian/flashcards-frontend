@@ -157,7 +157,7 @@ export default function ShowCardSet(props) {
             pathname: '/card-sets/new',
             state: {
               fromCustomize: true,
-              cardSetName: cardSet.name,
+              prevCardSetName: cardSet.name,
               flashcardFields: flashcards.slice(),
             },
           }}

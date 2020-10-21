@@ -1,16 +1,34 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {animated, useSpring} from 'react-spring'
 
 export default function Card(props) {
-  const [flipped, set] = useState(false)
+  const [flipped, setFlipped] = useState(false)
   const {transform, opacity} = useSpring({
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
     config: {mass: 5, tension: 500, friction: 80},
   })
 
+  const handleCardFlip = useCallback((event) => {
+    switch(event.keyCode){
+      case 70:
+        setFlipped(state => !state)
+        return
+      default:
+        break;
+    }
+  }, [])
+  
+  useEffect(() => {
+    document.addEventListener('keydown', handleCardFlip)
+
+    return () => document.removeEventListener('keydown', handleCardFlip)
+  }, [handleCardFlip])
+
+  
+
   return (
-    <div className="h-64 w-3/4" onClick={() => set(state => !state)}>
+    <div className="h-64 w-3/4" onClick={() => setFlipped(state => !state)}>
       <animated.div
         className={`p-4 bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
         style={{

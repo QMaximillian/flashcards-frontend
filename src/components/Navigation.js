@@ -1,11 +1,36 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
+import React, {useState, useEffect, useRef, useContext, useCallback} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import TextBox from './TextBox'
 import useClickOutside from '../lib/hooks/useClickOutside'
 import {AuthContext} from '../context/AuthContext'
 import '../styles/index.css'
 
-export default function Navigation(props) {
+function NavigationLogo(){
+    return (
+      <Link to="/">
+        <div className="text-white text-4xl">Flashcards</div>
+      </Link>
+    )
+}
+
+const NavigationDropdown = React.forwardRef(({ onClick }, ref) => {
+  return (
+    <div
+      ref={ref}
+      className="flex flex-col justify-end ml-4 py-2 w-48 absolute h-18 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md"
+    >
+      <div className="pl-4 ">
+        <div
+          onClick={onClick}
+        >
+          Log Out
+        </div>
+      </div>
+    </div>
+  )
+})
+
+function Navigation(props) {
   let {isAuthenticated, authState, logout} = useContext(AuthContext)
   const navRef = useRef(null)
   const wrapperRef = useRef(null)
@@ -13,12 +38,20 @@ export default function Navigation(props) {
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
   const [expandSearchBar, setExpandSearchBar] = useState(false)
   const [dropdownToggle, setDropdownToggle] = useState(false)
-  const [focused, setFocused] = useState(false)
   const [redirect, setRedirect] = useState(false)
+
   useClickOutside(wrapperRef, function() {
     if (!dropdownToggle) return
     setDropdownToggle(false)
   })
+
+  const enterOnKeyPress = useCallback((event) => {
+      if (event.keyCode === 13) {
+        setRedirect(true)
+      } else {
+        setRedirect(false)
+      }
+    }, [])
 
   useEffect(() => {
     document.addEventListener('keydown', enterOnKeyPress)
@@ -26,15 +59,8 @@ export default function Navigation(props) {
     return function() {
       document.removeEventListener('keydown', enterOnKeyPress)
     }
-  })
+  }, [enterOnKeyPress])
 
-  function enterOnKeyPress(event) {
-    if (focused && event.keyCode === 13) {
-      setRedirect(true)
-    } else {
-      setRedirect(false)
-    }
-  }
 
   function renderSearch() {
     if (expandSearchBar) {
@@ -48,12 +74,10 @@ export default function Navigation(props) {
               type="text"
               name="search-box-nav"
               value={search.value}
-              onFocus={() => setFocused(true)}
               onChange={setSearch}
               onBlur={() => {
                 setExpandSearchBar(false)
-                setFocused(false)
-                setSearch({name: '', value: '', isValid: true})
+                // setSearch({name: '', value: '', isValid: true})
                 setRedirect(false)
               }}
               ref={navRef}
@@ -103,29 +127,6 @@ export default function Navigation(props) {
     }, 10)
   }
 
-  function renderDropdown() {
-    if (dropdownToggle) {
-      return (
-        <div
-          ref={wrapperRef}
-          className="flex flex-col justify-end ml-4 py-2 w-48 absolute h-18 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md"
-        >
-          <div className="pl-4 ">
-            <div
-              onClick={() => {
-                setDropdownToggle(false)
-                logout()
-              }}
-            >
-              Log Out
-            </div>
-          </div>
-        </div>
-      )
-    }
-    return
-  }
-
   function renderUserOrOptions() {
     if (isAuthenticated()) {
       return (
@@ -162,13 +163,6 @@ export default function Navigation(props) {
     }
   }
 
-  function renderLogo() {
-    return (
-      <Link to="/">
-        <div className="text-white text-4xl">Flashcards</div>
-      </Link>
-    )
-  }
 
   return (
     <div className="h-full flex justify-between bg-teal-500 shadow items-center">
@@ -177,7 +171,7 @@ export default function Navigation(props) {
           expandSearchBar ? 'w-full' : 'w-3/4'
         }`}
       >
-        <div>{renderLogo()}</div>
+        <NavigationLogo />
         <div className="ml-20 flex text-white items-center h-full w-full">
           {renderSearch()}
         </div>
@@ -189,9 +183,14 @@ export default function Navigation(props) {
           }`}
         >
           {renderUserOrOptions()}
-          {renderDropdown()}
+          {dropdownToggle && <NavigationDropdown ref={wrapperRef} onClick={() => {
+            setDropdownToggle(false)
+            logout()
+          }}/>}
         </div>
       )}
     </div>
   )
 }
+
+export default Navigation

@@ -26,6 +26,32 @@ export default function ShowCardSet(props) {
   const {id} = useParams()
   const uuid = React.useRef(uuidCheck.test(id))
 
+  const nextSlide = useCallback(() => {
+    if (count === flashcards.length) return
+    if (reverse) setReverse(false)
+    setCount(count + 1)
+  }, [reverse, count, flashcards.length])
+
+  const prevSlide = useCallback(() =>  {
+    if (count === 0) return
+    if (!reverse) setReverse(true)
+    setCount(count - 1)
+  }, [reverse, count])
+  
+  
+  const handleCardNavigation = useCallback((event) => {
+    switch(event.keyCode){
+      case 37:
+        prevSlide()
+        return
+      case 39:
+        nextSlide()
+        return
+      default:
+        break;
+    }
+  }, [prevSlide, nextSlide])
+
   const isAuthenticatedAndUser = useCallback(
     () =>
       isAuthenticated() &&
@@ -33,6 +59,13 @@ export default function ShowCardSet(props) {
       authState.userInfo.id === cardSet.creator_id,
     [authState.userInfo, cardSet, isAuthenticated],
   )
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleCardNavigation)
+
+    return () => document.removeEventListener('keydown', handleCardNavigation)
+  }, [handleCardNavigation])
+
 
   useEffect(() => {
     let isMounted = true
@@ -123,17 +156,6 @@ export default function ShowCardSet(props) {
         <NoMatch />
       </div>
     )
-
-  function nextSlide() {
-    if (count === flashcards.length) return
-    setCount(count + 1)
-    if (reverse) setReverse(false)
-  }
-  function prevSlide() {
-    if (count === 0) return
-    setCount(count - 1)
-    if (!reverse) setReverse(true)
-  }
 
   function renderEditOrCustomize() {
     if (!isAuthenticated()) {

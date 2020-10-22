@@ -12,7 +12,7 @@ export default function CreateCardSetFormHeader({
 }) {
   // WHEN IN EDIT MODE SHOULD THERE BE AN OPTION TO REVERT BACK TO THE INITIAL EDIT MODE STATE?
   return (
-    <header className="p-8 pt-2">
+    <header className="p-8 pt-2 mx-8">
       <div className="mt-6 flex justify-between">
         <p className="text-3xl opacity-75 font-bold self-center w-full">
           Create A Card Set
@@ -22,6 +22,7 @@ export default function CreateCardSetFormHeader({
             className="bg-white hover:bg-red-500 "
             buttonText={'Erase All'}
             onClick={handleReset}
+            type="button"
           />
         </div>
       </div>

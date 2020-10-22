@@ -10,7 +10,12 @@ export default function CardSetFields({
   editMode,
 }) {
   return (
-    <form onSubmit={handleSave}>
+    <form
+      onSubmit={event => {
+        event.preventDefault()
+        handleSave()
+      }}
+    >
       {fields.map((field, idx) => {
         return (
           <div key={idx} className="w-full shadow-xl my-2 bg-white">
@@ -74,7 +79,7 @@ export default function CardSetFields({
       </div>
       <div className="flex justify-end mt-4">
         <div className="w-1/3 h-16">
-          <Button buttonText={editMode ? 'Save' : 'Create'} />
+          <Button type="submit" buttonText={editMode ? 'Save' : 'Create'} />
         </div>
       </div>
     </form>

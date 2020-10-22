@@ -1,33 +1,35 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {Link, useParams, useRouteMatch, Redirect} from 'react-router-dom'
-import {fetchUpdateUsername, fetchShowUser} from '../fetchRequests/user'
 import Modal from '../components/Modal'
 import TextBox from '../components/TextBox'
-import {UserContext} from '../context/user-context'
+import {AuthContext} from '../context/AuthContext'
 import {uuidCheck} from '../lib/helpers'
+import placeholderPhoto from '../photos/placeholder-photo.png'
+import {FetchContext} from '../context/FetchContext'
 
 export default function UserInfoCard(props) {
+  const {mainAxios} = useContext(FetchContext)
   const {profile, setProfile} = props
   const [modalOpen, setModalOpen] = useState(false)
   const [text, setText] = useState({name: '', value: '', isValid: true})
   const [modalError, setModalError] = useState('')
   let [redirect, setRedirect] = useState(false)
-  let {user, setUser} = useContext(UserContext)
+  let {setAuthState} = useContext(AuthContext)
   const {user: userParam} = useParams()
 
-  // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
     let isSubscribed = true
-    fetchShowUser(userParam)
-      .then(r => {
+    mainAxios
+      .get(`/user/${userParam}`)
+      .then(res => {
         if (isSubscribed) {
-          setProfile(r)
+          setProfile(res.data.user)
         }
       })
-      .catch(error => {})
+      .catch(console.log)
 
     return () => (isSubscribed = false)
-  }, [userParam, setProfile])
+  }, [userParam, setProfile, mainAxios])
 
   const createdMatch = useRouteMatch('/:user')
   const recentMatch = useRouteMatch('/:user/recent')
@@ -35,10 +37,15 @@ export default function UserInfoCard(props) {
 
   if (profile) {
     return (
-      <div className="flex">
-        <div className="flex p-6">
-          <div>
-            <img className="w-32 h-32 rounded-full mr-4 bg-gray-500" alt="" />
+      <div className="flex p-6">
+        <div className="flex">
+          <div className="h-full">
+            <img
+              src={profile.profile_pic || placeholderPhoto}
+              className="w-32 h-32 object-fill rounded-full mr-4 bg-gray-500"
+              alt="A user's profile"
+              style={{minWidth: '8rem', minHeight: '8rem'}}
+            />
           </div>
           <div className="flex flex-col justify-around">
             <div className="flex ml-4">
@@ -131,18 +138,26 @@ export default function UserInfoCard(props) {
                 <button
                   onClick={e => {
                     e.preventDefault()
-                    fetchUpdateUsername({newUsername: text.value})
-                      .then(r => {
-                        if (r.code) {
-                          setModalError(r.code)
+                    mainAxios
+                      .patch('/update-username', {newUsername: text.value})
+                      // fetchUpdateUsername({newUsername: text.value})
+                      .then(res => {
+                        if (res.code) {
+                          setModalError(res.code)
                           return
                         }
 
                         setModalOpen(false)
-                        props.setProfile({...profile, username: r.username})
-                        setUser({...user, username: r.username})
+                        props.setProfile({
+                          ...profile,
+                          username: res.data.username,
+                        })
+                        setAuthState(prevAuthState => ({
+                          ...prevAuthState,
+                          username: res.data.username,
+                        }))
                       })
-                      .then(r => setRedirect(true))
+                      .then(() => setRedirect(true))
                   }}
                 >
                   Submit

@@ -1,25 +1,12 @@
-import React, {useState, useEffect} from 'react'
-import {useHistory} from 'react-router-dom'
+import React, {useState, useEffect, useContext} from 'react'
+import {useHistory, useLocation} from 'react-router-dom'
 import PropTypes from 'prop-types'
+import {FetchContext} from '../context/FetchContext'
 import CreateCardSetFormHeader from './CreateCardSetFormHeader'
 import CardSetFields from './CardSetFields'
 
-import {
-  fetchPostCardSet,
-  fetchPatchCardSetFlashcardCount,
-} from '../fetchRequests/cardSets'
-import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
-import {
-  fetchPostFlashCards,
-  fetchPatchEditFlashcard,
-} from '../fetchRequests/flashcards'
-
-export default function CreateCardSetForm({
-  editMode = false,
-  cardSet,
-  cardSetId,
-  location = {},
-}) {
+export default function CreateCardSetForm(props) {
+  const {mainAxios} = useContext(FetchContext)
   const [initialState, setInitialState] = useState(
     Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
@@ -33,22 +20,20 @@ export default function CreateCardSetForm({
 
   const [isCardSetPrivate, setIsCardSetPrivate] = useState(true)
   let history = useHistory()
+  let location = useLocation()
 
   const handlePrivacy = React.useCallback(e => {
     setIsCardSetPrivate(e.target.value)
   }, [])
 
   useEffect(() => {
-    if (
-      location &&
-      location.state &&
-      location.state.fromCustomize !== undefined
-    ) {
-      const {flashcardFields, cardSetName} = location.state
+    if (location?.state?.fromCustomize !== undefined) {
+      console.log('fired')
+      const {flashcardFields, prevCardSetName} = location.state
       setFields(flashcardFields)
       setCardSetName({
         name: 'card-set-name',
-        value: cardSetName,
+        value: prevCardSetName,
         isValid: true,
       })
     }
@@ -56,10 +41,10 @@ export default function CreateCardSetForm({
 
   useEffect(() => {
     // Put this in a function
-    if (editMode && cardSet) {
+    if (props.editMode && props.cardSet.flashcards) {
       let editCardSet
-      if (cardSet.length !== 0) {
-        editCardSet = cardSet.flashcards.map(flashcard => {
+      if (props.cardSet.length !== 0) {
+        editCardSet = props.cardSet.flashcards.map(flashcard => {
           return {
             id: flashcard.id,
             term: flashcard.term,
@@ -71,12 +56,12 @@ export default function CreateCardSetForm({
       setFields(editCardSet || [])
       setInitialState(editCardSet)
       setCardSetName(
-        cardSet.name
-          ? {name: 'card-set-name', value: cardSet.name, isValid: true}
+        props.cardSet.name
+          ? {name: 'card-set-name', value: props.cardSet.name, isValid: true}
           : {},
       )
     }
-  }, [editMode, cardSet, cardSetName.name])
+  }, [props.editMode, props.cardSet, cardSetName.name])
 
   function handleChange(i, event) {
     const values = [...fields]
@@ -97,8 +82,7 @@ export default function CreateCardSetForm({
     setFields(values)
   }
 
-  async function handleSave(event) {
-    event.preventDefault()
+  async function handleSave() {
     // validation checks
     if (cardSetName.value === '') {
       alert('Must enter a card name')
@@ -113,7 +97,6 @@ export default function CreateCardSetForm({
     }
 
     for (let field of fields) {
-      console.log(field.term.trim(), field.definition.trim())
       if (field.term.trim() === '' && field.definition.trim() === '') {
         alert(
           'Please delete or complete term and definition for all flashcards',
@@ -129,50 +112,85 @@ export default function CreateCardSetForm({
 
     // ----------------------------------------------------------------------
 
-    if (editMode) {
+    if (props.editMode) {
       // if no changes are made run this
-
-      const ids = initialState.map(state => state.id)
-      let newFlashcards = fields.filter(field => !ids.includes(field.id))
-
-      await fetchPostFlashCards({
-        fields: newFlashcards,
-        card_set_id: cardSetId,
-      })
-      // check if field has a flashcard id that matches an initialState id
-      // if it does not create a new flashcard and add this cardSet.id to this flashcard
-      // if it does not run current try logic
-
       try {
+        const ids = initialState.map(state => state.id)
+        let newFlashcards = fields.filter(field => !ids.includes(field.id))
+
+        function postFlashcards() {
+          mainAxios.post('/flashcards', {
+            fields: newFlashcards,
+            card_set_id: props.cardSetId,
+          })
+        }
+
+        function patchEditFlashcard(field) {
+          mainAxios.patch(`/flashcards/${field.id}`, {field})
+        }
+
+        await postFlashcards()
+
+        // TODO:
+
+        // check if field has a flashcard id that matches an initialState id
+        // if it does not create a new flashcard and add this cardSet.id to this flashcard
+        // if it does not run current try logic
+
         // if the ids match run this logic
-        initialState.forEach(async field => {
-          await fetchPatchEditFlashcard(field)
+        initialState.forEach(field => {
+          patchEditFlashcard(field)
         })
 
-        await fetchPatchCardSetFlashcardCount({
-          id: cardSetId,
-          flashcards_count: initialState.length,
-        })
+        function patchCardSetFlashcardCount() {
+          mainAxios.patch('/update-flashcard-count', {
+            id: props.cardSetId,
+            flashcards_count: initialState.length,
+          })
+        }
 
+        // FIX THIS -------------------------------------------------------
+
+        // Doesn't save when creating a new flashcard and saving
+        // Saves after you do that and then save again
+        await patchCardSetFlashcardCount()
         alert('Updated!')
-
-        history.push(`/card-sets/${cardSetId}`)
-      } catch (e) {}
+        history.push(`/card-sets/${props.cardSetId}`)
+      } catch (error) {
+        console.log('error: ', error)
+      }
     } else {
       try {
-        const cardSet = await fetchPostCardSet({
-          name: cardSetName.value,
-          flashcards_count: fields.length,
-          isCardSetPrivate: isCardSetPrivate,
-        })
+        function postCardSet() {
+          return mainAxios.post('/card-sets', {
+            name: cardSetName.value,
+            flashcards_count: fields.length,
+            isPrivate: isCardSetPrivate,
+          })
+        }
 
-        await fetchPostUsersCardSet({card_set_id: cardSet.id})
-        await fetchPostFlashCards({fields, card_set_id: cardSet.id})
+        function postUsersCardSet(cardSetId) {
+          return mainAxios.post('/users-card-set/new', {
+            card_set_id: cardSetId,
+          })
+        }
 
+        function postFlashcards(cardSetId) {
+          return mainAxios.post('/flashcards', {
+            fields,
+            card_set_id: cardSetId,
+          })
+        }
+
+        const res = await postCardSet()
+        const cardSetId = res.data.cardSetId
+        await postUsersCardSet(cardSetId)
+        await postFlashcards(cardSetId)
         alert('Saved!')
-
-        history.push(`/card-sets/${cardSet.id}`)
-      } catch (error) {}
+        history.push(`/card-sets/${cardSetId}`)
+      } catch (error) {
+        console.log('error: ', error)
+      }
     }
   }
 
@@ -189,7 +207,7 @@ export default function CreateCardSetForm({
         setCardSetName={setCardSetName}
         isCardSetPrivate={isCardSetPrivate}
         handlePrivacy={handlePrivacy}
-        editMode={editMode}
+        editMode={props.editMode}
       />
       <div className="bg-gray-300 my-2 mx-8">
         <CardSetFields
@@ -198,7 +216,7 @@ export default function CreateCardSetForm({
           fields={fields}
           setFields={setFields}
           handleSave={handleSave}
-          editMode={editMode}
+          editMode={props.editMode}
         />
       </div>
     </div>

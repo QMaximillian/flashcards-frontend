@@ -1,5 +1,5 @@
 import React from 'react'
-// import { IoIosCloseCircle } from "react-icons/io";
+// import {IoIosCloseCircle} from 'react-icons/io'
 import PropTypes from 'prop-types'
 
 class Modal extends React.Component {
@@ -31,7 +31,7 @@ class Modal extends React.Component {
                 style={{bottom: -100}}
                 className="absolute flex flex-col items-center justify-center cursor-pointer mt-5"
               >
-                {/* <IoIosCloseCircle  /> */}
+                {/* <IoIosCloseCircle /> */}
                 <i className="text-white text-4xl fas fa-times"></i>
                 <p className="text-white text-base font-primary">Close</p>
               </div>

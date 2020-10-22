@@ -1,16 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import {
-  fetchGetUserCardSetsIndex,
-  // fetchDeleteCardSets
-} from '../fetchRequests/cardSets'
+import React, {useContext, useEffect, useState} from 'react'
 import NoItemsCard from './NoItemsCard'
 import {Link} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
+import {FetchContext} from '../context/FetchContext'
 import '../styles/index.css'
 
 export default function UserCardSets({filter, search, username, isUser}) {
+  const {mainAxios} = useContext(FetchContext)
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
   const [
@@ -26,42 +24,37 @@ export default function UserCardSets({filter, search, username, isUser}) {
   }, [editMode, initialCardState])
 
   useEffect(() => {
-    let isSubscribed = true
-    fetchGetUserCardSetsIndex(username)
-      // .then(r => addCheckedProperty(r))
-      .then(r => {
-        if (isSubscribed) {
+    let isMounted = true
+    mainAxios
+      .get(`/users-card-sets/${username}`)
+      .then(res => {
+        if (isMounted) {
           setLoading(false)
-          setCardSets(r)
-          setInitialCardState(r)
+          setCardSets(res.data.userCardSets)
+          setInitialCardState(res.data.userCardSets)
         }
       })
-      .catch(err => {})
+      .catch(error => {
+        if (isMounted) {
+          console.log(error)
+        }
+      })
 
-    return () => (isSubscribed = false)
-  }, [username])
+    return () => (isMounted = false)
+  }, [username, mainAxios])
 
-  function selectFilter(a, b) {
-    if (filter === 'Latest') {
-      if (new Date(a.created_at) > new Date(b.created_at)) {
-        return -1
-      } else if (new Date(a.created_at) < new Date(b.created_at)) {
-        return 1
-      }
+  function alphabeticalFilter(a, b) {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1
     }
-
-    if (filter === 'Alphabetical') {
-      if (a.name < b.name) {
-        return -1
-      } else if (a.name > b.name) {
-        return 1
-      }
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1
     }
     return 0
   }
 
   function renderCardSets() {
-    if (!loading && cardSets.length === 0) {
+    if (!loading && cardSets?.length === 0) {
       return (
         <div className="h-64 w-full px-4">
           <NoItemsCard
@@ -85,31 +78,27 @@ export default function UserCardSets({filter, search, username, isUser}) {
         </div>
       )
     }
+
     switch (filter) {
       case 'Latest':
-        const filteredAndSortedCardSets = cardSets
-          .filter(cardSet =>
+        const filteredCardSets =
+          cardSets?.filter(cardSet =>
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),
-          )
-          .sort((a, b) => selectFilter(a, b))
-
-        return !loading && filteredAndSortedCardSets.length === 0 ? (
+          ) || []
+        return !loading && filteredCardSets?.length === 0 ? (
           <div className="w-full justify-center flex">
             <NoMatch />
           </div>
         ) : (
-          addTimeIntervals(
-            filteredAndSortedCardSets,
-            UserCardSetCard,
-            'created_at',
-          )
+          addTimeIntervals(filteredCardSets, UserCardSetCard, 'created_at')
         )
+
       case 'Alphabetical':
         let alphabeticalSort = cardSets
           .filter(cardSet =>
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),
           )
-          .sort((a, b) => selectFilter(a, b))
+          .sort((a, b) => alphabeticalFilter(a, b))
           .map((cardSet, idx) => {
             return (
               <UserCardSetCard

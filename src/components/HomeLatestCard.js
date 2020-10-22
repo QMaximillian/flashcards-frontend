@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 
 export default function HomeLatestCard(props) {
-  const {name, flashcards_count, owner, username} = props.cardSet
+  const {name, flashcards_count, owner} = props.cardSet
 
   return (
     <article className="h-full w-full border border-gray-500 shadow-lg rounded">
@@ -22,12 +22,16 @@ export default function HomeLatestCard(props) {
             {flashcards_count} terms
           </p>
 
-          <Link
-            className="hover:text-teal-500 truncate sm:break-words"
-            to={`/${username}`}
-          >
-            <p>{owner}</p>
-          </Link>
+          <div>
+            <p>
+              Created by:{' '}
+              <NavLink to={`/${owner}`}>
+                <span className="hover:text-teal-500 truncate sm:break-words">
+                  {owner}
+                </span>
+              </NavLink>
+            </p>
+          </div>
         </div>
       </div>
     </article>

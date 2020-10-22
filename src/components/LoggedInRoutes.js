@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Switch} from 'react-router-dom'
+import {Route, Switch, Redirect} from 'react-router-dom'
 import LoggedInHome from '../pages/LoggedInHome'
 import NavDrawer from './NavDrawer'
 import CreateCardSetForm from './CreateCardSetForm'
@@ -15,6 +15,7 @@ export default function LoggedInRoutes() {
       <Route path="/" component={NavDrawer} />
 
       <Switch>
+        <Redirect to="/" from="/sign-up" />
         <Route exact path="/card-sets/" component={UserCardSetsPage} />
         <Route path="/search/:search" component={CardSetSearchResults} />
         <Route path="/search/" component={CardSetSearchResults} />
@@ -29,9 +30,7 @@ export default function LoggedInRoutes() {
           )}
         />
 
-        {/* <Redirect to="/" from="/home" component={Home} /> */}
         <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
-
         <Route path="/:user/" component={UserCardSetsPage} />
         <Route exact path="/" component={LoggedInHome} />
         <Route

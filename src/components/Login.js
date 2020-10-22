@@ -1,58 +1,38 @@
 import React, {useState, useContext} from 'react'
-import TextBox from '../components/TextBox'
+import TextBox from './TextBox'
 import {useHistory} from 'react-router-dom'
-import {UserContext} from '../context/user-context'
-import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+
+import {FetchContext} from '../context/FetchContext'
+import {AuthContext} from '../context/AuthContext'
 
 export default function Login(props) {
-  const {setTrigger, setAuthLoading} = useContext(UserContext)
+  let {authAxios} = useContext(FetchContext)
+  let {setAuthState} = useContext(AuthContext)
   const [email, setEmail] = useState({name: '', value: ''})
   const [password, setPassword] = useState({name: '', value: ''})
   const [error, setError] = useState(false)
   let history = useHistory()
 
-  // React.useEffect(() => {
-  //   if (user) {
-  //     history.push('/')
-  //     // window.location.reload()
-  //   }
-  // }, [user, history])
+  async function handleSubmit(event) {
+    event.preventDefault()
 
-  function handleSubmit(e) {
-    handleLoginFetch(e)
-  }
-
-  function handleLoginFetch(e) {
-    e.preventDefault()
-    return fetch(`${BASE_URL}/auth/login`, {
+    authAxios({
+      url: '/login',
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({email: email.value, password: password.value}),
+      data: {email: email.value, password: password.value},
     })
-      .then(r => r.json())
-      .then(r => {
-        if (r.user) {
-          setAuthLoading(true)
-          setTrigger(true)
-          history.push('/')
-        }
+      .then(res => {
+        setAuthState(res.data)
       })
-      .catch(error => setError('Invalid username or password'))
+      .then(() => history.push(`/`))
+      .catch((error) => {
+        console.log(error)})
   }
 
-  const styleObj = {
-    backgroundColor: '#DFDBE5',
-    backgroundImage:
-      "url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E')",
-  }
+  
 
   return (
     <div
-      style={styleObj}
       className="flex justify-center w-full h-full items-center "
     >
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
@@ -70,7 +50,7 @@ export default function Login(props) {
               }
               placeholder={'Email'}
               name="email"
-              value={email.value}
+              value={email.value.toLowerCase()}
               onChange={e => {
                 if (error) setError(false)
                 setEmail(e)
@@ -100,10 +80,6 @@ export default function Login(props) {
             }}
             type={'password'}
           />
-          {/*
-                Error checking if nothing is entered
-                <p className="mt-2 text-red-500 text-xs italic">Please choose a password.</p>
-              */}
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
@@ -113,25 +89,6 @@ export default function Login(props) {
           >
             Sign In
           </button>
-          {/* <button
-            style={{
-              borderImage:
-                'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
-            }}
-            className=" "
-            type="button"
-          > */}
-          <a
-            style={{
-              borderImage:
-                'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
-            }}
-            className="text-center w-full font-bold rounded h-full w-full py-2 px-2"
-            href={`${BASE_URL}/auth/google`}
-          >
-            Sign In With Google
-          </a>
-          {/* </button> */}
         </div>
       </form>
     </div>

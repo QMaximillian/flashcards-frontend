@@ -1,11 +1,13 @@
 import React, {useContext} from 'react'
 import {Link} from 'react-router-dom'
-import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
-import {UserContext} from '../context/user-context'
+import {AuthContext} from '../context/AuthContext'
+import {FetchContext} from '../context/FetchContext'
 import {format} from 'date-fns'
+import {uuidCheck} from '../lib/helpers'
 
 export default function UserCardSetCard(props) {
-  let {user} = useContext(UserContext)
+  let {authState} = useContext(AuthContext)
+  let {mainAxios} = useContext(FetchContext)
   const {idx, cardSet, studied = false, searchCard = false} = props
 
   function renderStudiedCard() {
@@ -58,14 +60,22 @@ export default function UserCardSetCard(props) {
   }
 
   async function handleCreateUserCardSet() {
-    if (searchCard && user) {
-      let options = {
-        card_set_id: cardSet.card_set_id,
-        creator_id: cardSet.user_id,
-        last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
-      }
+    try {
+      if (searchCard && uuidCheck.test(authState.userInfo.id)) {
+        let options = {
+          card_set_id: cardSet.card_set_id,
+          creator_id: cardSet.user_id,
+          last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
+        }
 
-      await fetchPostUsersCardSet(options)
+        function postUsersCardSet() {
+          return mainAxios.post('/users-card-set/new', options)
+        }
+
+        await postUsersCardSet()
+      }
+    } catch (error) {
+      console.log('error: ', error)
     }
   }
 
@@ -85,24 +95,7 @@ export default function UserCardSetCard(props) {
 
                `}
         >
-          <div
-            //  onClick={() => handleChecked(cardSet)}
-            className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2"
-          >
-            {/* <input
-                            onChange={() => handleChecked(cardSet)}
-                            className="ml-4 self-center"
-                            type="checkbox"
-                            checked={cardSet.checked}
-                          /> */}
-            {/* {editMode ? (
-                              <div
-                                className="h-full w-full text-2xl ml-24"
-                                key={idx}
-                              >
-                                <div>{cardSet.name}</div>
-                              </div>
-                            ) : ( */}
+          <div className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2">
             <div
               className={`py-2 h-20 pl-5 flex w-full justify-start ${
                 searchCard ? 'border-b-0 border-2 border-gray-200' : ''
@@ -131,16 +124,6 @@ export default function UserCardSetCard(props) {
           </div>
         </div>
       </div>
-      {/* {editMode && (
-                        <div className="flex flex-col justify-center text-2xl text-gray-500 text-transparent hover:text-gray-500">
-                          <i
-                            data-id={cardSet.id}
-                            onClick={handleDelete}
-                            className="fas fa-times hover:border-black opacity-50 hover:opacity-100"
-                            style={{ WebkitTextStroke: "2px grey" }}
-                          ></i>
-                        </div>
-                      )} */}
     </div>
   )
 }

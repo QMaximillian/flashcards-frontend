@@ -1,21 +1,22 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {useParams} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
-import {fetchPostCardSetSearch} from '../fetchRequests/cardSets'
+import {FetchContext} from '../context/FetchContext'
 
 export default function CardSetSearchResults(props) {
+  const {mainAxios} = useContext(FetchContext)
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
 
   let {search} = useParams()
 
   useEffect(() => {
-    fetchPostCardSetSearch({search}).then(r => {
-      setCardSets(r)
+    mainAxios.post('/search', {data: {search}}).then(res => {
+      setCardSets(res.data)
       setLoading(false)
     })
-  }, [search])
+  }, [search, mainAxios])
 
   if (loading) return <div>Loading...</div>
   if (cardSets.length === 0) {

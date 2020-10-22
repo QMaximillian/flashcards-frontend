@@ -1,14 +1,15 @@
 import React from 'react'
-import {isDate, isThisWeek, parseISO, getMonth, format} from 'date-fns'
+import { isDate, isThisWeek, parseISO, getMonth, format } from 'date-fns'
 
 export function addTimeIntervals(array, Component, dynamicKey, props) {
+  // console.log('addTimeIntervals', array[0])
   // Checking if array passed in is an array
   if (!Array.isArray(array)) {
     throw new Error('First argument is not an array')
   }
 
   let isThisWeekFirstIdx = true
-  let month = getMonth(Date.now())
+  let month = getMonth(array[0] && parseISO(array[0][`${dynamicKey}`]))
   let cutOffMonth = month - 4
 
   return array.map((cardSet, idx) => {
@@ -19,7 +20,7 @@ export function addTimeIntervals(array, Component, dynamicKey, props) {
       )
     }
 
-    if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]), {weekStartsOn: 0})) {
+    if (isThisWeek(parseISO(cardSet[`${dynamicKey}`]), { weekStartsOn: 0 })) {
       if (isThisWeekFirstIdx) {
         // Check if the first value in our array is within the
         // first week.

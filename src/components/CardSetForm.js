@@ -1,17 +1,12 @@
-import React, {useState, useEffect} from 'react'
+// NOT BEING USED - NOT LIVE IN PROJECT
+
+import React, {useState, useEffect, useContext} from 'react'
 import TextBox from './TextBox'
-import {
-  fetchPostCardSet,
-  fetchPatchCardSetFlashcardCount,
-} from '../fetchRequests/cardSets'
-import {fetchPostUsersCardSet} from '../fetchRequests/usersCardSets'
-import {
-  fetchPostFlashCards,
-  fetchPatchEditFlashcard,
-} from '../fetchRequests/flashcards'
 import {useHistory} from 'react-router-dom'
+import {AuthContext} from '../context/AuthContext'
 
 export default function CardSetForm(props) {
+  const {mainAxios} = useContext(AuthContext)
   const [initialState, setInitialState] = useState(
     Array.from({length: 2}, () => ({term: '', definition: ''})),
   )
@@ -26,12 +21,13 @@ export default function CardSetForm(props) {
   const [isPrivate, setPrivacy] = useState(true)
   let history = useHistory()
 
+  
   useEffect(() => {
     if (
       props.location &&
       props.location.state &&
       props.location.state.fromCustomize !== undefined
-    ) {
+      ) {
       const {flashcardFields, cardSetName} = props.location.state
       setFields(flashcardFields)
       setCardSetName({
@@ -40,7 +36,7 @@ export default function CardSetForm(props) {
         isValid: true,
       })
     }
-  }, [props.location])
+  }, [props.location.state.fromCustomize, props.location.state.cardSetName, props.location.state.flashcardFields])
 
   useEffect(() => {
     if (props.editMode && props.cardSet) {
@@ -120,37 +116,78 @@ export default function CardSetForm(props) {
       const ids = initialState.map(state => state.id)
       let newFlashcards = fields.filter(field => !ids.includes(field.id))
 
-      await fetchPostFlashCards({
-        fields: newFlashcards,
-        card_set_id: props.cardSetId,
-      })
+      async function postFlashcards() {
+        return await mainAxios.post('/flashcards', {
+          fields,
+          card_set_id: cardSet.id,
+        })
+      }
+
+      postFlashcards()
       // check if field has a flashcard id that matches an initialState id
       // if it does not create a new flashcard and add this cardSet.id to this flashcard
       // if it does not run current try logic
 
       try {
+        async function patchEditFlashcard(field) {
+          return await mainAxios.patch(`/flashcards/${field.id}`, {field})
+        }
         // if the ids match run this logic
-        initialState.forEach(async field => {
-          await fetchPatchEditFlashcard(field)
+        initialState.forEach(field => {
+          // await fetchPatchEditFlashcard(field)
+          patchEditFlashcard(field)
         })
 
-        await fetchPatchCardSetFlashcardCount({
-          id: props.cardSetId,
-          flashcards_count: initialState.length,
-        })
+        // await fetchPatchCardSetFlashcardCount({
+        // id: props.cardSetId,
+        // flashcards_count: initialState.length,
+        // })
+        async function patchCardSetFlashcardCount() {
+          return await mainAxios.patch('/update-flashcard-count', {
+            id: props.cardSetId,
+            flashcards_count: initialState.length,
+          })
+        }
+
+        patchCardSetFlashcardCount()
 
         alert('Updated!')
       } catch (e) {}
     } else {
       try {
-        const cardSet = await fetchPostCardSet({
-          name: cardSetName.value,
-          flashcards_count: fields.length,
-          isPrivate: isPrivate,
-        })
+        // const cardSet = await fetchPostCardSet({
+        //   name: cardSetName.value,
+        //   flashcards_count: fields.length,
+        //   isPrivate: isPrivate,
+        // })
 
-        await fetchPostUsersCardSet({card_set_id: cardSet.id})
-        await fetchPostFlashCards({fields, card_set_id: cardSet.id})
+        async function postCardSet() {
+          return await mainAxios.post('/card-sets', {
+            name: cardSetName.value,
+            flashcards_count: fields.length,
+            isPrivate: isPrivate,
+          })
+        }
+
+        async function postUsersCardSet() {
+          return await mainAxios.post('/users-card-set/new', {
+            card_set_id: cardSet.id,
+          })
+        }
+
+        async function postFlashcards() {
+          return await mainAxios.post('/flashcards', {
+            fields,
+            card_set_id: cardSet.id,
+          })
+        }
+
+        postCardSet()
+        postUsersCardSet()
+        postFlashcards()
+
+        // await fetchPostUsersCardSet({card_set_id: cardSet.id})
+        // await fetchPostFlashCards({fields, card_set_id: cardSet.id})
 
         alert('Saved!')
 
@@ -173,13 +210,6 @@ export default function CardSetForm(props) {
             >
               ERASE ALL ENTRIES
             </div>
-            {/* <div
-              onClick={handleSave}
-              className="p-2 ml-2 bg-teal-500 text-white h-18  text-2xl self-center"
-            >
-              CREATE SET
-            </div> */}
-
             {props.editMode ? (
               <div
                 className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"

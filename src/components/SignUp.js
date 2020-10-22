@@ -1,54 +1,45 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import TextBox from './TextBox'
-import {Redirect} from 'react-router-dom'
-import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+
+import {FetchContext} from '../context/FetchContext'
+import {useHistory} from 'react-router-dom'
+import {AuthContext} from '../context/AuthContext'
 
 export default function SignUp(props) {
+  const {authAxios} = useContext(FetchContext)
+  const {setAuthState} = useContext(AuthContext)
   const [email, setEmail] = useState({name: '', value: ''})
   const [password, setPassword] = useState({name: '', value: ''})
   const [firstName, setFirstName] = useState({name: '', value: ''})
   const [lastName, setLastName] = useState({name: '', value: ''})
   const [username, setUsername] = useState({name: '', value: ''})
-  const [redirect, setRedirect] = useState(false)
-  const [, setError] = useState(null)
 
-  function handleSubmit(e) {
+  const history = useHistory()
+
+  function handleSubmit(event) {
     if (!email || !password || !username || !firstName || !lastName) {
       return
     }
-    handleSignUpFetch(e)
+    handleSignUpFetch(event)
   }
 
-  function handleSignUpFetch(e) {
-    e.preventDefault()
-    return fetch(`${BASE_URL}/auth/register`, {
+  function handleSignUpFetch(event) {
+    event.preventDefault()
+    authAxios({
+      url: '/register',
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-
-      credentials: 'include',
-      body: JSON.stringify({
+      data: {
         first_name: firstName.value,
         last_name: lastName.value,
         email: email.value,
         password: password.value,
         username: username.value,
-      }),
+      },
+    }).then(res => {
+      setAuthState(res.data)
+      setTimeout(() => history.push('/'), 700)
     })
-      .then(r => r.json())
-      .then(r => {
-        if (r.code) {
-          setError(`${r.code} - ${r.status}`)
-        } else {
-          setRedirect(true)
-        }
-      })
-      .catch(err => {})
   }
-
-  if (redirect) return <Redirect to={`/login`} />
 
   return (
     <div
@@ -123,7 +114,7 @@ export default function SignUp(props) {
             }
             placeholder={'Email'}
             name="email"
-            value={email.value}
+            value={email.value.toLowerCase()}
             onChange={setEmail}
             type="email"
             required
@@ -155,16 +146,6 @@ export default function SignUp(props) {
             type="button"
           >
             Sign Up
-          </button>
-          <button
-            style={{
-              borderImage:
-                'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
-            }}
-            className="w-full font-bold py-2 px-2 rounded "
-            type="button"
-          >
-            <a href={`${BASE_URL}/auth/google`}>Sign Up With Google</a>
           </button>
         </div>
       </form>

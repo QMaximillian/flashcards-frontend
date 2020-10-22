@@ -1,11 +1,11 @@
-import React, {useContext} from 'react'
-import {Link, useRouteMatch} from 'react-router-dom'
-import {UserContext} from '../context/user-context'
+import React, { useContext } from 'react'
+import { Link, useRouteMatch } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 
 export default function MainNavDrawer(props) {
   const userRouteMatch = useRouteMatch(['/:user', '/:user/studied'])
   const recentRouteMatch = useRouteMatch('/:user/recent')
-  let {user} = useContext(UserContext)
+  let { authState } = useContext(AuthContext)
 
   return (
     <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-full w-full">
@@ -15,9 +15,8 @@ export default function MainNavDrawer(props) {
           to="/"
         >
           <div
-            className={`${
-              recentRouteMatch ? 'bg-orange-500' : null
-            } w-full py-4 hover:bg-orange-500 pl-4`}
+            className={`${recentRouteMatch ? 'bg-orange-500' : null
+              } w-full py-4 hover:bg-orange-500 pl-4`}
           >
             Home
           </div>
@@ -31,15 +30,13 @@ export default function MainNavDrawer(props) {
         <Link
           // className={`w-full items-center flex-1 justify-start flex`}
 
-          className={`hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${
-            userRouteMatch && !recentRouteMatch ? 'bg-orange-500' : null
-          }`}
-          to={`/${user.username}`}
+          className={`hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${userRouteMatch && !recentRouteMatch ? 'bg-orange-500' : null
+            }`}
+          to={`/${authState.userInfo.username}`}
         >
           <div
-            className={`${
-              userRouteMatch && !recentRouteMatch ? 'bg-orange-500' : null
-            } w-full py-4 hover:bg-orange-500 pl-4`}
+            className={`${userRouteMatch && !recentRouteMatch ? 'bg-orange-500' : null
+              } w-full py-4 hover:bg-orange-500 pl-4`}
           >
             Card Sets
           </div>

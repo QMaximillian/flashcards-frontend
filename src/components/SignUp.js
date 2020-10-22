@@ -1,18 +1,47 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useReducer} from 'react'
 import TextBox from './TextBox'
 
 import {FetchContext} from '../context/FetchContext'
 import {useHistory} from 'react-router-dom'
 import {AuthContext} from '../context/AuthContext'
 
-export default function SignUp(props) {
+function signUpReducer(state, action) {
+  return {
+    ...state,
+    [action.id]: {...state[action.id], value: action.data},
+  }
+}
+
+const initialSignUpState = {
+  firstName: {
+    name: 'firstName',
+    value: '',
+  },
+  lastName: {
+    name: 'lastName',
+    value: '',
+  },
+  username: {
+    name: 'username',
+    value: '',
+  },
+  email: {
+    name: 'email',
+    value: '',
+  },
+  password: {
+    name: 'password',
+    value: '',
+  },
+}
+
+function SignUp(props) {
   const {authAxios} = useContext(FetchContext)
   const {setAuthState} = useContext(AuthContext)
-  const [email, setEmail] = useState({name: '', value: ''})
-  const [password, setPassword] = useState({name: '', value: ''})
-  const [firstName, setFirstName] = useState({name: '', value: ''})
-  const [lastName, setLastName] = useState({name: '', value: ''})
-  const [username, setUsername] = useState({name: '', value: ''})
+  const [
+    {email, password, firstName, lastName, username},
+    dispatch,
+  ] = useReducer(signUpReducer, initialSignUpState)
 
   const history = useHistory()
 
@@ -41,6 +70,10 @@ export default function SignUp(props) {
     })
   }
 
+  function handleDispatch(partialEvent) {
+    dispatch({id: partialEvent.id, data: partialEvent.value})
+  }
+
   return (
     <div
       style={{
@@ -59,11 +92,12 @@ export default function SignUp(props) {
             First Name
           </label>
           <TextBox
+            id="firstName"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder={'Enter your first name'}
             name="first name"
             value={firstName.value}
-            onChange={setFirstName}
+            onChange={handleDispatch}
             type="text"
             required
           />
@@ -76,11 +110,12 @@ export default function SignUp(props) {
             Last Name
           </label>
           <TextBox
+            id="lastName"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder={'Enter your last name'}
             name="last name"
             value={lastName.value}
-            onChange={setLastName}
+            onChange={handleDispatch}
             type="text"
             required
           />
@@ -93,13 +128,14 @@ export default function SignUp(props) {
             Username
           </label>
           <TextBox
+            id="username"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
             placeholder={'Enter your username'}
             name="username"
             value={username.value}
-            onChange={setUsername}
+            onChange={handleDispatch}
             type="text"
             required
           />
@@ -109,13 +145,14 @@ export default function SignUp(props) {
             Email Address
           </label>
           <TextBox
+            id="email"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
             placeholder={'Email'}
             name="email"
             value={email.value.toLowerCase()}
-            onChange={setEmail}
+            onChange={handleDispatch}
             type="email"
             required
           />
@@ -128,13 +165,14 @@ export default function SignUp(props) {
             Password
           </label>
           <TextBox
+            id="password"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
             placeholder={'Password'}
             name="password"
             value={password.value}
-            onChange={setPassword}
+            onChange={handleDispatch}
             type="password"
             required
           />
@@ -152,3 +190,5 @@ export default function SignUp(props) {
     </div>
   )
 }
+
+export default SignUp

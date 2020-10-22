@@ -46,9 +46,9 @@ const TextBox = React.forwardRef((props, ref) => {
   }
 
   function handleInputChange(e) {
-    const {name, value} = e.target
+    const {name, value, id} = e.target
 
-    props.onChange({name, value, isValid: isValid(value)})
+    props.onChange({id, name, value, isValid: isValid(value)})
 
     // reset the blurred state if the value was never modified.
     if (!valueModified) {

@@ -14,12 +14,12 @@ function LoggedOutHome(props) {
       className="flex justify-center w-full h-full items-center"
     >
       <form className="bg-white shadow-lg rounded p-16 mb-4  max-w-6xl flex flex-col justify-center">
-        <div className="mb-6 text-center text-4xl italic">
+        <h1 className="mb-6 text-center text-4xl italic">
           Welcome to Flashcards
-        </div>
-        <div className="mb-6 text-center text-2xl italic">
+        </h1>
+        <h3 className="font-light mb-6 text-center text-2xl italic">
           Create, Search, and Study Card Sets
-        </div>
+        </h3>
         <div className="flex flex-wrap sm:flex-no-wrap  items-center justify-between">
           <Link
             to="/sign-up"

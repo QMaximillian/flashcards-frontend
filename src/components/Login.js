@@ -25,15 +25,15 @@ export default function Login(props) {
         setAuthState(res.data)
       })
       .then(() => history.push(`/`))
-      .catch((error) => {
-        console.log(error)})
+      .catch(error => {
+        console.log(error)
+      })
   }
-
-  
 
   return (
     <div
       className="flex justify-center w-full h-full items-center "
+      style={{backgroundColor: 'rgb(223, 219, 229)'}}
     >
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
         <div className="italic text-red-500 h-6 w-full text-center">
@@ -48,6 +48,7 @@ export default function Login(props) {
               className={
                 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               }
+              id="email"
               placeholder={'Email'}
               name="email"
               value={email.value.toLowerCase()}
@@ -71,6 +72,7 @@ export default function Login(props) {
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
+            id="password"
             placeholder={'Password'}
             name="password"
             value={password.value}

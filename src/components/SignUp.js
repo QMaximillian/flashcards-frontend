@@ -1,5 +1,6 @@
 import React, {useContext, useState} from 'react'
 import TextBox from './TextBox'
+import Button from './Button'
 
 import {FetchContext} from '../context/FetchContext'
 import {useHistory} from 'react-router-dom'
@@ -59,6 +60,7 @@ export default function SignUp(props) {
             First Name
           </label>
           <TextBox
+            id="firstName"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder={'Enter your first name'}
             name="first name"
@@ -76,6 +78,7 @@ export default function SignUp(props) {
             Last Name
           </label>
           <TextBox
+            id="lastName"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder={'Enter your last name'}
             name="last name"
@@ -93,6 +96,7 @@ export default function SignUp(props) {
             Username
           </label>
           <TextBox
+            id="username"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
@@ -109,6 +113,7 @@ export default function SignUp(props) {
             Email Address
           </label>
           <TextBox
+            id="email"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
@@ -128,6 +133,7 @@ export default function SignUp(props) {
             Password
           </label>
           <TextBox
+            id="password"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
@@ -140,13 +146,13 @@ export default function SignUp(props) {
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
-          <button
+          <Button
             onClick={handleSubmit}
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
             type="button"
           >
             Sign Up
-          </button>
+          </Button>
         </div>
       </form>
     </div>

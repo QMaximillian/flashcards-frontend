@@ -84,8 +84,6 @@ function Navigation(props) {
               onChange={setSearch}
               onBlur={() => {
                 setExpandSearchBar(false)
-                // navRef.current.focus()
-                // setSearch({name: '', value: '', isValid: true})
                 setRedirect(false)
               }}
               ref={navRef}

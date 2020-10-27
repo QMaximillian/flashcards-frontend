@@ -1,30 +1,32 @@
-import React, {useState, useEffect, useRef, useContext, useCallback} from 'react'
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  useCallback,
+} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import TextBox from './TextBox'
 import useClickOutside from '../lib/hooks/useClickOutside'
 import {AuthContext} from '../context/AuthContext'
 import '../styles/index.css'
 
-function NavigationLogo(){
-    return (
-      <Link to="/">
-        <div className="text-white text-4xl">Flashcards</div>
-      </Link>
-    )
+function NavigationLogo() {
+  return (
+    <Link to="/">
+      <div className="text-white text-4xl">Flashcards</div>
+    </Link>
+  )
 }
 
-const NavigationDropdown = React.forwardRef(({ onClick }, ref) => {
+const NavigationDropdown = React.forwardRef(({onClick}, ref) => {
   return (
     <div
       ref={ref}
       className="flex flex-col justify-end ml-4 py-2 w-48 absolute h-18 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md"
     >
       <div className="pl-4 ">
-        <div
-          onClick={onClick}
-        >
-          Log Out
-        </div>
+        <div onClick={onClick}>Log Out</div>
       </div>
     </div>
   )
@@ -40,18 +42,24 @@ function Navigation(props) {
   const [dropdownToggle, setDropdownToggle] = useState(false)
   const [redirect, setRedirect] = useState(false)
 
+  React.useLayoutEffect(() => {
+    if (expandSearchBar) {
+      navRef.current.focus()
+    }
+  }, [expandSearchBar])
+
   useClickOutside(wrapperRef, function() {
     if (!dropdownToggle) return
     setDropdownToggle(false)
   })
 
-  const enterOnKeyPress = useCallback((event) => {
-      if (event.keyCode === 13) {
-        setRedirect(true)
-      } else {
-        setRedirect(false)
-      }
-    }, [])
+  const enterOnKeyPress = useCallback(event => {
+    if (event.keyCode === 13) {
+      setRedirect(true)
+    } else {
+      setRedirect(false)
+    }
+  }, [])
 
   useEffect(() => {
     document.addEventListener('keydown', enterOnKeyPress)
@@ -60,7 +68,6 @@ function Navigation(props) {
       document.removeEventListener('keydown', enterOnKeyPress)
     }
   }, [enterOnKeyPress])
-
 
   function renderSearch() {
     if (expandSearchBar) {
@@ -77,6 +84,7 @@ function Navigation(props) {
               onChange={setSearch}
               onBlur={() => {
                 setExpandSearchBar(false)
+                // navRef.current.focus()
                 // setSearch({name: '', value: '', isValid: true})
                 setRedirect(false)
               }}
@@ -94,7 +102,7 @@ function Navigation(props) {
             <div className="h-full w-24 text-white flex justify-center search-box">
               <i className="h-full self-center h-full search-box mag-glass fas fa-search"></i>
               <div
-                onClick={handleExpandAndFocusSearchBar}
+                onClick={() => setExpandSearchBar(true)}
                 className="mx-2 search-box search"
               >
                 Search
@@ -118,13 +126,6 @@ function Navigation(props) {
         </div>
       )
     }
-  }
-
-  const handleExpandAndFocusSearchBar = () => {
-    setExpandSearchBar(true)
-    setTimeout(function() {
-      navRef.current.focus()
-    }, 10)
   }
 
   function renderUserOrOptions() {
@@ -163,7 +164,6 @@ function Navigation(props) {
     }
   }
 
-
   return (
     <div className="h-full flex justify-between bg-teal-500 shadow items-center">
       <div
@@ -183,10 +183,15 @@ function Navigation(props) {
           }`}
         >
           {renderUserOrOptions()}
-          {dropdownToggle && <NavigationDropdown ref={wrapperRef} onClick={() => {
-            setDropdownToggle(false)
-            logout()
-          }}/>}
+          {dropdownToggle && (
+            <NavigationDropdown
+              ref={wrapperRef}
+              onClick={() => {
+                setDropdownToggle(false)
+                logout()
+              }}
+            />
+          )}
         </div>
       )}
     </div>

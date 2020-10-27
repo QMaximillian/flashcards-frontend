@@ -1,10 +1,17 @@
 import {isEmail, isEmpty, isMobilePhone} from 'validator'
 import PropTypes from 'prop-types'
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 
 const TextBox = React.forwardRef((props, ref) => {
   const [showError, setShowError] = useState(false)
   const [valueModified, setValueModified] = useState(false)
+  const textBoxRef = useRef()
+
+  React.useImperativeHandle(ref, () => ({
+    focus: () => textBoxRef.current.focus(),
+    value: () => textBoxRef.current.value,
+    valid: () => isValid(textBoxRef.current.value),
+  }))
 
   function getErrorMessage() {
     const {error, value, type, required, name} = props
@@ -66,22 +73,6 @@ const TextBox = React.forwardRef((props, ref) => {
     }
   }
 
-  // function focus(){
-  //   return ref.current.focus();
-  // };
-
-  //  function value() {
-  //   return ref.current.value;
-  // }
-
-  // /**
-  //  * valid returns the current .
-  //  * @return {string} input element value.
-  //  */
-  // function valid() {
-  //   return isValid(ref.current.value);
-  // }
-
   function renderClasses() {
     if (props.className) {
       return props.className
@@ -108,7 +99,7 @@ const TextBox = React.forwardRef((props, ref) => {
         autoComplete={props.autoComplete}
         value={props.value}
         onBlur={handleBlur}
-        ref={ref}
+        ref={textBoxRef}
         onFocus={props.onFocus}
       />
       {handleShowError() && (

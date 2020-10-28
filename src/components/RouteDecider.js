@@ -8,12 +8,12 @@ export default function RouteDecider() {
   let {isAuthenticated} = useContext(AuthContext)
   return (
     <div className="grid grid-cols-12 grid-rows-12 h-screen w-screen">
-      <div className="col-start-1 col-end-13 row-start-1 row-end-2">
+      <span className="col-start-1 col-end-13 row-start-1 row-end-2">
         <Navigation />
-      </div>
-      <div className="col-start-1 col-end-13 row-start-2 row-end-13">
+      </span>
+      <main className="col-start-1 col-end-13 row-start-2 row-end-13">
         {isAuthenticated() ? <LoggedInRoutes /> : <LoggedOutRoutes />}
-      </div>
+      </main>
     </div>
   )
 }

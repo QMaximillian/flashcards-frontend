@@ -4,6 +4,7 @@ import React, {
   useRef,
   useContext,
   useCallback,
+  useLayoutEffect
 } from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import TextBox from './TextBox'
@@ -14,7 +15,7 @@ import '../styles/index.css'
 function NavigationLogo() {
   return (
     <Link to="/">
-      <div className="text-white text-4xl">Flashcards</div>
+      <p className="text-white text-4xl">Flashcards</p>
     </Link>
   )
 }
@@ -23,16 +24,16 @@ const NavigationDropdown = React.forwardRef(({onClick}, ref) => {
   return (
     <div
       ref={ref}
-      className="flex flex-col justify-end ml-4 py-2 w-48 absolute h-18 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md"
+      className=" w-32 absolute h-12 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white  shadow-lg text-md"
     >
-      <div className="pl-4 ">
-        <div onClick={onClick}>Log Out</div>
-      </div>
+      <ul className="flex flex-col justify-center items-center h-full w-full">
+        <li className="text-center w-full hover:bg-red-500" onClick={onClick}>Log Out</li>
+      </ul>
     </div>
   )
 })
 
-function Navigation(props) {
+function Navigation() {
   let {isAuthenticated, authState, logout} = useContext(AuthContext)
   const navRef = useRef(null)
   const wrapperRef = useRef(null)
@@ -42,7 +43,7 @@ function Navigation(props) {
   const [dropdownToggle, setDropdownToggle] = useState(false)
   const [redirect, setRedirect] = useState(false)
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (expandSearchBar) {
       navRef.current.focus()
     }
@@ -53,18 +54,12 @@ function Navigation(props) {
     setDropdownToggle(false)
   })
 
-  const enterOnKeyPress = useCallback(event => {
-    if (event.keyCode === 13) {
-      setRedirect(true)
-    } else {
-      setRedirect(false)
-    }
-  }, [])
+  const enterOnKeyPress = useCallback(event => setRedirect(event.keyCode === 13), [])
 
   useEffect(() => {
     document.addEventListener('keydown', enterOnKeyPress)
 
-    return function() {
+    return function cleanup() {
       document.removeEventListener('keydown', enterOnKeyPress)
     }
   }, [enterOnKeyPress])
@@ -72,9 +67,10 @@ function Navigation(props) {
   function renderSearch() {
     if (expandSearchBar) {
       return (
-        <div className="flex w-full">
+        <span className="flex w-full">
+          {redirect ? <Redirect push to={`/search/${search.value}`} /> : null}
           <i className="text-2xl text-white self-center fas fa-search"></i>
-          <div className="w-full">
+          <form onSubmit={event => event.preventDefault()} className="w-full">
             <TextBox
               className={`text-2xl outline-none w-full ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
               placeholder="Search"
@@ -85,42 +81,42 @@ function Navigation(props) {
               onBlur={() => {
                 setExpandSearchBar(false)
                 setRedirect(false)
+                setSearch(prevSearch => ({...prevSearch, value: ''}))
               }}
               ref={navRef}
             />
-          </div>
+          </form>
           <i className=" self-center fas fa-times text-2xl text-white"></i>
-          {redirect ? <Redirect push to={`/search/${search.value}`} /> : null}
-        </div>
+        </span>
       )
     } else {
       return (
         <div className="flex">
-          <div className="text-center flex justify-center h-full">
-            <div className="h-full w-24 text-white flex justify-center search-box">
+            <span className="h-full w-24 text-white flex justify-center search-box">
               <i className="h-full self-center h-full search-box mag-glass fas fa-search"></i>
-              <div
+              <p
                 onClick={() => setExpandSearchBar(true)}
                 className="mx-2 search-box search"
               >
                 Search
-              </div>
-            </div>
-          </div>
-          {isAuthenticated() ? (
+              </p>
+            </span>
+          {isAuthenticated() && (
             <>
-              <div className="w-24">
+              <span className="w-24">
                 <div className="text-center">|</div>
-              </div>
+              </span>
+              <span>
               <Link
                 className="create-box flex justify-center w-24"
                 to="/card-sets/new"
               >
-                <i className="plus self-center fas fa-plus-square"></i>
-                <div className="create text-center ml-3">Create</div>
+                <i className="plus self-center fas fa-plus-square"/>
+                <p className="create text-center ml-3">Create</p>
               </Link>
+              </span>
             </>
-          ) : null}
+          )}
         </div>
       )
     }
@@ -133,13 +129,13 @@ function Navigation(props) {
           className="flex search-box"
           onClick={() => setDropdownToggle(prev => !prev)}
         >
-          <div
+          <p
             className={`${
               dropdownToggle ? 'text-gray-500' : 'text-white'
             } search-box search`}
           >
             {authState.userInfo.first_name}
-          </div>
+          </p>
           <i
             className={`${
               dropdownToggle ? 'text-gray-500' : 'text-white'
@@ -150,35 +146,37 @@ function Navigation(props) {
     } else {
       return (
         <div className="flex text-white w-full justify-around h-full items-center">
-          <Link to="/login">
-            <div>LOGIN</div>
-          </Link>
-          <div className="text-center">|</div>
-          <Link to="sign-up">
-            <div>SIGN UP</div>
-          </Link>
+          <span>
+            <Link to="/login">
+              <p>LOGIN</p>
+            </Link>
+          </span>
+          <span className="text-center">|</span>
+          <span>
+            <Link to="sign-up">
+              <p>SIGN UP</p>
+            </Link>
+          </span>
         </div>
       )
     }
   }
 
   return (
-    <div className="h-full flex justify-between bg-teal-500 shadow items-center">
-      <div
+    <nav className="h-full flex justify-between bg-teal-500 shadow items-center">
+      <span
         className={`px-6 flex justify-start h-full items-center ${
           expandSearchBar ? 'w-full' : 'w-3/4'
         }`}
       >
         <NavigationLogo />
-        <div className="ml-20 flex text-white items-center h-full w-full">
+        <span className="ml-20 flex text-white items-center h-full w-full">
           {renderSearch()}
-        </div>
-      </div>
+        </span>
+      </span>
       {!expandSearchBar && (
-        <div
-          className={`relative h-full flex items-center justify-center ${
-            expandSearchBar ? 'w-full' : 'w-1/4'
-          }`}
+        <span
+          className={`relative h-full flex items-center justify-center w-1/4`}
         >
           {renderUserOrOptions()}
           {dropdownToggle && (
@@ -190,9 +188,9 @@ function Navigation(props) {
               }}
             />
           )}
-        </div>
+        </span>
       )}
-    </div>
+    </nav>
   )
 }
 

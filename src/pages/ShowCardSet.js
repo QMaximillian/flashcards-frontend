@@ -32,25 +32,25 @@ export default function ShowCardSet(props) {
     setCount(count + 1)
   }, [reverse, count, flashcards.length])
 
-  const prevSlide = useCallback(() =>  {
+  const prevSlide = useCallback(() => {
     if (count === 0) return
     if (!reverse) setReverse(true)
     setCount(count - 1)
   }, [reverse, count])
-  
-  
-  const handleCardNavigation = useCallback((event) => {
-    switch(event.keyCode){
-      case 37:
-        prevSlide()
-        return
-      case 39:
-        nextSlide()
-        return
-      default:
-        break;
-    }
-  }, [prevSlide, nextSlide])
+
+  const handleCardNavigation = useCallback(
+    event => {
+      switch (event.keyCode) {
+        case 37:
+          return prevSlide()
+        case 39:
+          return nextSlide()
+        default:
+          break
+      }
+    },
+    [prevSlide, nextSlide],
+  )
 
   const isAuthenticatedAndUser = useCallback(
     () =>
@@ -65,7 +65,6 @@ export default function ShowCardSet(props) {
 
     return () => document.removeEventListener('keydown', handleCardNavigation)
   }, [handleCardNavigation])
-
 
   useEffect(() => {
     let isMounted = true

@@ -5,7 +5,6 @@ import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
 import {addTimeIntervals} from '../lib/helpers'
 import {FetchContext} from '../context/FetchContext'
-import '../styles/index.css'
 
 export default function UserCardSets({filter, search, username, isUser}) {
   const {mainAxios} = useContext(FetchContext)

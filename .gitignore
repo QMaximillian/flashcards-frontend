@@ -25,3 +25,7 @@ yarn-error.log*
 package-lock.json
 
 /final-steps.md
+
+# Tailwind Output File
+
+src/tailwind.output.css

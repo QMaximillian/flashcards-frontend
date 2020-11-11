@@ -10,7 +10,6 @@ import {Link, Redirect} from 'react-router-dom'
 import TextBox from './TextBox'
 import useClickOutside from '../lib/hooks/useClickOutside'
 import {AuthContext} from '../context/AuthContext'
-import '../styles/index.css'
 
 function NavigationLogo() {
   return (

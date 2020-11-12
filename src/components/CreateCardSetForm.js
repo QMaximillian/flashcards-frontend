@@ -77,32 +77,35 @@ export default function CreateCardSetForm(props) {
     setFields(values)
   }
 
-  async function handleSave() {
-    // validation checks
+  function formValidation(){
     if (cardSetName.value === '') {
-      alert('Must enter a card name')
-      return
+      return 'Must enter a card name'
     }
 
     // If both fields are not filled out, remove item from fields array
 
     if (fields.length < 2) {
-      alert('Please create at least 2 flashcards')
-      return
+      return 'Please create at least 2 flashcards'
     }
 
     for (let field of fields) {
       if (field.term.trim() === '' && field.definition.trim() === '') {
-        alert(
-          'Please delete or complete term and definition for all flashcards',
-        )
-        return
+        return 'Please delete or complete term and definition for all flashcards' 
       }
 
       if (field.term.trim() === '' || field.definition.trim() === '') {
-        alert(`Please complete flashcard term or definition in all rows`)
-        return
-      }
+        return `Please complete flashcard term or definition in all rows`      }
+    }
+
+    return false
+  }
+
+  async function handleSave() {
+    // validation checks
+    const invalidFormMessage = formValidation()
+
+    if (invalidFormMessage) {
+      return alert(invalidFormMessage)
     }
 
     // ----------------------------------------------------------------------

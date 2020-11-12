@@ -3,6 +3,26 @@ import TextBox from './TextBox'
 import {useHistory, useLocation} from 'react-router-dom'
 import {FetchContext} from '../context/FetchContext'
 
+function postCardSet(httpClient, options = {}) {
+  return httpClient.post('/card-sets', options)
+}
+
+function postUsersCardSet(httpClient, options = {}) {
+  return httpClient.post('/users-card-set/new', options)
+}
+
+function postFlashcards(httpClient, options = {}) {
+  return httpClient.post('/flashcards', options)
+}
+
+function patchEditFlashcard(httpClient, options = {}) {
+  return httpClient.patch(`/flashcards/${options.field.id}`, options)
+}
+
+function patchCardSetFlashcardCount(httpClient, options = {}) {
+  return httpClient.patch('/update-flashcard-count', options)
+}
+
 export default function CreateCardSetForm(props) {
   const {mainAxios} = useContext(FetchContext)
   const [initialState, setInitialState] = useState(
@@ -100,6 +120,66 @@ export default function CreateCardSetForm(props) {
     return false
   }
 
+  async function editFlashcards(){
+    try {
+      const ids = initialState.map(state => state.id)
+      let newFlashcards = fields.filter(field => !ids.includes(field.id))
+
+      await postFlashcards(mainAxios, {
+        fields: newFlashcards,
+        card_set_id: props.cardSetId,
+      })
+
+      for await (const field of initialState) {
+        await patchEditFlashcard(mainAxios, {field})
+      }
+
+      await patchCardSetFlashcardCount(mainAxios, {
+        id: props.cardSetId,
+        flashcards_count: initialState.length,
+      })
+
+      alert('Updated!')
+      history.push(`/card-sets/${props.cardSetId}`)
+    } catch (error) {
+      console.log('error: ', error)
+    }
+  }
+
+  function createCardSetAndFlashcards(){
+    postCardSet(mainAxios, {
+      name: cardSetName.value,
+      flashcards_count: fields.length,
+      isPrivate,
+    })
+    .then(({ data: { cardSetId }}) => {
+      Promise.all([
+        postUsersCardSet(mainAxios, {
+          card_set_id: cardSetId,
+        })
+          .catch(error => {
+          // Display user error message
+          console.log('error', error.response)
+          }),
+        postFlashcards(mainAxios, {
+          fields,
+          card_set_id: cardSetId,
+        })
+          .catch(error => {
+          // Display user error message
+          console.log('error', error.response)
+          })
+      ])
+      .then(() => {
+        alert('Saved!')
+        history.push(`/card-sets/${cardSetId}`)
+      })
+    })
+    .catch(error => {
+          console.log('error response: ', error.response)
+    })
+  }
+
   async function handleSave() {
     // validation checks
     const invalidFormMessage = formValidation()
@@ -108,87 +188,10 @@ export default function CreateCardSetForm(props) {
       return alert(invalidFormMessage)
     }
 
-    // ----------------------------------------------------------------------
-
     if (props.editMode) {
-      // if no changes are made run this
-      try {
-        const ids = initialState.map(state => state.id)
-        let newFlashcards = fields.filter(field => !ids.includes(field.id))
-
-        function postFlashcards() {
-          mainAxios.post('/flashcards', {
-            fields: newFlashcards,
-            card_set_id: props.cardSetId,
-          })
-        }
-
-        function patchEditFlashcard(field) {
-          mainAxios.patch(`/flashcards/${field.id}`, {field})
-        }
-
-        await postFlashcards()
-
-        // TODO:
-
-        // check if field has a flashcard id that matches an initialState id
-        // if it does not create a new flashcard and add this cardSet.id to this flashcard
-        // if it does not run current try logic
-
-        // if the ids match run this logic
-        initialState.forEach(field => {
-          patchEditFlashcard(field)
-        })
-
-        function patchCardSetFlashcardCount() {
-          mainAxios.patch('/update-flashcard-count', {
-            id: props.cardSetId,
-            flashcards_count: initialState.length,
-          })
-        }
-
-        // FIX THIS -------------------------------------------------------
-
-        // Doesn't save when creating a new flashcard and saving
-        // Saves after you do that and then save again
-        await patchCardSetFlashcardCount()
-        alert('Updated!')
-        history.push(`/card-sets/${props.cardSetId}`)
-      } catch (error) {
-        console.log('error: ', error)
-      }
+      editFlashcards()
     } else {
-      try {
-        function postCardSet() {
-          return mainAxios.post('/card-sets', {
-            name: cardSetName.value,
-            flashcards_count: fields.length,
-            isPrivate,
-          })
-        }
-
-        function postUsersCardSet(cardSetId) {
-          return mainAxios.post('/users-card-set/new', {
-            card_set_id: cardSetId,
-          })
-        }
-
-        function postFlashcards(cardSetId) {
-          return mainAxios.post('/flashcards', {
-            fields,
-            card_set_id: cardSetId,
-          })
-        }
-
-        const res = await postCardSet()
-        const cardSetId = res.data.cardSetId
-        await postUsersCardSet(cardSetId)
-        await postFlashcards(cardSetId)
-        alert('Saved!')
-        history.push(`/card-sets/${cardSetId}`)
-      } catch (error) {
-        console.log('error: ', error)
-      }
+      createCardSetAndFlashcards()
     }
   }
 

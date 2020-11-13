@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
 import {FetchContext} from '../context/FetchContext'
+import OvalLoadingSpinner from '../components/OvalLoadingSpinner'
 
 export default function CardSetSearchResults(props) {
   const {mainAxios} = useContext(FetchContext)
@@ -18,7 +19,7 @@ export default function CardSetSearchResults(props) {
     })
   }, [search, mainAxios])
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <OvalLoadingSpinner />
   if (cardSets.length === 0) {
     return (
       <div className="col-start-3 col-end-11 row-start-4 row-end-7">

@@ -1,8 +1,13 @@
 import React, {useContext} from 'react'
 import Navigation from '../components/Navigation'
-import LoggedInRoutes from '../components/LoggedInRoutes'
+// import LoggedInRoutes from '../components/LoggedInRoutes'
 import LoggedOutRoutes from '../components/LoggedOutRoutes'
 import {AuthContext} from '../context/AuthContext'
+import OvalLoadingSpinner from './OvalLoadingSpinner'
+
+const LoggedInRoutes = React.lazy(() =>
+  /* webpackPrefetch: true */ import('../components/LoggedInRoutes'),
+)
 
 export default function RouteDecider() {
   let {isAuthenticated} = useContext(AuthContext)
@@ -12,7 +17,9 @@ export default function RouteDecider() {
         <Navigation />
       </span>
       <main className="col-start-1 col-end-13 row-start-2 row-end-13">
-        {isAuthenticated() ? <LoggedInRoutes /> : <LoggedOutRoutes />}
+        <React.Suspense fallback={<OvalLoadingSpinner />}>
+          {isAuthenticated() ? <LoggedInRoutes /> : <LoggedOutRoutes />}
+        </React.Suspense>
       </main>
     </div>
   )

@@ -98,25 +98,35 @@ export default function CreateCardSetForm(props) {
   }
 
   function formValidation(){
+    // Card set name must be entered
     if (cardSetName.value === '') {
       return 'Must enter a card name'
     }
 
-    // If both fields are not filled out, remove item from fields array
-
+    // Must create at least two flashcards
     if (fields.length < 2) {
       return 'Please create at least 2 flashcards'
     }
 
+    // Must make sure no two terms match
+    const fieldTerms = fields.map(val => val.term)
+    const uniqueFields = new Set(fieldTerms)
+
+    if (uniqueFields.size !== fieldTerms.length) {
+      return 'All terms must be unique'
+    }
+
     for (let field of fields) {
+      // A flashcard must have a term and definition, not one without the other
       if (field.term.trim() === '' && field.definition.trim() === '') {
         return 'Please delete or complete term and definition for all flashcards' 
       }
-
+      // A flashcard cannot be empty, it must be deleted or have both fields filled in
       if (field.term.trim() === '' || field.definition.trim() === '') {
-        return `Please complete flashcard term or definition in all rows`      }
+        return `Please complete flashcard term or definition in all rows`      
+      }
     }
-
+    // No form errors
     return false
   }
 
@@ -142,42 +152,48 @@ export default function CreateCardSetForm(props) {
       alert('Updated!')
       history.push(`/card-sets/${props.cardSetId}`)
     } catch (error) {
-      console.log('error: ', error)
+      console.log('error: ', error.response)
     }
   }
 
-  function createCardSetAndFlashcards(){
-    postCardSet(mainAxios, {
-      name: cardSetName.value,
-      flashcards_count: fields.length,
-      isPrivate,
-    })
-    .then(({ data: { cardSetId }}) => {
-      Promise.all([
-        postUsersCardSet(mainAxios, {
-          card_set_id: cardSetId,
-        })
-          .catch(error => {
-          // Display user error message
-          console.log('error', error.response)
-          }),
-        postFlashcards(mainAxios, {
-          fields,
-          card_set_id: cardSetId,
-        })
-          .catch(error => {
-          // Display user error message
-          console.log('error', error.response)
-          })
-      ])
-      .then(() => {
-        alert('Saved!')
-        history.push(`/card-sets/${cardSetId}`)
+  async function createCardSetAndFlashcards(){
+
+    try {
+      const { data: { cardSetId }} = await postCardSet(mainAxios, {
+        name: cardSetName.value,
+        flashcards_count: fields.length,
+        isPrivate,
       })
-    })
-    .catch(error => {
-          console.log('error response: ', error.response)
-    })
+
+      // Save promises in variables
+      const usersCardSetPromise = postUsersCardSet(mainAxios, {
+        card_set_id: cardSetId,
+      })
+
+      const flashcardsPromise = postFlashcards(mainAxios, {
+        fields,
+        card_set_id: cardSetId,
+      })
+
+      // Run promises in parallel
+      const [userCardSetsResponse, flashcardsResponse] = await Promise.all([
+        usersCardSetPromise,
+        flashcardsPromise
+      ])
+      
+      if (userCardSetsResponse.status !== "200") {
+        // handle error
+      }
+
+      if (flashcardsResponse.status !== "200") {
+        // handle error
+      }
+
+      alert('Saved!')
+      history.push(`/card-sets/${cardSetId}`)
+    } catch(error) {
+      console.log('error response: ', error.response)
+    }
   }
 
   async function handleSave() {

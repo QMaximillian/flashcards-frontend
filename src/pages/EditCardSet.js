@@ -5,17 +5,23 @@ import {FetchContext} from '../context/FetchContext'
 export default function EditCardSet(props) {
   const [cardSet, setCardSet] = useState([])
   const {mainAxios} = useContext(FetchContext)
+  const [isLoading, setLoading] = useState(true)
   useEffect(() => {
+    setLoading(true)
     mainAxios
       .get(`/card-sets/${props.match.params.id}`)
-      .then(res => setCardSet(res.data.cardSet))
+      .then(res => {
+        setCardSet(res.data.cardSet)
+        setLoading(false)
+      })
   }, [props.match.params.id, mainAxios])
 
-  return (
+  return isLoading ? <div>Loading...</div> : (
     <CreateCardSetForm
       editMode={true}
       cardSet={cardSet}
       cardSetId={props.match.params.id}
+      {...props}
     />
   )
 }

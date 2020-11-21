@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, { useContext, useReducer } from 'react'
 import TextBox from './TextBox'
-import {useHistory, useLocation} from 'react-router-dom'
-import {FetchContext} from '../context/FetchContext'
+import { useHistory, useLocation } from 'react-router-dom'
+import { FetchContext } from '../context/FetchContext'
 
 function postCardSet(httpClient, options = {}) {
   return httpClient.post('/card-sets', options)
@@ -23,100 +23,117 @@ function patchCardSetFlashcardCount(httpClient, options = {}) {
   return httpClient.patch('/update-flashcard-count', options)
 }
 
-export default function CreateCardSetForm(props) {
-  const {mainAxios} = useContext(FetchContext)
-  const [initialState, setInitialState] = useState(
-    Array.from({length: 2}, () => ({term: '', definition: ''})),
-  )
+const UPDATE_FIELDS = 'UPDATE_FIELDS'
+const UPDATE_CARD_SET_NAME = 'UPDATE_CARD_SET_NAME'
+const UPDATE_PRIVACY = 'UPDATE_PRIVACY'
 
-  const [fields, setFields] = useState(initialState)
-  const [cardSetName, setCardSetName] = useState({
-    name: 'card-set-name',
-    value: '',
-    isValid: true,
-  })
+function cardSetFormReducer(state, action){
+  switch(action.type) {
+    case UPDATE_FIELDS:
+      return {...state, flashcardFields: action.data}
+    case UPDATE_CARD_SET_NAME:
+      return {...state, cardSetName: action.data}
+    case UPDATE_PRIVACY:
+      return {...state, isPrivate: action.data}
+    default:
+      throw new Error(`Unsupported type: ${action.type}`)
+  }
+}
 
-  const [isPrivate, setPrivacy] = useState(true)
-  let history = useHistory()
-  let location = useLocation()
+let initialFieldsState = () => Array.from({length: 2}, () => ({term: '', definition: ''}))
 
-  useEffect(() => {
-    if (
-      location?.state?.fromCustomize !== undefined
-      ) {
-        console.log('fired')
-      const {flashcardFields, prevCardSetName} = location.state
-      setFields(flashcardFields)
-      setCardSetName({
+function getInitialState(locationState, cardSet, editMode){
+  
+  if (locationState !== undefined) { 
+    const {flashcardFields, prevCardSetName} = locationState
+    return {
+      initialFlashcardFields: flashcardFields,
+      flashcardFields,
+      cardSetName: {
         name: 'card-set-name',
         value: prevCardSetName,
         isValid: true,
-      })
-    }
-  }, [location])
-
-  useEffect(() => {
-    if (props.editMode && props.cardSet) {
-      let editCardSet
-      if (props.cardSet.length !== 0) {
-        editCardSet = props.cardSet.flashcards.map(flashcard => {
-          return {
-            id: flashcard.id,
-            term: flashcard.term,
-            definition: flashcard.definition,
-          }
-        })
       }
-
-      setFields(editCardSet || [])
-      setInitialState(editCardSet)
-      setCardSetName(
-        props.cardSet.name
-          ? {name: 'card-set-name', value: props.cardSet.name, isValid: true}
-          : {},
-      )
     }
-  }, [props.editMode, props.cardSet, cardSetName.name])
+  } else if (cardSet && editMode) {
+    let editCardSet
+    if (cardSet.length !== 0) {
+      editCardSet = cardSet.flashcards.map(flashcard => ({
+        id: flashcard.id,
+        term: flashcard.term,
+        definition: flashcard.definition,
+      }))
+    }
+    
+    return {
+      initialFieldsState: editCardSet,
+      flashcardFields: editCardSet,
+      cardSetName: cardSet.name ? {name: 'card-set-name', value: cardSet.name, isValid: true} : {}
+    }
+  } else {
+    let fields = initialFieldsState()
+    return {
+      initialFieldsState: fields,
+      flashcardFields: fields,
+      cardSetName: {
+        name: 'card-set-name',
+        value: '',
+        isValid: true
+      }
+    }
+  }
+}
+
+export default function CreateCardSetForm(props) {
+  const location = useLocation()
+  let history = useHistory()
+
+  const [state, dispatch] = useReducer(cardSetFormReducer, getInitialState(location.state, props.cardSet, props.editMode))
+
+  const {mainAxios} = useContext(FetchContext)
 
   function handleChange(i, event) {
-    const values = [...fields]
+    const { flashcardFields } = state
+    const data = [...flashcardFields]
 
     if (event.name === `term-${i}`) {
-      values[i].term = event.value
+      data[i].term = event.value
     }
     if (event.name === `definition-${i}`) {
-      values[i].definition = event.value
+      data[i].definition = event.value
     }
 
-    setFields(values)
+    dispatch({type: UPDATE_FIELDS, data})
   }
-
+  
   function handleRemove(i) {
-    const values = [...fields]
-    values.splice(i, 1)
-    setFields(values)
+    const { flashcardFields } = state
+    const data = [...flashcardFields]
+    data.splice(i, 1)
+    dispatch({type: UPDATE_FIELDS, data})
   }
 
   function formValidation(){
+    const { cardSetName, flashcardFields } = state
     // Card set name must be entered
     if (cardSetName.value === '') {
       return 'Must enter a card name'
     }
 
     // Must create at least two flashcards
-    if (fields.length < 2) {
+    if (flashcardFields.length < 2) {
       return 'Please create at least 2 flashcards'
     }
 
     // Must make sure no two terms match
-    const fieldTerms = fields.map(val => val.term)
+    const fieldTerms = flashcardFields.map(val => val.term)
     const uniqueFields = new Set(fieldTerms)
 
     if (uniqueFields.size !== fieldTerms.length) {
       return 'All terms must be unique'
     }
 
-    for (let field of fields) {
+    for (let field of flashcardFields) {
       // A flashcard must have a term and definition, not one without the other
       if (field.term.trim() === '' && field.definition.trim() === '') {
         return 'Please delete or complete term and definition for all flashcards' 
@@ -132,21 +149,22 @@ export default function CreateCardSetForm(props) {
 
   async function editFlashcards(){
     try {
-      const ids = initialState.map(state => state.id)
-      let newFlashcards = fields.filter(field => !ids.includes(field.id))
+      const { initialFields, flashcardFields } = state
+      const ids = initialFields.map(state => state.id)
+      let newFlashcards = flashcardFields.filter(field => !ids.includes(field.id))
 
       await postFlashcards(mainAxios, {
         fields: newFlashcards,
         card_set_id: props.cardSetId,
       })
 
-      for await (const field of initialState) {
+      for await (const field of initialFields) {
         await patchEditFlashcard(mainAxios, {field})
       }
 
       await patchCardSetFlashcardCount(mainAxios, {
         id: props.cardSetId,
-        flashcards_count: initialState.length,
+        flashcards_count: initialFields.length,
       })
 
       alert('Updated!')
@@ -159,9 +177,10 @@ export default function CreateCardSetForm(props) {
   async function createCardSetAndFlashcards(){
 
     try {
+      const { cardSetName, flashcardFields, isPrivate } = state
       const { data: { cardSetId }} = await postCardSet(mainAxios, {
         name: cardSetName.value,
-        flashcards_count: fields.length,
+        flashcards_count: flashcardFields.length,
         isPrivate,
       })
 
@@ -171,7 +190,7 @@ export default function CreateCardSetForm(props) {
       })
 
       const flashcardsPromise = postFlashcards(mainAxios, {
-        fields,
+        flashcardFields,
         card_set_id: cardSetId,
       })
 
@@ -211,6 +230,29 @@ export default function CreateCardSetForm(props) {
     }
   }
 
+  function clearFields() {
+    dispatch(
+      {type: UPDATE_FIELDS, data: Array.from({length: 2}, () => ({term: '', definition: ''}))}
+    )
+  }
+
+  function updateCardSetName(event){
+    dispatch({type: 'UPDATE_CARD_SET_NAME', data: { ...state.cardSetName, value: event.value} })
+  }
+
+  function updatePrivacy(event){
+    dispatch({type: UPDATE_PRIVACY, data: event.target.value})
+  }
+
+  function updateFields() {
+    dispatch({
+      type: "UPDATE_FIELDS",
+      data: [...state.flashcardFields, {term: '', definition: ''}]
+    })
+  }
+
+  
+  const { cardSetName, flashcardFields, isPrivate } = state
   return (
     <div className="col-start-1 col-end-13 row-start-1 row-end-13 flex w-full flex-col bg-gray-300 overflow-auto">
       <div className="bg-white p-4">
@@ -221,14 +263,14 @@ export default function CreateCardSetForm(props) {
           <div className="flex justify-end">
             <div
               className="m-2 p-2 bg-teal-500 text-white h-18  text-2xl self-center"
-              onClick={() => setFields(initialState)}
+              onClick={clearFields}
             >
               ERASE ALL ENTRIES
             </div>
             {props.editMode ? (
               <div
                 className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"
-                onClick={() => setFields([{term: '', definition: ''}])}
+                onClick={clearFields}
               >
                 DELETE ALL
               </div>
@@ -242,7 +284,7 @@ export default function CreateCardSetForm(props) {
             error={{required: 'Must have a name for the card set'}}
             name="card-set-name"
             value={cardSetName.value}
-            onChange={setCardSetName}
+            onChange={updateCardSetName}
             placeholder={'Subject, chapter, unit'}
             type="text"
           />
@@ -256,7 +298,7 @@ export default function CreateCardSetForm(props) {
             <select
               className="border border-black outline-none ml-2"
               style={{textAlignLast: 'center'}}
-              onChange={e => setPrivacy(e.target.value)}
+              onChange={updatePrivacy}
               value={isPrivate}
             >
               <option value={true}>only you</option>
@@ -266,7 +308,7 @@ export default function CreateCardSetForm(props) {
         </div>
       </div>
       <div className="bg-gray-300 my-4 mx-8">
-        {fields.map((field, idx) => {
+        {flashcardFields.map((field, idx) => {
           return (
             <div key={idx} className="w-full shadow-xl my-2 bg-white">
               <div className="border-b border-gray-500 h-16 flex justify-between item-center">
@@ -318,7 +360,11 @@ export default function CreateCardSetForm(props) {
       </div>
       <div
         className="shadow-lg bg-white mx-8 justify-center items-center flex h-24 "
-        onClick={() => setFields([...fields, {term: '', definition: ''}])}
+        // onClick={() => setFields([...fields, {term: '', definition: ''}])}
+        onClick={updateFields}
+        // onClick={() => dispatch(
+        //   { type: 'UPDATE_FIELDS', data: {...state.flashcardFields, {term: '', definition: ''}}} 
+        // )}
       >
         <div className="m-6 flex justify-center items-center add-card-div border-b-4 border-teal-500 h-10">
           <i className="fas fa-plus text-xs add-card-plus"></i>

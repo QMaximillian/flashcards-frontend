@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import CreateCardSetForm from '../components/CreateCardSetForm'
 import {FetchContext} from '../context/FetchContext'
+import {CreateCardSetProvider} from '../context/CreateCardSetContext'
 
 export default function EditCardSet(props) {
   const [cardSet, setCardSet] = useState([])
@@ -17,11 +18,13 @@ export default function EditCardSet(props) {
   }, [props.match.params.id, mainAxios])
 
   return isLoading ? <div>Loading...</div> : (
+    <CreateCardSetProvider cardSet={cardSet} editMode={true}>
     <CreateCardSetForm
       editMode={true}
       cardSet={cardSet}
       cardSetId={props.match.params.id}
       {...props}
     />
+    </CreateCardSetProvider>
   )
 }

@@ -8,6 +8,7 @@ import ShowCardSet from '../pages/ShowCardSet'
 import EditCardSet from '../pages/EditCardSet'
 import CardSetSearchResults from '../pages/CardSetSearchResults.js'
 import NoMatch from './NoMatch'
+import {CreateCardSetProvider} from '../context/CreateCardSetContext'
 
 export default function LoggedInRoutes() {
   return (
@@ -19,7 +20,7 @@ export default function LoggedInRoutes() {
         <Route exact path="/card-sets/" component={UserCardSetsPage} />
         <Route path="/search/:search" component={CardSetSearchResults} />
         <Route path="/search/" component={CardSetSearchResults} />
-        <Route exact path="/card-sets/new" component={CreateCardSetForm} />
+        <Route exact path="/card-sets/new" render={(props) => <CreateCardSetProvider cardSet={props.cardSet} editMode={props.editMode}><CreateCardSetForm /></CreateCardSetProvider>} />
         <Route
           exact
           path="/card-sets/:id"

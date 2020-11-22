@@ -84,6 +84,31 @@ function getInitialState(locationState, cardSet, editMode){
   }
 }
 
+// function FlashcardField(){
+//   return (
+
+//   )
+// }
+const CreateCardSet = React.createContext()
+function CreateCardSetProvider(props) {
+  const location = useLocation()
+  const [state, dispatch] = useReducer(cardSetFormReducer, getInitialState(location.state, props.cardSet, props.editMode))
+
+  return <CreateCardSet.Provider value={{state, dispatch}}>{props.children}</CreateCardSet.Provider>
+}
+
+function useCreateCardSet() {
+  const context = useContext(CreateCardSet)
+
+  if (!context) {
+    throw new Error(`This hook can only be used by components that are children of a CreateCardSet Provider`)
+  }
+
+  return context
+}
+
+
+
 export default function CreateCardSetForm(props) {
   const location = useLocation()
   let history = useHistory()
@@ -251,9 +276,9 @@ export default function CreateCardSetForm(props) {
     })
   }
 
-  
   const { cardSetName, flashcardFields, isPrivate } = state
   return (
+    <CreateCardSetProvider cardSet={props.cardSet} editMode={props.editMode}>
     <div className="col-start-1 col-end-13 row-start-1 row-end-13 flex w-full flex-col bg-gray-300 overflow-auto">
       <div className="bg-white p-4">
         <div className="mt-6 flex justify-between">
@@ -331,13 +356,14 @@ export default function CreateCardSetForm(props) {
                     // required={true}
                     // error={{required: "Please enter corresponding answer"}}
                     placeholder="Enter term"
-                    onChange={e => handleChange(idx, e)}
+                    onChange={(e) => handleChange(idx, e)}
                     value={field.term}
                     type="text"
                     name={`term-${idx}`}
                   />
                   <label className="text-xs opacity-50 mt-1">TERM</label>
                 </div>
+                {/* <FlashcardField onChange={e => handleChange(idx, e)}/> */}
                 <div
                   className="w-1/2 my-6 ml-6 pr-4"
                   key={`${field}-answer-${idx}`}
@@ -384,5 +410,6 @@ export default function CreateCardSetForm(props) {
         </div>
       </div>
     </div>
+    </CreateCardSetProvider>
   )
 }

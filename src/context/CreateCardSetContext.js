@@ -21,7 +21,7 @@ const cardSetFormReducerTypes = {
 function cardSetFormReducer(state, action){
   switch(action.type) {
     case ADD_NEW_TERM_AND_DEFINITION:
-      return {...state, flashcardFields: [...state.flashcardFields, ...action.data]}
+      return {...state, flashcardFields: [...state.flashcardFields, action.data]}
     case CLEAR_FIELDS: 
       return {...state, flashcardFields: initialFieldsState()}
     case UPDATE_FIELDS:
@@ -47,7 +47,9 @@ function getInitialState(locationState, cardSet, editMode){
         name: 'card-set-name',
         value: prevCardSetName,
         isValid: true,
-      }
+      },
+      isPrivate: cardSet.private,
+      prevIsPrivate: cardSet.private
     }
   } else if (cardSet && editMode) {
     let editCardSet
@@ -60,20 +62,25 @@ function getInitialState(locationState, cardSet, editMode){
     }
     
     return {
-      initialFieldsState: editCardSet,
+      initialFlashcardFields: cardSet.flashcards,
       flashcardFields: editCardSet,
-      cardSetName: cardSet.name ? {name: 'card-set-name', value: cardSet.name, isValid: true} : {}
+      cardSetName: cardSet.name ? {name: 'card-set-name', value: cardSet.name, isValid: true} : {},
+      cardSetId: cardSet.card_set_id,
+      isPrivate: cardSet.private,
+      prevIsPrivate: cardSet.private
     }
   } else {
     let fields = initialFieldsState()
     return {
-      initialFieldsState: fields,
+      initialFlashcardFields: fields,
       flashcardFields: fields,
       cardSetName: {
         name: 'card-set-name',
         value: '',
         isValid: true
-      }
+      },
+      isPrivate: cardSet.private,
+      prevIsPrivate: cardSet.private
     }
   }
 }
@@ -81,7 +88,7 @@ function getInitialState(locationState, cardSet, editMode){
 
 function CreateCardSetProvider(props) {
   const location = useLocation()
-  const [state, dispatch] = React.useReducer(cardSetFormReducer, getInitialState(location.state, props.cardSet, props.editMode))
+  const [state, dispatch] = React.useReducer(cardSetFormReducer, {}, () => getInitialState(location.state, props.cardSet, props.editMode))
 
   return <Provider value={{state, dispatch}}>{props.children}</Provider>
 }

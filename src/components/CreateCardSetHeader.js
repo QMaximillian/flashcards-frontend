@@ -4,8 +4,9 @@ import { useCreateCardSet } from '../context/CreateCardSetContext'
 
 export default function CreateCardSetHeader(props){
 
-    const {state: { isPrivate, cardSetName}, dispatch, cardSetFormReducerTypes } = useCreateCardSet()
-
+    const {state: { prevIsPrivate, isPrivate, cardSetName}, dispatch, cardSetFormReducerTypes } = useCreateCardSet()
+  console.log('isPrivate', isPrivate)
+  console.log('prevIsPrivate', prevIsPrivate)
     function clearFields() {
       dispatch(
         {type: cardSetFormReducerTypes.CLEAR_FIELDS, data: Array.from({length: 2}, () => ({term: '', definition: ''}))}
@@ -13,7 +14,7 @@ export default function CreateCardSetHeader(props){
     }
 
     function updatePrivacy(event){
-      dispatch({type: cardSetFormReducerTypes.UPDATE_PRIVACY, data: event.target.value})
+      dispatch({type: cardSetFormReducerTypes.UPDATE_PRIVACY, data: event.target.value === 'true' ? true : false})
     }
 
     function updateCardSetName(event){

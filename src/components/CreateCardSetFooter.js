@@ -23,6 +23,10 @@ function patchCardSetFlashcardCount(httpClient, options = {}) {
   return httpClient.patch('/update-flashcard-count', options)
 }
 
+function patchCardSetPrivacy(httpClient, options = {}) {
+  return httpClient.patch('/card-set', options) 
+}
+
 function CreateCardSetFooter(props){
     let history = useHistory()
     const {mainAxios} = useContext(FetchContext)
@@ -71,26 +75,46 @@ function CreateCardSetFooter(props){
     
       async function editFlashcards(){
         try {
-          const { initialFields, flashcardFields } = state
-          const ids = initialFields.map(state => state.id)
-          let newFlashcards = flashcardFields.filter(field => !ids.includes(field.id))
+          const { flashcardFields, isPrivate, prevIsPrivate, cardSetId } = state
+          
+          const { oldFlashcards, newFlashcards } = flashcardFields.reduce((acc, curr) => {
+            curr.id ? acc.oldFlashcards.push(curr) : acc.newFlashcards.push(curr)
+            return acc
+          }, {oldFlashcards: [], newFlashcards: []})
     
-          await postFlashcards(mainAxios, {
+          const flashcardsPromise = postFlashcards(mainAxios, {
             fields: newFlashcards,
-            card_set_id: props.cardSetId,
+            card_set_id: cardSetId,
           })
-    
-          for await (const field of initialFields) {
+
+          for await (const field of oldFlashcards) {
             await patchEditFlashcard(mainAxios, {field})
           }
+
+          if (isPrivate !== prevIsPrivate) {
+            await patchCardSetPrivacy(mainAxios, { isPrivate, id: cardSetId })
+          }
     
-          await patchCardSetFlashcardCount(mainAxios, {
-            id: props.cardSetId,
-            flashcards_count: initialFields.length,
+          const cardSetFlashcardCountPromise = patchCardSetFlashcardCount(mainAxios, {
+            id: cardSetId,
+            flashcards_count: flashcardFields.length,
           })
-    
+
+          const [flashcardsResponse, cardSetFlashcardCountResponse] = await Promise.all([
+            flashcardsPromise,
+            cardSetFlashcardCountPromise
+          ])
+
+          if (flashcardsResponse.status !== 200) {
+            // error handling
+          }
+
+          if (cardSetFlashcardCountResponse.status !== 200) {
+            // error handling
+          }
+          
           alert('Updated!')
-          history.push(`/card-sets/${props.cardSetId}`)
+          history.push(`/card-sets/${state.cardSetId}`)
         } catch (error) {
           console.log('error: ', error.response)
         }
@@ -112,7 +136,7 @@ function CreateCardSetFooter(props){
           })
     
           const flashcardsPromise = postFlashcards(mainAxios, {
-            flashcardFields,
+            fields: flashcardFields,
             card_set_id: cardSetId,
           })
     

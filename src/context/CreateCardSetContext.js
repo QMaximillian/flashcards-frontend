@@ -39,7 +39,8 @@ let initialFieldsState = () => Array.from({length: 2}, () => ({term: '', definit
 
 function getInitialState(locationState, cardSet, editMode){
   if (locationState !== undefined) { 
-    const {flashcardFields, prevCardSetName} = locationState
+    const {flashcardFields, prevCardSetName } = locationState
+
     return {
       initialFlashcardFields: flashcardFields,
       flashcardFields,
@@ -48,8 +49,8 @@ function getInitialState(locationState, cardSet, editMode){
         value: prevCardSetName,
         isValid: true,
       },
-      isPrivate: cardSet.private,
-      prevIsPrivate: cardSet.private
+      isPrivate: false,
+      prevIsPrivate: false
     }
   } else if (cardSet && editMode) {
     let editCardSet
@@ -79,8 +80,8 @@ function getInitialState(locationState, cardSet, editMode){
         value: '',
         isValid: true
       },
-      isPrivate: cardSet.private,
-      prevIsPrivate: cardSet.private
+      isPrivate: false,
+      prevIsPrivate: false
     }
   }
 }

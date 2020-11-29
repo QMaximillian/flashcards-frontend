@@ -20,26 +20,13 @@ export default function FlashcardsNavDrawer(props) {
     },
   ]
 
-  function renderStudyTopic() {
-    return flashcardCategories.map((category, idx) => {
-      if (idx === 0) {
-        return (
-          <Link key={idx} className="pl-4 text-lg mb-6" to="#">
-            Flashcards
-          </Link>
-        )
-      } else {
-        return (
-          <Link
-            key={idx}
-            className="pl-4 text-lg opacity-25 cursor-not-allowed mb-6"
-            to="#"
-          >
-            {category.name}
-          </Link>
-        )
-      }
-    })
-  }
-  return renderStudyTopic()
+  return flashcardCategories.map((category, idx) => (
+        <Link
+          key={idx}
+          className={`${category.name !== 'Flashcards' ? 'cursor-not-allowed opacity-25' : ''} pl-4 text-lg mb-6`}
+          to="#"
+        >
+          {category.name}
+        </Link>)
+  )
 }

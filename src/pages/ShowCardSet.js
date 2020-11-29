@@ -16,7 +16,6 @@ import {FetchContext} from '../context/FetchContext'
 export default function ShowCardSet(props) {
   const {isAuthenticated, authState} = useContext(AuthContext)
   const {mainAxios} = useContext(FetchContext)
-
   const [isLoading, setIsLoading] = useState(true)
   const [cardSet, setCardSet] = useState({})
   const [flashcards, setFlashcards] = useState([])
@@ -180,6 +179,7 @@ export default function ShowCardSet(props) {
               fromCustomize: true,
               prevCardSetName: cardSet.name,
               flashcardFields: flashcards.slice(),
+              cardSetId: cardSet.card_set_id
             },
           }}
           className="flex items-center justify-center"

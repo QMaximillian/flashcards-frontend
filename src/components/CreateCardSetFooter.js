@@ -178,7 +178,7 @@ function CreateCardSetFooter(props){
 
     return (
         <>
-        <div
+        <button
         className="shadow-lg bg-white mx-8 justify-center items-center flex h-24 "
         onClick={addField}
       >
@@ -186,16 +186,16 @@ function CreateCardSetFooter(props){
           <i className="fas fa-plus text-xs add-card-plus"></i>
           <div className="ml-2 text-base add-card-text">ADD CARD</div>
         </div>
-      </div>
+      </button>
       <div className="flex justify-end mb-2">
         <div
           onClick={handleSave}
           className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
         >
           {props.editMode ? (
-            <div className="create-text text-lg">Save</div>
+            <button className="h-full w-full create-text text-lg" form="card-set-form">Save</button>
           ) : (
-            <div className="create-text text-lg">Create Set</div>
+            <button className="h-full w-full create-text text-lg" form="card-set-form">Create Set</button>
           )}
         </div>
       </div>

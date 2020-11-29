@@ -28,12 +28,12 @@ export default function CreateCardSetHeader(props){
             Create a new study set
           </div>
           <div className="flex justify-end">
-            <div
+            <button
               className="m-2 p-2 bg-teal-500 text-white h-18  text-2xl self-center"
               onClick={clearFields}
             >
               ERASE ALL ENTRIES
-            </div>
+            </button>
             {props.editMode ? (
               <div
                 className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"

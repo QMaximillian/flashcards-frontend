@@ -53,7 +53,7 @@ function Navigation() {
     setDropdownToggle(false)
   })
 
-  const enterOnKeyPress = useCallback(event => setRedirect(event.keyCode === 13), [])
+  const enterOnKeyPress = useCallback(event => setRedirect(search.value !== '' && event.keyCode === 13), [search.value])
 
   useEffect(() => {
     document.addEventListener('keydown', enterOnKeyPress)
@@ -71,7 +71,7 @@ function Navigation() {
           <i className="text-2xl text-white self-center fas fa-search"></i>
           <form onSubmit={event => event.preventDefault()} className="w-full">
             <TextBox
-              className={`text-2xl outline-none w-full ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
+              className={`text-2xl outline-none w-full ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 placeholder border-solid`}
               placeholder="Search"
               type="text"
               name="search-box-nav"
@@ -92,13 +92,13 @@ function Navigation() {
       return (
         <div className="flex">
             <span className="h-full w-24 text-white flex justify-center search-box">
-              <i className="h-full self-center h-full search-box mag-glass fas fa-search"></i>
-              <p
+              <i className="h-full self-center search-box mag-glass fas fa-search"></i>
+              <button
                 onClick={() => setExpandSearchBar(true)}
                 className="mx-2 search-box search"
               >
                 Search
-              </p>
+              </button>
             </span>
           {isAuthenticated() && (
             <>

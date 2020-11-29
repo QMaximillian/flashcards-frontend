@@ -34,12 +34,12 @@ function CreateCardSetFields(props){
         <div className="font-semibold self-center pr-2 text-lg h-164 pl-6 text-gray-500">
           {idx + 1}
         </div>
-        <div
+        <button
           className="ml-2 self-center my-6 pr-4"
           onClick={() => handleRemove(idx)}
         >
           X
-        </div>
+        </button>
       </div>
       <div className="flex w-full pt-2 pb-8">
         <div

@@ -109,6 +109,7 @@ function Navigation() {
               <Link
                 className="create-box flex justify-center w-24"
                 to="/card-sets/new"
+                data-testid="create-card-set-link"
               >
                 <i className="plus self-center fas fa-plus-square"/>
                 <p className="create text-center ml-3">Create</p>
@@ -127,6 +128,7 @@ function Navigation() {
         <div
           className="flex search-box"
           onClick={() => setDropdownToggle(prev => !prev)}
+          data-testid="quick-account-options"
         >
           <p
             className={`${

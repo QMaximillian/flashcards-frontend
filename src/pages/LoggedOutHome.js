@@ -24,12 +24,14 @@ function LoggedOutHome(props) {
           <Link
             to="/sign-up"
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+            data-testid="homepage-sign-up-link"
           >
             Sign Up
           </Link>
           <Link
             to="/login"
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+            data-testid="homepage-login-link"
           >
             Login
           </Link>

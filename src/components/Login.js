@@ -56,6 +56,7 @@ export default function Login(props) {
                 setEmail(e)
               }}
               type="email"
+              id="email"
             />
           </div>
         </div>
@@ -79,6 +80,7 @@ export default function Login(props) {
               setPassword(e)
             }}
             type={'password'}
+            id="password"
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">

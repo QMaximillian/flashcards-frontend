@@ -29,3 +29,8 @@ package-lock.json
 # Tailwind Output File
 
 src/tailwind.output.css
+
+# Cypress
+
+cypress/videos
+cypress/screenshots

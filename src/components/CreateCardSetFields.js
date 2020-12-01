@@ -44,7 +44,7 @@ function CreateCardSetFields(props){
       <div className="flex w-full pt-2 pb-8">
         <div
           className="w-1/2 my-6 mr-6 pl-4"
-          key={`${field}-definition-${idx}`}
+          key={`field-term-${idx}`}
         >
           <TextBox
             // required={true}
@@ -59,7 +59,7 @@ function CreateCardSetFields(props){
         </div>
         <div
           className="w-1/2 my-6 ml-6 pr-4"
-          key={`${field}-answer-${idx}`}
+          key={`field-answer-${idx}`}
         >
           <TextBox
             // required={true}

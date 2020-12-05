@@ -84,7 +84,7 @@ const TextBox = React.forwardRef((props, ref) => {
   return (
     <div className="w-full">
       <input
-        data-testid="text-box"
+        data-testid={props.testId ?? "text-box"}
         className={`${renderClasses()} ${
           handleShowError()
             ? 'border-red-500'

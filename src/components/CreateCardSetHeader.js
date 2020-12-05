@@ -5,8 +5,6 @@ import { useCreateCardSet } from '../context/CreateCardSetContext'
 export default function CreateCardSetHeader(props){
 
     const {state: { prevIsPrivate, isPrivate, cardSetName}, dispatch, cardSetFormReducerTypes } = useCreateCardSet()
-  console.log('isPrivate', isPrivate)
-  console.log('prevIsPrivate', prevIsPrivate)
     function clearFields() {
       dispatch(
         {type: cardSetFormReducerTypes.CLEAR_FIELDS, data: Array.from({length: 2}, () => ({term: '', definition: ''}))}
@@ -59,19 +57,21 @@ export default function CreateCardSetHeader(props){
             TITLE
           </label>
         </div>
-        <div className="flex justify-between">
-          <div>
+        <div className="flex justify-start">
+          <label htmlFor="select-privacy">
             Accessible to:
+          </label>
             <select
               className="border border-black outline-none ml-2"
               style={{textAlignLast: 'center'}}
               onChange={updatePrivacy}
               value={isPrivate}
+              id="select-privacy"
+              data-testid="select-privacy"
             >
               <option value={true}>only you</option>
               <option value={false}>all</option>
             </select>
-          </div>
         </div>
       </div>
     )

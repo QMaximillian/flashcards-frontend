@@ -114,7 +114,7 @@ export default function UserCardSetCard(props) {
                     {cardSet.creator_name}
                   </div>
                 </div>
-                <div className="mt-1 pl-2 text-xl font-medium">
+                <div className="mt-1 pl-2 text-xl font-medium" data-testid={`card-set-name-${props.idx}`}>
                   {cardSet.name}
                 </div>
               </Link>

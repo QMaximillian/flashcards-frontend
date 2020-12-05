@@ -60,11 +60,11 @@ function CreateCardSetFooter(props){
         }
     
         for (let field of flashcardFields) {
-          // A flashcard must have a term and definition, not one without the other
+          // A flashcard cannot be empty, it must be deleted or have both fields filled in
           if (field.term.trim() === '' && field.definition.trim() === '') {
             return 'Please delete or complete term and definition for all flashcards' 
           }
-          // A flashcard cannot be empty, it must be deleted or have both fields filled in
+          // A flashcard must have a term and definition, not one without the other
           if (field.term.trim() === '' || field.definition.trim() === '') {
             return `Please complete flashcard term or definition in all rows`      
           }
@@ -181,6 +181,7 @@ function CreateCardSetFooter(props){
         <button
         className="shadow-lg bg-white mx-8 justify-center items-center flex h-24 "
         onClick={addField}
+        data-testid="add-flashcard-fields"
       >
         <div className="m-6 flex justify-center items-center add-card-div border-b-4 border-teal-500 h-10">
           <i className="fas fa-plus text-xs add-card-plus"></i>

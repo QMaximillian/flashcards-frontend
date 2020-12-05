@@ -31,7 +31,7 @@ export default function CardSetSearchResults(props) {
       {cardSets.map((cardSet, idx) => {
         return (
           <div key={idx}>
-            <UserCardSetCard cardSet={cardSet} searchCard={true} />
+            <UserCardSetCard cardSet={cardSet} searchCard={true} idx={idx} />
           </div>
         )
       })}

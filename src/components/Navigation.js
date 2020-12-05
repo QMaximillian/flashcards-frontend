@@ -83,6 +83,7 @@ function Navigation() {
                 setSearch(prevSearch => ({...prevSearch, value: ''}))
               }}
               ref={navRef}
+              testId="navigation-search-input"
             />
           </form>
           <i className=" self-center fas fa-times text-2xl text-white"></i>
@@ -96,6 +97,7 @@ function Navigation() {
               <button
                 onClick={() => setExpandSearchBar(true)}
                 className="mx-2 search-box search"
+                data-testid="navigation-search-button"
               >
                 Search
               </button>

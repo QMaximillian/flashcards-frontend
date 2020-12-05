@@ -54,8 +54,10 @@ function CreateCardSetFields(props){
             value={field.term}
             type="text"
             name={`term-${idx}`}
+            id={`term-${idx}`}
+            testId={`term-${idx}`}
           />
-          <label className="text-xs opacity-50 mt-1">TERM</label>
+          <label htmlFor={`term-${idx}`} className="text-xs opacity-50 mt-1">TERM</label>
         </div>
         <div
           className="w-1/2 my-6 ml-6 pr-4"
@@ -69,8 +71,10 @@ function CreateCardSetFields(props){
             value={field.definition}
             type="text"
             name={`definition-${idx}`}
+            id={`definition-${idx}`}
+            testId={`definition-${idx}`}
           />
-          <label className="text-xs opacity-50 mt-1">DEFINITION</label>
+          <label htmlFor={`definition-${idx}`} className="text-xs opacity-50 mt-1">DEFINITION</label>
         </div>
       </div>
     </div>

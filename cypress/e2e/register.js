@@ -25,17 +25,7 @@ describe('registration', () => {
 
         cy.findByTestId(/submit-sign-up/i).click()
 
-        cy.url().should('eq', `${Cypress.config().baseUrl}/`)
-
-        cy.window()
-            .its('localStorage.userInfo')
-            .then(subject => {
-                const parsedUserInfo = JSON.parse(subject)
-                return parsedUserInfo
-            })
-            .should('be.a', 'object')
-        cy.window()
-            .its('localStorage.expiresAt')
-            .should('be.a', 'string')
+        cy.assertHome()
+        cy.assertLoggedInAs(user)
     })
 })

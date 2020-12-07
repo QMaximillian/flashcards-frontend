@@ -179,7 +179,7 @@ export default function ShowCardSet(props) {
               fromCustomize: true,
               prevCardSetName: cardSet.name,
               flashcardFields: flashcards.slice(),
-              cardSetId: cardSet.card_set_id
+              cardSetId: cardSet.card_set_id,
             },
           }}
           className="flex items-center justify-center"
@@ -244,7 +244,12 @@ export default function ShowCardSet(props) {
             >
               <i className="fas fa-arrow-left"></i>
             </div>
-            <div>{`${count + 1} / ${flashcards.length + 1}`}</div>
+            <div>
+              <span>{count + 1}</span> /{' '}
+              <span data-testid="amount-of-flashcards">
+                {flashcards.length + 1}
+              </span>
+            </div>
             <div
               onClick={nextSlide}
               className={`mx-10 ${

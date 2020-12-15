@@ -9,23 +9,21 @@ export default function Card(props) {
     config: {mass: 5, tension: 500, friction: 80},
   })
 
-  const handleCardFlip = useCallback((event) => {
-    switch(event.keyCode){
+  const handleCardFlip = useCallback(event => {
+    switch (event.keyCode) {
       case 70:
         setFlipped(state => !state)
         return
       default:
-        break;
+        break
     }
   }, [])
-  
+
   useEffect(() => {
     document.addEventListener('keydown', handleCardFlip)
 
     return () => document.removeEventListener('keydown', handleCardFlip)
   }, [handleCardFlip])
-
-  
 
   return (
     <div className="h-64 w-3/4" onClick={() => setFlipped(state => !state)}>

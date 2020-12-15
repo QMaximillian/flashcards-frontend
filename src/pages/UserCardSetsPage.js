@@ -62,7 +62,6 @@ export default function UserCardSetsPage(props) {
         <div className="self-center text-xs">SORT</div>
         <select
           className="ml-4 h-12 w-32 border-gray-500 border rounded-none text-teal-500"
-          // style={{ textAlignLast: "left" }}
           onChange={e => setFilter(e.target.value)}
           value={filter}
         >

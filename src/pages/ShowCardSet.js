@@ -233,7 +233,7 @@ export default function ShowCardSet(props) {
               })}
             </div>
           </div>
-          <div className="flex justify-center w-3/4 h-12 flex justify-center items-center">
+          <div className="flex justify-center w-3/4 h-12 items-center">
             <div
               onClick={prevSlide}
               className={`mx-10 ${

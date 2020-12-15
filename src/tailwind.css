@@ -2,80 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-/* .search-box:hover .search {
+.create-box:hover .plus {
   opacity: 60%;
 }
+
+.create-box:hover .create {
+  opacity: 60%;
+}
+
+.h-128 {
+  height: 32rem;
+}
+
+.home-latest {
+  border-bottom-color: transparent;
+  border-bottom-width: 6px;
+}
+
+.home-latest:hover {
+  border-bottom-color: #ebc034;
+  border-bottom-width: 6px;
+}
+
+.add-card-div {
+  border-bottom-width: 6px;
+}
+
+.add-card-div:hover {
+  color: #ebc034;
+  border-bottom-color: #ebc034;
+}
+
+.create-card-set-button:hover .create-text {
+  color: black;
+}
+.create-card-set-button:hover {
+  background-color: #ebc034;
+}
+
+.w-128 {
+  width: 32rem;
+}
+
+.w-96 {
+  width: 24rem;
+}
+
+.has-line:hover {
+  box-shadow: inset 0px -0.3rem 0 0 #ebc034;
+}
+
+.search-box:hover .search {
+  opacity: 70%;
+}
 .search-box:hover .mag-glass {
-  opacity: 60%;
-} */
+  opacity: 70%;
+}
 
-.create-box:hover .plus {
-    opacity: 60%;
+@responsive {
+  .grid-rows-12 {
+    grid-template-rows: repeat(12, minmax(0, 1fr));
   }
-  
-  .create-box:hover .create {
-    opacity: 60%;
-  }
-  
-  .h-128 {
-    height: 32rem;
-  }
-  
-  .home-latest {
-    border-bottom-color: transparent;
-    border-bottom-width: 6px;
-  }
-  
-  .home-latest:hover {
-    border-bottom-color: #ebc034;
-    border-bottom-width: 6px;
-  }
-  
-  .add-card-div {
-    border-bottom-width: 6px;
-  }
-  
-  .add-card-div:hover {
-    color: #ebc034;
-    border-bottom-color: #ebc034;
-  }
-  
-  .create-card-set-button:hover .create-text {
-    color: black;
-  }
-  .create-card-set-button:hover {
-    background-color: #ebc034;
-  }
-  
-  .w-128 {
-    width: 32rem;
-  }
-  
-  .w-96 {
-    width: 24rem;
-  }
-  
-  .has-line:hover {
-    box-shadow: inset 0px -0.3rem 0 0 #ebc034;
-  }
-  
-  /* .search-box:hover .search {
-  opacity: 60%;
-  }
-  .search-box:hover .mag-glass {
-    opacity: 60%;
-  } */
 
-  @responsive {
-    .grid-rows-12 {
-      grid-template-rows: repeat(12, minmax(0, 1fr));
-    }
-  
-    .row-end-12 {
-      grid-row-end: 12;
-    }
-    .row-end-13 {
-      grid-row-end: 13;
-    }
+  .row-end-12 {
+    grid-row-end: 12;
   }
-  
+  .row-end-13 {
+    grid-row-end: 13;
+  }
+}

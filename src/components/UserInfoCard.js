@@ -110,7 +110,7 @@ export default function UserInfoCard(props) {
       return (
         <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
           <div style={{height: '16rem', width: '24rem'}} className="">
-            <div className="flex justify-center w-full h-full bg-gray-500 items-center border border-teal-500 bg-gray-300">
+            <div className="flex justify-center w-full h-full items-center border border-teal-500 bg-gray-300">
               <form
                 className="shadow-md rounded w-full h-full px-6 py-8 flex flex-col"
                 style={{justifyContent: 'space-evenly'}}

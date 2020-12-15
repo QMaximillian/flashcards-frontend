@@ -12,7 +12,7 @@ export default function UserCardSetCard(props) {
 
   function renderStudiedCard() {
     return (
-      <div className="px-4 search border-0 border-black h-16 bg-white w-full border-t-2 border-pink-100">
+      <div className="px-4 search border-0 border-black h-16 bg-white w-full border-t-2">
         <div className="flex h-full justify-around items-center">
           <div className="cursor-not-allowed opacity-25">Learn</div>
           <Link to={`/card-sets/${cardSet.card_set_id}`}>

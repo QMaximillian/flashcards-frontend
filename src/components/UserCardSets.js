@@ -99,13 +99,7 @@ export default function UserCardSets({filter, search, username, isUser}) {
           )
           .sort((a, b) => alphabeticalFilter(a, b))
           .map((cardSet, idx) => {
-            return (
-              <UserCardSetCard
-                key={idx}
-                cardSet={cardSet}
-                // handleChecked={handleChecked}
-              />
-            )
+            return <UserCardSetCard key={idx} cardSet={cardSet} />
           })
 
         return !loading && alphabeticalSort.length === 0 ? (

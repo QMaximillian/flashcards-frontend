@@ -41,10 +41,8 @@ export default function CreateCardSetForm(props) {
   let location = useLocation()
 
   useEffect(() => {
-    if (
-      location?.state?.fromCustomize !== undefined
-      ) {
-        console.log('fired')
+    if (location?.state?.fromCustomize !== undefined) {
+      console.log('fired')
       const {flashcardFields, prevCardSetName} = location.state
       setFields(flashcardFields)
       setCardSetName({
@@ -97,7 +95,7 @@ export default function CreateCardSetForm(props) {
     setFields(values)
   }
 
-  function formValidation(){
+  function formValidation() {
     // Card set name must be entered
     if (cardSetName.value === '') {
       return 'Must enter a card name'
@@ -119,18 +117,18 @@ export default function CreateCardSetForm(props) {
     for (let field of fields) {
       // A flashcard must have a term and definition, not one without the other
       if (field.term.trim() === '' && field.definition.trim() === '') {
-        return 'Please delete or complete term and definition for all flashcards' 
+        return 'Please delete or complete term and definition for all flashcards'
       }
       // A flashcard cannot be empty, it must be deleted or have both fields filled in
       if (field.term.trim() === '' || field.definition.trim() === '') {
-        return `Please complete flashcard term or definition in all rows`      
+        return `Please complete flashcard term or definition in all rows`
       }
     }
     // No form errors
     return false
   }
 
-  async function editFlashcards(){
+  async function editFlashcards() {
     try {
       const ids = initialState.map(state => state.id)
       let newFlashcards = fields.filter(field => !ids.includes(field.id))
@@ -156,10 +154,11 @@ export default function CreateCardSetForm(props) {
     }
   }
 
-  async function createCardSetAndFlashcards(){
-
+  async function createCardSetAndFlashcards() {
     try {
-      const { data: { cardSetId }} = await postCardSet(mainAxios, {
+      const {
+        data: {cardSetId},
+      } = await postCardSet(mainAxios, {
         name: cardSetName.value,
         flashcards_count: fields.length,
         isPrivate,
@@ -178,20 +177,20 @@ export default function CreateCardSetForm(props) {
       // Run promises in parallel
       const [userCardSetsResponse, flashcardsResponse] = await Promise.all([
         usersCardSetPromise,
-        flashcardsPromise
+        flashcardsPromise,
       ])
-      
-      if (userCardSetsResponse.status !== "200") {
+
+      if (userCardSetsResponse.status !== '200') {
         // handle error
       }
 
-      if (flashcardsResponse.status !== "200") {
+      if (flashcardsResponse.status !== '200') {
         // handle error
       }
 
       alert('Saved!')
       history.push(`/card-sets/${cardSetId}`)
-    } catch(error) {
+    } catch (error) {
       console.log('error response: ', error.response)
     }
   }

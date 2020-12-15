@@ -166,6 +166,7 @@ export default function ShowCardSet(props) {
         <Link
           to={`/card-sets/${props.match.params.id}/edit`}
           className="flex items-center justify-center"
+          data-testid="edit-card-set"
         >
           <i className="far fa-edit"></i>
         </Link>
@@ -191,9 +192,10 @@ export default function ShowCardSet(props) {
   }
 
   function createFlashcardList(key, transitionProps) {
-    let cards = flashcards.map(flashcard => (
+    let cards = flashcards.map((flashcard, index) => (
       <Card
         key={key}
+        index={index}
         style={transitionProps}
         flashcardFront={flashcard.term}
         flashcardBack={flashcard.definition}

@@ -9,23 +9,21 @@ export default function Card(props) {
     config: {mass: 5, tension: 500, friction: 80},
   })
 
-  const handleCardFlip = useCallback((event) => {
-    switch(event.keyCode){
+  const handleCardFlip = useCallback(event => {
+    switch (event.keyCode) {
       case 70:
         setFlipped(state => !state)
         return
       default:
-        break;
+        break
     }
   }, [])
-  
+
   useEffect(() => {
     document.addEventListener('keydown', handleCardFlip)
 
     return () => document.removeEventListener('keydown', handleCardFlip)
   }, [handleCardFlip])
-
-  
 
   return (
     <div className="h-64 w-3/4" onClick={() => setFlipped(state => !state)}>
@@ -37,7 +35,12 @@ export default function Card(props) {
           transform,
         }}
       >
-        <div className="text-3xl font-light">{props.flashcardFront}</div>
+        <div
+          data-testid={`term-${props.index}`}
+          className="text-3xl font-light"
+        >
+          {props.flashcardFront}
+        </div>
       </animated.div>
       <animated.div
         className={`p-4 bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
@@ -47,7 +50,12 @@ export default function Card(props) {
           transform: transform.interpolate(t => `${t} rotateX(180deg)`),
         }}
       >
-        <div className="text-3xl font-light">{props.flashcardBack}</div>
+        <div
+          data-testid={`definition-${props.index}`}
+          className="text-3xl font-light"
+        >
+          {props.flashcardBack}
+        </div>
       </animated.div>
     </div>
   )

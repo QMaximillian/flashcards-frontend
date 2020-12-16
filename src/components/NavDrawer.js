@@ -7,7 +7,7 @@ export default function NavDrawer() {
     <Switch>
       <Route
         exact
-        path={['/card-sets/new', '/card-sets/:id', '/search']}
+        path={['/card-sets/new', '/card-sets/:id', '/search', '/search/:id']}
         component={null}
       ></Route>
       <div

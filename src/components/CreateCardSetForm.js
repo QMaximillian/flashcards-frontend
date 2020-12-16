@@ -211,10 +211,10 @@ export default function CreateCardSetForm(props) {
   }
 
   return (
-    <div className="col-start-1 col-end-13 row-start-1 row-end-13 flex w-full flex-col bg-gray-300 overflow-auto">
-      <div className="bg-white p-4">
+    <div className="col-start-1 col-end-13 row-start-1 row-end-13 flex w-full flex-col overflow-auto">
+      <div className="p-4">
         <div className="mt-6 flex justify-between">
-          <div className="text-3xl opacity-75 font-bold bg-white">
+          <div className="text-3xl opacity-75 font-bold">
             Create a new study set
           </div>
           <div className="flex justify-end">
@@ -264,7 +264,7 @@ export default function CreateCardSetForm(props) {
           </div>
         </div>
       </div>
-      <div className="bg-gray-300 my-4 mx-8">
+      <div className="my-4 mx-8">
         {fields.map((field, idx) => {
           return (
             <div key={idx} className="w-full shadow-xl my-2 bg-white">

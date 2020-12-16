@@ -115,7 +115,7 @@ export default function UserCardSetsPage(props) {
 
   return (
     <div
-      className="col-start-4 col-end-13 row-start-1 row-end-13 bg-gray-200 overflow-y-auto"
+      className="col-start-4 col-end-13 row-start-1 row-end-13 overflow-y-auto"
       style={{height: '92vh'}}
     >
       {!isLoading && (

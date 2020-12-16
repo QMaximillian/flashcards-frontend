@@ -62,7 +62,7 @@ export default function UserInfoCard(props) {
                 recentMatch
                   ? 'bg-yellow-500 text-black'
                   : 'hover:text-yellow-500 text-teal-300'
-              } border border-gray-500 py-2 px-4`}
+              } border border-gray-500 py-2 px-4 bg-white`}
             >
               Recent
             </div>
@@ -74,7 +74,7 @@ export default function UserInfoCard(props) {
               createdMatch && !studiedMatch && !recentMatch
                 ? 'bg-yellow-500 text-black'
                 : 'hover:text-yellow-500 text-teal-300'
-            } border border-gray-500 py-2 px-4`}
+            } border border-gray-500 py-2 px-4 bg-white`}
           >
             Created
           </div>
@@ -85,7 +85,7 @@ export default function UserInfoCard(props) {
               studiedMatch
                 ? 'bg-yellow-500 text-black'
                 : 'hover:text-yellow-500 text-teal-300'
-            } border border-gray-500 py-2 px-4 `}
+            } border border-gray-500 py-2 px-4  bg-white`}
           >
             Studied
           </div>

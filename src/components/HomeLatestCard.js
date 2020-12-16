@@ -8,7 +8,7 @@ export default function HomeLatestCard(props) {
   return (
     <article className="h-full w-full border border-gray-500 shadow-lg rounded">
       <div
-        className="h-full w-full home-latest px-4 flex flex-col"
+        className="h-full w-full home-latest px-4 flex flex-col bg-white rounded-sm"
         style={{justifyContent: 'space-evenly'}}
       >
         <p

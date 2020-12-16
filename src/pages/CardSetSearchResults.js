@@ -27,7 +27,7 @@ export default function CardSetSearchResults(props) {
     )
   }
   return (
-    <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full p-6">
+    <div className="h-full w-full overflow-scroll col-start-1 col-end-13 row-start-1 row-end-13 p-6">
       {cardSets.map((cardSet, idx) => {
         return (
           <div key={idx}>

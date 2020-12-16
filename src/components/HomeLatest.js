@@ -4,7 +4,7 @@ import axios from 'axios'
 import HomeLatestCard from './HomeLatestCard'
 import UserCardSetCard from './UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
-import {addTimeIntervals} from '../lib/helpers'
+import TitledDateIntervalList from './TitledDateIntervalList'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
 
@@ -121,7 +121,11 @@ export default function HomeLatest({pageType, search}) {
             subtitle={'Use the search bar to check some out'}
           />
         ) : (
-          addTimeIntervals(filteredCardSets, UserCardSetCard, 'last_seen_at')
+          <TitledDateIntervalList
+            data={filteredCardSets}
+            Component={UserCardSetCard}
+            dateKey={'last_seen_at'}
+          />
         )}
       </section>
     )

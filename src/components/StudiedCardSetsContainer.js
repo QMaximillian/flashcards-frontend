@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
-import {addTimeIntervals} from '../lib/helpers'
+import TitledDateIntervalList from './TitledDateIntervalList'
 import {FetchContext} from '../context/FetchContext'
 
 export default function StudiedCardSetsContainer({username, isUser}) {
@@ -36,9 +36,14 @@ export default function StudiedCardSetsContainer({username, isUser}) {
       )
     }
 
-    return addTimeIntervals(cardSets, UserCardSetCard, 'last_studied_at', {
-      studied: true,
-    })
+    return (
+      <TitledDateIntervalList
+        data={cardSets}
+        Component={UserCardSetCard}
+        dateKey={'last_studied_at'}
+        options={{studied: true}}
+      />
+    )
   }
   return <div>{renderCardSets()}</div>
 }

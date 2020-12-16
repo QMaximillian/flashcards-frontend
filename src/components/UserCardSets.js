@@ -3,7 +3,7 @@ import NoItemsCard from './NoItemsCard'
 import {Link} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
-import {addTimeIntervals} from '../lib/helpers'
+import TitledDateIntervalList from './TitledDateIntervalList'
 import {FetchContext} from '../context/FetchContext'
 
 export default function UserCardSets({filter, search, username, isUser}) {
@@ -89,7 +89,11 @@ export default function UserCardSets({filter, search, username, isUser}) {
             <NoMatch />
           </div>
         ) : (
-          addTimeIntervals(filteredCardSets, UserCardSetCard, 'created_at')
+          <TitledDateIntervalList
+            data={filteredCardSets}
+            Component={UserCardSetCard}
+            dateKey={'created_at'}
+          />
         )
 
       case 'Alphabetical':

@@ -1,20 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react'
-import {Link, useParams, useRouteMatch, Redirect} from 'react-router-dom'
-import Modal from '../components/Modal'
-import TextBox from '../components/TextBox'
-import {AuthContext} from '../context/AuthContext'
-import {uuidCheck} from '../lib/helpers'
+import React, {useEffect, useContext} from 'react'
+import {Link, useParams, useRouteMatch} from 'react-router-dom'
 import placeholderPhoto from '../photos/placeholder-photo.png'
 import {FetchContext} from '../context/FetchContext'
 
 export default function UserInfoCard(props) {
   const {mainAxios} = useContext(FetchContext)
   const {profile, setProfile} = props
-  const [modalOpen, setModalOpen] = useState(false)
-  const [text, setText] = useState({name: '', value: '', isValid: true})
-  const [modalError, setModalError] = useState('')
-  let [redirect, setRedirect] = useState(false)
-  let {setAuthState} = useContext(AuthContext)
   const {user: userParam} = useParams()
 
   useEffect(() => {
@@ -55,7 +46,6 @@ export default function UserInfoCard(props) {
             {renderMatch()}
           </div>
         </div>
-        {redirect ? <Redirect to={`${profile.username}`} /> : null}
       </div>
     )
   } else {
@@ -100,85 +90,14 @@ export default function UserInfoCard(props) {
             Studied
           </div>
         </Link>
-        {renderUsernameUpdate()}
       </div>
     )
-  }
-
-  function renderUsernameUpdate() {
-    if (uuidCheck.test(profile.username)) {
-      return (
-        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-          <div style={{height: '16rem', width: '24rem'}} className="">
-            <div className="flex justify-center w-full h-full items-center border border-teal-500 bg-gray-300">
-              <form
-                className="shadow-md rounded w-full h-full px-6 py-8 flex flex-col"
-                style={{justifyContent: 'space-evenly'}}
-              >
-                <div className="mb-6">
-                  <label
-                    htmlFor="changeUsername"
-                    className="text-center text-xl block font-semibold  pb-2"
-                  >
-                    Change Username
-                  </label>
-                </div>
-                <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
-                  <div>
-                    <p className="text-red-500 text-xs italic">{modalError}</p>
-                  </div>
-                </div>
-                <TextBox
-                  name="update-username"
-                  type="text"
-                  placeholder="Enter text here"
-                  onChange={setText}
-                  value={text.value}
-                />
-                <button
-                  onClick={e => {
-                    e.preventDefault()
-                    mainAxios
-                      .patch('/update-username', {newUsername: text.value})
-                      // fetchUpdateUsername({newUsername: text.value})
-                      .then(res => {
-                        if (res.code) {
-                          setModalError(res.code)
-                          return
-                        }
-
-                        setModalOpen(false)
-                        props.setProfile({
-                          ...profile,
-                          username: res.data.username,
-                        })
-                        setAuthState(prevAuthState => ({
-                          ...prevAuthState,
-                          username: res.data.username,
-                        }))
-                      })
-                      .then(() => setRedirect(true))
-                  }}
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
-          </div>
-        </Modal>
-      )
-    }
-
-    return
   }
 
   function renderUser() {
     return (
       <div className="text-4xl font-bold tracking-wide">
         {profile.username || profile.first_name}
-        {uuidCheck.test(profile.username) ? (
-          <button onClick={() => setModalOpen(true)}>Change Username</button>
-        ) : null}
       </div>
     )
   }

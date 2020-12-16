@@ -24,7 +24,7 @@ export default function ShowCardSet(props) {
   const [reverse, setReverse] = useState(false)
   const [error, setError] = useState(false)
   const {id} = useParams()
-  const uuid = React.useRef(uuidCheck.test(id))
+  const uuidExists = uuidCheck.test(id)
 
   const nextSlide = useCallback(() => {
     if (count === flashcards.length) return
@@ -67,8 +67,9 @@ export default function ShowCardSet(props) {
   }, [handleCardNavigation])
 
   useEffect(() => {
+    console.log('here')
     let isMounted = true
-    if (uuid.current) {
+    if (uuidExists) {
       mainAxios
         .get(`/card-sets/${id}`)
         .then(res => {
@@ -84,10 +85,12 @@ export default function ShowCardSet(props) {
             setError(true)
           }
         })
+    } else {
+      setError(true)
     }
 
     return () => (isMounted = false)
-  }, [id, mainAxios])
+  }, [id, mainAxios, uuidExists])
 
   useEffect(() => {
     let isMounted = true
@@ -148,13 +151,13 @@ export default function ShowCardSet(props) {
     },
   })
 
-  if (isLoading) return <div>Loading...</div>
-  if (error || !uuid.current)
+  if (error || !uuidExists)
     return (
       <div className="flex items-center justify-center h-full">
         <NoMatch />
       </div>
     )
+  if (isLoading) return <div>Loading...</div>
 
   function renderEditOrCustomize() {
     if (!isAuthenticated()) {

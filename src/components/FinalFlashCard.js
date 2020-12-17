@@ -7,7 +7,7 @@ export default function FinalFlashCard(props) {
   return (
     <div className="h-64 w-3/4">
       <animated.div
-        className={`p-4 bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute mx-h-full`}
+        className={`bg-white p-4 bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute mx-h-full`}
         style={{
           boxShadow: '0 0 15px rgba(0, 0, 0, 0.4)',
         }}

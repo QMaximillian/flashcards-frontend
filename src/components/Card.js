@@ -28,7 +28,7 @@ export default function Card(props) {
   return (
     <div className="h-64 w-3/4" onClick={() => setFlipped(state => !state)}>
       <animated.div
-        className={`p-4 bg-cover flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
+        className={`bg-white p-4 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
         style={{
           boxShadow: '0 0 15px rgba(0, 0, 0, 0.4)',
           opacity: opacity.interpolate(o => 0.75 - o),
@@ -38,7 +38,7 @@ export default function Card(props) {
         <div className="text-3xl font-light">{props.flashcardFront}</div>
       </animated.div>
       <animated.div
-        className={`p-4 bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
+        className={`bg-white p-4 bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
         style={{
           boxShadow: '0 0 15px rgba(0, 0, 0, 0.4)',
           opacity,

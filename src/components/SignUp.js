@@ -72,7 +72,7 @@ function SignUp(props) {
 
   function handleDispatch(event) {
     const {id, value: data} = event
-    dispatch({id: id, data})
+    dispatch({id, data})
   }
 
   return (

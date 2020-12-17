@@ -1,16 +1,43 @@
-import React, {useState, useContext} from 'react'
+import React, {useReducer, useContext} from 'react'
 import TextBox from './TextBox'
 import {useHistory} from 'react-router-dom'
 
 import {FetchContext} from '../context/FetchContext'
 import {AuthContext} from '../context/AuthContext'
 
+const ERROR = 'ERROR'
+
+function loginReducer(state, action) {
+  switch (action.type) {
+    case ERROR:
+      return {...state, error: action.error}
+    default:
+      return {
+        ...state,
+        [action.id]: {...state[action.id], value: action.data},
+      }
+  }
+}
+
+const initialLoginState = {
+  email: {
+    name: 'email',
+    value: '',
+  },
+  password: {
+    name: 'password',
+    value: '',
+  },
+  error: {},
+}
+
 export default function Login(props) {
   let {authAxios} = useContext(FetchContext)
   let {setAuthState} = useContext(AuthContext)
-  const [email, setEmail] = useState({name: '', value: ''})
-  const [password, setPassword] = useState({name: '', value: ''})
-  const [error, setError] = useState(false)
+  const [{email, password, error}, dispatch] = useReducer(
+    loginReducer,
+    initialLoginState,
+  )
   let history = useHistory()
 
   async function handleSubmit(event) {
@@ -26,7 +53,7 @@ export default function Login(props) {
       })
       .then(() => history.push(`/`))
       .catch(error => {
-        console.log(error)
+        dispatch({type: ERROR, error: error.response})
       })
   }
 
@@ -34,7 +61,7 @@ export default function Login(props) {
     <div className="flex justify-center w-full h-full items-center">
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
         <div className="italic text-red-500 h-6 w-full text-center">
-          {error ? error : null}
+          {error.data?.message}
         </div>
         <div className="mb-6">
           <label htmlFor="email" className="text-sm block font-bold  pb-2">
@@ -48,11 +75,9 @@ export default function Login(props) {
               placeholder={'Email'}
               name="email"
               value={email.value.toLowerCase()}
-              onChange={event => {
-                if (error) setError(false)
-                setEmail(event)
-              }}
+              onChange={event => dispatch({id: event.id, data: event.value})}
               type="email"
+              id="email"
             />
           </div>
         </div>
@@ -71,11 +96,9 @@ export default function Login(props) {
             placeholder={'Password'}
             name="password"
             value={password.value}
-            onChange={event => {
-              if (error) setError(false)
-              setPassword(event)
-            }}
-            type={'password'}
+            onChange={event => dispatch({id: event.id, data: event.value})}
+            type="password"
+            id="password"
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">

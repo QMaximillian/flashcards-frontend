@@ -24,7 +24,7 @@ export default function LoggedInRoutes() {
           exact
           path="/card-sets/:id"
           render={props => (
-            <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full h-full flex-col-reverse">
+            <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full h-full flex-col-reverse overflow-scroll">
               <ShowCardSet {...props} />
             </div>
           )}

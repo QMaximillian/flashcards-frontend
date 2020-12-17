@@ -1,4 +1,5 @@
 import React, {useContext} from 'react'
+import SearchCard from './SearchCard'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
@@ -25,37 +26,6 @@ export default function UserCardSetCard(props) {
           <div className="cursor-not-allowed opacity-25">Gravity</div>
         </div>
       </div>
-    )
-  }
-
-  function renderSearchCard() {
-    if (cardSet.flashcards === null) return
-    return (
-      <Link className="w-full h-full" to={`/card-sets/${cardSet.card_set_id}`}>
-        <div className="w-full border border-gray-200 h-full">
-          <div className="flex justify-between h-full">
-            {cardSet.flashcards.map((flashcard, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{justifyContent: 'space-evenly'}}
-                  className="w-1/4 px-4 border-gray-200 border-l border-r flex flex-col items-start h-full"
-                >
-                  <p style={{maxWidth: '20ch'}} className="text-xs truncate">
-                    {flashcard.term}
-                  </p>
-                  <p
-                    style={{maxWidth: '20ch'}}
-                    className="text-xs opacity-50 truncate"
-                  >
-                    {flashcard.definition}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </Link>
     )
   }
 
@@ -117,13 +87,13 @@ export default function UserCardSetCard(props) {
                     {cardSet.creator_name}
                   </div>
                 </div>
-                <div className="mt-1 pl-2 text-xl font-medium">
+                <div className="mt-1 pl-2 text-xl font-medium truncate">
                   {cardSet.name}
                 </div>
               </Link>
             </div>
             {studied ? renderStudiedCard() : null}
-            {searchCard ? renderSearchCard() : null}
+            {searchCard ? <SearchCard cardSet={cardSet} /> : null}
           </div>
         </div>
       </div>

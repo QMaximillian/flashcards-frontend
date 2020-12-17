@@ -70,8 +70,9 @@ function SignUp(props) {
     })
   }
 
-  function handleDispatch(partialEvent) {
-    dispatch({id: partialEvent.id, data: partialEvent.value})
+  function handleDispatch(event) {
+    const {id, value: data} = event
+    dispatch({id: id, data})
   }
 
   return (

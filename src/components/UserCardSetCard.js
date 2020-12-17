@@ -31,15 +31,15 @@ export default function UserCardSetCard(props) {
   function renderSearchCard() {
     if (cardSet.flashcards === null) return
     return (
-      <Link className="w-full" to={`/card-sets/${cardSet.card_set_id}`}>
-        <div className="w-full border border-gray-200 h-32">
+      <Link className="w-full h-full" to={`/card-sets/${cardSet.card_set_id}`}>
+        <div className="w-full border border-gray-200 h-full">
           <div className="flex justify-between h-full">
             {cardSet.flashcards.map((flashcard, idx) => {
               return (
                 <div
                   key={idx}
                   style={{justifyContent: 'space-evenly'}}
-                  className="w-1/4 px-4 border border-gray-200 flex flex-col items-start h-full"
+                  className="w-1/4 px-4 border-gray-200 border-l border-r flex flex-col items-start h-full"
                 >
                   <p style={{maxWidth: '20ch'}} className="text-xs truncate">
                     {flashcard.term}
@@ -83,19 +83,23 @@ export default function UserCardSetCard(props) {
     <div
       onClick={handleCreateUserCardSet}
       key={idx}
-      className="flex justify-center "
+      className="flex justify-center"
     >
-      <div className={`w-full my-2 px-4 `}>
+      <div className={`w-full my-2 px-4`}>
         <div
-          className={`relative z-0 w-full rounded-sm overflow-hidden  ${
+          className={`relative z-0 w-full rounded-sm overflow-hidden ${
             cardSet.checked ? 'shadow-inner border-2 border-blue-700' : ''
           } 
                ${studied ? 'h-40' : 'h-20'}
-               ${searchCard ? 'h-48' : 'h-20'}
+               ${searchCard ? 'search-has-line h-48' : 'h-20'}
 
                `}
         >
-          <div className="has-line absolute z-10 flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2">
+          <div
+            className={`${
+              !searchCard ? 'has-line' : null
+            } flex flex-col w-full h-full bg-white items-center shadow-xl border-b-2`}
+          >
             <div
               className={`py-2 h-20 pl-5 flex w-full justify-start ${
                 searchCard ? 'border-b-0 border-2 border-gray-200' : ''

@@ -48,9 +48,9 @@ export default function Login(props) {
               placeholder={'Email'}
               name="email"
               value={email.value.toLowerCase()}
-              onChange={e => {
+              onChange={event => {
                 if (error) setError(false)
-                setEmail(e)
+                setEmail(event)
               }}
               type="email"
             />
@@ -71,9 +71,9 @@ export default function Login(props) {
             placeholder={'Password'}
             name="password"
             value={password.value}
-            onChange={e => {
+            onChange={event => {
               if (error) setError(false)
-              setPassword(e)
+              setPassword(event)
             }}
             type={'password'}
           />

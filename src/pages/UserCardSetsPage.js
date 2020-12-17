@@ -62,7 +62,7 @@ export default function UserCardSetsPage(props) {
         <div className="self-center text-xs">SORT</div>
         <select
           className="ml-4 h-12 w-32 border-gray-500 border rounded-none text-teal-500"
-          onChange={e => setFilter(e.target.value)}
+          onChange={event => setFilter(event.target.value)}
           value={filter}
         >
           <option className="h-12 w-32" value="Latest">

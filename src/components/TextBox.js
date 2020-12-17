@@ -52,8 +52,8 @@ const TextBox = React.forwardRef((props, ref) => {
     return valueModified && showError && !isValid(value)
   }
 
-  function handleInputChange(e) {
-    const {name, value, id} = e.target
+  function handleInputChange(event) {
+    const {name, value, id} = event.target
 
     props.onChange({id, name, value, isValid: isValid(value)})
 
@@ -63,8 +63,8 @@ const TextBox = React.forwardRef((props, ref) => {
     }
   }
 
-  function handleBlur(e) {
-    const {name, value} = e.target
+  function handleBlur(event) {
+    const {name, value} = event.target
 
     props.onBlur({name, value, isValid: isValid(value)})
 

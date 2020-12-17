@@ -76,7 +76,7 @@ export default function CreateCardSetForm(props) {
     }
   }, [props.editMode, props.cardSet, cardSetName.name])
 
-  function handleChange(i, event) {
+  function handleChange(event, i) {
     const values = [...fields]
 
     if (event.name === `term-${i}`) {
@@ -255,7 +255,7 @@ export default function CreateCardSetForm(props) {
             <select
               className="border border-black outline-none ml-2"
               style={{textAlignLast: 'center'}}
-              onChange={e => setPrivacy(e.target.value)}
+              onChange={event => setPrivacy(event.target.value)}
               value={isPrivate}
             >
               <option value={true}>only you</option>
@@ -288,7 +288,7 @@ export default function CreateCardSetForm(props) {
                     // required={true}
                     // error={{required: "Please enter corresponding answer"}}
                     placeholder="Enter term"
-                    onChange={e => handleChange(idx, e)}
+                    onChange={event => handleChange(event, idx)}
                     value={field.term}
                     type="text"
                     name={`term-${idx}`}
@@ -303,7 +303,7 @@ export default function CreateCardSetForm(props) {
                     // required={true}
                     // error={{required: "Please enter corresponding definition"}}
                     placeholder="Enter definition"
-                    onChange={e => handleChange(idx, e)}
+                    onChange={event => handleChange(event, idx)}
                     value={field.definition}
                     type="text"
                     name={`definition-${idx}`}

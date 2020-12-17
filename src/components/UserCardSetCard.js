@@ -8,7 +8,7 @@ import {uuidCheck} from '../lib/helpers'
 export default function UserCardSetCard(props) {
   let {authState} = useContext(AuthContext)
   let {mainAxios} = useContext(FetchContext)
-  const {idx, cardSet, studied = false, searchCard = false} = props
+  const {index, cardSet, studied = false, searchCard = false} = props
 
   function renderStudiedCard() {
     return (
@@ -34,10 +34,10 @@ export default function UserCardSetCard(props) {
       <Link className="w-full h-full" to={`/card-sets/${cardSet.card_set_id}`}>
         <div className="w-full border border-gray-200 h-full">
           <div className="flex justify-between h-full">
-            {cardSet.flashcards.map((flashcard, idx) => {
+            {cardSet.flashcards.map((flashcard, index) => {
               return (
                 <div
-                  key={idx}
+                  key={index}
                   style={{justifyContent: 'space-evenly'}}
                   className="w-1/4 px-4 border-gray-200 border-l border-r flex flex-col items-start h-full"
                 >
@@ -82,7 +82,7 @@ export default function UserCardSetCard(props) {
   return (
     <div
       onClick={handleCreateUserCardSet}
-      key={idx}
+      key={index}
       className="flex justify-center"
     >
       <div className={`w-full my-2 px-4`}>
@@ -104,7 +104,6 @@ export default function UserCardSetCard(props) {
               className={`py-2 h-20 pl-5 flex w-full justify-start ${
                 searchCard ? 'border-b-0 border-2 border-gray-200' : ''
               }`}
-              key={idx}
             >
               <Link
                 className="h-full w-full"

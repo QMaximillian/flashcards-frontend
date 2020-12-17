@@ -102,8 +102,10 @@ export default function UserCardSets({filter, search, username, isUser}) {
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),
           )
           .sort((a, b) => alphabeticalFilter(a, b))
-          .map((cardSet, idx) => {
-            return <UserCardSetCard key={idx} cardSet={cardSet} />
+          .map((cardSet, index) => {
+            return (
+              <UserCardSetCard key={index} cardSet={cardSet} index={index} />
+            )
           })
 
         return !loading && alphabeticalSort.length === 0 ? (

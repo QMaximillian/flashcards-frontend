@@ -31,6 +31,8 @@ export default function TitledDateIntervalList({
       )
     }
 
-    return <Component key={index} cardSet={cardSet} {...options} />
+    return (
+      <Component key={index} cardSet={cardSet} {...options} index={index} />
+    )
   })
 }

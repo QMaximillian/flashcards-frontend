@@ -76,22 +76,22 @@ export default function CreateCardSetForm(props) {
     }
   }, [props.editMode, props.cardSet, cardSetName.name])
 
-  function handleChange(event, i) {
+  function handleChange(event, index) {
     const values = [...fields]
 
-    if (event.name === `term-${i}`) {
-      values[i].term = event.value
+    if (event.name === `term-${index}`) {
+      values[index].term = event.value
     }
-    if (event.name === `definition-${i}`) {
-      values[i].definition = event.value
+    if (event.name === `definition-${index}`) {
+      values[index].definition = event.value
     }
 
     setFields(values)
   }
 
-  function handleRemove(i) {
+  function handleRemove(index) {
     const values = [...fields]
-    values.splice(i, 1)
+    values.splice(index, 1)
     setFields(values)
   }
 
@@ -265,16 +265,16 @@ export default function CreateCardSetForm(props) {
         </div>
       </div>
       <div className="my-4 mx-8">
-        {fields.map((field, idx) => {
+        {fields.map((field, index) => {
           return (
-            <div key={idx} className="w-full shadow-xl my-2 bg-white">
+            <div key={index} className="w-full shadow-xl my-2 bg-white">
               <div className="border-b border-gray-500 h-16 flex justify-between item-center">
                 <div className="font-semibold self-center pr-2 text-lg h-164 pl-6 text-gray-500">
-                  {idx + 1}
+                  {index + 1}
                 </div>
                 <div
                   className="ml-2 self-center my-6 pr-4"
-                  onClick={() => handleRemove(idx)}
+                  onClick={() => handleRemove(index)}
                 >
                   X
                 </div>
@@ -282,31 +282,31 @@ export default function CreateCardSetForm(props) {
               <div className="flex w-full pt-2 pb-8">
                 <div
                   className="w-1/2 my-6 mr-6 pl-4"
-                  key={`${field}-definition-${idx}`}
+                  key={`${field}-definition-${index}`}
                 >
                   <TextBox
                     // required={true}
                     // error={{required: "Please enter corresponding answer"}}
                     placeholder="Enter term"
-                    onChange={event => handleChange(event, idx)}
+                    onChange={event => handleChange(event, index)}
                     value={field.term}
                     type="text"
-                    name={`term-${idx}`}
+                    name={`term-${index}`}
                   />
                   <label className="text-xs opacity-50 mt-1">TERM</label>
                 </div>
                 <div
                   className="w-1/2 my-6 ml-6 pr-4"
-                  key={`${field}-answer-${idx}`}
+                  key={`${field}-answer-${index}`}
                 >
                   <TextBox
                     // required={true}
                     // error={{required: "Please enter corresponding definition"}}
                     placeholder="Enter definition"
-                    onChange={event => handleChange(event, idx)}
+                    onChange={event => handleChange(event, index)}
                     value={field.definition}
                     type="text"
-                    name={`definition-${idx}`}
+                    name={`definition-${index}`}
                   />
                   <label className="text-xs opacity-50 mt-1">DEFINITION</label>
                 </div>

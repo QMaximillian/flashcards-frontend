@@ -67,7 +67,6 @@ export default function ShowCardSet(props) {
   }, [handleCardNavigation])
 
   useEffect(() => {
-    console.log('here')
     let isMounted = true
     if (uuidExists) {
       mainAxios

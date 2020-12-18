@@ -24,15 +24,17 @@ export default function FlashcardsNavDrawer(props) {
     return flashcardCategories.map((category, index) => {
       if (index === 0) {
         return (
-          <Link key={index} className="pl-4 text-lg mb-6" to="#">
+          <Link className="pl-4 text-lg mb-6"
+key={ index }
+to="#">
             Flashcards
           </Link>
         )
       } else {
         return (
           <Link
-            key={index}
             className="pl-4 text-lg opacity-25 cursor-not-allowed mb-6"
+            key={ index }
             to="#"
           >
             {category.name}

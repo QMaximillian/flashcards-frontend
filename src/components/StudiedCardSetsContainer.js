@@ -27,10 +27,10 @@ export default function StudiedCardSetsContainer({username, isUser}) {
       return (
         <div className="h-64 w-full px-4">
           <NoItemsCard
-            title={`${
+            subtitle={ isUser ? 'Use the search bar to check some out' : null }
+            title={ `${
               isUser ? `You haven't` : `This user hasn't`
-            } studied any sets`}
-            subtitle={isUser ? 'Use the search bar to check some out' : null}
+            } studied any sets` }
           />
         </div>
       )
@@ -38,12 +38,14 @@ export default function StudiedCardSetsContainer({username, isUser}) {
 
     return (
       <TitledDateIntervalList
-        data={cardSets}
-        Component={UserCardSetCard}
-        dateKey={'last_studied_at'}
-        options={{studied: true}}
+        Component={ UserCardSetCard }
+        data={ cardSets }
+        dateKey={ 'last_studied_at' }
+        options={ {studied: true} }
       />
     )
   }
-  return <div>{renderCardSets()}</div>
+  return <div>
+{renderCardSets()}
+</div>
 }

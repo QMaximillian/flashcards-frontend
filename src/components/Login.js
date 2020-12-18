@@ -64,7 +64,8 @@ export default function Login(props) {
           {error.data?.message}
         </div>
         <div className="mb-6">
-          <label htmlFor="email" className="text-sm block font-bold  pb-2">
+          <label className="text-sm block font-bold  pb-2"
+htmlFor="email">
             Email Address
           </label>
           <div className="h-8">
@@ -72,39 +73,39 @@ export default function Login(props) {
               className={
                 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               }
-              placeholder={'Email'}
-              name="email"
-              value={email.value.toLowerCase()}
-              onChange={event => dispatch({id: event.id, data: event.value})}
-              type="email"
               id="email"
+              name="email"
+              onChange={ event => dispatch({id: event.id, data: event.value}) }
+              placeholder={ 'Email' }
+              type="email"
+              value={ email.value.toLowerCase() }
             />
           </div>
         </div>
         <div className="mb-6">
           <label
-            htmlFor="password"
             className="text-sm block font-semibold pb-2"
+            htmlFor="password"
           >
             Password
           </label>
           <TextBox
-            required={true}
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
-            placeholder={'Password'}
-            name="password"
-            value={password.value}
-            onChange={event => dispatch({id: event.id, data: event.value})}
-            type="password"
             id="password"
+            name="password"
+            onChange={ event => dispatch({id: event.id, data: event.value}) }
+            placeholder={ 'Password' }
+            required={ true }
+            type="password"
+            value={ password.value }
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
-            onClick={handleSubmit}
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
+            onClick={ handleSubmit }
             type="button"
           >
             Sign In

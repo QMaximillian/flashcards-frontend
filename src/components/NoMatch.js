@@ -8,10 +8,12 @@ export default function NoMatch({message}) {
       }
     >
       <article
-        style={{justifyContent: 'space-evenly'}}
-        className={'p-2 text-teal-400 align-center flex-col flex'}
+        className={ 'p-2 text-teal-400 align-center flex-col flex' }
+        style={ {justifyContent: 'space-evenly'} }
       >
-        <div className="text-3xl self-center font-semibold">No Match</div>
+        <div className="text-3xl self-center font-semibold">
+No Match
+</div>
         <div className="text-lg self-center font-medium">
           {'The page you are looking for is not available' || message}
         </div>

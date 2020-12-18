@@ -17,7 +17,8 @@ export default function TitledDateIntervalList({
     if (currentMonth !== previousMonth) {
       previousMonth = currentMonth
       return (
-        <div key={index} className="w-full flex flex-col">
+        <div className="w-full flex flex-col"
+key={ index }>
           <div className="flex w-full items-center px-4">
             <div className="text-xs w-32 text-center">
               {isThisWeek(currentParsedDate, {weekStartsOn: 0})
@@ -26,13 +27,17 @@ export default function TitledDateIntervalList({
             </div>
             <hr className="border border-solid border-b-2 border-gray-400 w-full" />
           </div>
-          <Component cardSet={cardSet} {...options} />
+          <Component cardSet={ cardSet }
+{ ...options } />
         </div>
       )
     }
 
     return (
-      <Component key={index} cardSet={cardSet} {...options} index={index} />
+      <Component cardSet={ cardSet }
+key={ index }
+{ ...options }
+index={ index } />
     )
   })
 }

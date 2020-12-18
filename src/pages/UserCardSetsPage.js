@@ -59,16 +59,20 @@ export default function UserCardSetsPage(props) {
 
     return (
       <>
-        <div className="self-center text-xs">SORT</div>
+        <div className="self-center text-xs">
+SORT
+</div>
         <select
           className="ml-4 h-12 w-32 border-gray-500 border rounded-none text-teal-500"
-          onChange={event => setFilter(event.target.value)}
-          value={filter}
+          onChange={ event => setFilter(event.target.value) }
+          value={ filter }
         >
-          <option className="h-12 w-32" value="Latest">
+          <option className="h-12 w-32"
+value="Latest">
             Latest
           </option>
-          <option className="h-12 w-32" value="Alphabetical">
+          <option className="h-12 w-32"
+value="Alphabetical">
             Alphabetical
           </option>
         </select>
@@ -81,12 +85,12 @@ export default function UserCardSetsPage(props) {
       return (
         <div className="w-full">
           <TextBox
+            className={ `outline-none bg-gray-200 mb-1 text-black h-full p-2 w-full placeholder placeholder-gray-400 border-b-2 border-black border-solid` }
             name="search-bar"
+            onChange={ setSearch }
+            placeholder={ renderPlaceholder() }
             type="text"
-            value={search.value}
-            onChange={setSearch}
-            placeholder={renderPlaceholder()}
-            className={`outline-none bg-gray-200 mb-1 text-black h-full p-2 w-full placeholder placeholder-gray-400 border-b-2 border-black border-solid`}
+            value={ search.value }
           />
         </div>
       )
@@ -110,28 +114,27 @@ export default function UserCardSetsPage(props) {
   }
 
   if (!isUser && recentMatch) {
-    return <Redirect to={`/${userParam}`} />
+    return <Redirect to={ `/${userParam}` } />
   }
 
   return (
     <div
       className="col-start-4 col-end-13 row-start-1 row-end-13 overflow-y-auto"
-      style={{height: '92vh'}}
+      style={ {height: '92vh'} }
     >
       {!isLoading && (
         <>
           <Route
-            path={`/:user`}
-            render={() => (
+            path={ `/:user` }
+            render={ () => (
               <UserInfoCard
-                isUser={isUser}
-                profile={profile}
-                setProfile={setProfile}
+                isUser={ isUser }
+                profile={ profile }
+                setProfile={ setProfile }
               />
-            )}
+            ) }
           />
-          <>
-            <div className="h-full w-full min-h-0">
+          <div className="h-full w-full min-h-0">
               <div className="flex w-full justify-between p-4">
                 <div className="w-full flex text-sm justify-start ml-2">
                   {renderSelect()}
@@ -143,61 +146,60 @@ export default function UserCardSetsPage(props) {
                   <Switch>
                     <Route
                       path="/:user/recent"
-                      render={() => (
+                      render={ () => (
                         <HomeLatest
-                          limit={10}
+                          limit={ 10 }
                           pageType="RECENT"
-                          search={search}
+                          search={ search }
                         />
-                      )}
+                      ) }
                     />
                     <Route
                       path="/:user/studied"
-                      render={() => (
+                      render={ () => (
                         <StudiedCardSetsContainer
-                          isUser={isUser}
-                          username={profile?.username}
+                          isUser={ isUser }
+                          username={ profile?.username }
                         />
-                      )}
+                      ) }
                     />
                     <Route
-                      path={`/:user`}
-                      render={() => (
+                      path={ `/:user` }
+                      render={ () => (
                         <UserCardSets
-                          isUser={isUser}
-                          search={search}
-                          filter={filter}
-                          username={profile?.username}
+                          filter={ filter }
+                          isUser={ isUser }
+                          search={ search }
+                          username={ profile?.username }
                         />
-                      )}
+                      ) }
                     />
                   </Switch>
                 ) : (
                   <Switch>
                     <Route
                       path="/:user/studied"
-                      render={() => (
-                        <StudiedCardSetsContainer username={userParam} />
-                      )}
+                      render={ () => (
+                        <StudiedCardSetsContainer username={ userParam } />
+                      ) }
                     />
                     <Route
-                      path={`/:user`}
-                      render={() => {
+                      path={ `/:user` }
+                      render={ () => {
                         return (
                           <UserCardSets
-                            id={profile?.id}
-                            search={search}
-                            filter={filter}
-                            username={userParam}
+                            filter={ filter }
+                            id={ profile?.id }
+                            search={ search }
+                            username={ userParam }
                           />
                         )
-                      }}
+                      } }
                     />
                   </Switch>
                 )}
               </div>
             </div>
-          </>
         </>
       )}
     </div>

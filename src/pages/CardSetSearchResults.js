@@ -18,7 +18,9 @@ export default function CardSetSearchResults(props) {
     })
   }, [search, mainAxios])
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return <div>
+Loading...
+</div>
   if (cardSets.length === 0) {
     return (
       <div className="col-start-3 col-end-11 row-start-4 row-end-7">
@@ -30,8 +32,9 @@ export default function CardSetSearchResults(props) {
     <div className="h-full w-full overflow-scroll col-start-1 col-end-13 row-start-1 row-end-13 p-6">
       {cardSets.map((cardSet, index) => {
         return (
-          <div key={index}>
-            <UserCardSetCard cardSet={cardSet} searchCard={true} />
+          <div key={ index }>
+            <UserCardSetCard cardSet={ cardSet }
+searchCard={ true } />
           </div>
         )
       })}

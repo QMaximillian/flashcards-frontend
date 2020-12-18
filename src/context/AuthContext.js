@@ -46,12 +46,12 @@ function AuthProvider({children}) {
 
   return (
     <Provider
-      value={{
+      value={ {
         authState,
         setAuthState: authInfo => setAuthInfo(authInfo),
         logout,
         isAuthenticated,
-      }}
+      } }
     >
       {children}
     </Provider>

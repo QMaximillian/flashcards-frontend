@@ -32,16 +32,18 @@ export default function UserInfoCard(props) {
         <div className="flex">
           <div className="h-full">
             <img
-              src={profile.profile_pic || placeholderPhoto}
-              className="w-32 h-32 object-fill rounded-full mr-4 bg-gray-500"
               alt="A user's profile"
-              style={{minWidth: '8rem', minHeight: '8rem'}}
+              className="w-32 h-32 object-fill rounded-full mr-4 bg-gray-500"
+              src={ profile.profile_pic || placeholderPhoto }
+              style={ {minWidth: '8rem', minHeight: '8rem'} }
             />
           </div>
           <div className="flex flex-col justify-around">
             <div className="flex ml-4">
               {renderUser()}
-              <div className="self-center ml-8 text-gray-500 font-light tracking-wide">{`${profile.first_name} ${profile.last_name}`}</div>
+              <div className="self-center ml-8 text-gray-500 font-light tracking-wide">
+{`${profile.first_name} ${profile.last_name}`}
+</div>
             </div>
             {renderMatch()}
           </div>
@@ -49,43 +51,45 @@ export default function UserInfoCard(props) {
       </div>
     )
   } else {
-    return <div>Loading...</div>
+    return <div>
+Loading...
+</div>
   }
 
   function renderMatch() {
     return (
       <div className="flex ml-4">
         {props.isUser && (
-          <Link to={`/${profile.username}/recent`}>
+          <Link to={ `/${profile.username}/recent` }>
             <div
-              className={`${
+              className={ `${
                 recentMatch
                   ? 'bg-yellow-500 text-black'
                   : 'hover:text-yellow-500 text-teal-300'
-              } border border-gray-500 py-2 px-4 bg-white`}
+              } border border-gray-500 py-2 px-4 bg-white` }
             >
               Recent
             </div>
           </Link>
         )}
-        <Link to={`/${profile.username}`}>
+        <Link to={ `/${profile.username}` }>
           <div
-            className={`${
+            className={ `${
               createdMatch && !studiedMatch && !recentMatch
                 ? 'bg-yellow-500 text-black'
                 : 'hover:text-yellow-500 text-teal-300'
-            } border border-gray-500 py-2 px-4 bg-white`}
+            } border border-gray-500 py-2 px-4 bg-white` }
           >
             Created
           </div>
         </Link>
-        <Link to={`/${profile.username}/studied`}>
+        <Link to={ `/${profile.username}/studied` }>
           <div
-            className={`${
+            className={ `${
               studiedMatch
                 ? 'bg-yellow-500 text-black'
                 : 'hover:text-yellow-500 text-teal-300'
-            } border border-gray-500 py-2 px-4  bg-white`}
+            } border border-gray-500 py-2 px-4  bg-white` }
           >
             Studied
           </div>

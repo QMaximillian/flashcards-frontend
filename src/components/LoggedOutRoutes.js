@@ -9,19 +9,26 @@ import CardSetSearchResults from '../pages/CardSetSearchResults'
 export default function LoggedOutRoutes() {
   return (
     <Switch>
-      <Route exact path="/" component={LoggedOutHome} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/sign-up" component={SignUp} />
+      <Route component={ LoggedOutHome }
+exact
+path="/" />
+      <Route component={ Login }
+exact
+path="/login" />
+      <Route component={ SignUp }
+exact
+path="/sign-up" />
       <Route
         exact
         path="/card-sets/:id"
-        render={props => (
+        render={ props => (
           <div className="w-full h-full flex-col-reverse">
-            <ShowCardSet {...props} />
+            <ShowCardSet { ...props } />
           </div>
-        )}
+        ) }
       />
-      <Route path="/search/:search" component={CardSetSearchResults} />
+      <Route component={ CardSetSearchResults }
+path="/search/:search" />
       <Redirect to="/" />
     </Switch>
   )

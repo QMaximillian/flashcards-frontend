@@ -220,14 +220,14 @@ export default function CreateCardSetForm(props) {
           <div className="flex justify-end">
             <div
               className="m-2 p-2 bg-teal-500 text-white h-18  text-2xl self-center"
-              onClick={() => setFields(initialState)}
+              onClick={ () => setFields(initialState) }
             >
               ERASE ALL ENTRIES
             </div>
             {props.editMode ? (
               <div
                 className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"
-                onClick={() => setFields([{term: '', definition: ''}])}
+                onClick={ () => setFields([{term: '', definition: ''}]) }
               >
                 DELETE ALL
               </div>
@@ -236,16 +236,17 @@ export default function CreateCardSetForm(props) {
         </div>
         <div className="w-full mt-12">
           <TextBox
+            error={ {required: 'Must have a name for the card set'} }
             id="title"
-            required={true}
-            error={{required: 'Must have a name for the card set'}}
             name="card-set-name"
-            value={cardSetName.value}
-            onChange={setCardSetName}
-            placeholder={'Subject, chapter, unit'}
+            onChange={ setCardSetName }
+            placeholder={ 'Subject, chapter, unit' }
+            required={ true }
             type="text"
+            value={ cardSetName.value }
           />
-          <label htmlFor="title" className="text-xs opacity-50 mt-1">
+          <label className="text-xs opacity-50 mt-1"
+htmlFor="title">
             TITLE
           </label>
         </div>
@@ -254,12 +255,16 @@ export default function CreateCardSetForm(props) {
             Accessible to:
             <select
               className="border border-black outline-none ml-2"
-              style={{textAlignLast: 'center'}}
-              onChange={event => setPrivacy(event.target.value)}
-              value={isPrivate}
+              onChange={ event => setPrivacy(event.target.value) }
+              style={ {textAlignLast: 'center'} }
+              value={ isPrivate }
             >
-              <option value={true}>only you</option>
-              <option value={false}>all</option>
+              <option value={ true }>
+only you
+</option>
+              <option value={ false }>
+all
+</option>
             </select>
           </div>
         </div>
@@ -267,14 +272,15 @@ export default function CreateCardSetForm(props) {
       <div className="my-4 mx-8">
         {fields.map((field, index) => {
           return (
-            <div key={index} className="w-full shadow-xl my-2 bg-white">
+            <div className="w-full shadow-xl my-2 bg-white"
+key={ index }>
               <div className="border-b border-gray-500 h-16 flex justify-between item-center">
                 <div className="font-semibold self-center pr-2 text-lg h-164 pl-6 text-gray-500">
                   {index + 1}
                 </div>
                 <div
                   className="ml-2 self-center my-6 pr-4"
-                  onClick={() => handleRemove(index)}
+                  onClick={ () => handleRemove(index) }
                 >
                   X
                 </div>
@@ -282,33 +288,37 @@ export default function CreateCardSetForm(props) {
               <div className="flex w-full pt-2 pb-8">
                 <div
                   className="w-1/2 my-6 mr-6 pl-4"
-                  key={`${field}-definition-${index}`}
+                  key={ `${field}-definition-${index}` }
                 >
                   <TextBox
                     // required={true}
                     // error={{required: "Please enter corresponding answer"}}
+                    name={ `term-${index}` }
+                    onChange={ event => handleChange(event, index) }
                     placeholder="Enter term"
-                    onChange={event => handleChange(event, index)}
-                    value={field.term}
                     type="text"
-                    name={`term-${index}`}
+                    value={ field.term }
                   />
-                  <label className="text-xs opacity-50 mt-1">TERM</label>
+                  <label className="text-xs opacity-50 mt-1">
+TERM
+</label>
                 </div>
                 <div
                   className="w-1/2 my-6 ml-6 pr-4"
-                  key={`${field}-answer-${index}`}
+                  key={ `${field}-answer-${index}` }
                 >
                   <TextBox
                     // required={true}
                     // error={{required: "Please enter corresponding definition"}}
+                    name={ `definition-${index}` }
+                    onChange={ event => handleChange(event, index) }
                     placeholder="Enter definition"
-                    onChange={event => handleChange(event, index)}
-                    value={field.definition}
                     type="text"
-                    name={`definition-${index}`}
+                    value={ field.definition }
                   />
-                  <label className="text-xs opacity-50 mt-1">DEFINITION</label>
+                  <label className="text-xs opacity-50 mt-1">
+DEFINITION
+</label>
                 </div>
               </div>
             </div>
@@ -317,22 +327,28 @@ export default function CreateCardSetForm(props) {
       </div>
       <div
         className="shadow-lg bg-white mx-8 justify-center items-center flex h-24 "
-        onClick={() => setFields([...fields, {term: '', definition: ''}])}
+        onClick={ () => setFields([...fields, {term: '', definition: ''}]) }
       >
         <div className="m-6 flex justify-center items-center add-card-div border-b-4 border-teal-500 h-10">
           <i className="fas fa-plus text-xs add-card-plus"></i>
-          <div className="ml-2 text-base add-card-text">ADD CARD</div>
+          <div className="ml-2 text-base add-card-text">
+ADD CARD
+</div>
         </div>
       </div>
       <div className="flex justify-end mb-2">
         <div
-          onClick={handleSave}
           className="mt-4 mx-8 h-16 w-1/3 text-white bg-teal-500 flex justify-center items-center create-card-set-button"
+          onClick={ handleSave }
         >
           {props.editMode ? (
-            <div className="create-text text-lg">Save</div>
+            <div className="create-text text-lg">
+Save
+</div>
           ) : (
-            <div className="create-text text-lg">Create Set</div>
+            <div className="create-text text-lg">
+Create Set
+</div>
           )}
         </div>
       </div>

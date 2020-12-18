@@ -80,101 +80,102 @@ function SignUp(props) {
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
         <div className="mb-6">
           <label
-            htmlFor="firstName"
             className="text-sm block font-semibold pb-2"
+            htmlFor="firstName"
           >
             First Name
           </label>
           <TextBox
-            id="firstName"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder={'Enter your first name'}
+            id="firstName"
             name="first name"
-            value={firstName.value}
-            onChange={handleDispatch}
-            type="text"
+            onChange={ handleDispatch }
+            placeholder={ 'Enter your first name' }
             required
+            type="text"
+            value={ firstName.value }
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="lastName"
             className="text-sm block font-semibold  pb-2"
+            htmlFor="lastName"
           >
             Last Name
           </label>
           <TextBox
-            id="lastName"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder={'Enter your last name'}
+            id="lastName"
             name="last name"
-            value={lastName.value}
-            onChange={handleDispatch}
-            type="text"
+            onChange={ handleDispatch }
+            placeholder={ 'Enter your last name' }
             required
+            type="text"
+            value={ lastName.value }
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="username"
             className="text-sm block font-semibold pb-2"
+            htmlFor="username"
           >
             Username
           </label>
           <TextBox
-            id="username"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
-            placeholder={'Enter your username'}
+            id="username"
             name="username"
-            value={username.value}
-            onChange={handleDispatch}
-            type="text"
+            onChange={ handleDispatch }
+            placeholder={ 'Enter your username' }
             required
+            type="text"
+            value={ username.value }
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="email" className="text-sm block font-semibold  pb-2">
+          <label className="text-sm block font-semibold  pb-2"
+htmlFor="email">
             Email Address
           </label>
           <TextBox
-            id="email"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
-            placeholder={'Email'}
+            id="email"
             name="email"
-            value={email.value.toLowerCase()}
-            onChange={handleDispatch}
-            type="email"
+            onChange={ handleDispatch }
+            placeholder={ 'Email' }
             required
+            type="email"
+            value={ email.value.toLowerCase() }
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="password"
             className="text-sm block font-semibold pb-2"
+            htmlFor="password"
           >
             Password
           </label>
           <TextBox
-            id="password"
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
-            placeholder={'Password'}
+            id="password"
             name="password"
-            value={password.value}
-            onChange={handleDispatch}
-            type="password"
+            onChange={ handleDispatch }
+            placeholder={ 'Password' }
             required
+            type="password"
+            value={ password.value }
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
-            onClick={handleSubmit}
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
+            onClick={ handleSubmit }
             type="button"
           >
             Sign Up

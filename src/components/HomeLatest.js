@@ -46,13 +46,19 @@ export default function HomeLatest({pageType, search}) {
       return (
         <div className="h-64 w-full">
           <NoItemsCard
-            title={'No recent card sets'}
             subtitle={
               <Link to="card-sets/new">
-                Click <strong className="hover:text-teal-800">here</strong> to
+                Click 
+{' '}
+<strong className="hover:text-teal-800">
+here
+</strong>
+{' '}
+to
                 create one!
-              </Link>
+</Link>
             }
+            title={ 'No recent card sets' }
           />
         </div>
       )
@@ -61,25 +67,34 @@ export default function HomeLatest({pageType, search}) {
     return recentCardSets.map(cardSet => {
       return (
         <Link
-          to={`/card-sets/${cardSet.id}`}
-          key={cardSet.id}
           className="w-1/2 h-40 p-2"
+          key={ cardSet.id }
+          to={ `/card-sets/${cardSet.id}` }
         >
-          <HomeLatestCard key={cardSet.id} cardSet={cardSet} pageType="HOME" />
+          <HomeLatestCard cardSet={ cardSet }
+key={ cardSet.id }
+pageType="HOME" />
         </Link>
       )
     })
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <div>
+Loading...
+</div>
   if (pageType === 'HOME' || !pageType) {
     return (
       <section>
         <div className="flex py-6 px-2 w-full justify-between">
-          <h1 className="mb-4 text-2xl self-center">Recent</h1>
-          <Link to={`/${authState.userInfo.username}`} className="flex">
+          <h1 className="mb-4 text-2xl self-center">
+Recent
+</h1>
+          <Link className="flex"
+to={ `/${authState.userInfo.username}` }>
             <div className="mb-4 flex hover:text-yellow-500 text-teal-500">
-              <div className="text-2xl self-center">View all</div>
+              <div className="text-2xl self-center">
+View all
+</div>
               <i className="ml-2 fas fa-chevron-right self-center text-sm"></i>
             </div>
           </Link>
@@ -89,8 +104,8 @@ export default function HomeLatest({pageType, search}) {
           {recentCardSets.length === 0 ? (
             <div className="h-64 w-full px-4">
               <NoItemsCard
-                subtitle={'Use the search bar to check some out'}
-                title={'No recently looked at sets!'}
+                subtitle={ 'Use the search bar to check some out' }
+                title={ 'No recently looked at sets!' }
               />
             </div>
           ) : (
@@ -104,8 +119,8 @@ export default function HomeLatest({pageType, search}) {
       return (
         <div className="h-64 w-full px-4">
           <NoItemsCard
-            title={'No recently looked at sets!'}
-            subtitle={'Use the search bar to check some out'}
+            subtitle={ 'Use the search bar to check some out' }
+            title={ 'No recently looked at sets!' }
           />
         </div>
       )
@@ -117,14 +132,14 @@ export default function HomeLatest({pageType, search}) {
       <section className="w-full justify-center flex flex-col">
         {filteredCardSets.length === 0 ? (
           <NoItemsCard
-            title={'No recently looked at sets!'}
-            subtitle={'Use the search bar to check some out'}
+            subtitle={ 'Use the search bar to check some out' }
+            title={ 'No recently looked at sets!' }
           />
         ) : (
           <TitledDateIntervalList
-            data={filteredCardSets}
-            Component={UserCardSetCard}
-            dateKey={'last_seen_at'}
+            Component={ UserCardSetCard }
+            data={ filteredCardSets }
+            dateKey={ 'last_seen_at' }
           />
         )}
       </section>

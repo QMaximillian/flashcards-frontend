@@ -58,7 +58,7 @@ to
                 create one!
 </Link>
             }
-            title={ 'No recent card sets' }
+            title={'No recent card sets'}
           />
         </div>
       )
@@ -68,11 +68,11 @@ to
       return (
         <Link
           className="w-1/2 h-40 p-2"
-          key={ cardSet.id }
-          to={ `/card-sets/${cardSet.id}` }
+          key={cardSet.id}
+          to={`/card-sets/${cardSet.id}`}
         >
-          <HomeLatestCard cardSet={ cardSet }
-key={ cardSet.id }
+          <HomeLatestCard cardSet={cardSet}
+key={cardSet.id}
 pageType="HOME" />
         </Link>
       )
@@ -90,7 +90,7 @@ Loading...
 Recent
 </h1>
           <Link className="flex"
-to={ `/${authState.userInfo.username}` }>
+to={`/${authState.userInfo.username}`}>
             <div className="mb-4 flex hover:text-yellow-500 text-teal-500">
               <div className="text-2xl self-center">
 View all
@@ -104,8 +104,8 @@ View all
           {recentCardSets.length === 0 ? (
             <div className="h-64 w-full px-4">
               <NoItemsCard
-                subtitle={ 'Use the search bar to check some out' }
-                title={ 'No recently looked at sets!' }
+                subtitle={'Use the search bar to check some out'}
+                title={'No recently looked at sets!'}
               />
             </div>
           ) : (
@@ -119,8 +119,8 @@ View all
       return (
         <div className="h-64 w-full px-4">
           <NoItemsCard
-            subtitle={ 'Use the search bar to check some out' }
-            title={ 'No recently looked at sets!' }
+            subtitle={'Use the search bar to check some out'}
+            title={'No recently looked at sets!'}
           />
         </div>
       )
@@ -132,14 +132,14 @@ View all
       <section className="w-full justify-center flex flex-col">
         {filteredCardSets.length === 0 ? (
           <NoItemsCard
-            subtitle={ 'Use the search bar to check some out' }
-            title={ 'No recently looked at sets!' }
+            subtitle={'Use the search bar to check some out'}
+            title={'No recently looked at sets!'}
           />
         ) : (
           <TitledDateIntervalList
-            Component={ UserCardSetCard }
-            data={ filteredCardSets }
-            dateKey={ 'last_seen_at' }
+            Component={UserCardSetCard}
+            data={filteredCardSets}
+            dateKey={'last_seen_at'}
           />
         )}
       </section>

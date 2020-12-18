@@ -32,9 +32,9 @@ Loading...
     <div className="h-full w-full overflow-scroll col-start-1 col-end-13 row-start-1 row-end-13 p-6">
       {cardSets.map((cardSet, index) => {
         return (
-          <div key={ index }>
-            <UserCardSetCard cardSet={ cardSet }
-searchCard={ true } />
+          <div key={index}>
+            <UserCardSetCard cardSet={cardSet}
+searchCard={true} />
           </div>
         )
       })}

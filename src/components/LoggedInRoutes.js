@@ -12,46 +12,46 @@ import NoMatch from './NoMatch'
 export default function LoggedInRoutes() {
   return (
     <div className="grid grid-rows-11 grid-cols-12 h-full w-full">
-      <Route component={ NavDrawer }
+      <Route component={NavDrawer}
 path="/" />
 
       <Switch>
         <Redirect from="/sign-up"
 to="/" />
-        <Route component={ UserCardSetsPage }
+        <Route component={UserCardSetsPage}
 exact
 path="/card-sets/" />
-        <Route component={ CardSetSearchResults }
+        <Route component={CardSetSearchResults}
 path="/search/:search" />
-        <Route component={ CardSetSearchResults }
+        <Route component={CardSetSearchResults}
 path="/search/" />
-        <Route component={ CreateCardSetForm }
+        <Route component={CreateCardSetForm}
 exact
 path="/card-sets/new" />
         <Route
           exact
           path="/card-sets/:id"
-          render={ props => (
+          render={props => (
             <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full h-full flex-col-reverse overflow-scroll">
-              <ShowCardSet { ...props } />
+              <ShowCardSet {...props} />
             </div>
-          ) }
+          )}
         />
 
-        <Route component={ EditCardSet }
+        <Route component={EditCardSet}
 exact
 path="/card-sets/:id/edit" />
-        <Route component={ UserCardSetsPage }
+        <Route component={UserCardSetsPage}
 path="/:user/" />
-        <Route component={ LoggedInHome }
+        <Route component={LoggedInHome}
 exact
 path="/" />
         <Route
-          component={ () => (
+          component={() => (
             <div>
               <NoMatch />
             </div>
-          ) }
+          )}
         />
       </Switch>
     </div>

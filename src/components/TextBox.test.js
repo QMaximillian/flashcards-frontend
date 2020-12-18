@@ -6,7 +6,7 @@ import TextBox from './TextBox'
 let noop = () => {}
 
 function renderTextBox(props) {
-  const utils = render(<TextBox { ...props } />)
+  const utils = render(<TextBox {...props} />)
   const textBox = utils.getByTestId(/text-box/i)
   return {...utils, textBox}
 }

@@ -25,11 +25,11 @@ const NavigationDropdown = React.forwardRef(({onClick}, ref) => {
   return (
     <div
       className=" w-32 absolute h-12 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white  shadow-lg text-md"
-      ref={ ref }
+      ref={ref}
     >
       <ul className="flex flex-col justify-center items-center h-full w-full">
         <li className="text-center w-full hover:bg-red-500"
-onClick={ onClick }>
+onClick={onClick}>
           Log Out
         </li>
       </ul>
@@ -76,23 +76,23 @@ function Navigation() {
       return (
         <span className="flex w-full">
           {redirect ? <Redirect push
-to={ `/search/${search.value}` } /> : null}
+to={`/search/${search.value}`} /> : null}
           <i className="text-2xl text-white self-center fas fa-search"></i>
           <form className="w-full"
-onSubmit={ event => event.preventDefault() }>
+onSubmit={event => event.preventDefault()}>
             <TextBox
-              className={ `text-2xl outline-none ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid` }
+              className={`text-2xl outline-none ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
               name="search-box-nav"
-              onBlur={ () => {
+              onBlur={() => {
                 setExpandSearchBar(false)
                 setRedirect(false)
                 setSearch(prevSearch => ({...prevSearch, value: ''}))
-              } }
-              onChange={ setSearch }
+              }}
+              onChange={setSearch}
               placeholder="Search"
-              ref={ navRef }
+              ref={navRef}
               type="text"
-              value={ search.value }
+              value={search.value}
             />
           </form>
           <i className=" self-center fas fa-times text-2xl text-white"></i>
@@ -105,7 +105,7 @@ onSubmit={ event => event.preventDefault() }>
             <i className="h-full self-center search-box mag-glass fas fa-search"></i>
             <p
               className="mx-2 search-box search"
-              onClick={ () => setExpandSearchBar(true) }
+              onClick={() => setExpandSearchBar(true)}
             >
               Search
             </p>
@@ -140,19 +140,19 @@ Create
       return (
         <div
           className="flex search-box"
-          onClick={ () => setDropdownToggle(prev => !prev) }
+          onClick={() => setDropdownToggle(prev => !prev)}
         >
           <p
-            className={ `${
+            className={`${
               dropdownToggle ? 'text-gray-500' : 'text-white'
-            } search-box search` }
+            } search-box search`}
           >
             {authState.userInfo.first_name}
           </p>
           <i
-            className={ `${
+            className={`${
               dropdownToggle ? 'text-gray-500' : 'text-white'
-            } search-box search pl-4 self-center fas fa-chevron-down` }
+            } search-box search pl-4 self-center fas fa-chevron-down`}
           ></i>
         </div>
       )
@@ -184,9 +184,9 @@ SIGN UP
   return (
     <nav className="h-full flex justify-between bg-teal-500 shadow items-center">
       <span
-        className={ `px-6 flex justify-start h-full items-center ${
+        className={`px-6 flex justify-start h-full items-center ${
           expandSearchBar ? 'w-full' : 'w-3/4'
-        }` }
+        }`}
       >
         <NavigationLogo />
         <span className="ml-20 flex text-white items-center h-full w-full">
@@ -195,16 +195,16 @@ SIGN UP
       </span>
       {!expandSearchBar && (
         <span
-          className={ `relative h-full flex items-center justify-center w-1/4` }
+          className={`relative h-full flex items-center justify-center w-1/4`}
         >
           {renderUserOrOptions()}
           {dropdownToggle && (
             <NavigationDropdown
-              onClick={ () => {
+              onClick={() => {
                 setDropdownToggle(false)
                 logout()
-              } }
-              ref={ wrapperRef }
+              }}
+              ref={wrapperRef}
             />
           )}
         </span>

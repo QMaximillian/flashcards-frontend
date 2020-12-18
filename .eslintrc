@@ -6,7 +6,7 @@
   ],
   "parser": "babel-eslint",
   "rules": {
-    "react/jsx-curly-spacing": [1, {"when": "always"}],
+    "react/jsx-curly-spacing": [1, {"when": "never"}],
     "react/jsx-max-props-per-line": [1, {"allowMultiline": false}],
     "react/jsx-no-undef": [1, {"allowGlobals": true}],
     "react/jsx-no-duplicate-props": [1],

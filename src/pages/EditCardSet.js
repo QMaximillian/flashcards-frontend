@@ -13,9 +13,9 @@ export default function EditCardSet(props) {
 
   return (
     <CreateCardSetForm
-      cardSet={ cardSet }
-      cardSetId={ props.match.params.id }
-      editMode={ true }
+      cardSet={cardSet}
+      cardSetId={props.match.params.id}
+      editMode={true}
     />
   )
 }

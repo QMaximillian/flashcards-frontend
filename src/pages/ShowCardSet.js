@@ -12,6 +12,7 @@ import {uuidCheck} from '../lib/helpers'
 import Card from '../components/Card'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
+import placeholderPhoto from '../photos/placeholder-photo.png'
 
 export default function ShowCardSet(props) {
   const {isAuthenticated, authState} = useContext(AuthContext)
@@ -156,9 +157,7 @@ export default function ShowCardSet(props) {
         <NoMatch />
       </div>
     )
-  if (isLoading) return <div>
-Loading...
-</div>
+  if (isLoading) return <div>Loading...</div>
 
   function renderEditOrCustomize() {
     if (!isAuthenticated()) {
@@ -170,7 +169,7 @@ Loading...
       return (
         <Link
           className="flex items-center justify-center"
-          to={ `/card-sets/${props.match.params.id}/edit` }
+          to={`/card-sets/${props.match.params.id}/edit`}
         >
           <i className="far fa-edit"></i>
         </Link>
@@ -179,14 +178,14 @@ Loading...
       return (
         <Link
           className="flex items-center justify-center"
-          to={ {
+          to={{
             pathname: '/card-sets/new',
             state: {
               fromCustomize: true,
               prevCardSetName: cardSet.name,
               flashcardFields: flashcards.slice(),
             },
-          } }
+          }}
         >
           <i className="far fa-clone text-gray-600" />
         </Link>
@@ -197,20 +196,20 @@ Loading...
   function createFlashcardList(key, transitionProps) {
     let cards = flashcards.map(flashcard => (
       <Card
-        flashcardBack={ flashcard.definition }
-        flashcardFront={ flashcard.term }
-        key={ key }
-        style={ transitionProps }
+        flashcardBack={flashcard.definition}
+        flashcardFront={flashcard.term}
+        key={key}
+        style={transitionProps}
       />
     ))
     return (cards = [
       ...cards,
       <FinalFlashCard
-        handleReset={ () => {
+        handleReset={() => {
           setReverse(true)
           setCount(0)
-        } }
-        numOfFlashcards={ flashcards.length }
+        }}
+        numOfFlashcards={flashcards.length}
       />,
     ])
   }
@@ -222,9 +221,7 @@ Loading...
       </div>
       <div className="mt-6 flex lg:flex-row flex-col-reverse lg:w-full lg:pl-20">
         <div className="lg:flex-col lg:flex lg:w-1/5">
-          <div className="pl-2 text-sm opacity-25">
-STUDY
-</div>
+          <div className="pl-2 text-sm opacity-25">STUDY</div>
           <FlashcardsNavDrawer />
         </div>
         <div className="flex-col flex items-center justify-between lg:w-3/4">
@@ -232,8 +229,7 @@ STUDY
             <div className="flex relative h-64 w-3/4">
               {transitions.map(({item, props: transitionProps, key}) => {
                 return (
-                  <animated.div key={ key }
-style={ transitionProps }>
+                  <animated.div key={key} style={transitionProps}>
                     {createFlashcardList(key, transitionProps)[item]}
                   </animated.div>
                 )
@@ -242,25 +238,23 @@ style={ transitionProps }>
           </div>
           <div className="flex justify-center w-3/4 h-12 items-center">
             <div
-              className={ `mx-10 ${
+              className={`mx-10 ${
                 count === 0
                   ? 'opacity-50 cursor-not-allowed'
                   : 'hover:text-orange-500'
-              }` }
-              onClick={ prevSlide }
+              }`}
+              onClick={prevSlide}
             >
               <i className="fas fa-arrow-left"></i>
             </div>
-            <div>
-{`${count + 1} / ${flashcards.length + 1}`}
-</div>
+            <div>{`${count + 1} / ${flashcards.length + 1}`}</div>
             <div
-              className={ `mx-10 ${
+              className={`mx-10 ${
                 count === flashcards.length
                   ? 'opacity-50 cursor-not-allowed'
                   : 'hover:text-orange-500'
-              }` }
-              onClick={ nextSlide }
+              }`}
+              onClick={nextSlide}
             >
               <i className="fas fa-arrow-right"></i>
             </div>
@@ -270,15 +264,17 @@ style={ transitionProps }>
       <hr className="mx-4" />
       <div className="sm:flex px-4">
         <div className="w-1/3 py-6 flex">
-          <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center" />
+          <div className="h-full">
+            <img
+              alt="A user's profile"
+              className="w-16 h-16 object-fill rounded-full mr-4 bg-gray-500"
+              src={authState.userInfo.profile_pic || placeholderPhoto}
+              style={{minWidth: '4rem', minHeight: '4rem'}}
+            />
+          </div>
           <div className="ml-2 self-center">
-            <div className="text-xs text-gray-500">
-Created by
-{' '}
-</div>
-            <div className="text-sm">
-{cardSet.creator_username}
-</div>
+            <div className="text-xs text-gray-500">Created by </div>
+            <div className="text-sm">{cardSet.creator_username}</div>
           </div>
         </div>
         <div className="flex justify-end sm:items-center sm:w-full">
@@ -292,12 +288,12 @@ Created by
         </div>
       </div>
       <div className="mx-4 mt-4">
-        <TermsInSet flashcards={ flashcards } />
+        <TermsInSet flashcards={flashcards} />
       </div>
       {isAuthenticatedAndUser() && (
         <div className="mb-4 flex justify-center">
           <div className="h-16 rounded bg-teal-500 w-64 flex items-center justify-center">
-            <Link to={ `/card-sets/${props.match.params.id}/edit` }>
+            <Link to={`/card-sets/${props.match.params.id}/edit`}>
               <div className="text-white tracking-wide">
                 Add or Remove Items
               </div>

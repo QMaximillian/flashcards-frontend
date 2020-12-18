@@ -11,13 +11,13 @@ export default function MainNavDrawer(props) {
     <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-full w-full">
       <div className="border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col">
         <Link
-          className={ `w-full items-center flex flex-1 justify-start` }
+          className={`w-full items-center flex flex-1 justify-start`}
           to="/"
         >
           <div
-            className={ `${
+            className={`${
               recentRouteMatch ? 'bg-orange-500' : null
-            } w-full py-4 hover:bg-orange-500 pl-4` }
+            } w-full py-4 hover:bg-orange-500 pl-4`}
           >
             Home
           </div>
@@ -26,18 +26,18 @@ export default function MainNavDrawer(props) {
         <div className="flex flex-1 " />
       </div>
       <div
-        className={ `border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center` }
+        className={`border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center`}
       >
         <Link
-          className={ `hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${
+          className={`hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${
             userRouteMatch && !recentRouteMatch ? 'bg-orange-500' : null
-          }` }
-          to={ `/${authState.userInfo.username}` }
+          }`}
+          to={`/${authState.userInfo.username}`}
         >
           <div
-            className={ `${
+            className={`${
               userRouteMatch && !recentRouteMatch ? 'bg-orange-500' : null
-            } w-full py-4 hover:bg-orange-500 pl-4` }
+            } w-full py-4 hover:bg-orange-500 pl-4`}
           >
             Card Sets
           </div>

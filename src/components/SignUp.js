@@ -89,11 +89,11 @@ function SignUp(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="firstName"
             name="first name"
-            onChange={ handleDispatch }
-            placeholder={ 'Enter your first name' }
+            onChange={handleDispatch}
+            placeholder={'Enter your first name'}
             required
             type="text"
-            value={ firstName.value }
+            value={firstName.value}
           />
         </div>
         <div className="mb-6">
@@ -107,11 +107,11 @@ function SignUp(props) {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="lastName"
             name="last name"
-            onChange={ handleDispatch }
-            placeholder={ 'Enter your last name' }
+            onChange={handleDispatch}
+            placeholder={'Enter your last name'}
             required
             type="text"
-            value={ lastName.value }
+            value={lastName.value}
           />
         </div>
         <div className="mb-6">
@@ -127,11 +127,11 @@ function SignUp(props) {
             }
             id="username"
             name="username"
-            onChange={ handleDispatch }
-            placeholder={ 'Enter your username' }
+            onChange={handleDispatch}
+            placeholder={'Enter your username'}
             required
             type="text"
-            value={ username.value }
+            value={username.value}
           />
         </div>
         <div className="mb-6">
@@ -145,11 +145,11 @@ htmlFor="email">
             }
             id="email"
             name="email"
-            onChange={ handleDispatch }
-            placeholder={ 'Email' }
+            onChange={handleDispatch}
+            placeholder={'Email'}
             required
             type="email"
-            value={ email.value.toLowerCase() }
+            value={email.value.toLowerCase()}
           />
         </div>
         <div className="mb-6">
@@ -165,17 +165,17 @@ htmlFor="email">
             }
             id="password"
             name="password"
-            onChange={ handleDispatch }
-            placeholder={ 'Password' }
+            onChange={handleDispatch}
+            placeholder={'Password'}
             required
             type="password"
-            value={ password.value }
+            value={password.value}
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
-            onClick={ handleSubmit }
+            onClick={handleSubmit}
             type="button"
           >
             Sign Up

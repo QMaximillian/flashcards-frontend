@@ -84,23 +84,23 @@ const TextBox = React.forwardRef((props, ref) => {
   return (
     <div className="w-full">
       <input
-        autoComplete={ props.autoComplete }
-        className={ `${renderClasses()} ${
+        autoComplete={props.autoComplete}
+        className={`${renderClasses()} ${
           handleShowError()
             ? 'border-red-500'
             : 'focus:border-yellow-500 focus:border-b-4'
-        }` }
+        }`}
         data-testid="text-box"
-        disabled={ props.disabled }
-        id={ props.id }
-        name={ props.name }
-        onBlur={ handleBlur }
-        onChange={ handleInputChange }
-        onFocus={ props.onFocus }
-        placeholder={ props.placeholder }
-        ref={ textBoxRef }
-        type={ props.type }
-        value={ props.value }
+        disabled={props.disabled}
+        id={props.id}
+        name={props.name}
+        onBlur={handleBlur}
+        onChange={handleInputChange}
+        onFocus={props.onFocus}
+        placeholder={props.placeholder}
+        ref={textBoxRef}
+        type={props.type}
+        value={props.value}
       />
       {handleShowError() && (
         <p className="h-0 text-red-500 text-xs"

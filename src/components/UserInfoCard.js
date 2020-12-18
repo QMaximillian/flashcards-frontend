@@ -34,8 +34,8 @@ export default function UserInfoCard(props) {
             <img
               alt="A user's profile"
               className="w-32 h-32 object-fill rounded-full mr-4 bg-gray-500"
-              src={ profile.profile_pic || placeholderPhoto }
-              style={ {minWidth: '8rem', minHeight: '8rem'} }
+              src={profile.profile_pic || placeholderPhoto}
+              style={{minWidth: '8rem', minHeight: '8rem'}}
             />
           </div>
           <div className="flex flex-col justify-around">
@@ -60,36 +60,36 @@ Loading...
     return (
       <div className="flex ml-4">
         {props.isUser && (
-          <Link to={ `/${profile.username}/recent` }>
+          <Link to={`/${profile.username}/recent`}>
             <div
-              className={ `${
+              className={`${
                 recentMatch
                   ? 'bg-yellow-500 text-black'
                   : 'hover:text-yellow-500 text-teal-300'
-              } border border-gray-500 py-2 px-4 bg-white` }
+              } border border-gray-500 py-2 px-4 bg-white`}
             >
               Recent
             </div>
           </Link>
         )}
-        <Link to={ `/${profile.username}` }>
+        <Link to={`/${profile.username}`}>
           <div
-            className={ `${
+            className={`${
               createdMatch && !studiedMatch && !recentMatch
                 ? 'bg-yellow-500 text-black'
                 : 'hover:text-yellow-500 text-teal-300'
-            } border border-gray-500 py-2 px-4 bg-white` }
+            } border border-gray-500 py-2 px-4 bg-white`}
           >
             Created
           </div>
         </Link>
-        <Link to={ `/${profile.username}/studied` }>
+        <Link to={`/${profile.username}/studied`}>
           <div
-            className={ `${
+            className={`${
               studiedMatch
                 ? 'bg-yellow-500 text-black'
                 : 'hover:text-yellow-500 text-teal-300'
-            } border border-gray-500 py-2 px-4  bg-white` }
+            } border border-gray-500 py-2 px-4  bg-white`}
           >
             Studied
           </div>

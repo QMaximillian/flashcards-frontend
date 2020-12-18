@@ -75,10 +75,10 @@ htmlFor="email">
               }
               id="email"
               name="email"
-              onChange={ event => dispatch({id: event.id, data: event.value}) }
-              placeholder={ 'Email' }
+              onChange={event => dispatch({id: event.id, data: event.value})}
+              placeholder={'Email'}
               type="email"
-              value={ email.value.toLowerCase() }
+              value={email.value.toLowerCase()}
             />
           </div>
         </div>
@@ -95,17 +95,17 @@ htmlFor="email">
             }
             id="password"
             name="password"
-            onChange={ event => dispatch({id: event.id, data: event.value}) }
-            placeholder={ 'Password' }
-            required={ true }
+            onChange={event => dispatch({id: event.id, data: event.value})}
+            placeholder={'Password'}
+            required={true}
             type="password"
-            value={ password.value }
+            value={password.value}
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
-            onClick={ handleSubmit }
+            onClick={handleSubmit}
             type="button"
           >
             Sign In

@@ -93,9 +93,9 @@ to="/card-sets/new">
           </div>
         ) : (
           <TitledDateIntervalList
-            Component={ UserCardSetCard }
-            data={ filteredCardSets }
-            dateKey={ 'created_at' }
+            Component={UserCardSetCard}
+            data={filteredCardSets}
+            dateKey={'created_at'}
           />
         )
 
@@ -107,9 +107,9 @@ to="/card-sets/new">
           .sort((a, b) => alphabeticalFilter(a, b))
           .map((cardSet, index) => {
             return (
-              <UserCardSetCard cardSet={ cardSet }
-index={ index }
-key={ index } />
+              <UserCardSetCard cardSet={cardSet}
+index={index}
+key={index} />
             )
           })
 

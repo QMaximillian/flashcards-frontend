@@ -33,10 +33,10 @@ function FetchProvider({children}) {
 
   return (
     <Provider
-      value={ {
+      value={{
         authAxios,
         mainAxios,
-      } }
+      }}
     >
       {children}
     </Provider>

@@ -25,7 +25,7 @@ export default function FlashcardsNavDrawer(props) {
       if (index === 0) {
         return (
           <Link className="pl-4 text-lg mb-6"
-key={ index }
+key={index}
 to="#">
             Flashcards
           </Link>
@@ -34,7 +34,7 @@ to="#">
         return (
           <Link
             className="pl-4 text-lg opacity-25 cursor-not-allowed mb-6"
-            key={ index }
+            key={index}
             to="#"
           >
             {category.name}

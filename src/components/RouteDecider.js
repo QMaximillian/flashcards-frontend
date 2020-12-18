@@ -11,7 +11,7 @@ export default function RouteDecider() {
       <span className="col-start-1 col-end-13 row-start-1 row-end-2">
         <Navigation />
       </span>
-      <main className="bg-gray-300 col-start-1 col-end-13 row-start-2 row-end-13">
+      <main className=" bg-gray-300 col-start-1 col-end-13 row-start-2 row-end-13 overflow-scroll">
         {isAuthenticated() ? <LoggedInRoutes /> : <LoggedOutRoutes />}
       </main>
     </div>

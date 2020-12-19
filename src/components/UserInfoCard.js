@@ -1,33 +1,27 @@
-import React, {useState, useEffect, useContext} from 'react'
-import {Link, useParams, useRouteMatch, Redirect} from 'react-router-dom'
-import {fetchUpdateUsername, fetchShowUser} from '../fetchRequests/user'
-import Modal from '../components/Modal'
-import TextBox from '../components/TextBox'
-import {UserContext} from '../context/user-context'
-import {uuidCheck} from '../lib/helpers'
+import React, {useEffect, useContext} from 'react'
+import {Link, useParams, useRouteMatch} from 'react-router-dom'
+import placeholderPhoto from '../photos/placeholder-photo.png'
+import {FetchContext} from '../context/FetchContext'
 import PropTypes from 'prop-types'
 
-export default function UserInfoCard({profile, setProfile, isUser}) {
-  const [modalOpen, setModalOpen] = useState(false)
-  const [text, setText] = useState({name: '', value: '', isValid: true})
-  const [modalError, setModalError] = useState('')
-  let [redirect, setRedirect] = useState(false)
-  let {user, setUser} = useContext(UserContext)
+export default function UserInfoCard(props) {
+  const {mainAxios} = useContext(FetchContext)
+  const {profile, setProfile} = props
   const {user: userParam} = useParams()
 
-  // let [newUsername, setNewUsername] = useState("");
   useEffect(() => {
     let isSubscribed = true
-    fetchShowUser(userParam)
-      .then(r => {
+    mainAxios
+      .get(`/user/${userParam}`)
+      .then(res => {
         if (isSubscribed) {
-          setProfile(r)
+          setProfile(res.data.user)
         }
       })
-      .catch(error => {})
+      .catch(console.log)
 
     return () => (isSubscribed = false)
-  }, [userParam, setProfile])
+  }, [userParam, setProfile, mainAxios])
 
   const createdMatch = useRouteMatch('/:user')
   const recentMatch = useRouteMatch('/:user/recent')
@@ -35,20 +29,26 @@ export default function UserInfoCard({profile, setProfile, isUser}) {
 
   if (profile) {
     return (
-      <div className="flex">
-        <div className="flex p-6">
-          <div>
-            <img className="w-32 h-32 rounded-full mr-4 bg-gray-500" alt="" />
+      <div className="flex p-6">
+        <div className="flex">
+          <div className="h-full">
+            <img
+              alt="A user's profile"
+              className="w-32 h-32 object-fill rounded-full mr-4 bg-gray-500"
+              src={profile.profile_pic || placeholderPhoto}
+              style={{minWidth: '8rem', minHeight: '8rem'}}
+            />
           </div>
           <div className="flex flex-col justify-around">
             <div className="flex ml-4">
               {renderUser()}
-              <div className="self-center ml-8 text-gray-500 font-light tracking-wide">{`${profile.first_name} ${profile.last_name}`}</div>
+              <div className="self-center ml-8 text-gray-500 font-light tracking-wide">
+                {`${profile.first_name} ${profile.last_name}`}
+              </div>
             </div>
             {renderMatch()}
           </div>
         </div>
-        {redirect ? <Redirect to={`${profile.username}`} /> : null}
       </div>
     )
   } else {
@@ -65,7 +65,7 @@ export default function UserInfoCard({profile, setProfile, isUser}) {
                 recentMatch
                   ? 'bg-yellow-500 text-black'
                   : 'hover:text-yellow-500 text-teal-300'
-              } border border-gray-500 py-2 px-4`}
+              } border border-gray-500 py-2 px-4 bg-white`}
             >
               Recent
             </div>
@@ -77,7 +77,7 @@ export default function UserInfoCard({profile, setProfile, isUser}) {
               createdMatch && !studiedMatch && !recentMatch
                 ? 'bg-yellow-500 text-black'
                 : 'hover:text-yellow-500 text-teal-300'
-            } border border-gray-500 py-2 px-4`}
+            } border border-gray-500 py-2 px-4 bg-white`}
           >
             Created
           </div>
@@ -88,82 +88,19 @@ export default function UserInfoCard({profile, setProfile, isUser}) {
               studiedMatch
                 ? 'bg-yellow-500 text-black'
                 : 'hover:text-yellow-500 text-teal-300'
-            } border border-gray-500 py-2 px-4 `}
+            } border border-gray-500 py-2 px-4  bg-white`}
           >
             Studied
           </div>
         </Link>
-        {renderUsernameUpdate()}
       </div>
     )
-  }
-
-  function renderUsernameUpdate() {
-    if (uuidCheck.test(profile.username)) {
-      return (
-        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-          <div style={{height: '16rem', width: '24rem'}} className="">
-            <div className="flex justify-center w-full h-full bg-gray-500 items-center border border-teal-500 bg-gray-300">
-              <form
-                className="shadow-md rounded w-full h-full px-6 py-8 flex flex-col"
-                style={{justifyContent: 'space-evenly'}}
-              >
-                <div className="mb-6">
-                  <label
-                    htmlFor="changeUsername"
-                    className="text-center text-xl block font-semibold  pb-2"
-                  >
-                    Change Username
-                  </label>
-                </div>
-                <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
-                  <div>
-                    <p className="text-red-500 text-xs italic">{modalError}</p>
-                  </div>
-                </div>
-                <TextBox
-                  name="update-username"
-                  type="text"
-                  placeholder="Enter text here"
-                  onChange={setText}
-                  value={text.value}
-                />
-                <button
-                  onClick={e => {
-                    e.preventDefault()
-                    fetchUpdateUsername({newUsername: text.value})
-                      .then(r => {
-                        if (r.code) {
-                          setModalError(r.code)
-                          return
-                        }
-
-                        setModalOpen(false)
-                        setProfile({...profile, username: r.username})
-                        setUser({...user, username: r.username})
-                      })
-                      .then(r => setRedirect(true))
-                  }}
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
-          </div>
-        </Modal>
-      )
-    }
-
-    return
   }
 
   function renderUser() {
     return (
       <div className="text-4xl font-bold tracking-wide">
         {profile.username || profile.first_name}
-        {uuidCheck.test(profile.username) ? (
-          <button onClick={() => setModalOpen(true)}>Change Username</button>
-        ) : null}
       </div>
     )
   }

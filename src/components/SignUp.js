@@ -1,103 +1,123 @@
-import React, {useState} from 'react'
+import React, {useContext, useReducer} from 'react'
 import TextBox from './TextBox'
-import {Redirect} from 'react-router-dom'
-import {BASE_URL} from '../fetchRequests/baseFetchOptions'
 
-export default function SignUp() {
-  const [email, setEmail] = useState({name: '', value: ''})
-  const [password, setPassword] = useState({name: '', value: ''})
-  const [firstName, setFirstName] = useState({name: '', value: ''})
-  const [lastName, setLastName] = useState({name: '', value: ''})
-  const [username, setUsername] = useState({name: '', value: ''})
-  const [redirect, setRedirect] = useState(false)
-  const [, setError] = useState(null)
+import {FetchContext} from '../context/FetchContext'
+import {useHistory} from 'react-router-dom'
+import {AuthContext} from '../context/AuthContext'
 
-  function handleSubmit(e) {
+function signUpReducer(state, action) {
+  return {
+    ...state,
+    [action.id]: {...state[action.id], value: action.data},
+  }
+}
+
+const initialSignUpState = {
+  firstName: {
+    name: 'firstName',
+    value: '',
+  },
+  lastName: {
+    name: 'lastName',
+    value: '',
+  },
+  username: {
+    name: 'username',
+    value: '',
+  },
+  email: {
+    name: 'email',
+    value: '',
+  },
+  password: {
+    name: 'password',
+    value: '',
+  },
+}
+
+function SignUp(props) {
+  const {authAxios} = useContext(FetchContext)
+  const {setAuthState} = useContext(AuthContext)
+  const [
+    {email, password, firstName, lastName, username},
+    dispatch,
+  ] = useReducer(signUpReducer, initialSignUpState)
+
+  const history = useHistory()
+
+  function handleSubmit(event) {
     if (!email || !password || !username || !firstName || !lastName) {
       return
     }
-    handleSignUpFetch(e)
+    handleSignUpFetch(event)
   }
 
-  function handleSignUpFetch(e) {
-    e.preventDefault()
-    return fetch(`${BASE_URL}/auth/register`, {
+  function handleSignUpFetch(event) {
+    event.preventDefault()
+    authAxios({
+      url: '/register',
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-
-      credentials: 'include',
-      body: JSON.stringify({
+      data: {
         first_name: firstName.value,
         last_name: lastName.value,
         email: email.value,
         password: password.value,
         username: username.value,
-      }),
+      },
+    }).then(res => {
+      setAuthState(res.data)
+      setTimeout(() => history.push('/'), 700)
     })
-      .then(r => r.json())
-      .then(r => {
-        if (r.code) {
-          setError(`${r.code} - ${r.status}`)
-        } else {
-          setRedirect(true)
-        }
-      })
-      .catch(err => {})
   }
 
-  if (redirect) return <Redirect to={`/login`} />
+  function handleDispatch(event) {
+    const {id, value: data} = event
+    dispatch({id, data})
+  }
 
   return (
-    <div
-      style={{
-        backgroundColor: '#DFDBE5',
-        backgroundImage:
-          "url('data:image/svg+xml,%3Csvg xmlns='http:www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E')",
-      }}
-      className="flex justify-center w-full h-full items-center "
-    >
+    <div className="flex justify-center w-full h-full items-center">
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
         <div className="mb-6">
           <label
-            htmlFor="firstName"
             className="text-sm block font-semibold pb-2"
+            htmlFor="firstName"
           >
             First Name
           </label>
           <TextBox
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder={'Enter your first name'}
+            id="firstName"
             name="first name"
-            value={firstName.value}
-            onChange={setFirstName}
-            type="text"
+            onChange={handleDispatch}
+            placeholder={'Enter your first name'}
             required
+            type="text"
+            value={firstName.value}
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="lastName"
             className="text-sm block font-semibold  pb-2"
+            htmlFor="lastName"
           >
             Last Name
           </label>
           <TextBox
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder={'Enter your last name'}
+            id="lastName"
             name="last name"
-            value={lastName.value}
-            onChange={setLastName}
-            type="text"
+            onChange={handleDispatch}
+            placeholder={'Enter your last name'}
             required
+            type="text"
+            value={lastName.value}
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="username"
             className="text-sm block font-semibold pb-2"
+            htmlFor="username"
           >
             Username
           </label>
@@ -105,34 +125,36 @@ export default function SignUp() {
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
-            placeholder={'Enter your username'}
+            id="username"
             name="username"
-            value={username.value}
-            onChange={setUsername}
-            type="text"
+            onChange={handleDispatch}
+            placeholder={'Enter your username'}
             required
+            type="text"
+            value={username.value}
           />
         </div>
         <div className="mb-6">
-          <label htmlFor="email" className="text-sm block font-semibold  pb-2">
+          <label className="text-sm block font-semibold  pb-2" htmlFor="email">
             Email Address
           </label>
           <TextBox
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
-            placeholder={'Email'}
+            id="email"
             name="email"
-            value={email.value}
-            onChange={setEmail}
-            type="email"
+            onChange={handleDispatch}
+            placeholder={'Email'}
             required
+            type="email"
+            value={email.value.toLowerCase()}
           />
         </div>
         <div className="mb-6">
           <label
-            htmlFor="password"
             className="text-sm block font-semibold pb-2"
+            htmlFor="password"
           >
             Password
           </label>
@@ -140,34 +162,27 @@ export default function SignUp() {
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
-            placeholder={'Password'}
+            id="password"
             name="password"
-            value={password.value}
-            onChange={setPassword}
-            type="password"
+            onChange={handleDispatch}
+            placeholder={'Password'}
             required
+            type="password"
+            value={password.value}
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
-            onClick={handleSubmit}
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
+            onClick={handleSubmit}
             type="button"
           >
             Sign Up
-          </button>
-          <button
-            style={{
-              borderImage:
-                'linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%)',
-            }}
-            className="w-full font-bold py-2 px-2 rounded "
-            type="button"
-          >
-            <a href={`${BASE_URL}/auth/google`}>Sign Up With Google</a>
           </button>
         </div>
       </form>
     </div>
   )
 }
+
+export default SignUp

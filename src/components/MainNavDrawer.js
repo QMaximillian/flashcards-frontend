@@ -1,11 +1,11 @@
 import React, {useContext} from 'react'
 import {Link, useRouteMatch} from 'react-router-dom'
-import {UserContext} from '../context/user-context'
+import {AuthContext} from '../context/AuthContext'
 
 export default function MainNavDrawer() {
   const userRouteMatch = useRouteMatch(['/:user', '/:user/studied'])
   const recentRouteMatch = useRouteMatch('/:user/recent')
-  let {user} = useContext(UserContext)
+  let {authState} = useContext(AuthContext)
 
   return (
     <div className="text-gray-700 font-semibold text-sm flex flex-col shadow-2xl h-full w-full">
@@ -29,12 +29,10 @@ export default function MainNavDrawer() {
         className={`border border-gray-200 border-r-0 border-l-0 flex flex-1 flex-col justify-center`}
       >
         <Link
-          // className={`w-full items-center flex-1 justify-start flex`}
-
           className={`hover:bg-orange-500 w-full items-center flex-1 justify-start flex ${
             userRouteMatch && !recentRouteMatch ? 'bg-orange-500' : null
           }`}
-          to={`/${user.username}`}
+          to={`/${authState.userInfo.username}`}
         >
           <div
             className={`${
@@ -44,12 +42,14 @@ export default function MainNavDrawer() {
             Card Sets
           </div>
         </Link>
-        <Link className="w-full items-center flex-1 justify-start flex" to="#">
+        <Link className="w-full items-center flex-1 justify-start flex"
+to="#">
           <div className="w-full py-4 hover:bg-orange-500 pl-4 opacity-25 cursor-not-allowed">
             Folders
           </div>
         </Link>
-        <Link className="w-full items-center flex-1 justify-start flex" to="#">
+        <Link className="w-full items-center flex-1 justify-start flex"
+to="#">
           <div className="w-full py-4 hover:bg-orange-500 pl-4 opacity-25 cursor-not-allowed">
             Classes
           </div>

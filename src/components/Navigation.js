@@ -1,139 +1,145 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  useCallback,
+  useLayoutEffect,
+} from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import TextBox from '../components/TextBox'
+import TextBox from './TextBox'
 import useClickOutside from '../lib/hooks/useClickOutside'
-import {UserContext} from '../context/user-context'
-import '../styles/index.css'
-import {BASE_URL} from '../fetchRequests/baseFetchOptions'
+import {AuthContext} from '../context/AuthContext'
 
-export default function Navigation() {
-  let {user} = useContext(UserContext)
+function NavigationLogo() {
+  return (
+    <Link to="/">
+      <p className="text-white text-4xl">Flashcards</p>
+    </Link>
+  )
+}
+
+const NavigationDropdown = React.forwardRef(({onClick}, ref) => {
+  return (
+    <div
+      className=" w-32 absolute h-12 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white  shadow-lg text-md"
+      ref={ref}
+    >
+      <ul className="flex flex-col justify-center items-center h-full w-full">
+        <li className="text-center w-full hover:bg-red-500" onClick={onClick}>
+          Log Out
+        </li>
+      </ul>
+    </div>
+  )
+})
+
+function Navigation() {
+  let {isAuthenticated, authState, logout} = useContext(AuthContext)
   const navRef = useRef(null)
   const wrapperRef = useRef(null)
 
   const [search, setSearch] = useState({name: '', value: '', isValid: true})
   const [expandSearchBar, setExpandSearchBar] = useState(false)
   const [dropdownToggle, setDropdownToggle] = useState(false)
-  const [focused, setFocused] = useState(false)
   const [redirect, setRedirect] = useState(false)
+
+  useLayoutEffect(() => {
+    if (expandSearchBar) {
+      navRef.current.focus()
+    }
+  }, [expandSearchBar])
+
   useClickOutside(wrapperRef, function() {
     if (!dropdownToggle) return
     setDropdownToggle(false)
   })
 
+  const enterOnKeyPress = useCallback(
+    event => setRedirect(search.value !== '' && event.keyCode === 13),
+    [search.value],
+  )
+
   useEffect(() => {
     document.addEventListener('keydown', enterOnKeyPress)
 
-    return function() {
+    return function cleanup() {
       document.removeEventListener('keydown', enterOnKeyPress)
     }
-  })
-
-  function enterOnKeyPress(event) {
-    if (focused && event.keyCode === 13) {
-      setRedirect(true)
-    } else {
-      setRedirect(false)
-    }
-  }
+  }, [enterOnKeyPress])
 
   function renderSearch() {
     if (expandSearchBar) {
       return (
-        <div className="flex w-full">
+        <span className="flex w-full">
+          {redirect ? <Redirect push to={`/search/${search.value}`} /> : null}
           <i className="text-2xl text-white self-center fas fa-search"></i>
-          <div className="w-full">
+          <form className="w-full" onSubmit={event => event.preventDefault()}>
             <TextBox
-              className={`text-2xl outline-none w-full ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
-              placeholder="Search"
-              type="text"
+              className={`text-2xl outline-none ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
               name="search-box-nav"
-              value={search.value}
-              onFocus={() => setFocused(true)}
-              onChange={setSearch}
               onBlur={() => {
                 setExpandSearchBar(false)
-                setFocused(false)
-                setSearch({name: '', value: '', isValid: true})
                 setRedirect(false)
+                setSearch(prevSearch => ({...prevSearch, value: ''}))
               }}
+              onChange={setSearch}
+              placeholder="Search"
               ref={navRef}
+              type="text"
+              value={search.value}
             />
-          </div>
+          </form>
           <i className=" self-center fas fa-times text-2xl text-white"></i>
-          {redirect ? <Redirect push to={`/search/${search.value}`} /> : null}
-        </div>
+        </span>
       )
     } else {
       return (
         <div className="flex">
-          <div className="text-center flex justify-center h-full">
-            <div className="h-full w-24 text-white flex justify-center search-box">
-              <i className="h-full self-center h-full search-box mag-glass fas fa-search"></i>
-              <div
-                onClick={handleExpandAndFocusSearchBar}
-                className="mx-2 search-box search"
-              >
-                Search
-              </div>
-            </div>
-          </div>
-          {user ? (
+          <span className="h-full w-24 text-white flex justify-center search-box">
+            <i className="h-full self-center search-box mag-glass fas fa-search"></i>
+            <p
+              className="mx-2 search-box search"
+              onClick={() => setExpandSearchBar(true)}
+            >
+              Search
+            </p>
+          </span>
+          {isAuthenticated() && (
             <>
-              <div className="w-24">
+              <span className="w-24">
                 <div className="text-center">|</div>
-              </div>
-              <Link
-                className="create-box flex justify-center w-24"
-                to="/card-sets/new"
-              >
-                <i className="plus self-center fas fa-plus-square"></i>
-                <div className="create text-center ml-3">Create</div>
-              </Link>
+              </span>
+              <span>
+                <Link
+                  className="create-box flex justify-center w-24"
+                  to="/card-sets/new"
+                >
+                  <i className="plus self-center fas fa-plus-square" />
+                  <p className="create text-center ml-3">Create</p>
+                </Link>
+              </span>
             </>
-          ) : null}
+          )}
         </div>
       )
     }
-  }
-
-  const handleExpandAndFocusSearchBar = () => {
-    setExpandSearchBar(true)
-    setTimeout(function() {
-      navRef.current.focus()
-    }, 10)
-  }
-
-  function renderDropdown() {
-    if (dropdownToggle) {
-      return (
-        <div
-          ref={wrapperRef}
-          className="flex flex-col justify-end ml-4 py-2 w-48 absolute h-18 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md"
-        >
-          <div className="pl-4 ">
-            <a href={`${BASE_URL}/auth/logout`}>Log Out</a>
-          </div>
-        </div>
-      )
-    }
-    return
   }
 
   function renderUserOrOptions() {
-    if (user) {
+    if (isAuthenticated()) {
       return (
         <div
           className="flex search-box"
           onClick={() => setDropdownToggle(prev => !prev)}
         >
-          <div
+          <p
             className={`${
               dropdownToggle ? 'text-gray-500' : 'text-white'
             } search-box search`}
           >
-            {user && user.first_name}
-          </div>
+            {authState.userInfo.first_name}
+          </p>
           <i
             className={`${
               dropdownToggle ? 'text-gray-500' : 'text-white'
@@ -144,49 +150,52 @@ export default function Navigation() {
     } else {
       return (
         <div className="flex text-white w-full justify-around h-full items-center">
-          <Link to="/login">
-            <div>LOGIN</div>
-          </Link>
-          <div className="text-center">|</div>
-          <Link to="sign-up">
-            <div>SIGN UP</div>
-          </Link>
+          <span>
+            <Link to="/login">
+              <p>LOGIN</p>
+            </Link>
+          </span>
+          <span className="text-center">|</span>
+          <span>
+            <Link to="sign-up">
+              <p>SIGN UP</p>
+            </Link>
+          </span>
         </div>
       )
     }
   }
 
-  function renderLogo() {
-    return (
-      <Link to="/">
-        <div className="text-white text-4xl">Flashcards</div>
-      </Link>
-    )
-  }
-
   return (
-    <div className="h-full flex justify-between bg-teal-500 shadow items-center">
-      {/* LOGO * */}
-      <div
+    <nav className="h-full flex justify-between bg-teal-500 shadow items-center">
+      <span
         className={`px-6 flex justify-start h-full items-center ${
           expandSearchBar ? 'w-full' : 'w-3/4'
         }`}
       >
-        <div>{renderLogo()}</div>
-        <div className="ml-20 flex text-white items-center h-full w-full">
+        <NavigationLogo />
+        <span className="ml-20 flex text-white items-center h-full w-full">
           {renderSearch()}
-        </div>
-      </div>
+        </span>
+      </span>
       {!expandSearchBar && (
-        <div
-          className={`relative h-full flex items-center justify-center ${
-            expandSearchBar ? 'w-full' : 'w-1/4'
-          }`}
+        <span
+          className={`relative h-full flex items-center justify-center w-1/4`}
         >
           {renderUserOrOptions()}
-          {renderDropdown()}
-        </div>
+          {dropdownToggle && (
+            <NavigationDropdown
+              onClick={() => {
+                setDropdownToggle(false)
+                logout()
+              }}
+              ref={wrapperRef}
+            />
+          )}
+        </span>
       )}
-    </div>
+    </nav>
   )
 }
+
+export default Navigation

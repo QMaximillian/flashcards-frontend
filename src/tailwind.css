@@ -1,15 +1,6 @@
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
-
-/* .search-box:hover .search {
-  opacity: 60%;
-}
-.search-box:hover .mag-glass {
-  opacity: 60%;
-} */
 
 .create-box:hover .plus {
   opacity: 60%;
@@ -57,8 +48,19 @@
   width: 24rem;
 }
 
+.search-has-line:hover {
+  outline: 0.2rem solid #ebc034;
+}
+
 .has-line:hover {
   box-shadow: inset 0px -0.3rem 0 0 #ebc034;
+}
+
+.search-box:hover .search {
+  opacity: 70%;
+}
+.search-box:hover .mag-glass {
+  opacity: 70%;
 }
 
 @responsive {

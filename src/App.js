@@ -1,14 +1,17 @@
 import React from 'react'
 import {BrowserRouter as Router} from 'react-router-dom'
 import RouteDecider from './components/RouteDecider'
-import {UserProvider} from './context/user-context.js'
+import {AuthProvider} from './context/AuthContext.js'
+import {FetchProvider} from './context/FetchContext.js'
 
 function App() {
   return (
     <Router>
-      <UserProvider>
-        <RouteDecider />
-      </UserProvider>
+      <FetchProvider>
+        <AuthProvider>
+          <RouteDecider />
+        </AuthProvider>
+      </FetchProvider>
     </Router>
   )
 }

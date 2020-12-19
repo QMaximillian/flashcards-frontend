@@ -52,8 +52,8 @@ const TextBox = React.forwardRef((props, ref) => {
     return valueModified && showError && !isValid(value)
   }
 
-  function handleInputChange(e) {
-    const {name, value, id} = e.target
+  function handleInputChange(event) {
+    const {name, value, id} = event.target
 
     props.onChange({id, name, value, isValid: isValid(value)})
 
@@ -63,8 +63,8 @@ const TextBox = React.forwardRef((props, ref) => {
     }
   }
 
-  function handleBlur(e) {
-    const {name, value} = e.target
+  function handleBlur(event) {
+    const {name, value} = event.target
 
     props.onBlur({name, value, isValid: isValid(value)})
 
@@ -84,26 +84,27 @@ const TextBox = React.forwardRef((props, ref) => {
   return (
     <div className="w-full">
       <input
-        data-testid="text-box"
+        autoComplete={props.autoComplete}
         className={`${renderClasses()} ${
           handleShowError()
             ? 'border-red-500'
             : 'focus:border-yellow-500 focus:border-b-4'
         }`}
-        id={props.id}
-        placeholder={props.placeholder}
-        type={props.type}
-        name={props.name}
-        onChange={handleInputChange}
+        data-testid="text-box"
         disabled={props.disabled}
-        autoComplete={props.autoComplete}
-        value={props.value}
+        id={props.id}
+        name={props.name}
         onBlur={handleBlur}
-        ref={textBoxRef}
+        onChange={handleInputChange}
         onFocus={props.onFocus}
+        placeholder={props.placeholder}
+        ref={textBoxRef}
+        type={props.type}
+        value={props.value}
       />
       {handleShowError() && (
-        <p role="alert" className="h-0 text-red-500 text-xs">
+        <p className="h-0 text-red-500 text-xs"
+role="alert">
           {getErrorMessage()}
         </p>
       )}

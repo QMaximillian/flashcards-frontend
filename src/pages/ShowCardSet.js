@@ -12,6 +12,7 @@ import {uuidCheck} from '../lib/helpers'
 import Card from '../components/Card'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
+import placeholderPhoto from '../photos/placeholder-photo.png'
 
 export default function ShowCardSet(props) {
   const {isAuthenticated, authState} = useContext(AuthContext)
@@ -23,7 +24,7 @@ export default function ShowCardSet(props) {
   const [reverse, setReverse] = useState(false)
   const [error, setError] = useState(false)
   const {id} = useParams()
-  const uuid = React.useRef(uuidCheck.test(id))
+  const uuidExists = uuidCheck.test(id)
 
   const nextSlide = useCallback(() => {
     if (count === flashcards.length) return
@@ -67,7 +68,7 @@ export default function ShowCardSet(props) {
 
   useEffect(() => {
     let isMounted = true
-    if (uuid.current) {
+    if (uuidExists) {
       mainAxios
         .get(`/card-sets/${id}`)
         .then(res => {
@@ -83,10 +84,12 @@ export default function ShowCardSet(props) {
             setError(true)
           }
         })
+    } else {
+      setError(true)
     }
 
     return () => (isMounted = false)
-  }, [id, mainAxios])
+  }, [id, mainAxios, uuidExists])
 
   useEffect(() => {
     let isMounted = true
@@ -147,13 +150,13 @@ export default function ShowCardSet(props) {
     },
   })
 
-  if (isLoading) return <div>Loading...</div>
-  if (error || !uuid.current)
+  if (error || !uuidExists)
     return (
       <div className="flex items-center justify-center h-full">
         <NoMatch />
       </div>
     )
+  if (isLoading) return <div>Loading...</div>
 
   function renderEditOrCustomize() {
     if (!isAuthenticated()) {
@@ -164,8 +167,8 @@ export default function ShowCardSet(props) {
     ) {
       return (
         <Link
-          to={`/card-sets/${props.match.params.id}/edit`}
           className="flex items-center justify-center"
+          to={`/card-sets/${props.match.params.id}/edit`}
         >
           <i className="far fa-edit"></i>
         </Link>
@@ -173,6 +176,7 @@ export default function ShowCardSet(props) {
     } else {
       return (
         <Link
+          className="flex items-center justify-center"
           to={{
             pathname: '/card-sets/new',
             state: {
@@ -182,7 +186,6 @@ export default function ShowCardSet(props) {
               cardSetId: cardSet.card_set_id
             },
           }}
-          className="flex items-center justify-center"
         >
           <i className="far fa-clone text-gray-600" />
         </Link>
@@ -193,20 +196,20 @@ export default function ShowCardSet(props) {
   function createFlashcardList(key, transitionProps) {
     let cards = flashcards.map(flashcard => (
       <Card
+        flashcardBack={flashcard.definition}
+        flashcardFront={flashcard.term}
         key={key}
         style={transitionProps}
-        flashcardFront={flashcard.term}
-        flashcardBack={flashcard.definition}
       />
     ))
     return (cards = [
       ...cards,
       <FinalFlashCard
-        numOfFlashcards={flashcards.length}
         handleReset={() => {
           setReverse(true)
           setCount(0)
         }}
+        numOfFlashcards={flashcards.length}
       />,
     ])
   }
@@ -233,25 +236,25 @@ export default function ShowCardSet(props) {
               })}
             </div>
           </div>
-          <div className="flex justify-center w-3/4 h-12 flex justify-center items-center">
+          <div className="flex justify-center w-3/4 h-12 items-center">
             <div
-              onClick={prevSlide}
               className={`mx-10 ${
                 count === 0
                   ? 'opacity-50 cursor-not-allowed'
                   : 'hover:text-orange-500'
               }`}
+              onClick={prevSlide}
             >
               <i className="fas fa-arrow-left"></i>
             </div>
             <div>{`${count + 1} / ${flashcards.length + 1}`}</div>
             <div
-              onClick={nextSlide}
               className={`mx-10 ${
                 count === flashcards.length
                   ? 'opacity-50 cursor-not-allowed'
                   : 'hover:text-orange-500'
               }`}
+              onClick={nextSlide}
             >
               <i className="fas fa-arrow-right"></i>
             </div>
@@ -261,7 +264,14 @@ export default function ShowCardSet(props) {
       <hr className="mx-4" />
       <div className="sm:flex px-4">
         <div className="w-1/3 py-6 flex">
-          <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center" />
+          <div className="h-full">
+            <img
+              alt="A user's profile"
+              className="w-16 h-16 object-fill rounded-full mr-4 bg-gray-500"
+              src={authState.userInfo.profile_pic || placeholderPhoto}
+              style={{minWidth: '4rem', minHeight: '4rem'}}
+            />
+          </div>
           <div className="ml-2 self-center">
             <div className="text-xs text-gray-500">Created by </div>
             <div className="text-sm">{cardSet.creator_username}</div>

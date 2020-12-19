@@ -4,7 +4,7 @@ import React, {
   useRef,
   useContext,
   useCallback,
-  useLayoutEffect
+  useLayoutEffect,
 } from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import TextBox from './TextBox'
@@ -22,11 +22,13 @@ function NavigationLogo() {
 const NavigationDropdown = React.forwardRef(({onClick}, ref) => {
   return (
     <div
-      ref={ref}
       className=" w-32 absolute h-12 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white  shadow-lg text-md"
+      ref={ref}
     >
       <ul className="flex flex-col justify-center items-center h-full w-full">
-        <li className="text-center w-full hover:bg-red-500" onClick={onClick}>Log Out</li>
+        <li className="text-center w-full hover:bg-red-500" onClick={onClick}>
+          Log Out
+        </li>
       </ul>
     </div>
   )
@@ -53,7 +55,10 @@ function Navigation() {
     setDropdownToggle(false)
   })
 
-  const enterOnKeyPress = useCallback(event => setRedirect(search.value !== '' && event.keyCode === 13), [search.value])
+  const enterOnKeyPress = useCallback(
+    event => setRedirect(search.value !== '' && event.keyCode === 13),
+    [search.value],
+  )
 
   useEffect(() => {
     document.addEventListener('keydown', enterOnKeyPress)
@@ -69,20 +74,20 @@ function Navigation() {
         <span className="flex w-full">
           {redirect ? <Redirect push to={`/search/${search.value}`} /> : null}
           <i className="text-2xl text-white self-center fas fa-search"></i>
-          <form onSubmit={event => event.preventDefault()} className="w-full">
+          <form className="w-full" onSubmit={event => event.preventDefault()}>
             <TextBox
-              className={`text-2xl outline-none w-full ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 placeholder border-solid`}
-              placeholder="Search"
-              type="text"
+              className={`text-2xl outline-none ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
               name="search-box-nav"
-              value={search.value}
-              onChange={setSearch}
               onBlur={() => {
                 setExpandSearchBar(false)
                 setRedirect(false)
                 setSearch(prevSearch => ({...prevSearch, value: ''}))
               }}
+              onChange={setSearch}
+              placeholder="Search"
               ref={navRef}
+              type="text"
+              value={search.value}
             />
           </form>
           <i className=" self-center fas fa-times text-2xl text-white"></i>
@@ -91,28 +96,28 @@ function Navigation() {
     } else {
       return (
         <div className="flex">
-            <span className="h-full w-24 text-white flex justify-center search-box">
-              <i className="h-full self-center search-box mag-glass fas fa-search"></i>
-              <button
-                onClick={() => setExpandSearchBar(true)}
-                className="mx-2 search-box search"
-              >
-                Search
-              </button>
-            </span>
+          <span className="h-full w-24 text-white flex justify-center search-box">
+            <i className="h-full self-center search-box mag-glass fas fa-search"></i>
+            <p
+              className="mx-2 search-box search"
+              onClick={() => setExpandSearchBar(true)}
+            >
+              Search
+            </p>
+          </span>
           {isAuthenticated() && (
             <>
               <span className="w-24">
                 <div className="text-center">|</div>
               </span>
               <span>
-              <Link
-                className="create-box flex justify-center w-24"
-                to="/card-sets/new"
-              >
-                <i className="plus self-center fas fa-plus-square"/>
-                <p className="create text-center ml-3">Create</p>
-              </Link>
+                <Link
+                  className="create-box flex justify-center w-24"
+                  to="/card-sets/new"
+                >
+                  <i className="plus self-center fas fa-plus-square" />
+                  <p className="create text-center ml-3">Create</p>
+                </Link>
               </span>
             </>
           )}
@@ -180,11 +185,11 @@ function Navigation() {
           {renderUserOrOptions()}
           {dropdownToggle && (
             <NavigationDropdown
-              ref={wrapperRef}
               onClick={() => {
                 setDropdownToggle(false)
                 logout()
               }}
+              ref={wrapperRef}
             />
           )}
         </span>

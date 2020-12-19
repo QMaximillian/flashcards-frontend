@@ -62,8 +62,7 @@ export default function UserCardSetsPage(props) {
         <div className="self-center text-xs">SORT</div>
         <select
           className="ml-4 h-12 w-32 border-gray-500 border rounded-none text-teal-500"
-          // style={{ textAlignLast: "left" }}
-          onChange={e => setFilter(e.target.value)}
+          onChange={event => setFilter(event.target.value)}
           value={filter}
         >
           <option className="h-12 w-32" value="Latest">
@@ -82,12 +81,12 @@ export default function UserCardSetsPage(props) {
       return (
         <div className="w-full">
           <TextBox
+            className={`outline-none bg-gray-200 mb-1 text-black h-full p-2 w-full placeholder placeholder-gray-400 border-b-2 border-black border-solid`}
             name="search-bar"
-            type="text"
-            value={search.value}
             onChange={setSearch}
             placeholder={renderPlaceholder()}
-            className={`outline-none bg-gray-200 mb-1 text-black h-full p-2 w-full placeholder placeholder-gray-400 border-b-2 border-black border-solid`}
+            type="text"
+            value={search.value}
           />
         </div>
       )
@@ -116,7 +115,7 @@ export default function UserCardSetsPage(props) {
 
   return (
     <div
-      className="col-start-4 col-end-13 row-start-1 row-end-13 bg-gray-200 overflow-y-auto"
+      className="col-start-4 col-end-13 row-start-1 row-end-13 overflow-y-auto"
       style={{height: '92vh'}}
     >
       {!isLoading && (
@@ -131,74 +130,72 @@ export default function UserCardSetsPage(props) {
               />
             )}
           />
-          <>
-            <div className="h-full w-full min-h-0">
-              <div className="flex w-full justify-between p-4">
-                <div className="w-full flex text-sm justify-start ml-2">
-                  {renderSelect()}
-                </div>
-                {renderSearch()}
+          <div className="h-full w-full min-h-0">
+            <div className="flex w-full justify-between p-4">
+              <div className="w-full flex text-sm justify-start ml-2">
+                {renderSelect()}
               </div>
-              <div>
-                {isUser ? (
-                  <Switch>
-                    <Route
-                      path="/:user/recent"
-                      render={() => (
-                        <HomeLatest
-                          limit={10}
-                          pageType="RECENT"
-                          search={search}
-                        />
-                      )}
-                    />
-                    <Route
-                      path="/:user/studied"
-                      render={() => (
-                        <StudiedCardSetsContainer
-                          isUser={isUser}
-                          username={profile?.username}
-                        />
-                      )}
-                    />
-                    <Route
-                      path={`/:user`}
-                      render={() => (
-                        <UserCardSets
-                          isUser={isUser}
-                          search={search}
-                          filter={filter}
-                          username={profile?.username}
-                        />
-                      )}
-                    />
-                  </Switch>
-                ) : (
-                  <Switch>
-                    <Route
-                      path="/:user/studied"
-                      render={() => (
-                        <StudiedCardSetsContainer username={userParam} />
-                      )}
-                    />
-                    <Route
-                      path={`/:user`}
-                      render={() => {
-                        return (
-                          <UserCardSets
-                            id={profile?.id}
-                            search={search}
-                            filter={filter}
-                            username={userParam}
-                          />
-                        )
-                      }}
-                    />
-                  </Switch>
-                )}
-              </div>
+              {renderSearch()}
             </div>
-          </>
+            <div>
+              {isUser ? (
+                <Switch>
+                  <Route
+                    path="/:user/recent"
+                    render={() => (
+                      <HomeLatest
+                        limit={10}
+                        pageType="RECENT"
+                        search={search}
+                      />
+                    )}
+                  />
+                  <Route
+                    path="/:user/studied"
+                    render={() => (
+                      <StudiedCardSetsContainer
+                        isUser={isUser}
+                        username={profile?.username}
+                      />
+                    )}
+                  />
+                  <Route
+                    path={`/:user`}
+                    render={() => (
+                      <UserCardSets
+                        filter={filter}
+                        isUser={isUser}
+                        search={search}
+                        username={profile?.username}
+                      />
+                    )}
+                  />
+                </Switch>
+              ) : (
+                <Switch>
+                  <Route
+                    path="/:user/studied"
+                    render={() => (
+                      <StudiedCardSetsContainer username={userParam} />
+                    )}
+                  />
+                  <Route
+                    path={`/:user`}
+                    render={() => {
+                      return (
+                        <UserCardSets
+                          filter={filter}
+                          id={profile?.id}
+                          search={search}
+                          username={userParam}
+                        />
+                      )
+                    }}
+                  />
+                </Switch>
+              )}
+            </div>
+          </div>
         </>
       )}
     </div>

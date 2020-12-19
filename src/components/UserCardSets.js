@@ -3,7 +3,7 @@ import NoItemsCard from './NoItemsCard'
 import {Link} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
-import {addTimeIntervals} from '../lib/helpers'
+import TitledDateIntervalList from './TitledDateIntervalList'
 import {FetchContext} from '../context/FetchContext'
 
 export default function UserCardSets({filter, search, username, isUser}) {
@@ -57,21 +57,24 @@ export default function UserCardSets({filter, search, username, isUser}) {
       return (
         <div className="h-64 w-full px-4">
           <NoItemsCard
+            subtitle={
+              isUser ? (
+                <>
+                  Click
+{' '}
+                  <Link className="hover:text-teal-800"
+to="/card-sets/new">
+                    here
+                  </Link>
+{' '}
+                  to create one!
+                </>
+              ) : null
+            }
             title={
               isUser
                 ? `You haven't created any sets`
                 : `This user hasn't created any sets`
-            }
-            subtitle={
-              isUser ? (
-                <>
-                  Click{' '}
-                  <Link to="/card-sets/new" className="hover:text-teal-800">
-                    here
-                  </Link>{' '}
-                  to create one!
-                </>
-              ) : null
             }
           />
         </div>
@@ -89,7 +92,11 @@ export default function UserCardSets({filter, search, username, isUser}) {
             <NoMatch />
           </div>
         ) : (
-          addTimeIntervals(filteredCardSets, UserCardSetCard, 'created_at')
+          <TitledDateIntervalList
+            Component={UserCardSetCard}
+            data={filteredCardSets}
+            dateKey={'created_at'}
+          />
         )
 
       case 'Alphabetical':
@@ -98,13 +105,11 @@ export default function UserCardSets({filter, search, username, isUser}) {
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),
           )
           .sort((a, b) => alphabeticalFilter(a, b))
-          .map((cardSet, idx) => {
+          .map((cardSet, index) => {
             return (
-              <UserCardSetCard
-                key={idx}
-                cardSet={cardSet}
-                // handleChecked={handleChecked}
-              />
+              <UserCardSetCard cardSet={cardSet}
+index={index}
+key={index} />
             )
           })
 
@@ -121,6 +126,8 @@ export default function UserCardSets({filter, search, username, isUser}) {
   }
 
   return (
-    <div className="overflow-y-auto justify-center">{renderCardSets()}</div>
+    <div className="overflow-y-auto justify-center">
+{renderCardSets()}
+</div>
   )
 }

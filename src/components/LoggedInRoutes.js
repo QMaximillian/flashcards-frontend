@@ -13,27 +13,38 @@ import {CreateCardSetProvider} from '../context/CreateCardSetContext'
 export default function LoggedInRoutes() {
   return (
     <div className="grid grid-rows-11 grid-cols-12 h-full w-full">
-      <Route path="/" component={NavDrawer} />
+      <Route component={NavDrawer} path="/" />
 
       <Switch>
         <Redirect to="/" from="/sign-up" />
         <Route exact path="/card-sets/" component={UserCardSetsPage} />
         <Route path="/search/:search" component={CardSetSearchResults} />
         <Route path="/search/" component={CardSetSearchResults} />
-        <Route exact path="/card-sets/new" render={(props) => <CreateCardSetProvider cardSet={props.cardSet} editMode={props.editMode}><CreateCardSetForm /></CreateCardSetProvider>} />
+        <Route
+          exact
+          path="/card-sets/new"
+          render={props => (
+            <CreateCardSetProvider
+              cardSet={props.cardSet}
+              editMode={props.editMode}
+            >
+              <CreateCardSetForm />
+            </CreateCardSetProvider>
+          )}
+        />
         <Route
           exact
           path="/card-sets/:id"
           render={props => (
-            <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full h-full flex-col-reverse">
+            <div className="col-start-1 col-end-13 row-start-1 row-end-13 w-full h-full flex-col-reverse overflow-scroll">
               <ShowCardSet {...props} />
             </div>
           )}
         />
 
-        <Route exact path="/card-sets/:id/edit" component={EditCardSet} />
-        <Route path="/:user/" component={UserCardSetsPage} />
-        <Route exact path="/" component={LoggedInHome} />
+        <Route component={EditCardSet} exact path="/card-sets/:id/edit" />
+        <Route component={UserCardSetsPage} path="/:user/" />
+        <Route component={LoggedInHome} exact path="/" />
         <Route
           component={() => (
             <div>

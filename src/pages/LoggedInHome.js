@@ -9,4 +9,6 @@ export function LoggedInHome(props) {
   )
 }
 
+LoggedInHome.displayName = 'LoggedInHome'
+
 export default LoggedInHome

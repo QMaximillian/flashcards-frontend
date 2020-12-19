@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
-import {addTimeIntervals} from '../lib/helpers'
+import TitledDateIntervalList from './TitledDateIntervalList'
 import {FetchContext} from '../context/FetchContext'
 
 export default function StudiedCardSetsContainer({username, isUser}) {
@@ -27,18 +27,25 @@ export default function StudiedCardSetsContainer({username, isUser}) {
       return (
         <div className="h-64 w-full px-4">
           <NoItemsCard
+            subtitle={isUser ? 'Use the search bar to check some out' : null}
             title={`${
               isUser ? `You haven't` : `This user hasn't`
             } studied any sets`}
-            subtitle={isUser ? 'Use the search bar to check some out' : null}
           />
         </div>
       )
     }
 
-    return addTimeIntervals(cardSets, UserCardSetCard, 'last_studied_at', {
-      studied: true,
-    })
+    return (
+      <TitledDateIntervalList
+        Component={UserCardSetCard}
+        data={cardSets}
+        dateKey={'last_studied_at'}
+        options={{studied: true}}
+      />
+    )
   }
-  return <div>{renderCardSets()}</div>
+  return <div>
+{renderCardSets()}
+</div>
 }

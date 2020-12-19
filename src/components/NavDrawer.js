@@ -1,23 +1,26 @@
-import React from 'react' // useEffect
+import React from 'react'
 import {Route, Switch} from 'react-router-dom'
-
 import MainNavDrawer from './MainNavDrawer'
 
-export default function NavDrawer(props) {
+export default function NavDrawer() {
   return (
     <Switch>
-      <Route exact path="/card-sets/new" component={null}></Route>
-      <Route exact path="/card-sets/:id" component={null}></Route>
-      <Route exact path="/card-sets/:id/edit" component={null}></Route>
-      <Route exact path="/search/:search" component={null}></Route>
-      <Route exact path="/search/" component={null}></Route>
+      <Route
+        component={null}
+        exact
+        path={[
+          '/card-sets/new',
+          '/card-sets/:id',
+          '/card-sets/:id/edit',
+          '/search',
+          '/search/:id',
+        ]}
+      ></Route>
+
       <Route
         path="/"
         render={() => (
-          <div
-            className="row-start-1 row-end-13 col-start-1 col-end-4
-          "
-          >
+          <div className="row-start-1 row-end-13 col-start-1 col-end-4 bg-gray-100 border-r-2 border-gray-200">
             <MainNavDrawer />
           </div>
         )}

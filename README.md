@@ -8,7 +8,7 @@ Flashcards is Quizlet inspired copy. It is intended to mimic Quizlet features, s
 
 ### Checkout the website [here](https://flashcards-frontend-qmax.herokuapp.com).
 
-*The API this application accesses may take 20 seconds to "wake up". If you aren't able to access the site after 20 seconds, refresh the page* 
+
 <!-- ## Table of Contents
 
 * [Setting Up A Forked Clone](#base-setup)

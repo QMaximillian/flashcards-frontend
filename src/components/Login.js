@@ -1,16 +1,43 @@
-import React, {useState, useContext} from 'react'
+import React, {useReducer, useContext} from 'react'
 import TextBox from './TextBox'
 import {useHistory} from 'react-router-dom'
 
 import {FetchContext} from '../context/FetchContext'
 import {AuthContext} from '../context/AuthContext'
 
+const ERROR = 'ERROR'
+
+function loginReducer(state, action) {
+  switch (action.type) {
+    case ERROR:
+      return {...state, error: action.error}
+    default:
+      return {
+        ...state,
+        [action.id]: {...state[action.id], value: action.data},
+      }
+  }
+}
+
+const initialLoginState = {
+  email: {
+    name: 'email',
+    value: '',
+  },
+  password: {
+    name: 'password',
+    value: '',
+  },
+  error: {},
+}
+
 export default function Login(props) {
   let {authAxios} = useContext(FetchContext)
   let {setAuthState} = useContext(AuthContext)
-  const [email, setEmail] = useState({name: '', value: ''})
-  const [password, setPassword] = useState({name: '', value: ''})
-  const [error, setError] = useState(false)
+  const [{email, password, error}, dispatch] = useReducer(
+    loginReducer,
+    initialLoginState,
+  )
   let history = useHistory()
 
   async function handleSubmit(event) {
@@ -25,22 +52,20 @@ export default function Login(props) {
         setAuthState(res.data)
       })
       .then(() => history.push(`/`))
-      .catch((error) => {
-        console.log(error)})
+      .catch(error => {
+        dispatch({type: ERROR, error: error.response})
+      })
   }
 
-  
-
   return (
-    <div
-      className="flex justify-center w-full h-full items-center "
-    >
+    <div className="flex justify-center w-full h-full items-center">
       <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
         <div className="italic text-red-500 h-6 w-full text-center">
-          {error ? error : null}
+          {error.data?.message}
         </div>
         <div className="mb-6">
-          <label htmlFor="email" className="text-sm block font-bold  pb-2">
+          <label className="text-sm block font-bold  pb-2"
+htmlFor="email">
             Email Address
           </label>
           <div className="h-8">
@@ -48,43 +73,39 @@ export default function Login(props) {
               className={
                 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               }
-              placeholder={'Email'}
+              id="email"
               name="email"
-              value={email.value.toLowerCase()}
-              onChange={e => {
-                if (error) setError(false)
-                setEmail(e)
-              }}
+              onChange={event => dispatch({id: event.id, data: event.value})}
+              placeholder={'Email'}
               type="email"
+              value={email.value.toLowerCase()}
             />
           </div>
         </div>
         <div className="mb-6">
           <label
-            htmlFor="password"
             className="text-sm block font-semibold pb-2"
+            htmlFor="password"
           >
             Password
           </label>
           <TextBox
-            required={true}
             className={
               'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             }
-            placeholder={'Password'}
+            id="password"
             name="password"
+            onChange={event => dispatch({id: event.id, data: event.value})}
+            placeholder={'Password'}
+            required={true}
+            type="password"
             value={password.value}
-            onChange={e => {
-              if (error) setError(false)
-              setPassword(e)
-            }}
-            type={'password'}
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
-            onClick={handleSubmit}
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
+            onClick={handleSubmit}
             type="button"
           >
             Sign In

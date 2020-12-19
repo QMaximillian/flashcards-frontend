@@ -8,11 +8,15 @@ export default function NoItemsCard({title, subtitle}) {
       }
     >
       <article
-        style={{justifyContent: 'space-evenly'}}
         className={'p-2 text-teal-400 align-center flex-col flex'}
+        style={{justifyContent: 'space-evenly'}}
       >
-        <div className="text-3xl self-center font-semibold">{title}</div>
-        <div className="text-lg self-center font-medium">{subtitle}</div>
+        <div className="text-3xl self-center font-semibold">
+{title}
+</div>
+        <div className="text-lg self-center font-medium">
+{subtitle}
+</div>
       </article>
     </div>
   )

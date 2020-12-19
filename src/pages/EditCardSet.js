@@ -8,19 +8,19 @@ export default function EditCardSet(props) {
   const [isLoading, setLoading] = useState(true)
   useEffect(() => {
     setLoading(true)
-    mainAxios
-      .get(`/card-sets/${props.match.params.id}`)
-      .then(res => {
-        setCardSet(res.data.cardSet)
-        setLoading(false)
-      })
+    mainAxios.get(`/card-sets/${props.match.params.id}`).then(res => {
+      setCardSet(res.data.cardSet)
+      setLoading(false)
+    })
   }, [props.match.params.id, mainAxios])
 
-  return isLoading ? <div>Loading...</div> : (
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <CreateCardSetForm
-      editMode={true}
       cardSet={cardSet}
       cardSetId={props.match.params.id}
+      editMode={true}
       {...props}
     />
   )

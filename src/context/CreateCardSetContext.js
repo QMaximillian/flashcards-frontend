@@ -5,6 +5,74 @@ import PropTypes from 'prop-types'
 const CreateCardSetContext = React.createContext()
 const {Provider} = CreateCardSetContext
 
+function CreateCardSetProvider({children, cardSet, mode}) {
+  const location = useLocation()
+  const [state, dispatch] = React.useReducer(cardSetFormReducer, {}, () =>
+    getInitialState(location.state, cardSet, mode),
+  )
+
+  return <Provider value={{state, dispatch}}>{children}</Provider>
+}
+
+function useCreateCardSet() {
+  const context = React.useContext(CreateCardSetContext)
+
+  if (!context) {
+    throw new Error(
+      `This hook can only be used by components that are children of a CreateCardSet Provider`,
+    )
+  }
+
+  return {...context, cardSetFormReducerTypes}
+}
+
+// Functions for setting the initialState of the reducer
+let initialFieldsState = () =>
+  Array.from({length: 2}, () => ({term: '', definition: ''}))
+
+function getInitialState(locationState, cardSet, mode = 'CREATE') {
+  if (locationState !== undefined) {
+    const {flashcardFields, prevCardSetName, mode} = locationState
+
+    return {
+      flashcardFields,
+      cardSetName: {
+        name: 'card-set-name',
+        value: prevCardSetName,
+        isValid: true,
+      },
+      isPrivate: false,
+      prevIsPrivate: false,
+      mode,
+    }
+  } else if (cardSet && mode === 'EDIT') {
+    return {
+      flashcardFields: cardSet.flashcards,
+      cardSetName: cardSet.name
+        ? {name: 'card-set-name', value: cardSet.name, isValid: true}
+        : {},
+      cardSetId: cardSet.card_set_id,
+      isPrivate: cardSet.private,
+      prevIsPrivate: cardSet.private,
+      mode,
+    }
+  } else if (mode === 'CREATE') {
+    let flashcardFields = initialFieldsState()
+    return {
+      flashcardFields,
+      cardSetName: {
+        name: 'card-set-name',
+        value: '',
+        isValid: true,
+      },
+      isPrivate: false,
+      prevIsPrivate: false,
+      mode,
+    }
+  }
+}
+
+// Constants for action types in cardSetFormReducer
 const UPDATE_FIELDS = 'UPDATE_FIELDS'
 const UPDATE_CARD_SET_NAME = 'UPDATE_CARD_SET_NAME'
 const UPDATE_PRIVACY = 'UPDATE_PRIVACY'
@@ -39,86 +107,6 @@ function cardSetFormReducer(state, action) {
   }
 }
 
-let initialFieldsState = () =>
-  Array.from({length: 2}, () => ({term: '', definition: ''}))
-
-function getInitialState(locationState, cardSet, mode) {
-  if (locationState !== undefined) {
-    const {flashcardFields, prevCardSetName} = locationState
-
-    return {
-      initialFlashcardFields: flashcardFields,
-      flashcardFields,
-      cardSetName: {
-        name: 'card-set-name',
-        value: prevCardSetName,
-        isValid: true,
-      },
-      isPrivate: false,
-      prevIsPrivate: false,
-      mode: 'CUSTOMIZE',
-    }
-  } else if (cardSet && mode === 'EDIT') {
-    let editCardSet
-    if (cardSet.length !== 0) {
-      editCardSet = cardSet.flashcards.map(flashcard => ({
-        id: flashcard.id,
-        term: flashcard.term,
-        definition: flashcard.definition,
-      }))
-    }
-
-    return {
-      initialFlashcardFields: cardSet.flashcards,
-      flashcardFields: editCardSet,
-      cardSetName: cardSet.name
-        ? {name: 'card-set-name', value: cardSet.name, isValid: true}
-        : {},
-      cardSetId: cardSet.card_set_id,
-      isPrivate: cardSet.private,
-      prevIsPrivate: cardSet.private,
-      mode: 'EDIT',
-    }
-  } else {
-    let fields = initialFieldsState()
-    return {
-      initialFlashcardFields: fields,
-      flashcardFields: fields,
-      cardSetName: {
-        name: 'card-set-name',
-        value: '',
-        isValid: true,
-      },
-      isPrivate: false,
-      prevIsPrivate: false,
-      mode: 'CREATE',
-    }
-  }
-}
-
-function CreateCardSetProvider({children, cardSet, mode}) {
-  const location = useLocation()
-  const [state, dispatch] = React.useReducer(cardSetFormReducer, {}, () =>
-    getInitialState(location.state, cardSet, mode),
-  )
-
-  return <Provider value={{state, dispatch}}>{children}</Provider>
-}
-
-function useCreateCardSet() {
-  const context = React.useContext(CreateCardSetContext)
-
-  if (!context) {
-    throw new Error(
-      `This hook can only be used by components that are children of a CreateCardSet Provider`,
-    )
-  }
-
-  return {...context, cardSetFormReducerTypes}
-}
-
-export {CreateCardSetProvider, useCreateCardSet}
-
 CreateCardSetContext.propTypes = {
   children: PropTypes.oneOf([PropTypes.node, PropTypes.element]).isRequired,
   mode: PropTypes.oneOf(['CUSTOMIZE', 'EDIT', 'CREATE']),
@@ -136,3 +124,5 @@ CreateCardSetContext.propTypes = {
     ),
   }),
 }
+
+export {CreateCardSetProvider, useCreateCardSet}

@@ -1,6 +1,5 @@
 import React from 'react'
 import {useCreateCardSet} from '../context/CreateCardSetContext'
-import PropTypes from 'prop-types'
 
 function CreateCardSetFooter() {
   const {

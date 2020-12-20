@@ -159,9 +159,9 @@ export default function ShowCardSet(props) {
   if (isLoading) return <div>Loading...</div>
 
   function renderEditOrCustomize() {
-    if (!isAuthenticated()) {
-      return null
-    } else if (
+    if (!isAuthenticated()) return
+
+    if (
       authState.userInfo.username === cardSet.creator_username &&
       authState.userInfo.id === cardSet.creator_id
     ) {
@@ -184,6 +184,7 @@ export default function ShowCardSet(props) {
               prevCardSetName: cardSet.name,
               flashcardFields: flashcards.slice(),
               cardSetId: cardSet.card_set_id,
+              mode: 'CUSTOMIZE',
             },
           }}
         >

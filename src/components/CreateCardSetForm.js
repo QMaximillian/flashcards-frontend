@@ -4,7 +4,6 @@ import {FetchContext} from '../context/FetchContext'
 import CreateCardSetHeader from './CreateCardSetHeader'
 import CreateCardSetFields from './CreateCardSetFields'
 import CreateCardSetFooter from './CreateCardSetFooter'
-import PropTypes from 'prop-types'
 import {useCreateCardSet} from '../context/CreateCardSetContext'
 
 function postCardSet(httpClient, options = {}) {

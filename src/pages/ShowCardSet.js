@@ -183,7 +183,7 @@ export default function ShowCardSet(props) {
               fromCustomize: true,
               prevCardSetName: cardSet.name,
               flashcardFields: flashcards.slice(),
-              cardSetId: cardSet.card_set_id
+              cardSetId: cardSet.card_set_id,
             },
           }}
         >
@@ -268,7 +268,7 @@ export default function ShowCardSet(props) {
             <img
               alt="A user's profile"
               className="w-16 h-16 object-fill rounded-full mr-4 bg-gray-500"
-              src={authState.userInfo.profile_pic || placeholderPhoto}
+              src={cardSet.creator_profile_pic || placeholderPhoto}
               style={{minWidth: '4rem', minHeight: '4rem'}}
             />
           </div>

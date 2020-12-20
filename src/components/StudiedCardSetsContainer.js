@@ -3,8 +3,9 @@ import UserCardSetCard from '../components/UserCardSetCard'
 import NoItemsCard from './NoItemsCard'
 import TitledDateIntervalList from './TitledDateIntervalList'
 import {FetchContext} from '../context/FetchContext'
+import PropTypes from 'prop-types'
 
-export default function StudiedCardSetsContainer({username, isUser}) {
+function StudiedCardSetsContainer({username, isUser}) {
   const {mainAxios} = useContext(FetchContext)
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
@@ -38,17 +39,19 @@ export default function StudiedCardSetsContainer({username, isUser}) {
 
     return (
       <TitledDateIntervalList
-        Component={UserCardSetCard}
+        render={props => <UserCardSetCard studied={true} {...props} />}
         data={cardSets}
         dateKey={'last_studied_at'}
-        options={{studied: true}}
       />
     )
   }
+
   return <div>{renderCardSets()}</div>
 }
 
 StudiedCardSetsContainer.propTypes = {
-  username: PropTypes.string,
-  isUser: PropTypes.bool,
+  username: PropTypes.string.isRequired,
+  isUser: PropTypes.bool.isRequired,
 }
+
+export default StudiedCardSetsContainer

@@ -6,18 +6,12 @@ import SignUp from './SignUp'
 import LoggedOutHome from '../pages/LoggedOutHome'
 import CardSetSearchResults from '../pages/CardSetSearchResults'
 
-export default function LoggedOutRoutes() {
+function LoggedOutRoutes() {
   return (
     <Switch>
-      <Route component={LoggedOutHome}
-exact
-path="/" />
-      <Route component={Login}
-exact
-path="/login" />
-      <Route component={SignUp}
-exact
-path="/sign-up" />
+      <Route component={LoggedOutHome} exact path="/" />
+      <Route component={Login} exact path="/login" />
+      <Route component={SignUp} exact path="/sign-up" />
       <Route
         exact
         path="/card-sets/:id"
@@ -27,9 +21,10 @@ path="/sign-up" />
           </div>
         )}
       />
-      <Route component={CardSetSearchResults}
-path="/search/:search" />
+      <Route component={CardSetSearchResults} path="/search/:search" />
       <Redirect to="/" />
     </Switch>
   )
 }
+
+export default LoggedOutRoutes

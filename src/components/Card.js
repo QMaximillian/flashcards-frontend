@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useCallback} from 'react'
 import {animated, useSpring} from 'react-spring'
+import PropTypes from 'prop-types'
 
-export default function Card(props) {
+function Card({flashcardFront, flashcardBack}) {
   const [flipped, setFlipped] = useState(false)
   const {transform, opacity} = useSpring({
     opacity: flipped ? 1 : 0,
@@ -26,8 +27,7 @@ export default function Card(props) {
   }, [handleCardFlip])
 
   return (
-    <div className="h-64 w-3/4"
-onClick={() => setFlipped(state => !state)}>
+    <div className="h-64 w-3/4" onClick={() => setFlipped(state => !state)}>
       <animated.div
         className={`bg-white p-4 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
         style={{
@@ -36,9 +36,7 @@ onClick={() => setFlipped(state => !state)}>
           transform,
         }}
       >
-        <div className="text-3xl font-light">
-{props.flashcardFront}
-</div>
+        <div className="text-3xl font-light">{flashcardFront}</div>
       </animated.div>
       <animated.div
         className={`bg-white p-4 bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
@@ -48,10 +46,15 @@ onClick={() => setFlipped(state => !state)}>
           transform: transform.interpolate(t => `${t} rotateX(180deg)`),
         }}
       >
-        <div className="text-3xl font-light">
-{props.flashcardBack}
-</div>
+        <div className="text-3xl font-light">{flashcardBack}</div>
       </animated.div>
     </div>
   )
 }
+
+Card.propTypes = {
+  flashcardBack: PropTypes.string.isRequired,
+  flashcardFront: PropTypes.string.isRequired,
+}
+
+export default Card

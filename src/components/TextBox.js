@@ -103,8 +103,7 @@ const TextBox = React.forwardRef((props, ref) => {
         value={props.value}
       />
       {handleShowError() && (
-        <p className="h-0 text-red-500 text-xs"
-role="alert">
+        <p className="h-0 text-red-500 text-xs" role="alert">
           {getErrorMessage()}
         </p>
       )}

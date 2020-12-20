@@ -1,12 +1,8 @@
 import React from 'react'
 import {isThisWeek, parseISO, getMonth, format} from 'date-fns'
+import PropTypes from 'prop-types'
 
-export default function TitledDateIntervalList({
-  dateKey,
-  data,
-  Component,
-  options = {},
-}) {
+function TitledDateIntervalList({dateKey, data, render}) {
   let currentMonth,
     previousMonth = getMonth(parseISO(data.slice(0, 1)[dateKey]))
 
@@ -17,8 +13,7 @@ export default function TitledDateIntervalList({
     if (currentMonth !== previousMonth) {
       previousMonth = currentMonth
       return (
-        <div className="w-full flex flex-col"
-key={index}>
+        <div className="w-full flex flex-col" key={index}>
           <div className="flex w-full items-center px-4">
             <div className="text-xs w-32 text-center">
               {isThisWeek(currentParsedDate, {weekStartsOn: 0})
@@ -27,17 +22,19 @@ key={index}>
             </div>
             <hr className="border border-solid border-b-2 border-gray-400 w-full" />
           </div>
-          <Component cardSet={cardSet}
-{...options} />
+          {render({cardSet})}
         </div>
       )
     }
 
-    return (
-      <Component cardSet={cardSet}
-key={index}
-{...options}
-index={index} />
-    )
+    return render({cardSet, key: index, index})
   })
 }
+
+TitledDateIntervalList.propTypes = {
+  dateKey: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
+  render: PropTypes.func.isRequired,
+}
+
+export default TitledDateIntervalList

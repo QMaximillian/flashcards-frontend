@@ -30,7 +30,7 @@ const initialLoginState = {
   error: {},
 }
 
-export default function Login(props) {
+function Login() {
   let {authAxios} = useContext(FetchContext)
   let {setAuthState} = useContext(AuthContext)
   const [{email, password, error}, dispatch] = useReducer(
@@ -113,3 +113,5 @@ export default function Login(props) {
     </div>
   )
 }
+
+export default Login

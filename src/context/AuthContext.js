@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useState} from 'react'
 import {useHistory} from 'react-router-dom'
 import {FetchContext} from './FetchContext'
+import PropTypes from 'prop-types'
 
 const AuthContext = createContext()
 const {Provider} = AuthContext
@@ -56,6 +57,10 @@ function AuthProvider({children}) {
       {children}
     </Provider>
   )
+}
+
+AuthContext.propTypes = {
+  children: PropTypes.oneOf([PropTypes.node, PropTypes.element]).isRequired,
 }
 
 export {AuthContext, AuthProvider}

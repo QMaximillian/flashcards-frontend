@@ -2,8 +2,9 @@ import React from 'react'
 import CreateCardSetHeader from './CreateCardSetHeader'
 import CreateCardSetFields from './CreateCardSetFields'
 import CreateCardSetFooter from './CreateCardSetFooter'
+import PropTypes from 'prop-types'
 
-export default function CreateCardSetForm(props) {
+function CreateCardSetForm({editMode}) {
   return (
     <form
       onSubmit={event => event.preventDefault()}
@@ -14,25 +15,13 @@ export default function CreateCardSetForm(props) {
       <div className="bg-gray-300 my-4 mx-8">
         <CreateCardSetFields />
       </div>
-      <CreateCardSetFooter editMode={props.editMode} />
+      <CreateCardSetFooter editMode={editMode} />
     </form>
   )
 }
 
-React.propTypes = {
-  cardSetId: PropTypes.string,
+CreateCardSetForm.propTypes = {
   editMode: PropTypes.bool,
-  cardSet: PropTypes.shape({
-    name: PropTypes.string,
-    card_set_id: PropTypes.string,
-    creator_id: PropTypes.string,
-    creator_username: PropTypes.string,
-    flashcards: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        term: PropTypes.string,
-        definition: PropTypes.string,
-      }),
-    ),
-  }),
 }
+
+export default CreateCardSetForm

@@ -2,7 +2,7 @@ import React from 'react'
 import {Route, Switch} from 'react-router-dom'
 import MainNavDrawer from './MainNavDrawer'
 
-export default function NavDrawer() {
+function NavDrawer() {
   return (
     <Switch>
       <Route
@@ -28,3 +28,5 @@ export default function NavDrawer() {
     </Switch>
   )
 }
+
+export default NavDrawer

@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {animated} from 'react-spring'
 
-export default function FinalFlashCard(props) {
-  const {numOfFlashcards, handleReset} = props
+function FinalFlashCard({numOfFlashcards, handleReset}) {
   return (
     <div className="h-64 w-3/4">
       <animated.div
@@ -28,3 +27,5 @@ FinalFlashCard.propTypes = {
   numOfFlashcards: PropTypes.number.isRequired,
   handleReset: PropTypes.func.isRequired,
 }
+
+export default FinalFlashCard

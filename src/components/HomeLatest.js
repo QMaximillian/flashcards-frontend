@@ -7,8 +7,9 @@ import NoItemsCard from './NoItemsCard'
 import TitledDateIntervalList from './TitledDateIntervalList'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
+import PropTypes from 'prop-types'
 
-export default function HomeLatest({pageType, search}) {
+function HomeLatest({pageType, search}) {
   const {authState} = useContext(AuthContext)
   const {mainAxios} = useContext(FetchContext)
 
@@ -122,7 +123,7 @@ export default function HomeLatest({pageType, search}) {
           />
         ) : (
           <TitledDateIntervalList
-            Component={UserCardSetCard}
+            render={props => <UserCardSetCard {...props} />}
             data={filteredCardSets}
             dateKey={'last_seen_at'}
           />
@@ -136,3 +137,5 @@ HomeLatest.propTypes = {
   pageType: PropTypes.oneOf(['HOME', 'RECENT']),
   limit: PropTypes.number,
 }
+
+export default HomeLatest

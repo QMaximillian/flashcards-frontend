@@ -4,7 +4,7 @@ import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
 import {FetchContext} from '../context/FetchContext'
 
-export default function CardSetSearchResults(props) {
+function CardSetSearchResults() {
   const {mainAxios} = useContext(FetchContext)
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
@@ -18,9 +18,7 @@ export default function CardSetSearchResults(props) {
     })
   }, [search, mainAxios])
 
-  if (loading) return <div>
-Loading...
-</div>
+  if (loading) return <div>Loading...</div>
   if (cardSets.length === 0) {
     return (
       <div className="col-start-3 col-end-11 row-start-4 row-end-7">
@@ -33,11 +31,12 @@ Loading...
       {cardSets.map((cardSet, index) => {
         return (
           <div key={index}>
-            <UserCardSetCard cardSet={cardSet}
-searchCard={true} />
+            <UserCardSetCard cardSet={cardSet} searchCard={true} />
           </div>
         )
       })}
     </div>
   )
 }
+
+export default CardSetSearchResults

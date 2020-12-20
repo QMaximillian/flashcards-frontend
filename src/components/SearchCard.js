@@ -1,11 +1,10 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 function SearchCard({cardSet}) {
-  if (cardSet.flashcards === null) return null
   return (
-    <Link className="w-full h-full"
-to={`/card-sets/${cardSet.card_set_id}`}>
+    <Link className="w-full h-full" to={`/card-sets/${cardSet.card_set_id}`}>
       <div className="w-full border border-gray-200 h-full">
         <div className="flex justify-between h-full">
           {cardSet.flashcards.map((flashcard, index) => {
@@ -34,6 +33,22 @@ to={`/card-sets/${cardSet.card_set_id}`}>
       </div>
     </Link>
   )
+}
+
+SearchCard.propTypes = {
+  cardSet: PropTypes.shape({
+    name: PropTypes.string,
+    card_set_id: PropTypes.string,
+    creator_id: PropTypes.string,
+    creator_username: PropTypes.string,
+    flashcards: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        term: PropTypes.string,
+        definition: PropTypes.string,
+      }),
+    ),
+  }),
 }
 
 export default SearchCard

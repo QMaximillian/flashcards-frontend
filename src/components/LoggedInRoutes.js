@@ -10,9 +10,7 @@ import CardSetSearchResults from '../pages/CardSetSearchResults.js'
 import NoMatch from './NoMatch'
 import {CreateCardSetProvider} from '../context/CreateCardSetContext'
 
-// THIS FILE IS INTENDED MAKE A BASE CARD FORM TO SPLIT UP THE HUGE CreateCardSetForm component
-
-export default function LoggedInRoutes() {
+function LoggedInRoutes() {
   return (
     <div className="grid grid-rows-11 grid-cols-12 h-full w-full">
       <Route component={NavDrawer} path="/" />
@@ -25,11 +23,8 @@ export default function LoggedInRoutes() {
         <Route
           exact
           path="/card-sets/new"
-          render={props => (
-            <CreateCardSetProvider
-              cardSet={props.cardSet}
-              editMode={props.editMode}
-            >
+          render={({cardSet, editMode}) => (
+            <CreateCardSetProvider cardSet={cardSet} editMode={editMode}>
               <CreateCardSetForm />
             </CreateCardSetProvider>
           )}
@@ -58,3 +53,5 @@ export default function LoggedInRoutes() {
     </div>
   )
 }
+
+export default LoggedInRoutes

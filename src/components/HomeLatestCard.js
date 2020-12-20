@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
 
-export default function HomeLatestCard(props) {
-  const {name, flashcards_count, owner} = props.cardSet
-
+function HomeLatestCard({cardSet: {name, flashcards_count, owner}}) {
   return (
     <article className="h-full w-full border border-gray-500 shadow-lg rounded">
       <div
@@ -19,15 +17,12 @@ export default function HomeLatestCard(props) {
         </p>
         <div>
           <p className="opacity-50 text-sm truncate sm:break-words">
-            {flashcards_count}
-{' '}
-terms
-</p>
+            {flashcards_count} terms
+          </p>
 
           <div>
             <p>
-              Created by:
-{' '}
+              Created by:{' '}
               <NavLink to={`/${owner}`}>
                 <span className="hover:text-teal-500 truncate sm:break-words">
                   {owner}
@@ -56,3 +51,5 @@ HomeLatestCard.propTypes = {
     owner: PropTypes.string,
   }),
 }
+
+export default HomeLatestCard

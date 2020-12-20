@@ -35,7 +35,7 @@ const initialSignUpState = {
   },
 }
 
-function SignUp(props) {
+function SignUp() {
   const {authAxios} = useContext(FetchContext)
   const {setAuthState} = useContext(AuthContext)
   const [

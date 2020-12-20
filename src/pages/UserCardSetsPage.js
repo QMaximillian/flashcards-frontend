@@ -15,7 +15,7 @@ import NoMatch from '../components/NoMatch'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
 
-export default function UserCardSetsPage(props) {
+export default function UserCardSetsPage() {
   const {authState} = useContext(AuthContext)
   const {mainAxios} = useContext(FetchContext)
 
@@ -176,7 +176,10 @@ export default function UserCardSetsPage(props) {
                   <Route
                     path="/:user/studied"
                     render={() => (
-                      <StudiedCardSetsContainer username={userParam} />
+                      <StudiedCardSetsContainer
+                        username={userParam}
+                        isUser={isUser}
+                      />
                     )}
                   />
                   <Route

@@ -7,7 +7,7 @@ import TitledDateIntervalList from './TitledDateIntervalList'
 import {FetchContext} from '../context/FetchContext'
 import PropTypes from 'prop-types'
 
-export default function UserCardSets({filter, search, username, isUser}) {
+function UserCardSets({filter, search, username, isUser}) {
   const {mainAxios} = useContext(FetchContext)
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
@@ -91,7 +91,7 @@ export default function UserCardSets({filter, search, username, isUser}) {
           </div>
         ) : (
           <TitledDateIntervalList
-            Component={UserCardSetCard}
+            render={props => <UserCardSetCard {...props} />}
             data={filteredCardSets}
             dateKey={'created_at'}
           />
@@ -136,3 +136,5 @@ UserCardSets.propTypes = {
   username: PropTypes.string,
   isUser: PropTypes.bool,
 }
+
+export default UserCardSets

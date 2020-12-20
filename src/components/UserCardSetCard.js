@@ -7,10 +7,14 @@ import {format} from 'date-fns'
 import PropTypes from 'prop-types'
 import {uuidCheck} from '../lib/helpers'
 
-export default function UserCardSetCard(props) {
+function UserCardSetCard({
+  cardSet,
+  index,
+  studied = false,
+  searchCard = false,
+}) {
   let {authState} = useContext(AuthContext)
   let {mainAxios} = useContext(FetchContext)
-  const {index, cardSet, studied = false, searchCard = false} = props
 
   function renderStudiedCard() {
     return (
@@ -94,7 +98,9 @@ export default function UserCardSetCard(props) {
               </Link>
             </div>
             {studied ? renderStudiedCard() : null}
-            {searchCard ? <SearchCard cardSet={cardSet} /> : null}
+            {searchCard && cardSet.flashcards ? (
+              <SearchCard cardSet={cardSet} />
+            ) : null}
           </div>
         </div>
       </div>
@@ -114,4 +120,9 @@ UserCardSetCard.propTypes = {
     name: PropTypes.string,
     updated_at: PropTypes.string,
   }),
+  index: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  studied: PropTypes.bool,
+  searchCard: PropTypes.bool,
 }
+
+export default UserCardSetCard

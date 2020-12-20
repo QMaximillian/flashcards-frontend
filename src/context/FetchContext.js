@@ -1,5 +1,6 @@
 import React, {createContext} from 'react'
 import axios from 'axios'
+import PropTypes from 'prop-types'
 
 const BASE_HEADERS = {
   'Content-Type': 'application/json',
@@ -44,3 +45,7 @@ function FetchProvider({children}) {
 }
 
 export {FetchContext, FetchProvider}
+
+FetchContext.propTypes = {
+  children: PropTypes.oneOf([PropTypes.node, PropTypes.element]).isRequired,
+}

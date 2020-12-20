@@ -10,6 +10,7 @@ import {Link, Redirect} from 'react-router-dom'
 import TextBox from './TextBox'
 import useClickOutside from '../lib/hooks/useClickOutside'
 import {AuthContext} from '../context/AuthContext'
+import PropTypes from 'prop-types'
 
 function NavigationLogo() {
   return (
@@ -196,6 +197,10 @@ function Navigation() {
       )}
     </nav>
   )
+}
+
+NavigationDropdown.propTypes = {
+  onClick: PropTypes.func.isRequired,
 }
 
 export default Navigation

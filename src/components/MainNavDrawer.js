@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import {Link, useRouteMatch} from 'react-router-dom'
 import {AuthContext} from '../context/AuthContext'
 
-export default function MainNavDrawer() {
+function MainNavDrawer() {
   const userRouteMatch = useRouteMatch(['/:user', '/:user/studied'])
   const recentRouteMatch = useRouteMatch('/:user/recent')
   let {authState} = useContext(AuthContext)
@@ -42,14 +42,12 @@ export default function MainNavDrawer() {
             Card Sets
           </div>
         </Link>
-        <Link className="w-full items-center flex-1 justify-start flex"
-to="#">
+        <Link className="w-full items-center flex-1 justify-start flex" to="#">
           <div className="w-full py-4 hover:bg-orange-500 pl-4 opacity-25 cursor-not-allowed">
             Folders
           </div>
         </Link>
-        <Link className="w-full items-center flex-1 justify-start flex"
-to="#">
+        <Link className="w-full items-center flex-1 justify-start flex" to="#">
           <div className="w-full py-4 hover:bg-orange-500 pl-4 opacity-25 cursor-not-allowed">
             Classes
           </div>
@@ -59,3 +57,5 @@ to="#">
     </div>
   )
 }
+
+export default MainNavDrawer

@@ -4,9 +4,8 @@ import placeholderPhoto from '../photos/placeholder-photo.png'
 import {FetchContext} from '../context/FetchContext'
 import PropTypes from 'prop-types'
 
-export default function UserInfoCard(props) {
+function UserInfoCard({isUser, profile, setProfile}) {
   const {mainAxios} = useContext(FetchContext)
-  const {profile, setProfile} = props
   const {user: userParam} = useParams()
 
   useEffect(() => {
@@ -107,7 +106,7 @@ export default function UserInfoCard(props) {
 }
 
 UserInfoCard.propTypes = {
-  isUser: PropTypes.bool,
+  isUser: PropTypes.bool.isRequired,
   profile: PropTypes.shape({
     id: PropTypes.string,
     email: PropTypes.string,
@@ -120,6 +119,8 @@ UserInfoCard.propTypes = {
     ]),
     updated_at: PropTypes.string,
     username: PropTypes.string,
-  }),
-  setProfile: PropTypes.func,
+  }).isRequired,
+  setProfile: PropTypes.func.isRequired,
 }
+
+export default UserInfoCard

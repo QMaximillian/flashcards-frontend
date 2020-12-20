@@ -4,7 +4,7 @@ import LoggedInRoutes from '../components/LoggedInRoutes'
 import LoggedOutRoutes from '../components/LoggedOutRoutes'
 import {AuthContext} from '../context/AuthContext'
 
-export default function RouteDecider() {
+function RouteDecider() {
   let {isAuthenticated} = useContext(AuthContext)
   return (
     <div className="grid grid-cols-12 grid-rows-12 h-screen w-screen">
@@ -17,3 +17,5 @@ export default function RouteDecider() {
     </div>
   )
 }
+
+export default RouteDecider

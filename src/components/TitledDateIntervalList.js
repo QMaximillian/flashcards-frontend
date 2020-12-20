@@ -14,13 +14,12 @@ function TitledDateIntervalList({dateKey, data, render}) {
       previousMonth = currentMonth
       return (
         <div className="w-full flex flex-col" key={index}>
-          <div className="flex w-full items-center px-4">
-            <div className="text-xs w-32 text-center">
+          <div className="flex items-center mx-4 mt-3 mb-1 border-b-4 border-teal-400">
+            <div className="text-2xl w-40 font-light ml-2 text-gray-700 ">
               {isThisWeek(currentParsedDate, {weekStartsOn: 0})
-                ? 'THIS WEEK'
+                ? 'This Week'
                 : format(currentParsedDate, 'MMMM yyyy')}
             </div>
-            <hr className="border border-solid border-b-2 border-gray-400 w-full" />
           </div>
           {render({cardSet})}
         </div>

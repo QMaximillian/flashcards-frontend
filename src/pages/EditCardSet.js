@@ -18,7 +18,7 @@ export default function EditCardSet(props) {
   return isLoading ? (
     <div>Loading...</div>
   ) : (
-    <CreateCardSetProvider cardSet={cardSet} mode={'EDIT'}>
+    <CreateCardSetProvider cardSet={cardSet} mode="EDIT">
       <CreateCardSetForm {...props} />
     </CreateCardSetProvider>
   )

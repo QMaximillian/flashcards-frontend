@@ -22,8 +22,12 @@ function LoggedInRoutes() {
         <Route
           exact
           path="/card-sets/new"
-          render={({cardSet}) => (
-            <CreateCardSetProvider cardSet={cardSet}>
+          render={({cardSet, location}) => (
+            <CreateCardSetProvider
+              cardSet={cardSet}
+              mode={'CREATE'}
+              locationState={location.state}
+            >
               <CreateCardSetForm />
             </CreateCardSetProvider>
           )}

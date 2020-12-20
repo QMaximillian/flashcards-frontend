@@ -1,21 +1,19 @@
-import React from 'react'
-import {useLocation} from 'react-router-dom'
+import React, {useReducer, createContext, useContext} from 'react'
 import PropTypes from 'prop-types'
 
-const CreateCardSetContext = React.createContext()
+const CreateCardSetContext = createContext()
 const {Provider} = CreateCardSetContext
 
-function CreateCardSetProvider({children, cardSet, mode}) {
-  const location = useLocation()
-  const [state, dispatch] = React.useReducer(cardSetFormReducer, {}, () =>
-    getInitialState(location.state, cardSet, mode),
+function CreateCardSetProvider({children, cardSet, mode, locationState}) {
+  const [state, dispatch] = useReducer(cardSetFormReducer, {}, () =>
+    getInitialState(locationState, cardSet, locationState?.mode ?? mode),
   )
 
   return <Provider value={{state, dispatch}}>{children}</Provider>
 }
 
 function useCreateCardSet() {
-  const context = React.useContext(CreateCardSetContext)
+  const context = useContext(CreateCardSetContext)
 
   if (!context) {
     throw new Error(
@@ -31,7 +29,7 @@ let initialFieldsState = () =>
   Array.from({length: 2}, () => ({term: '', definition: ''}))
 
 function getInitialState(locationState, cardSet, mode = 'CREATE') {
-  if (locationState !== undefined) {
+  if (mode === 'CUSTOMIZE') {
     const {flashcardFields, prevCardSetName, mode} = locationState
 
     return {
@@ -45,7 +43,7 @@ function getInitialState(locationState, cardSet, mode = 'CREATE') {
       prevIsPrivate: false,
       mode,
     }
-  } else if (cardSet && mode === 'EDIT') {
+  } else if (mode === 'EDIT' && cardSet) {
     return {
       flashcardFields: cardSet.flashcards,
       cardSetName: cardSet.name

@@ -170,7 +170,7 @@ export default function ShowCardSet(props) {
           className="flex items-center justify-center"
           to={`/card-sets/${props.match.params.id}/edit`}
         >
-          <i className="far fa-edit"></i>
+          <i className="far fa-edit hover:text-orange-600"></i>
         </Link>
       )
     } else {
@@ -187,7 +187,7 @@ export default function ShowCardSet(props) {
             },
           }}
         >
-          <i className="far fa-clone text-gray-600" />
+          <i className="far fa-clone text-gray-600 hover:text-orange-600" />
         </Link>
       )
     }
@@ -274,7 +274,12 @@ export default function ShowCardSet(props) {
           </div>
           <div className="ml-2 self-center">
             <div className="text-xs text-gray-500">Created by </div>
-            <div className="text-sm">{cardSet.creator_username}</div>
+            <Link
+              to={`/${cardSet.creator_username}`}
+              className="text-sm hover:text-orange-600"
+            >
+              {cardSet.creator_username}
+            </Link>
           </div>
         </div>
         <div className="flex justify-end sm:items-center sm:w-full">

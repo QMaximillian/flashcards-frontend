@@ -34,8 +34,9 @@ function CreateCardSetFields() {
             {idx + 1}
           </div>
           <button
-            className="ml-2 self-center my-6 pr-4"
+            className="text-center mr-2 px-4"
             onClick={() => handleRemove(idx)}
+            type="button"
           >
             X
           </button>

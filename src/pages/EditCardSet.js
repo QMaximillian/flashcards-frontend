@@ -18,13 +18,8 @@ export default function EditCardSet(props) {
   return isLoading ? (
     <div>Loading...</div>
   ) : (
-    <CreateCardSetProvider cardSet={cardSet} editMode={true}>
-      <CreateCardSetForm
-        cardSet={cardSet}
-        cardSetId={props.match.params.id}
-        editMode={true}
-        {...props}
-      />
+    <CreateCardSetProvider cardSet={cardSet} mode={'EDIT'}>
+      <CreateCardSetForm {...props} />
     </CreateCardSetProvider>
   )
 }

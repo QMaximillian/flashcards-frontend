@@ -17,14 +17,13 @@ function LoggedInRoutes() {
 
       <Switch>
         <Redirect to="/" from="/sign-up" />
-        <Route exact path="/card-sets/" component={UserCardSetsPage} />
         <Route path="/search/:search" component={CardSetSearchResults} />
         <Route path="/search/" component={CardSetSearchResults} />
         <Route
           exact
           path="/card-sets/new"
-          render={({cardSet, editMode}) => (
-            <CreateCardSetProvider cardSet={cardSet} editMode={editMode}>
+          render={({cardSet}) => (
+            <CreateCardSetProvider cardSet={cardSet}>
               <CreateCardSetForm />
             </CreateCardSetProvider>
           )}

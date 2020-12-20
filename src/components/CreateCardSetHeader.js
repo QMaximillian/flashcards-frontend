@@ -1,9 +1,8 @@
 import React from 'react'
 import TextBox from './TextBox'
 import {useCreateCardSet} from '../context/CreateCardSetContext'
-import PropTypes from 'prop-types'
 
-function CreateCardSetHeader({editMode}) {
+function CreateCardSetHeader() {
   const {
     state: {isPrivate, cardSetName},
     dispatch,
@@ -41,17 +40,10 @@ function CreateCardSetHeader({editMode}) {
           <button
             className="m-2 p-2 bg-teal-500 text-white h-18  text-2xl self-center"
             onClick={clearFields}
+            type="button"
           >
             ERASE ALL ENTRIES
           </button>
-          {editMode ? (
-            <div
-              className="p-2 bg-teal-500 text-white h-18  text-2xl self-center"
-              onClick={clearFields}
-            >
-              DELETE ALL
-            </div>
-          ) : null}
         </div>
       </div>
       <div className="w-full mt-12">
@@ -85,10 +77,6 @@ function CreateCardSetHeader({editMode}) {
       </div>
     </div>
   )
-}
-
-CreateCardSetHeader.propTypes = {
-  editMode: PropTypes.bool,
 }
 
 export default CreateCardSetHeader

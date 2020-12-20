@@ -42,7 +42,7 @@ function cardSetFormReducer(state, action) {
 let initialFieldsState = () =>
   Array.from({length: 2}, () => ({term: '', definition: ''}))
 
-function getInitialState(locationState, cardSet, editMode) {
+function getInitialState(locationState, cardSet, mode) {
   if (locationState !== undefined) {
     const {flashcardFields, prevCardSetName} = locationState
 
@@ -56,8 +56,9 @@ function getInitialState(locationState, cardSet, editMode) {
       },
       isPrivate: false,
       prevIsPrivate: false,
+      mode: 'CUSTOMIZE',
     }
-  } else if (cardSet && editMode) {
+  } else if (cardSet && mode === 'EDIT') {
     let editCardSet
     if (cardSet.length !== 0) {
       editCardSet = cardSet.flashcards.map(flashcard => ({
@@ -76,6 +77,7 @@ function getInitialState(locationState, cardSet, editMode) {
       cardSetId: cardSet.card_set_id,
       isPrivate: cardSet.private,
       prevIsPrivate: cardSet.private,
+      mode: 'EDIT',
     }
   } else {
     let fields = initialFieldsState()
@@ -89,14 +91,15 @@ function getInitialState(locationState, cardSet, editMode) {
       },
       isPrivate: false,
       prevIsPrivate: false,
+      mode: 'CREATE',
     }
   }
 }
 
-function CreateCardSetProvider({children, cardSet, editMode}) {
+function CreateCardSetProvider({children, cardSet, mode}) {
   const location = useLocation()
   const [state, dispatch] = React.useReducer(cardSetFormReducer, {}, () =>
-    getInitialState(location.state, cardSet, editMode),
+    getInitialState(location.state, cardSet, mode),
   )
 
   return <Provider value={{state, dispatch}}>{children}</Provider>
@@ -118,7 +121,7 @@ export {CreateCardSetProvider, useCreateCardSet}
 
 CreateCardSetContext.propTypes = {
   children: PropTypes.oneOf([PropTypes.node, PropTypes.element]).isRequired,
-  editMode: PropTypes.bool,
+  mode: PropTypes.oneOf(['CUSTOMIZE', 'EDIT', 'CREATE']),
   cardSet: PropTypes.shape({
     name: PropTypes.string,
     card_set_id: PropTypes.string,

@@ -11,17 +11,6 @@ function UserCardSets({filter, search, username, isUser}) {
   const {mainAxios} = useContext(FetchContext)
   const [cardSets, setCardSets] = useState([])
   const [loading, setLoading] = useState(true)
-  const [
-    editMode,
-    // setEditMode
-  ] = useState(false)
-  const [initialCardState, setInitialCardState] = useState([])
-
-  useEffect(() => {
-    if (!editMode) {
-      setCardSets(initialCardState)
-    }
-  }, [editMode, initialCardState])
 
   useEffect(() => {
     let isMounted = true
@@ -31,7 +20,6 @@ function UserCardSets({filter, search, username, isUser}) {
         if (isMounted) {
           setLoading(false)
           setCardSets(res.data.userCardSets)
-          setInitialCardState(res.data.userCardSets)
         }
       })
       .catch(error => {

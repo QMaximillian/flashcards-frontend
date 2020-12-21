@@ -63,8 +63,9 @@ function CreateCardSetHeader() {
       </div>
       <div className="flex justify-between">
         <div>
-          Flashcards are:
+          <label htmlFor="privacy-select">Flashcards are:</label>
           <select
+            id="privacy-select"
             className="border border-black outline-none ml-2"
             style={{textAlignLast: 'center'}}
             onChange={updatePrivacy}

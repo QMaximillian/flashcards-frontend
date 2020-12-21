@@ -7,6 +7,7 @@ import NoItemsCard from './NoItemsCard'
 import TitledDateIntervalList from './TitledDateIntervalList'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
+import Loading from './Loading'
 import PropTypes from 'prop-types'
 
 function HomeLatest({pageType, search}) {
@@ -38,8 +39,9 @@ function HomeLatest({pageType, search}) {
           console.log(thrown)
         }
       })
-
-    setIsLoading(false)
+      .finally(() => {
+        setIsLoading(false)
+      })
   }, [authState, mainAxios, pageType])
 
   function renderRecentCardSets() {
@@ -72,7 +74,7 @@ function HomeLatest({pageType, search}) {
     })
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Loading />
   if (pageType === 'HOME' || !pageType) {
     return (
       <section>

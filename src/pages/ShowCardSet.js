@@ -1,5 +1,4 @@
 import React, {useEffect, useState, useContext, useCallback} from 'react'
-
 import {useTransition, animated} from 'react-spring'
 import {Link} from 'react-router-dom'
 import FinalFlashCard from '../components/FinalFlashCard'
@@ -13,6 +12,7 @@ import Card from '../components/Card'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
 import placeholderPhoto from '../photos/placeholder-photo.png'
+import Loading from '../components/Loading'
 
 export default function ShowCardSet(props) {
   const {isAuthenticated, authState} = useContext(AuthContext)
@@ -76,7 +76,6 @@ export default function ShowCardSet(props) {
             const {flashcards, ...rest} = res.data.cardSet
             setCardSet(rest)
             setFlashcards([...flashcards])
-            setIsLoading(false)
           }
         })
         .catch(err => {
@@ -84,8 +83,12 @@ export default function ShowCardSet(props) {
             setError(true)
           }
         })
+        .finally(() => {
+          setIsLoading(false)
+        })
     } else {
       setError(true)
+      setIsLoading(false)
     }
 
     return () => (isMounted = false)
@@ -156,7 +159,12 @@ export default function ShowCardSet(props) {
         <NoMatch />
       </div>
     )
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading)
+    return (
+      <div className="w-full h-full col-start-1 col-end-13 row-start-1 row-end-13">
+        <Loading />
+      </div>
+    )
 
   function renderEditOrCustomize() {
     if (!isAuthenticated()) return

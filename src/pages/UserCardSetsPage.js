@@ -14,6 +14,7 @@ import {
 import NoMatch from '../components/NoMatch'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
+import Loading from '../components/Loading'
 
 export default function UserCardSetsPage() {
   const {authState} = useContext(AuthContext)
@@ -33,7 +34,6 @@ export default function UserCardSetsPage() {
 
   useEffect(() => {
     let isMounted = true
-    setIsLoading(true)
     mainAxios
       .get(`/user/${userParam}`)
       .then(userParamProfile => {
@@ -42,13 +42,15 @@ export default function UserCardSetsPage() {
             setIsUser(true)
           }
           setProfile(userParamProfile.data.user)
-          setIsLoading(false)
         }
       })
       .catch(error => {
         if (isMounted) {
           setError(true)
         }
+      })
+      .finally(() => {
+        setIsLoading(false)
       })
 
     return () => (isMounted = false)
@@ -109,6 +111,14 @@ export default function UserCardSetsPage() {
     )
   }
 
+  if (isLoading) {
+    return (
+      <div className="w-full h-full col-start-4 col-end-13 row-start-1 row-end-13">
+        <Loading />
+      </div>
+    )
+  }
+
   if (!isUser && recentMatch) {
     return <Redirect to={`/${userParam}`} />
   }
@@ -118,89 +128,81 @@ export default function UserCardSetsPage() {
       className="col-start-4 col-end-13 row-start-1 row-end-13 overflow-y-auto"
       style={{height: '92vh'}}
     >
-      {!isLoading && (
-        <>
-          <Route
-            path={`/:user`}
-            render={() => (
-              <UserInfoCard
-                isUser={isUser}
-                profile={profile}
-                setProfile={setProfile}
-              />
-            )}
+      <Route
+        path={`/:user`}
+        render={() => (
+          <UserInfoCard
+            isUser={isUser}
+            profile={profile}
+            setProfile={setProfile}
           />
-          <div className="h-full w-full min-h-0">
-            <div className="flex w-full justify-between p-4">
-              <div className="w-full flex text-sm justify-start ml-2">
-                {renderSelect()}
-              </div>
-              {renderSearch()}
-            </div>
-            <div>
-              {isUser ? (
-                <Switch>
-                  <Route
-                    path="/:user/recent"
-                    render={() => (
-                      <HomeLatest
-                        limit={10}
-                        pageType="RECENT"
-                        search={search}
-                      />
-                    )}
-                  />
-                  <Route
-                    path="/:user/studied"
-                    render={() => (
-                      <StudiedCardSetsContainer
-                        isUser={isUser}
-                        username={profile?.username}
-                      />
-                    )}
-                  />
-                  <Route
-                    path={`/:user`}
-                    render={() => (
-                      <UserCardSets
-                        filter={filter}
-                        isUser={isUser}
-                        search={search}
-                        username={profile?.username}
-                      />
-                    )}
-                  />
-                </Switch>
-              ) : (
-                <Switch>
-                  <Route
-                    path="/:user/studied"
-                    render={() => (
-                      <StudiedCardSetsContainer
-                        username={userParam}
-                        isUser={isUser}
-                      />
-                    )}
-                  />
-                  <Route
-                    path={`/:user`}
-                    render={() => {
-                      return (
-                        <UserCardSets
-                          filter={filter}
-                          id={profile?.id}
-                          search={search}
-                          username={userParam}
-                        />
-                      )
-                    }}
-                  />
-                </Switch>
-              )}
-            </div>
+        )}
+      />
+      <div className="h-full w-full min-h-0">
+        <div className="flex w-full justify-between p-4">
+          <div className="w-full flex text-sm justify-start ml-2">
+            {renderSelect()}
           </div>
-        </>
-      )}
+          {renderSearch()}
+        </div>
+        <div>
+          {isUser ? (
+            <Switch>
+              <Route
+                path="/:user/recent"
+                render={() => (
+                  <HomeLatest limit={10} pageType="RECENT" search={search} />
+                )}
+              />
+              <Route
+                path="/:user/studied"
+                render={() => (
+                  <StudiedCardSetsContainer
+                    isUser={isUser}
+                    username={profile?.username}
+                  />
+                )}
+              />
+              <Route
+                path={`/:user`}
+                render={() => (
+                  <UserCardSets
+                    filter={filter}
+                    isUser={isUser}
+                    search={search}
+                    username={profile?.username}
+                  />
+                )}
+              />
+            </Switch>
+          ) : (
+            <Switch>
+              <Route
+                path="/:user/studied"
+                render={() => (
+                  <StudiedCardSetsContainer
+                    username={userParam}
+                    isUser={isUser}
+                  />
+                )}
+              />
+              <Route
+                path={`/:user`}
+                render={() => {
+                  return (
+                    <UserCardSets
+                      filter={filter}
+                      id={profile?.id}
+                      search={search}
+                      username={userParam}
+                    />
+                  )
+                }}
+              />
+            </Switch>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

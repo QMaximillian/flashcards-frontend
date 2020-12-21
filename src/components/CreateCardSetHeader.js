@@ -63,15 +63,15 @@ function CreateCardSetHeader() {
       </div>
       <div className="flex justify-between">
         <div>
-          Accessible to:
+          Flashcards are:
           <select
             className="border border-black outline-none ml-2"
             style={{textAlignLast: 'center'}}
             onChange={updatePrivacy}
             value={isPrivate}
           >
-            <option value={true}>only you</option>
-            <option value={false}>all</option>
+            <option value={true}>Private</option>
+            <option value={false}>Public</option>
           </select>
         </div>
       </div>

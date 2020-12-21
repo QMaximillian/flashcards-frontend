@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.create-box:hover .plus {
-  opacity: 60%;
-}
-
-.create-box:hover .create {
-  opacity: 60%;
-}
-
 .h-128 {
   height: 32rem;
 }
@@ -56,11 +48,8 @@
   box-shadow: inset 0px -0.3rem 0 0 #ebc034;
 }
 
-.search-box:hover .search {
-  opacity: 70%;
-}
-.search-box:hover .mag-glass {
-  opacity: 70%;
+.navigation-element:hover .hovered-color {
+  @apply text-gray-400;
 }
 
 @responsive {

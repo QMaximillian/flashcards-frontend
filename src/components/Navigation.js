@@ -97,10 +97,10 @@ function Navigation() {
     } else {
       return (
         <div className="flex">
-          <span className="h-full w-24 text-white flex justify-center search-box">
-            <i className="h-full self-center search-box mag-glass fas fa-search"></i>
+          <span className="h-full w-24 text-white flex justify-center navigation-element">
+            <i className="h-full self-center hovered-color fas fa-search"></i>
             <p
-              className="mx-2 search-box search"
+              className="mx-2 hovered-color"
               onClick={() => setExpandSearchBar(true)}
             >
               Search
@@ -113,11 +113,11 @@ function Navigation() {
               </span>
               <span>
                 <Link
-                  className="create-box flex justify-center w-24"
+                  className="flex justify-center w-24 navigation-element"
                   to="/card-sets/new"
                 >
-                  <i className="plus self-center fas fa-plus-square" />
-                  <p className="create text-center ml-3">Create</p>
+                  <i className="plus self-center fas fa-plus-square hovered-color" />
+                  <p className="text-center ml-3 hovered-color">Create</p>
                 </Link>
               </span>
             </>
@@ -131,20 +131,20 @@ function Navigation() {
     if (isAuthenticated()) {
       return (
         <div
-          className="flex search-box"
+          className="flex search-box navigation-element"
           onClick={() => setDropdownToggle(prev => !prev)}
         >
           <p
             className={`${
-              dropdownToggle ? 'text-gray-500' : 'text-white'
-            } search-box search`}
+              dropdownToggle ? 'text-gray-400' : 'text-white'
+            } hovered-color`}
           >
             {authState.userInfo.first_name}
           </p>
           <i
             className={`${
-              dropdownToggle ? 'text-gray-500' : 'text-white'
-            } search-box search pl-4 self-center fas fa-chevron-down`}
+              dropdownToggle ? 'text-gray-400' : 'text-white'
+            } hovered-color pl-4 self-center fas fa-chevron-down`}
           ></i>
         </div>
       )
@@ -152,14 +152,14 @@ function Navigation() {
       return (
         <div className="flex text-white w-full justify-around h-full items-center">
           <span>
-            <Link to="/login">
-              <p>LOGIN</p>
+            <Link className="navigation-element" to="/login">
+              <p className="hovered-color">LOGIN</p>
             </Link>
           </span>
           <span className="text-center">|</span>
           <span>
-            <Link to="sign-up">
-              <p>SIGN UP</p>
+            <Link className="navigation-element" to="sign-up">
+              <p className="hovered-color">SIGN UP</p>
             </Link>
           </span>
         </div>

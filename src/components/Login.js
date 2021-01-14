@@ -1,4 +1,5 @@
 import React, {useReducer, useContext} from 'react'
+import axios from 'axios'
 import TextBox from './TextBox'
 import {useHistory} from 'react-router-dom'
 import {FetchContext} from '../context/FetchContext'
@@ -41,11 +42,13 @@ function Login() {
 
   async function handleSubmit(event) {
     event.preventDefault()
-
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
     authAxios({
       url: '/login',
       method: 'POST',
       data: {email: email.value, password: password.value},
+      cancelToken: source.token,
     })
       .then(res => {
         setAuthState(res.data)
@@ -54,6 +57,8 @@ function Login() {
       .catch(error => {
         dispatch({type: ERROR, error: error.response})
       })
+
+    return () => source.cancel()
   }
 
   return (

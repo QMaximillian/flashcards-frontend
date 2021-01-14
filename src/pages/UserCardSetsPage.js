@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
+import axios from 'axios'
 import UserInfoCard from '../components/UserInfoCard'
 import UserCardSets from '../components/UserCardSets'
 import HomeLatest from '../components/HomeLatest'
@@ -34,26 +35,40 @@ export default function UserCardSetsPage() {
 
   useEffect(() => {
     let isMounted = true
-    mainAxios
-      .get(`/user/${userParam}`)
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
+    mainAxios({
+      url: `/user/${userParam}`,
+      method: 'GET',
+      cancelToken: source.token,
+    })
       .then(userParamProfile => {
         if (isMounted) {
-          if (userParamProfile.data.user.id === authState.userInfo.id) {
+          if (userParamProfile.data.user?.id === authState.userInfo.id) {
             setIsUser(true)
           }
           setProfile(userParamProfile.data.user)
         }
       })
-      .catch(error => {
+      .catch(thrown => {
         if (isMounted) {
-          setError(true)
+          if (axios.isCancel(thrown)) {
+            setError(thrown.message)
+          } else {
+            setError(thrown)
+          }
         }
       })
       .finally(() => {
-        setIsLoading(false)
+        if (isMounted) {
+          setIsLoading(false)
+        }
       })
 
-    return () => (isMounted = false)
+    return () => {
+      source.cancel()
+      isMounted = false
+    }
   }, [userParam, authState, mainAxios])
 
   function renderSelect() {

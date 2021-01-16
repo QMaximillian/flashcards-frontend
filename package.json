@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://localhost:3000",
   "dependencies": {
+    "@reach/dialog": "^0.12.1",
     "autoprefixer": "^9.6.1",
     "axios": "^0.20.0",
     "chokidar-cli": "^2.1.0",

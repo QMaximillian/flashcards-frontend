@@ -21,7 +21,7 @@ function TitledDateIntervalList({dateKey, data, render}) {
                 : format(currentParsedDate, 'MMMM yyyy')}
             </div>
           </div>
-          {render({cardSet})}
+          {render({cardSet, index})}
         </div>
       )
     }

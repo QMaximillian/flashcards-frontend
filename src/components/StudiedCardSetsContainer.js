@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
-import UserCardSetCard from '../components/UserCardSetCard'
+import UserCardSetCardFix from '../components/UserCardSetCardFix'
+import StudiedCard from './StudiedCard'
 import NoItemsCard from './NoItemsCard'
 import TitledDateIntervalList from './TitledDateIntervalList'
 import {FetchContext} from '../context/FetchContext'
@@ -39,7 +40,14 @@ function StudiedCardSetsContainer({username, isUser}) {
 
     return (
       <TitledDateIntervalList
-        render={props => <UserCardSetCard studied={true} {...props} />}
+        render={props => (
+          <div className="m-4">
+            <UserCardSetCardFix studied={true} {...props} />
+            <div className="border-t border-gray-300">
+              <StudiedCard cardSetId={props.cardSet.card_set_id} />
+            </div>
+          </div>
+        )}
         data={cardSets}
         dateKey={'last_studied_at'}
       />

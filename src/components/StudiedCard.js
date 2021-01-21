@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 function StudiedCard({cardSetId}) {
   return (
-    <div className="px-4 search border-0 border-gray-300 h-16 bg-white w-full border-t-2">
+    <div className="px-4 search  h-16 bg-white w-full">
       <div className="flex h-full justify-around items-center">
         <div className="cursor-not-allowed opacity-25">Learn</div>
         <Link to={`/card-sets/${cardSetId}`}>

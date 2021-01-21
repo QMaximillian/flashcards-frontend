@@ -18,7 +18,6 @@ function UserCardSets({filter, search, username, isUser}) {
       .get(`/users-card-sets/${username}`)
       .then(res => {
         if (isMounted) {
-          setLoading(false)
           setCardSets(res.data.userCardSets)
         }
       })
@@ -26,6 +25,9 @@ function UserCardSets({filter, search, username, isUser}) {
         if (isMounted) {
           console.log(error)
         }
+      })
+      .finally(() => {
+        setLoading(false)
       })
 
     return () => (isMounted = false)

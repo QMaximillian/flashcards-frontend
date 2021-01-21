@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 function SearchCard({cardSet}) {
   return (
     <Link className="w-full h-full" to={`/card-sets/${cardSet.card_set_id}`}>
-      <div className="w-full border border-gray-200 h-full">
-        <div className="flex justify-between h-full">
+      <div className="w-full h-full">
+        <div className="flex justify-between h-full w-full">
           {cardSet.flashcards.map((flashcard, index) => {
             return (
               <div

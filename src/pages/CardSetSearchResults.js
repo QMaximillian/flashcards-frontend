@@ -3,6 +3,8 @@ import {useParams} from 'react-router-dom'
 import UserCardSetCard from '../components/UserCardSetCard'
 import NoMatch from '../components/NoMatch'
 import {FetchContext} from '../context/FetchContext'
+import SearchCardFix from '../components/SearchCardFix'
+import UserCardSetCardFix from '../components/UserCardSetCardFix'
 
 function CardSetSearchResults() {
   const {mainAxios} = useContext(FetchContext)
@@ -30,8 +32,11 @@ function CardSetSearchResults() {
     <div className="h-full w-full overflow-scroll col-start-1 col-end-13 row-start-1 row-end-13 p-6">
       {cardSets.map((cardSet, index) => {
         return (
-          <div key={index}>
-            <UserCardSetCard cardSet={cardSet} searchCard={true} />
+          <div key={index} className="my-3 mx-4">
+            <UserCardSetCardFix cardSet={cardSet} />
+            <div className="h-24 border-t border-gray-300">
+              <SearchCardFix cardSet={cardSet} />
+            </div>
           </div>
         )
       })}

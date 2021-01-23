@@ -87,8 +87,12 @@ function Navigation() {
               onChange={setSearch}
               placeholder="Search"
               ref={navRef}
+<<<<<<< HEAD
               type="text"
               value={search.value}
+=======
+              testId="navigation-search-input"
+>>>>>>> @{-1}
             />
           </form>
           <i className=" self-center fas fa-times text-2xl text-white"></i>
@@ -97,6 +101,7 @@ function Navigation() {
     } else {
       return (
         <div className="flex">
+<<<<<<< HEAD
           <span className="h-full w-24 text-white flex justify-center navigation-element">
             <i className="h-full self-center hovered-color fas fa-search"></i>
             <p
@@ -106,12 +111,25 @@ function Navigation() {
               Search
             </p>
           </span>
+=======
+            <span className="h-full w-24 text-white flex justify-center search-box">
+              <i className="h-full self-center search-box mag-glass fas fa-search"></i>
+              <button
+                onClick={() => setExpandSearchBar(true)}
+                className="mx-2 search-box search"
+                data-testid="navigation-search-button"
+              >
+                Search
+              </button>
+            </span>
+>>>>>>> @{-1}
           {isAuthenticated() && (
             <>
               <span className="w-24">
                 <div className="text-center">|</div>
               </span>
               <span>
+<<<<<<< HEAD
                 <Link
                   className="flex justify-center w-24 navigation-element"
                   to="/card-sets/new"
@@ -119,6 +137,16 @@ function Navigation() {
                   <i className="plus self-center fas fa-plus-square hovered-color" />
                   <p className="text-center ml-3 hovered-color">Create</p>
                 </Link>
+=======
+              <Link
+                className="create-box flex justify-center w-24"
+                to="/card-sets/new"
+                data-testid="create-card-set-link"
+              >
+                <i className="plus self-center fas fa-plus-square"/>
+                <p className="create text-center ml-3">Create</p>
+              </Link>
+>>>>>>> @{-1}
               </span>
             </>
           )}
@@ -133,6 +161,7 @@ function Navigation() {
         <div
           className="flex search-box navigation-element"
           onClick={() => setDropdownToggle(prev => !prev)}
+          data-testid="quick-account-options"
         >
           <p
             className={`${

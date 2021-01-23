@@ -23,12 +23,12 @@ function FetchProvider({children}) {
   axios.defaults.withCredentials = true
 
   const authAxios = axios.create({
-    baseURL: environmentApiUrlAuth[process.env.NODE_ENV],
+    baseURL: environmentApiUrlAuth[process.env.NODE_ENV] || `/api/auth`,
     headers: BASE_HEADERS,
   })
 
   const mainAxios = axios.create({
-    baseURL: environmentApiUrlMain[process.env.NODE_ENV],
+    baseURL: environmentApiUrlMain[process.env.NODE_ENV] || `/api`,
     headers: BASE_HEADERS,
   })
 

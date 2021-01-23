@@ -189,6 +189,7 @@ export default function ShowCardSet(props) {
         <Link
           className="flex items-center justify-center"
           to={`/card-sets/${props.match.params.id}/edit`}
+          data-testid="edit-card-set"
         >
           <i className="far fa-edit hover:text-orange-600"></i>
         </Link>
@@ -215,11 +216,12 @@ export default function ShowCardSet(props) {
   }
 
   function createFlashcardList(key, transitionProps) {
-    let cards = flashcards.map(flashcard => (
+    let cards = flashcards.map((flashcard, index) => (
       <Card
         flashcardBack={flashcard.definition}
         flashcardFront={flashcard.term}
         key={key}
+        index={index}
         style={transitionProps}
       />
     ))
@@ -268,7 +270,12 @@ export default function ShowCardSet(props) {
             >
               <i className="fas fa-arrow-left"></i>
             </div>
-            <div>{`${count + 1} / ${flashcards.length + 1}`}</div>
+            <div>
+              <span>{count + 1}</span> /{' '}
+              <span data-testid="amount-of-flashcards">
+                {flashcards.length + 1}
+              </span>
+            </div>
             <div
               className={`mx-10 ${
                 count === flashcards.length

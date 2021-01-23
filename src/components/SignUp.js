@@ -176,6 +176,7 @@ function SignUp() {
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
             onClick={handleSubmit}
             type="button"
+            data-testid="submit-sign-up"
           >
             Sign Up
           </button>

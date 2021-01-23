@@ -57,6 +57,7 @@ function CardSetSearchResults() {
     <div className="h-full w-full overflow-scroll col-start-1 col-end-13 row-start-1 row-end-13 p-6">
       {cardSets.map((cardSet, index) => {
         return (
+<<<<<<< HEAD
           <Link
             key={index}
             className="my-3 mx-4"
@@ -68,6 +69,11 @@ function CardSetSearchResults() {
               <SearchCard cardSet={cardSet} />
             </div>
           </Link>
+=======
+          <div key={idx}>
+            <UserCardSetCard cardSet={cardSet} searchCard={true} idx={idx} />
+          </div>
+>>>>>>> @{-1}
         )
       })}
     </div>

@@ -36,7 +36,16 @@ function Card({flashcardFront, flashcardBack}) {
           transform,
         }}
       >
+<<<<<<< HEAD
         <div className="text-3xl font-light">{flashcardFront}</div>
+=======
+        <div
+          data-testid={`term-${props.index}`}
+          className="text-3xl font-light"
+        >
+          {props.flashcardFront}
+        </div>
+>>>>>>> @{-1}
       </animated.div>
       <animated.div
         className={`bg-white p-4 bg-cover text-gray-800 flex items-center justify-center h-full w-full border border-gray-500 rounded absolute cursor-pointer mx-h-full`}
@@ -46,7 +55,16 @@ function Card({flashcardFront, flashcardBack}) {
           transform: transform.interpolate(t => `${t} rotateX(180deg)`),
         }}
       >
+<<<<<<< HEAD
         <div className="text-3xl font-light">{flashcardBack}</div>
+=======
+        <div
+          data-testid={`definition-${props.index}`}
+          className="text-3xl font-light"
+        >
+          {props.flashcardBack}
+        </div>
+>>>>>>> @{-1}
       </animated.div>
     </div>
   )

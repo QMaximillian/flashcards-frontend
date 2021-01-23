@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react'
-import UserCardSetCardFix from '../components/UserCardSetCardFix'
+import UserCardSetCard from '../components/UserCardSetCard'
 import StudiedCard from './StudiedCard'
 import NoItemsCard from './NoItemsCard'
 import TitledDateIntervalList from './TitledDateIntervalList'
 import {FetchContext} from '../context/FetchContext'
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
 function StudiedCardSetsContainer({username, isUser}) {
   const {mainAxios} = useContext(FetchContext)
@@ -41,10 +42,14 @@ function StudiedCardSetsContainer({username, isUser}) {
     return (
       <TitledDateIntervalList
         render={props => (
-          <div className="m-4">
-            <UserCardSetCardFix studied={true} {...props} />
-            <div className="border-t border-gray-300">
-              <StudiedCard cardSetId={props.cardSet.card_set_id} />
+          <div className="px-4">
+            <div className="my-2">
+              <Link to={`/card-sets/${props.cardSet.card_set_id}`}>
+                <UserCardSetCard studied={true} {...props} />
+              </Link>
+              <div className="border-t border-gray-300">
+                <StudiedCard cardSetId={props.cardSet.card_set_id} />
+              </div>
             </div>
           </div>
         )}

@@ -81,7 +81,13 @@ function UserCardSets({filter, search, username, isUser}) {
           </div>
         ) : (
           <TitledDateIntervalList
-            render={props => <UserCardSetCard {...props} />}
+            render={props => (
+              <div className="mt-2 px-4">
+                <Link to={`/card-sets/${props.cardSet.card_set_id}`}>
+                  <UserCardSetCard {...props} />
+                </Link>
+              </div>
+            )}
             data={filteredCardSets}
             dateKey={'created_at'}
           />
@@ -95,7 +101,15 @@ function UserCardSets({filter, search, username, isUser}) {
           .sort((a, b) => alphabeticalFilter(a, b))
           .map((cardSet, index) => {
             return (
-              <UserCardSetCard cardSet={cardSet} index={index} key={index} />
+              <div className="mt-2 px-4">
+                <Link to={`/card-sets/${cardSet.card_set_id}`}>
+                  <UserCardSetCard
+                    cardSet={cardSet}
+                    index={index}
+                    key={index}
+                  />
+                </Link>
+              </div>
             )
           })
 

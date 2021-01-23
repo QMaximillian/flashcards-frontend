@@ -6,7 +6,7 @@ import {format} from 'date-fns'
 import FlashcardsNavDrawer from '../components/FlashcardNavDrawer'
 import NoMatch from '../components/NoMatch'
 import TermsInSet from '../components/TermsInSet'
-import {useParams} from 'react-router-dom'
+import {useParams, useHistory} from 'react-router-dom'
 import {uuidCheck} from '../lib/helpers'
 import Card from '../components/Card'
 import {AuthContext} from '../context/AuthContext'
@@ -23,7 +23,9 @@ export default function ShowCardSet(props) {
   const [count, setCount] = useState(0)
   const [reverse, setReverse] = useState(false)
   const [error, setError] = useState(false)
+  const [showEllipsisMenu, setShowEllipsisMenu] = useState(false)
   const {id} = useParams()
+  const history = useHistory()
   const uuidExists = uuidCheck.test(id)
 
   const nextSlide = useCallback(() => {
@@ -166,6 +168,16 @@ export default function ShowCardSet(props) {
       </div>
     )
 
+  async function handleDelete() {
+    let result
+    try {
+      result = await mainAxios.delete(`/card-sets/${cardSet.card_set_id}`)
+    } catch (error) {
+      console.log('error: ', error)
+    }
+    return result.data.message ? true : false
+  }
+
   function renderEditOrCustomize() {
     if (!isAuthenticated()) return
 
@@ -297,7 +309,49 @@ export default function ShowCardSet(props) {
             {renderEditOrCustomize()}
             <i className="fas fa-share opacity-50 cursor-not-allowed"></i>
             <i className="fas fa-info opacity-50 cursor-not-allowed"></i>
-            <i className="fas fa-ellipsis-h opacity-50 cursor-not-allowed"></i>
+            <i
+              className="relative fas fa-ellipsis-h"
+              onMouseEnter={() => {
+                setShowEllipsisMenu(true)
+              }}
+              onMouseLeave={() => setShowEllipsisMenu(false)}
+            >
+              {showEllipsisMenu ? (
+                <div className="right-0 w-32 h-12 flex flex-col absolute">
+                  <div
+                    className="shadow-xl self-end"
+                    style={{
+                      width: '18px',
+                      height: '10px',
+                      background: 'white',
+                      clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+                    }}
+                  ></div>
+                  <div
+                    onClick={() => {
+                      const shouldDelete = window.confirm(
+                        `Click here to confirm delete`,
+                      )
+
+                      if (shouldDelete) {
+                        const isDeleted = handleDelete()
+                        if (isDeleted) {
+                          setTimeout(() => history.push('/'), 1000)
+                        }
+                      }
+                    }}
+                    className="bg-white rounded shadow-xl flex flex-col justify-center items-start hover:bg-yellow-500 h-full"
+                  >
+                    <div className="px-3 text-red-600">
+                      <i className="fa fa-trash text-sm"></i>
+                      <span className="pl-2 font-sans text-sm font-normal cursor-default">
+                        Delete
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </i>
           </div>
         </div>
       </div>
@@ -318,3 +372,50 @@ export default function ShowCardSet(props) {
     </div>
   )
 }
+
+// {
+/* <Dialog
+        aria-label="confirm flashcard set delete"
+        isOpen={dialogState.isOpen}
+        onDismiss={() => dispatch({type: 'CLOSE_DIALOG'})}
+      >
+        <div>You are about to delete this set of flashcards</div>
+        <div>Click CONFIRM to delete</div>
+        <button
+          aria-label="Delete and Close"
+          onClick={() => {
+            handleDelete()
+            dispatch({type: 'CLOSE_DIALOG'})
+          }}
+        >
+          Confirm
+        </button>
+        <button
+          aria-label="Close"
+          onClick={() => dispatch({type: 'CLOSE_DIALOG'})}
+        >
+          Exit
+        </button>
+      </Dialog> */
+// }
+
+// const [dialogState, dispatch] = useReducer(
+//   function dialogReducer(state, action) {
+//     switch (action.type) {
+//       case 'OPEN_DIALOG':
+//         return {
+//           isOpen: true,
+//           info: action.data,
+//         }
+//       case 'CLOSE_DIALOG':
+//         return {
+//           isOpen: false,
+//           info: null,
+//         }
+//       default:
+//         console.warn(`Action type: '${action.type} not supported'`)
+//         return
+//     }
+//   },
+//   {isOpen: false, info: null},
+// )

@@ -125,7 +125,13 @@ function HomeLatest({pageType, search}) {
           />
         ) : (
           <TitledDateIntervalList
-            render={props => <UserCardSetCard {...props} />}
+            render={props => (
+              <div className="mt-2 px-4" key={props.index}>
+                <Link to={`/card-sets/${props.cardSet.card_set_id}`}>
+                  <UserCardSetCard {...props} />
+                </Link>
+              </div>
+            )}
             data={filteredCardSets}
             dateKey={'last_seen_at'}
           />

@@ -1,4 +1,4 @@
-import React, {useReducer, useContext} from 'react'
+import React, {useReducer, useContext, useEffect, useCallback} from 'react'
 import axios from 'axios'
 import TextBox from './TextBox'
 import {useHistory} from 'react-router-dom'
@@ -6,9 +6,22 @@ import {FetchContext} from '../context/FetchContext'
 import {AuthContext} from '../context/AuthContext'
 
 const ERROR = 'ERROR'
-
+const GUEST_LOGIN = 'GUEST_LOGIN'
 function loginReducer(state, action) {
   switch (action.type) {
+    case GUEST_LOGIN:
+      return {
+        ...state,
+        email: {
+          ...state.email,
+          value: '1234@gmail.com',
+        },
+        password: {
+          ...state.password,
+          value: '1234',
+        },
+        loginType: 'GUEST',
+      }
     case ERROR:
       return {...state, error: action.error}
     default:
@@ -29,37 +42,47 @@ const initialLoginState = {
     value: '',
   },
   error: {},
+  loginType: 'USER',
 }
 
 function Login() {
   let {authAxios} = useContext(FetchContext)
   let {setAuthState} = useContext(AuthContext)
-  const [{email, password, error}, dispatch] = useReducer(
+  const [{email, password, error, loginType}, dispatch] = useReducer(
     loginReducer,
     initialLoginState,
   )
   let history = useHistory()
 
-  async function handleSubmit(event) {
-    event.preventDefault()
-    const CancelToken = axios.CancelToken
-    const source = CancelToken.source()
-    authAxios({
-      url: '/login',
-      method: 'POST',
-      data: {email: email.value, password: password.value},
-      cancelToken: source.token,
-    })
-      .then(res => {
-        setAuthState(res.data)
+  const handleSubmit = useCallback(
+    event => {
+      if (event) event.preventDefault()
+      const CancelToken = axios.CancelToken
+      const source = CancelToken.source()
+      authAxios({
+        url: '/login',
+        method: 'POST',
+        data: {email: email.value, password: password.value},
+        cancelToken: source.token,
       })
-      .then(() => history.push(`/`))
-      .catch(error => {
-        dispatch({type: ERROR, error: error.response})
-      })
+        .then(res => {
+          setAuthState(res.data)
+        })
+        .then(() => history.push(`/`))
+        .catch(error => {
+          dispatch({type: ERROR, error: error.response})
+        })
 
-    return () => source.cancel()
-  }
+      return () => source.cancel()
+    },
+    [authAxios, email.value, password.value, history, setAuthState],
+  )
+
+  useEffect(() => {
+    if (loginType === 'GUEST') {
+      handleSubmit()
+    }
+  }, [loginType, handleSubmit])
 
   return (
     <div className="flex justify-center w-full h-full items-center">
@@ -112,6 +135,15 @@ function Login() {
             type="button"
           >
             Sign In
+          </button>
+          <button
+            className="ml-4 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
+            type="button"
+            onClick={() => {
+              dispatch({type: GUEST_LOGIN})
+            }}
+          >
+            Guest Login
           </button>
         </div>
       </form>

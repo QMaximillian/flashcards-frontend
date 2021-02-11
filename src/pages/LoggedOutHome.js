@@ -4,26 +4,28 @@ import {Link} from 'react-router-dom'
 function LoggedOutHome() {
   return (
     <div className="flex justify-center w-full h-full items-center">
-      <form className="bg-white shadow-lg rounded p-16 mb-4  max-w-6xl flex flex-col justify-center">
-        <div className="mb-6 text-center text-4xl italic">
-          Welcome to Flashcards
-        </div>
-        <div className="mb-6 text-center text-2xl italic">
-          Create, Search, and Study Card Sets
-        </div>
-        <div className="flex flex-wrap sm:flex-no-wrap  items-center justify-between">
-          <Link
-            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
-            to="/sign-up"
-          >
-            Sign Up
-          </Link>
-          <Link
-            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
-            to="/login"
-          >
-            Login
-          </Link>
+      <form className="bg-white shadow-lg rounded w-5/6 h-1/2">
+        <div className="flex flex-col justify-between h-full p-10 sm:px-24 sm:py-16">
+          <div className="text-center text-3xl sm:text-4xl italic">
+            Welcome to Flashcards
+          </div>
+          <div className="text-center sm:text-2xl text-lg italic">
+            Create, Search, and Study Card Sets
+          </div>
+          <div className="w-full flex sm:flex-row flex-col sm:items-center sm:justify-between">
+            <Link
+              className="my-2 sm:my-0 mx-0 sm:mx-2 sm:max-w-xs text-center w-full bg-teal-500 hover:bg-teal-700 text-white text-sm font-bold py-2 rounded focus:outline-none focus:shadow-outline"
+              to="/sign-up"
+            >
+              Sign Up
+            </Link>
+            <Link
+              className="sm:my-2 my-2 mx-0 sm:mx-2 sm:max-w-xs text-center w-full bg-teal-500 hover:bg-teal-700 text-white text-sm font-bold py-2 rounded focus:outline-none focus:shadow-outline"
+              to="/login"
+            >
+              Login / Guest Login
+            </Link>
+          </div>
         </div>
       </form>
     </div>

@@ -52,6 +52,18 @@
   @apply text-gray-400;
 }
 
+@layer utilities {
+  .h-1\/2 {
+    height: 50%;
+  }
+
+  @media (min-width: 640px) {
+    .sm\:h-1\/2 {
+      height: 50%;
+    }
+  }
+}
+
 @responsive {
   .grid-rows-12 {
     grid-template-rows: repeat(12, minmax(0, 1fr));

@@ -86,7 +86,7 @@ function Login() {
 
   return (
     <div className="flex justify-center w-full h-full items-center">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
+      <form className="bg-white shadow-md rounded px-8 py-6 w-5/6">
         <div className="italic text-red-500 h-6 w-full text-center">
           {error.data?.message}
         </div>
@@ -128,16 +128,16 @@ function Login() {
             value={password.value}
           />
         </div>
-        <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
+        <div className="flex flex-col sm:flex-row flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
-            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
+            className="mr-4 mb-4 sm:mb-0 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
             onClick={handleSubmit}
             type="button"
           >
             Sign In
           </button>
           <button
-            className="ml-4 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
+            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
             type="button"
             onClick={() => {
               dispatch({type: GUEST_LOGIN})

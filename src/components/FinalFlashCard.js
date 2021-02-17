@@ -14,7 +14,7 @@ function FinalFlashCard({numOfFlashcards, handleReset}) {
         <div className="flex flex-col items-center justify-between">
           <div className="text-3xl">Nice Work</div>
           <div>You just studied {numOfFlashcards} terms</div>
-          <button className="text-green-500" onClick={handleReset}>
+          <button className="text-emerald-500" onClick={handleReset}>
             Study with Flashcards again
           </button>
         </div>

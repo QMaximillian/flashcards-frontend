@@ -199,6 +199,8 @@ function Navigation() {
   )
 }
 
+NavigationDropdown.displayName = 'NavigationDropdown'
+
 NavigationDropdown.propTypes = {
   onClick: PropTypes.func.isRequired,
 }

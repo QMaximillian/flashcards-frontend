@@ -111,6 +111,8 @@ const TextBox = React.forwardRef((props, ref) => {
   )
 })
 
+TextBox.displayName = 'TextBox'
+
 TextBox.defaultProps = {
   autoComplete: 'off',
   error: {invalid: '', required: ''},
@@ -124,10 +126,13 @@ TextBox.defaultProps = {
 
 TextBox.propTypes = {
   autoComplete: PropTypes.oneOf(['on', 'off']),
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
   error: PropTypes.shape({
     invalid: PropTypes.string,
     required: PropTypes.string,
   }),
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,

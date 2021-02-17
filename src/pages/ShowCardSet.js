@@ -12,8 +12,8 @@ import Card from '../components/Card'
 import {AuthContext} from '../context/AuthContext'
 import {FetchContext} from '../context/FetchContext'
 import placeholderPhoto from '../photos/placeholder-photo.png'
-import Loading from '../components/Loading'
-
+// import Loading from '../components/Loading'
+/* eslint-disable react/prop-types */
 export default function ShowCardSet(props) {
   const {isAuthenticated, authState} = useContext(AuthContext)
   const {mainAxios} = useContext(FetchContext)
@@ -73,6 +73,7 @@ export default function ShowCardSet(props) {
         .get(`/card-sets/${id}`)
         .then(res => {
           if (isMounted) {
+            console.log(res.data.cardSet)
             const {flashcards, ...rest} = res.data.cardSet
             setCardSet(rest)
             setFlashcards([...flashcards])
@@ -81,6 +82,7 @@ export default function ShowCardSet(props) {
         .catch(err => {
           if (isMounted) {
             setError(true)
+            console.log(err)
           }
         })
         .finally(() => {
@@ -159,12 +161,12 @@ export default function ShowCardSet(props) {
         <NoMatch />
       </div>
     )
-  if (isLoading)
-    return (
-      <div className="w-full h-full col-start-1 col-end-13 row-start-1 row-end-13">
-        <Loading />
-      </div>
-    )
+  // if (isLoading)
+  //   return (
+  //     <div className="w-full h-full col-start-1 col-end-13 row-start-1 row-end-13">
+  //       <Loading />
+  //     </div>
+  //   )
 
   function renderEditOrCustomize() {
     if (!isAuthenticated()) return
@@ -214,6 +216,7 @@ export default function ShowCardSet(props) {
     return (cards = [
       ...cards,
       <FinalFlashCard
+        key={cards[cards.length - 1]?.key + 1}
         handleReset={() => {
           setReverse(true)
           setCount(0)

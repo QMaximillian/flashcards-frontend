@@ -220,8 +220,8 @@ export default function ShowCardSet(props) {
       <Card
         flashcardBack={flashcard.definition}
         flashcardFront={flashcard.term}
-        key={key}
         index={index}
+        key={key}
         style={transitionProps}
       />
     ))

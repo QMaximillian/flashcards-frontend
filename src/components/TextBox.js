@@ -84,11 +84,7 @@ const TextBox = React.forwardRef((props, ref) => {
   return (
     <div className="w-full">
       <input
-<<<<<<< HEAD
-        autoComplete={props.autoComplete}
-=======
-        data-testid={props.testId ?? "text-box"}
->>>>>>> @{-1}
+        data-testid={props.testId ?? 'text-box'}
         className={`${renderClasses()} ${
           handleShowError()
             ? 'border-red-500'
@@ -114,6 +110,8 @@ const TextBox = React.forwardRef((props, ref) => {
     </div>
   )
 })
+
+TextBox.displayName = 'TextBox'
 
 TextBox.defaultProps = {
   autoComplete: 'off',

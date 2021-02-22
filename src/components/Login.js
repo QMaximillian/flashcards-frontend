@@ -81,11 +81,7 @@ function Login() {
               onChange={event => dispatch({id: event.id, data: event.value})}
               placeholder={'Email'}
               type="email"
-<<<<<<< HEAD
               value={email.value.toLowerCase()}
-=======
-              id="email"
->>>>>>> @{-1}
             />
           </div>
         </div>
@@ -107,15 +103,6 @@ function Login() {
             required={true}
             type="password"
             value={password.value}
-<<<<<<< HEAD
-=======
-            onChange={e => {
-              if (error) setError(false)
-              setPassword(e)
-            }}
-            type={'password'}
-            id="password"
->>>>>>> @{-1}
           />
         </div>
         <div className="flex flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">

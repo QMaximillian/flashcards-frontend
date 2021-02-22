@@ -2,7 +2,7 @@ import React from 'react'
 import '@reach/dialog/styles.css'
 import PropTypes from 'prop-types'
 
-function UserCardSetCard({cardSet, index}) {
+function UserCardSetCard({cardSet, index, ...props}) {
   return (
     <div className="flex justify-center" key={index}>
       <div className={`w-full`}>
@@ -20,11 +20,10 @@ function UserCardSetCard({cardSet, index}) {
                     {cardSet.creator_name || cardSet.owner}
                   </div>
                 </div>
-<<<<<<< HEAD
-                <div className="mt-1 px-3 text-xl font-medium truncate">
-=======
-                <div className="mt-1 pl-2 text-xl font-medium" data-testid={`card-set-name-${props.idx}`}>
->>>>>>> @{-1}
+                <div
+                  className="mt-1 pl-2 text-xl font-medium"
+                  data-testid={`card-set-name-${props.idx}`}
+                >
                   {cardSet.name}
                 </div>
               </div>

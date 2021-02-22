@@ -9,21 +9,12 @@ function CreateCardSetHeader() {
     cardSetFormReducerTypes,
   } = useCreateCardSet()
 
-<<<<<<< HEAD
   function clearFields() {
     dispatch({
       type: cardSetFormReducerTypes.CLEAR_FIELDS,
       data: Array.from({length: 2}, () => ({term: '', definition: ''})),
     })
   }
-=======
-    const {state: { prevIsPrivate, isPrivate, cardSetName}, dispatch, cardSetFormReducerTypes } = useCreateCardSet()
-    function clearFields() {
-      dispatch(
-        {type: cardSetFormReducerTypes.CLEAR_FIELDS, data: Array.from({length: 2}, () => ({term: '', definition: ''}))}
-      )
-    }
->>>>>>> @{-1}
 
   function updatePrivacy(event) {
     dispatch({
@@ -54,53 +45,19 @@ function CreateCardSetHeader() {
             ERASE ALL ENTRIES
           </button>
         </div>
-<<<<<<< HEAD
-      </div>
-      <div className="w-full mt-12">
-        <TextBox
-          id="title"
-          required={true}
-          error={{required: 'Must have a name for the card set'}}
-          name="card-set-name"
-          value={cardSetName.value}
-          onChange={updateCardSetName}
-          placeholder={'Subject, chapter, unit'}
-          type="text"
-        />
-        <label htmlFor="title" className="text-xs opacity-50 mt-1">
-          TITLE
-        </label>
-      </div>
-      <div className="flex justify-between">
-        <div>
-          <label htmlFor="privacy-select">Flashcards are:</label>
+        <div className="flex justify-start">
+          <label htmlFor="select-privacy">Accessible to:</label>
           <select
-            id="privacy-select"
             className="border border-black outline-none ml-2"
             style={{textAlignLast: 'center'}}
             onChange={updatePrivacy}
             value={isPrivate}
+            id="select-privacy"
+            data-testid="select-privacy"
           >
-            <option value={true}>Private</option>
-            <option value={false}>Public</option>
+            <option value={true}>only you</option>
+            <option value={false}>all</option>
           </select>
-=======
-        <div className="flex justify-start">
-          <label htmlFor="select-privacy">
-            Accessible to:
-          </label>
-            <select
-              className="border border-black outline-none ml-2"
-              style={{textAlignLast: 'center'}}
-              onChange={updatePrivacy}
-              value={isPrivate}
-              id="select-privacy"
-              data-testid="select-privacy"
-            >
-              <option value={true}>only you</option>
-              <option value={false}>all</option>
-            </select>
->>>>>>> @{-1}
         </div>
       </div>
     </div>

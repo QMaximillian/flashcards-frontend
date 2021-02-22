@@ -14,21 +14,15 @@ function LoggedOutHome() {
         <div className="flex flex-wrap sm:flex-no-wrap  items-center justify-between">
           <Link
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
-<<<<<<< HEAD
             to="/sign-up"
-=======
             data-testid="homepage-sign-up-link"
->>>>>>> @{-1}
           >
             Sign Up
           </Link>
           <Link
             className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
-<<<<<<< HEAD
             to="/login"
-=======
             data-testid="homepage-login-link"
->>>>>>> @{-1}
           >
             Login
           </Link>

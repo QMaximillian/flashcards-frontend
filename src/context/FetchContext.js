@@ -2,6 +2,8 @@ import React, {createContext} from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 
+/* eslint-disable react/prop-types */
+
 const BASE_HEADERS = {
   'Content-Type': 'application/json',
   Accept: 'application/json',

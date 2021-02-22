@@ -3,7 +3,7 @@ import CreateCardSetForm from '../components/CreateCardSetForm'
 import {FetchContext} from '../context/FetchContext'
 import {CreateCardSetProvider} from '../context/CreateCardSetContext'
 import Loading from '../components/Loading'
-
+/* eslint-disable react/prop-types */
 export default function EditCardSet(props) {
   const [cardSet, setCardSet] = useState([])
   const {mainAxios} = useContext(FetchContext)

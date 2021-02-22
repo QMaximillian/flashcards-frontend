@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom'
 import {FetchContext} from './FetchContext'
 import PropTypes from 'prop-types'
 
+/* eslint-disable react/prop-types */
 const AuthContext = createContext()
 const {Provider} = AuthContext
 

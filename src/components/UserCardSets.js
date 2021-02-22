@@ -69,6 +69,7 @@ function UserCardSets({filter, search, username, isUser}) {
 
     switch (filter) {
       case 'Latest':
+        /* eslint-disable no-case-declarations */
         const filteredCardSets =
           cardSets?.filter(cardSet =>
             cardSet.name.toLowerCase().match(search.value.toLowerCase()),

@@ -1,6 +1,8 @@
 import React, {useReducer, createContext, useContext} from 'react'
 import PropTypes from 'prop-types'
 
+/* eslint-disable react/prop-types */
+
 const CreateCardSetContext = createContext()
 const {Provider} = CreateCardSetContext
 
@@ -106,7 +108,7 @@ function cardSetFormReducer(state, action) {
 }
 
 CreateCardSetContext.propTypes = {
-  children: PropTypes.oneOf([PropTypes.node, PropTypes.element]).isRequired,
+  children: PropTypes.oneOf([PropTypes.node, PropTypes.element]),
   mode: PropTypes.oneOf(['CUSTOMIZE', 'EDIT', 'CREATE']),
   cardSet: PropTypes.shape({
     name: PropTypes.string,

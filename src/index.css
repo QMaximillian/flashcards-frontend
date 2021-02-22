@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .h-128 {
+    height: 32rem;
+  }
+
+  .home-latest {
+    border-bottom-color: transparent;
+    border-bottom-width: 6px;
+  }
+
+  .home-latest:hover {
+    border-bottom-color: #ebc034;
+    border-bottom-width: 6px;
+  }
+
+  .add-card-div {
+    border-bottom-width: 6px;
+  }
+
+  .add-card-div:hover {
+    color: #ebc034;
+    border-bottom-color: #ebc034;
+  }
+
+  .create-card-set-button:hover .create-text {
+    color: black;
+  }
+  .create-card-set-button:hover {
+    background-color: #ebc034;
+  }
+
+  .w-128 {
+    width: 32rem;
+  }
+
+  .w-96 {
+    width: 24rem;
+  }
+
+  .search-has-line:hover {
+    outline: 0.2rem solid #ebc034;
+  }
+
+  .has-line:hover {
+    box-shadow: inset 0px -0.3rem 0 0 #ebc034;
+  }
+
+  .navigation-element:hover .hovered-color {
+    @apply text-white;
+  }
+
+  @layer utilities {
+    .h-1\/2 {
+      height: 50%;
+    }
+
+    @media (min-width: 640px) {
+      .sm\:h-1\/2 {
+        height: 50%;
+      }
+    }
+  }
+
+  @responsive {
+    .grid-rows-12 {
+      grid-template-rows: repeat(12, minmax(0, 1fr));
+    }
+
+    .row-end-12 {
+      grid-row-end: 12;
+    }
+    .row-end-13 {
+      grid-row-end: 13;
+    }
+  }
+}

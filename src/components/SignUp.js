@@ -77,7 +77,7 @@ function SignUp() {
 
   return (
     <div className="flex justify-center w-full h-full items-center">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2">
+      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2 max-w-xl">
         <div className="mb-6">
           <label
             className="text-sm block font-semibold pb-2"

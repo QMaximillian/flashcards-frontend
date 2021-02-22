@@ -17,6 +17,10 @@ function UserCardSetCard({
   let {authState} = useContext(AuthContext)
   let {mainAxios} = useContext(FetchContext)
 
+  function postUsersCardSet(options = {}) {
+    return mainAxios.post('/users-card-set/new', options)
+  }
+
   async function handleCreateUserCardSet() {
     try {
       if (searchCard && uuidCheck.test(authState.userInfo.id)) {
@@ -26,11 +30,7 @@ function UserCardSetCard({
           last_seen_at: format(Date.now(), "yyyy-LL-dd'T'HH:mm:ss'Z'"),
         }
 
-        function postUsersCardSet() {
-          return mainAxios.post('/users-card-set/new', options)
-        }
-
-        await postUsersCardSet()
+        await postUsersCardSet(options)
       }
     } catch (error) {
       console.log('error: ', error)
@@ -102,6 +102,9 @@ UserCardSetCard.propTypes = {
     last_seen_at: PropTypes.string,
     name: PropTypes.string,
     updated_at: PropTypes.string,
+    user_id: PropTypes.string,
+    checked: PropTypes.bool,
+    flashcards: PropTypes.arrayOf(PropTypes.object),
   }),
   index: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   studied: PropTypes.bool,

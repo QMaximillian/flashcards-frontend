@@ -50,7 +50,7 @@
   }
 
   .navigation-element:hover .hovered-color {
-    @apply text-gray-400;
+    @apply text-white;
   }
 
   @layer utilities {

@@ -85,8 +85,8 @@ function Login() {
   }, [loginType, handleSubmit])
 
   return (
-    <div className="flex justify-center w-full h-full items-center">
-      <form className="bg-white shadow-md rounded px-8 py-6 w-5/6">
+    <div className="flex justify-center w-full h-full items-center ">
+      <form className="bg-white shadow-md rounded px-8 py-6 w-5/6 max-w-lg">
         <div className="italic text-red-500 h-6 w-full text-center">
           {error.data?.message}
         </div>
@@ -130,7 +130,7 @@ function Login() {
         </div>
         <div className="flex flex-col sm:flex-row flex-wrap sm:flex-no-wrap justify-center sm:items-center sm:justify-between items-stretch">
           <button
-            className="mr-4 mb-4 sm:mb-0 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
+            className="mr-4 mb-4 sm:mr-0 bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline w-full"
             onClick={handleSubmit}
             type="button"
           >

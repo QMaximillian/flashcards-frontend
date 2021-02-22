@@ -23,11 +23,14 @@ function NavigationLogo() {
 const NavigationDropdown = React.forwardRef(({onClick}, ref) => {
   return (
     <div
-      className=" w-32 absolute h-12 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white  shadow-lg text-md"
+      className=" w-32 absolute h-12 border border-teal-500 right-0 top-0 mt-16 mr-16 z-10 bg-white shadow-lg text-md"
       ref={ref}
     >
       <ul className="flex flex-col justify-center items-center h-full w-full">
-        <li className="text-center w-full hover:bg-red-500" onClick={onClick}>
+        <li
+          className="text-center w-full hover:bg-yellow-500"
+          onClick={onClick}
+        >
           Log Out
         </li>
       </ul>
@@ -77,7 +80,7 @@ function Navigation() {
           <i className="text-2xl text-white self-center fas fa-search"></i>
           <form className="w-full" onSubmit={event => event.preventDefault()}>
             <TextBox
-              className={`text-2xl outline-none ml-3 bg-transparent placeholder-gray-500 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
+              className={`text-2xl outline-none ml-3 bg-transparent placeholder-gray-200 mb-1 text-white h-full p-2 w-full placeholder border-solid`}
               name="search-box-nav"
               onBlur={() => {
                 setExpandSearchBar(false)
@@ -85,7 +88,7 @@ function Navigation() {
                 setSearch(prevSearch => ({...prevSearch, value: ''}))
               }}
               onChange={setSearch}
-              placeholder="Search"
+              placeholder={`e.g. "flexibility"`}
               ref={navRef}
               type="text"
               value={search.value}
@@ -97,7 +100,7 @@ function Navigation() {
     } else {
       return (
         <div className="flex">
-          <span className="h-full w-24 text-white flex justify-center navigation-element">
+          <span className="h-full w-24 text-gray-200 flex justify-center navigation-element">
             <i className="h-full self-center hovered-color fas fa-search"></i>
             <p
               className="mx-2 hovered-color"
@@ -113,7 +116,7 @@ function Navigation() {
               </span>
               <span>
                 <Link
-                  className="flex justify-center w-24 navigation-element"
+                  className="flex justify-center w-24 navigation-element text-gray-200"
                   to="/card-sets/new"
                 >
                   <i className="plus self-center fas fa-plus-square hovered-color" />
@@ -136,14 +139,14 @@ function Navigation() {
         >
           <p
             className={`${
-              dropdownToggle ? 'text-gray-400' : 'text-white'
+              dropdownToggle ? 'text-white' : 'text-gray-200'
             } hovered-color`}
           >
             {authState.userInfo.first_name}
           </p>
           <i
             className={`${
-              dropdownToggle ? 'text-gray-400' : 'text-white'
+              dropdownToggle ? 'text-white' : 'text-gray-200'
             } hovered-color pl-4 self-center fas fa-chevron-down`}
           ></i>
         </div>

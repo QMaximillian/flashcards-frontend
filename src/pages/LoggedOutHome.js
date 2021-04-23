@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 function LoggedOutHome() {
   return (
     <div className="flex justify-center w-full h-full items-center">
-      <form className="bg-white shadow-lg rounded w-5/6 h-1/2">
+      <form className="bg-white shadow-lg rounded h-1/2">
         <div className="flex flex-col justify-between h-full p-10 sm:px-24 sm:py-16">
           <div className="text-center text-3xl sm:text-4xl italic">
             Welcome to Flashcards

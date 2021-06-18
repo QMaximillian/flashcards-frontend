@@ -1,11 +1,14 @@
 import React, {useContext} from 'react'
-import Navigation from '../components/Navigation'
-import LoggedInRoutes from '../components/LoggedInRoutes'
-import LoggedOutRoutes from '../components/LoggedOutRoutes'
+import Navigation from './Navigation'
+import LoggedInRoutes from './LoggedInRoutes'
+import LoggedOutRoutes from './LoggedOutRoutes'
 import {AuthContext} from '../context/AuthContext'
 
-function RouteDecider() {
-  let {isAuthenticated} = useContext(AuthContext)
+// TYPES
+import { IAuthContext } from './types/Auth'
+
+const RouteDecider: React.FC<{}> = () => {
+  let {isAuthenticated} = useContext<IAuthContext>(AuthContext)
   return (
     <div className="grid grid-cols-12 grid-rows-12 h-screen w-screen">
       <span className="col-start-1 col-end-13 row-start-1 row-end-2">
